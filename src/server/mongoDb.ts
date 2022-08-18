@@ -1,5 +1,5 @@
 import mongoose, { Connection, Mongoose } from 'mongoose';
-import { configs } from './configs';
+import { configs } from './config';
 import { IConfigs } from "./interfaces/IConfigs";
 
 class Database {

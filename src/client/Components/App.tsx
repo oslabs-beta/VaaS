@@ -1,19 +1,13 @@
-import * as React from 'react';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { apiRoute } from '../utils';
-import { AppStates, AppProps } from '../Interfaces/IApp';
+import { AppStates } from '../Interfaces/IApp';
 import { Get, Post, Put, Delete } from '../Services/index';
+import { Login } from './Login'
+import { Home } from './Home'
 
-
-export default class App extends React.Component<AppStates, AppProps> {
-  state: AppStates = {
-    welcome: 'Welcome to VaaS'
-  };
-
-  setWelcome = async (): Promise<void> => {
-    console.log('You can set state to change welcome message')
-  }
-
-  sampleGet = async (): Promise<void> => {
+export const App = () => {
+  const sampleGet = async (): Promise<void> => {
     try {
       const res = await Get(apiRoute.getRoute('sample'));
       console.log(res);
@@ -22,11 +16,12 @@ export default class App extends React.Component<AppStates, AppProps> {
     }
   }
 
-  render() {
-    return (
-      <div>
-        {this.state.welcome}
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </div>
+  );
 }
