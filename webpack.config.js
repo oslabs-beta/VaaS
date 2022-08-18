@@ -53,12 +53,12 @@ module.exports = {
     extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json']
   },
   devServer: {
-    port: 3000,
+    port: 9000,
     open: true,
     hot: true,
     proxy: {
       '/api/**/*': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:3000',
         secure: false,
         changeOrigin: true
       }
