@@ -8,7 +8,7 @@ const app: Express = express();
 app.use(express.urlencoded({extended: true}) as RequestHandler);
 app.use(express.json() as RequestHandler) 
 
-const port: number = Number(process.env.PORT) || 8080;
+const port: number = Number(process.env.PORT) || 3000;
 
 db.connect();
 
