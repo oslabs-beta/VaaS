@@ -2,6 +2,7 @@ import express, { Request, Response, Router, Express } from 'express';
 import cors from 'cors';
 import router from './route';
 import db from "./mongoDb";
+import 'dotenv';
 import { RequestHandler } from 'express-serve-static-core';
 
 const app: Express = express();
@@ -12,7 +13,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }) as RequestHandler);
 app.use(express.json() as RequestHandler) 
 
-const port: number = Number(process.env.PORT) || 3000;
+const port: number = Number(process.env.EXPRESS_PORT) || 3000;
 
 app.use(express.static('dist'));
 app.get('/', (req: Request, res: Response) => {
