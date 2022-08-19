@@ -17,5 +17,4 @@ node_modules/
 .env
 .env.test
 dist
-src/server/config.ts
 server/**
