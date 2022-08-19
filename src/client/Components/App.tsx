@@ -1,27 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+
 import { apiRoute } from '../utils';
-import { AppStates } from '../Interfaces/IApp';
+import { AppStates, AppProps } from '../Interfaces/IApp';
 import { Get, Post, Put, Delete } from '../Services/index';
-import { Login } from './Login'
-import { Home } from './Home'
+import Login from './Login/Login'
+import Home from './Home'
+import Register from './Login/Register'
 
-export const App = () => {
-  const sampleGet = async (): Promise<void> => {
-    try {
-      const res = await Get(apiRoute.getRoute('sample'));
-      console.log(res);
-    } catch (err) {
-      console.log('Get failed');
-    }
-  }
-
+const App = () => {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
   );
 }
+
+export default App;
