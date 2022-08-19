@@ -1,16 +1,16 @@
 import router from '../router';
 import { Request, Response } from "express";
-import { Types } from 'mongoose';
-import { Sample } from '../../models';
-import { ISample } from "../../interfaces/ISample";
+import { User } from '../../models';
+import { IUser } from "../../interfaces/IUser";
 import { IError } from '../../interfaces/IError';
-import example from '../../warehouse/middlewares/example';
 
-router.route('/sample')
-  .get(example, async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at api/sample`);
+router.route('/user')
+  .get(async (req: Request, res: Response) => {
+    console.log(`Received ${req.method} request at 'api/users'`)
     try {
-      return res.status(200).send('Success');
+      // const response = await User.find({ });
+      // console.log('Documents successfully retrieved from MongoDB');
+      return res.status(200).json();
     } catch (err) {
       const error: IError = {
         status: 500,
@@ -20,21 +20,8 @@ router.route('/sample')
       res.status(error.status).json(error);
     }
   })
-  .post(async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at api/sample`);
-    try {
-      return res.status(200).json();
-    } catch (err) {
-      const error: IError = {
-        status: 500,
-        message: `Unable to fulfull POST request: ${err}`
-      };
-      console.log(err);
-      res.status(error.status).json(error);
-    }
-  })
   .put(async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at api/sample`);
+    console.log(`Received ${req.method} request at api/user`);
     try {
       return res.status(200).json();
     } catch (err) {
@@ -47,7 +34,7 @@ router.route('/sample')
     }
   })
   .delete(async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at api/sample`);
+    console.log(`Received ${req.method} request at api/user`);
     try {
       return res.status(200).json();
     } catch (err) {

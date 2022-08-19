@@ -1,6 +1,6 @@
-import Sample from "./sample"
+import User from "./user"
 
 // DEFAULT MONGOOSE MODEL HANDLER
 export {
-  Sample
+  User
 }
