@@ -13,24 +13,16 @@ interface reducers {
   appReducer: Record<string, unknown>
 }
 
-
 const Login = ({ welcome }: LoginStates) => {
   const [message, setMessage] = useState(welcome);
   const dispatch = useDispatch();
   const appReducer = useSelector((state: reducers) => state.appReducer)
-  // const welcomeMsg = useSelector((state: LoginStates) => state)
 
   useEffect(() => {
     console.log(appReducer.signInState)
-    // setMessage(welcomeMsg)
-    // console.log(counter);
   }, [appReducer]);
 
   const handleLogin = async (): Promise<void> => {
-    // dispatch(signIn({
-    //   username: (document.getElementById('login-username-input') as HTMLInputElement).value,
-    //   password: (document.getElementById('login-password-input') as HTMLInputElement).value
-    // }))
     try {
       const body = {
         username: (document.getElementById('login-username-input') as HTMLInputElement).value,
@@ -40,13 +32,7 @@ const Login = ({ welcome }: LoginStates) => {
       const res = await Put(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
       //use a hook to fire off action(type: signIn, res)
       console.log(res);
-      // if(body.username)
-
-      // else res = false
-
       dispatch(signIn(res));
-      // console.log(res);
-      
     } catch (err) {
       console.log('Get failed');
     }
@@ -68,7 +54,6 @@ const Login = ({ welcome }: LoginStates) => {
       {/* <Link to="/home"><button className="btn-login" type="button" onClick={handleLogin}>Login</button></Link> */}
       <button className="btn-login" type="button" onClick={handleLogin}>Login</button>
       <Link to="/register"><button type="button">Register</button></Link>
-      {/* <div>Counter: {counter}</div> */}
     </div>
   )
 }

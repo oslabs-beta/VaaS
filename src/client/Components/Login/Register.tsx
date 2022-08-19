@@ -14,10 +14,7 @@ const Register = () => {
         username: (document.getElementById('register-username-input') as HTMLInputElement).value,
         password: (document.getElementById('register-password-input') as HTMLInputElement).value,
       }
-      const headers = {
-        "Access-Control-Allow-Origin" : "*", 
-      }
-      const res = await Post(apiRoute.getRoute('auth'), body, headers).catch(err => console.log(err));
+      const res = await Post(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
       console.log(res);
     } catch (err) {
       console.log('Post failed');
