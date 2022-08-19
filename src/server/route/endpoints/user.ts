@@ -6,10 +6,8 @@ import { IError } from '../../interfaces/IError';
 
 router.route('/user')
   .get(async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at 'api/users'`)
+    console.log(`Received ${req.method} request at terminal 'api/user' endpoint`)
     try {
-      // const response = await User.find({ });
-      // console.log('Documents successfully retrieved from MongoDB');
       return res.status(200).json();
     } catch (err) {
       const error: IError = {
@@ -17,11 +15,11 @@ router.route('/user')
         message: `Unable to fulfull GET request: ${err}`
       };
       console.log(err);
-      res.status(error.status).json(error);
+      return res.status(error.status).json(error);
     }
   })
   .put(async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at api/user`);
+    console.log(`Received ${req.method} request at terminal 'api/user' endpoint`);
     try {
       return res.status(200).json();
     } catch (err) {
@@ -34,7 +32,7 @@ router.route('/user')
     }
   })
   .delete(async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at api/user`);
+    console.log(`Received ${req.method} request at terminal 'api/user' endpoint`);
     try {
       return res.status(200).json();
     } catch (err) {
@@ -43,7 +41,7 @@ router.route('/user')
         message: `Unable to fulfull DELETE request: ${err}`
       };
       console.log(err);
-      res.status(error.status).json(error);
+      return res.status(error.status).json(error);
     }
   });
 
