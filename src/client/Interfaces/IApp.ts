@@ -1,6 +1,8 @@
 export interface AppStates {
-    welcome?: string;
-    response?: any;
+    text: string,
 }
 
-// export interface AppProps {}
+export interface AppProps {
+    welcome?: string,
+    response?: any,
+}
