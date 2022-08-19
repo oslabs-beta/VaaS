@@ -1,4 +1,9 @@
-import sample from './routes/sample'
+import auth from './endpoints/auth'
+import user from './endpoints/user'
+
 
 // DEFAULT API ROUTE HANDLER
-export default { sample };
+export default { 
+  auth,
+  user
+};

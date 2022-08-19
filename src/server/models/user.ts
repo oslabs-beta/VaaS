@@ -8,7 +8,9 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   _id: {type: Schema.Types.ObjectId, required: true},
   firstName: String,
   lastName: String,
+  username: String,
+  password: String,
 });
 
 // THIRD PARAMETER DEFINES DEFAULT COLLECTION NAME
-export default model<IUser>('User', userSchema, 'user');
+export default model<IUser>('User', userSchema, 'users');
