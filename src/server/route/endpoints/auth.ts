@@ -8,7 +8,7 @@ import bcrypt from '../../warehouse/middlewares/bcrypt';
 
 router.route('/auth')
   .post(authUser, bcrypt, async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at '/api/auth' endpoint`);
+    console.log(`Received ${req.method} request at terminal '/api/auth' endpoint`);
     try {
       const { username, firstName, lastName } = req.body;
       const { hashedPassword } = res.locals;
@@ -21,7 +21,7 @@ router.route('/auth')
         lastName 
       });
       await attempt.save();
-      console.log(`Document successfully stored in MongoDB ${userId}`);
+      console.log(`Success: New user [${userId}] stored in MongoDB collection`);
       return res.status(201).json({ cookie: "Here's a cookie" });
     } catch (err) {
       const error: IError = {
@@ -29,13 +29,13 @@ router.route('/auth')
         message: `Unable to fulfull POST request: ${err}`
       };
       console.log(err);
-      res.status(error.status).json(error);
+      return res.status(error.status).json(error);
     }
   })
   .put(authUser, bcrypt, async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at '/api/auth' endpoint`);
+    console.log(`Received ${req.method} request at terminal '/api/auth' endpoint`);
     try {
-      console.log('User successfully logged in');
+      console.log('Success: User login information authenticated');
       return res.status(201).json({ cookie: "Here's a cookie" });
     } catch (err) {
       const error: IError = {
@@ -43,7 +43,7 @@ router.route('/auth')
         message: `Unable to fulfull GET request: ${err}`
       };
       console.log(err);
-      res.status(error.status).json(error);
+      return res.status(error.status).json(error);
     }
   })
 

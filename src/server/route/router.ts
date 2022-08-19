@@ -1,10 +1,10 @@
 import express, { Router } from 'express';
-import Initializers from '../warehouse/initializers';
+import initializers from '../warehouse/initializers';
 
 const router: Router = express.Router();
 
 // FUNNEL REQUEST DATA THROUGH INITIALIZING MIDDLEWARES
-router.use(Object.values(Initializers));
+router.use(Object.values(initializers));
 
 // ALL INITIALIZERS RUN BEFORE REACHING ENDPOINTS
 export default router;

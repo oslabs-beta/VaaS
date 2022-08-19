@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { IError } from '../../interfaces/IError';
 
-export default async (req: Request, res: Response, next: (param?: unknown) => void): Promise<void> => {
+export default async (req: Request, res: Response, next: (param?: unknown) => void): Promise<void | Response> => {
   console.log(`Received ${req.method} request at 'bcrypt' middleware`);
 
   const { password } = req.body;
@@ -11,6 +11,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
   /* REGISTER USER */
   if (!res.locals.hashedPassword) {
     res.locals.hashedPassword = await bcrypt.hash(password, saltRounds);
+    console.log(`Success: Password hashed`);
   }
 
 
@@ -24,11 +25,12 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
         message: 'Invalid credentials received',
         invalid: true
       };
-      res.status(error.status).json(error);
-      return;
+      console.log('Fail: Invalid credentials received');
+      return res.status(error.status).json(error);
     }   
   }
   
   // Move to next middleware
-  next();
+  console.log(`Success: Forwarding ${req.method} request to next middleware`);
+  return next();
 }

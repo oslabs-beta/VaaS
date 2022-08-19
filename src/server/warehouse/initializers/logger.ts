@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 
+// LOG REQUEST DETAILS IN CONSOLE TABLE
 export default (req: Request, res: Response, next: (param?: unknown) => void): void => {
   console.clear()
   const date: Date = new Date();
@@ -11,6 +12,5 @@ export default (req: Request, res: Response, next: (param?: unknown) => void): v
     params: req.params,
     query: req.query
   }]);
-  console.log(`Forwarding ${req.method} request to ${req.baseUrl}${req.url}`)
-  next();
+  return next();
 }
