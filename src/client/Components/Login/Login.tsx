@@ -36,12 +36,13 @@ const Login = ({ welcome }: LoginStates) => {
         username: (document.getElementById('login-username-input') as HTMLInputElement).value,
         password: (document.getElementById('login-password-input') as HTMLInputElement).value
       }
-      // const res = await Put(apiRoute.getRoute('auth'), body);
+
+      const res = await Put(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
       //use a hook to fire off action(type: signIn, res)
-      let res;
-      if(body.username)
-        res = true;
-      else res = false
+      console.log(res);
+      // if(body.username)
+
+      // else res = false
 
       dispatch(signIn(res));
       // console.log(res);

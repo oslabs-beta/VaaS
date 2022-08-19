@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { apiRoute } from '../../utils';
 import { Get, Post, Put, Delete } from '../../Services/index';
 
 const Register = () => {
-  const handleSignUp = async ():Promise<void> => {
+  const handleSignUp = async (): Promise<void> => {
     try {
       const body = {
         firstName: (document.getElementById('firstname-input') as HTMLInputElement).value,
@@ -13,7 +14,10 @@ const Register = () => {
         username: (document.getElementById('register-username-input') as HTMLInputElement).value,
         password: (document.getElementById('register-password-input') as HTMLInputElement).value,
       }
-      const res = await Post(apiRoute.getRoute('auth'), body);
+      const headers = {
+        "Access-Control-Allow-Origin" : "*", 
+      }
+      const res = await Post(apiRoute.getRoute('auth'), body, headers).catch(err => console.log(err));
       console.log(res);
     } catch (err) {
       console.log('Post failed');
