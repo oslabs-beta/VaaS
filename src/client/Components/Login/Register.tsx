@@ -33,6 +33,9 @@ const Register = () => {
         <h1>Vaas</h1>
       </div>
       <div>
+        <div>
+          <Link to='/'>Go back</Link>
+        </div>
         <span>First Name:</span>
         <input id="firstname-input" />
       </div>
