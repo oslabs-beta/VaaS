@@ -1,4 +1,5 @@
 import express, { Request, Response, Router, Express } from 'express';
+import path from 'path';
 import cors from 'cors';
 import router from './route';
 import db from "./mongoDb";
@@ -15,10 +16,11 @@ app.use(express.json() as RequestHandler)
 
 const port: number = Number(process.env.EXPRESS_PORT) || 3000;
 
-app.use(express.static('dist'));
-app.get('/', (req: Request, res: Response) => {
+app.use(express.static(path.join(__dirname, '../dist')));
+console.log(path.join(__dirname))
+app.get('/*', (req: Request, res: Response) => {
   console.log('sending index.html');
-  res.sendFile('/dist/index.html');
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 const routes: Router[] = Object.values(router);
