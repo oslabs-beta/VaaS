@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import { apiRoute } from '../utils';
 import { AppStates, AppProps } from '../Interfaces/IApp';
@@ -10,6 +10,12 @@ import Register from './Login/Register'
 import Settings from './Settings/Settings'
 
 const App = () => {
+  const navigate = useNavigate();
+  
+  useEffect(()=>{
+    if(!localStorage.getItem('token')) navigate('/');
+  },[])
+
   return (
     <Routes>
       <Route path="/" element={<Login />} />

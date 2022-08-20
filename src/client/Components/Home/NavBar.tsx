@@ -22,7 +22,7 @@ const NavBar = () => {
 
   const dropdown = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPageName(e.target.value)
-    navigate(e.target.value)
+    navigate('/' + e.target.value.toLowerCase())
   }
 
   return (
@@ -31,7 +31,7 @@ const NavBar = () => {
       <button className="btn" id='logout-btn' onClick={handleLogOut}>Logout</button>
       <select id='dropdown' defaultValue='test' onChange={dropdown}>
         <option value='test' disabled hidden>Dropdown</option>
-        <option value='/settings'>Settings</option>
+        <option value='Settings'>Settings</option>
       </select>
     </div>
   )
