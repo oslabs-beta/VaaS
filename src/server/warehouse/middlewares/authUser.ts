@@ -19,29 +19,33 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
           status: 500,
           message: 'Unable to fulfull request without all fields completed'
         };
+        console.log(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
       // If username does exist, send boolean to client demonstrating "user already exists"
       if (user[0]) {
         const error: IError = {
           status: 401,
-          message: 'User already exists',
+          message: `User [${user[0].username}] already exists`,
           exists: true
         };
-        console.log(`Fail: User [${user[0].username}] already exists`);
+        console.log(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
     }
 
-
     /* LOGIN USER */
-    if (req.method === 'PUT') {
+    if (
+      (req.url === '/auth' && req.method === 'PUT') || 
+      (req.url === '/user' && req.method === 'DELETE')
+    ) {
       // Validate request body
       if (!req.body.username || !req.body.password) {
         const error: IError = {
           status: 500,
           message: 'Unable to fulfull request without all fields completed',
         };
+        console.log(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
       // If username does not exist, send message to client saying "Invalid credentials"
@@ -51,7 +55,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
           message: 'Invalid credentials received',
           invalid: true
         };
-        console.log(`Fail: Invalid credentials received`);
+        console.log(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
       // If it does exist, save stored password to res.locals.hashedPassword
