@@ -17,7 +17,7 @@ app.use(express.json() as RequestHandler)
 const port: number = Number(process.env.EXPRESS_PORT) || 3000;
 
 app.use(express.static(path.join(__dirname, '../dist')));
-console.log(path.join(__dirname))
+
 app.get('/*', (req: Request, res: Response) => {
   console.log('sending index.html');
   res.sendFile(path.join(__dirname, '../dist/index.html'));
