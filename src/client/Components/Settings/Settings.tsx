@@ -54,7 +54,6 @@ const Settings = () => {
       <div className = 'Settings'>
         <div>
             <NavBar/>
-            <h1>Settings</h1>
           <div>
             <h2>Delete User</h2>
               <div>

@@ -27,6 +27,10 @@ const Register = () => {
     // alert('REGISTERED')
   }
 
+  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if(e.key === 'Enter') handleSignUp();
+  }
+
   return (
     <div className="register-container">
       <div>
@@ -37,19 +41,19 @@ const Register = () => {
           <Link to='/'>Go back</Link>
         </div>
         <span>First Name:</span>
-        <input id="firstname-input" />
+        <input id="firstname-input" onKeyDown={handleEnterKeyDown}/>
       </div>
       <div>
         <span>Last Name:</span>
-        <input id="lastname-input" />
+        <input id="lastname-input" onKeyDown={handleEnterKeyDown}/>
       </div>
       <div>
         <span>Username:</span>
-        <input id="register-username-input" />
+        <input id="register-username-input" onKeyDown={handleEnterKeyDown}/>
       </div>
       <div>
         <span>Password:</span>
-        <input id="register-password-input" type="password" />
+        <input id="register-password-input" type="password" onKeyDown={handleEnterKeyDown}/>
       </div>
       <button onClick={handleSignUp} type="button">Sign Up</button>
       <p>{registered}</p>

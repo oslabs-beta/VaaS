@@ -31,6 +31,7 @@ const NavBar = () => {
       <button className="btn" id='logout-btn' onClick={handleLogOut}>Logout</button>
       <select id='dropdown' defaultValue='test' onChange={dropdown}>
         <option value='test' disabled hidden>Dropdown</option>
+        <option value='Home'>Home</option>
         <option value='Settings'>Settings</option>
       </select>
     </div>

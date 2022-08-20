@@ -45,6 +45,10 @@ const Login = () => {
     }
   }
 
+  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if(e.key === 'Enter') handleLogin();
+  }
+
   return (
     <div className="login-container">
       <div>
@@ -52,11 +56,11 @@ const Login = () => {
       </div>
       <div>
         <span>Username:</span>
-        <input id="login-username-input" />
+        <input id="login-username-input" onSubmit={handleEnterKeyDown}/>
       </div>
       <div>
         <span>Password:</span>
-        <input id="login-password-input" type="password" />
+        <input id="login-password-input" type="password" onKeyDown={handleEnterKeyDown}/>
       </div>
       <button className="btn" type="button" onClick={handleLogin}>Login</button>
       <Link to="/register"><button className="btn" type="button">Register</button></Link>
