@@ -7,7 +7,7 @@ import { Get, Post, Put, Delete } from '../Services/index';
 import Login from './Login/Login'
 import Home from './Home/Home'
 import Register from './Login/Register'
-import Settings from './Home/Settings'
+import Settings from './Settings/Settings'
 
 const App = () => {
   return (

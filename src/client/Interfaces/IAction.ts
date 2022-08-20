@@ -7,3 +7,7 @@ export interface ISignIn {
   signInState: boolean,
   username: string
 }
+
+export interface IDeleteUser {
+  username: string| null;
+}
