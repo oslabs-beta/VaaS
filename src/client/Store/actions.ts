@@ -1,3 +1,4 @@
+import { ISignIn } from '../Interfaces/IAction';
 import * as types from './actionTypes';
 
 export const setWelcome = (message: string) => ({
@@ -10,9 +11,12 @@ export const signUp = (credential: Record<string, string>) => ({
   payload: credential,
 });
 
-export const signIn = (credential: boolean) => ({
+export const signIn = ({signInState, username}: ISignIn) => ({
   type: types.SIGN_IN,
-  payload: credential,
+  payload: {
+    signInState, 
+    username
+  }
 });
 
 // export const setClusterInfo = () => ({
