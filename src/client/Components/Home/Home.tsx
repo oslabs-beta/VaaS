@@ -8,8 +8,10 @@ import NavBar from './NavBar'
 
 const Home = () => {
   const appReducer = useSelector((state: IReducers) => state.appReducer);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if(!localStorage.getItem('token')) navigate('/');
     console.log('signInState from store: ', appReducer.signInState)
     console.log('Signed in username from localStorage: ', localStorage.getItem('username'))
     console.log('JWT token stored from localStorage: ', localStorage.getItem('token'));
