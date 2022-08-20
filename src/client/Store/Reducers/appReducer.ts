@@ -4,7 +4,7 @@ import { IAppReducer } from '../../Interfaces/IReducers'
 
 const initialState: IAppReducer = {
   signInState: false,
-  username: ''
+  username: localStorage.getItem('username')
   // clusterHealth: [/* can be array - depends on what promQL returns*/],
 };
 

@@ -18,11 +18,12 @@ const Home = () => {
   }, [appReducer]);
 
   const handleLogOut = (): void => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
     dispatch(signIn({
       signInState: false,
-      username: ''
+      username: localStorage.getItem('username')
     }));
-    localStorage.removeItem('token');
     navigate('/');
   }
 

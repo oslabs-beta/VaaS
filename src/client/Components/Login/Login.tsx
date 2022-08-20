@@ -15,6 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if(localStorage.getItem('token')) navigate('/home')
     console.log('signInState: ', appReducer.signInState)
     console.log('Signed in username: ', appReducer.username)
   }, [appReducer]);
@@ -30,9 +31,10 @@ const Login = () => {
       console.log(res)
       if(!body.username || !body.password) setMessage('please enter username and/or password')
       if(res.token) {
+        localStorage.setItem('username', body.username);
         dispatch(signIn({
           signInState: true,
-          username: body.username
+          username: localStorage.getItem('username')
         }));
         localStorage.setItem('token', res.token);
         navigate('/home');
@@ -42,6 +44,8 @@ const Login = () => {
       console.log('Get failed');
     }
   }
+
+  
 
   return (
     <div className="login-container">

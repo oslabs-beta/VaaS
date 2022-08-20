@@ -5,5 +5,5 @@ export interface IAction {
 
 export interface ISignIn {
   signInState: boolean,
-  username: string
+  username: string | null
 }
