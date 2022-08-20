@@ -15,8 +15,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('signInState: ', appReducer.signInState)
-    console.log('Signed in username: ', appReducer.username)
+    if(localStorage.getItem('token')) navigate('/home')
+    console.log('signInState from store: ', appReducer.signInState)
+    console.log('Signed in username from store: ', appReducer.username)
   }, [appReducer]);
 
   const handleLogin = async (): Promise<void> => {
@@ -30,10 +31,12 @@ const Login = () => {
       console.log(res)
       if(!body.username || !body.password) setMessage('please enter username and/or password')
       if(res.token) {
+        localStorage.setItem('username', body.username);
         dispatch(signIn({
           signInState: true,
           username: body.username
         }));
+        localStorage.setItem('token', res.token);
         navigate('/home');
       }
       if(res.invalid) setMessage('wrong username/password')
@@ -55,8 +58,8 @@ const Login = () => {
         <span>Password:</span>
         <input id="login-password-input" type="password" />
       </div>
-      <button className="btn-login" type="button" onClick={handleLogin}>Login</button>
-      <Link to="/register"><button type="button">Register</button></Link>
+      <button className="btn" type="button" onClick={handleLogin}>Login</button>
+      <Link to="/register"><button className="btn" type="button">Register</button></Link>
       <p>{message}</p>
     </div>
   )
