@@ -18,6 +18,7 @@ router.route('/user:username')
         };
         return res.status(error.status).json(error);
       }
+      console.log(`Success: User [${req.params['username']}] document retrieved from MongoDB collection`);
       return res.status(200).json(response[0]);
     } catch (err) {
       const error: IError = {
@@ -53,6 +54,7 @@ router.route('/user')
         };
         return res.status(error.status).json({error});
       }
+      console.log(`Success: New user [${req.body.username}] deleted from MongoDB collection`);
       return res.status(200).json({ deleted: true });
     } catch (err) {
       const error: IError = {
