@@ -5,7 +5,7 @@ import { apiRoute } from '../utils';
 import { AppStates, AppProps } from '../Interfaces/IApp';
 import { Get, Post, Put, Delete } from '../Services/index';
 import Login from './Login/Login'
-import Home from './Home'
+import Home from './Home/Home'
 import Register from './Login/Register'
 
 const App = () => {
