@@ -1,18 +1,14 @@
 import router from '../router';
 import { Request, Response } from "express";
-import { Types } from 'mongoose';
 import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
-import authUser from '../../warehouse/middlewares/authUser';
-import bcrypt from '../../warehouse/middlewares/bcrypt';
+import { bcrypt, authUser, jwtCreator } from '../../warehouse/middlewares';
 
 router.route('/auth')
-  .post(authUser, bcrypt, async (req: Request, res: Response) => {
+  .post(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
     console.log(`Received ${req.method} request at terminal '/api/auth' endpoint`);
     try {
-      const { username, firstName, lastName } = req.body;
-      const { hashedPassword } = res.locals;
-      const userId = new Types.ObjectId();
+      const { username, firstName, lastName } = req.body, { userId, hashedPassword, jwt } = res.locals;
       const attempt = new User({ 
         _id: userId, 
         username, 
@@ -22,7 +18,7 @@ router.route('/auth')
       });
       await attempt.save();
       console.log(`Success: New user [${userId}] stored in MongoDB collection`);
-      return res.status(201).json({ cookie: "Here's a cookie" });
+      return res.status(201).header("x-auth-token", jwt).json(jwt);
     } catch (err) {
       const error: IError = {
         status: 500,
@@ -32,11 +28,12 @@ router.route('/auth')
       return res.status(error.status).json(error);
     }
   })
-  .put(authUser, bcrypt, async (req: Request, res: Response) => {
+  .put(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
     console.log(`Received ${req.method} request at terminal '/api/auth' endpoint`);
     try {
+      const { jwt } = res.locals;
       console.log('Success: User login information authenticated');
-      return res.status(201).json({ cookie: "Here's a cookie" });
+      return res.status(201).header("x-auth-token", jwt).json(jwt);
     } catch (err) {
       const error: IError = {
         status: 500,

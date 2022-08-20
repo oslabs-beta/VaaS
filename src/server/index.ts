@@ -2,8 +2,8 @@ import express, { Request, Response, Router, Express } from 'express';
 import cors from 'cors';
 import router from './route';
 import db from "./mongoDb";
-import 'dotenv';
 import { RequestHandler } from 'express-serve-static-core';
+import 'dotenv';
 
 const app: Express = express();
 

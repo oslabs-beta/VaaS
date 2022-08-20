@@ -10,7 +10,7 @@ export const configs: IConfigs = {
       collection: process.env.MONGO_COLLECTION,
     },
     jwt: {
-      access: process.env.ACCESS_TOKEN_SECRET,
-      refresh: process.env.REFRESH_TOKEN_SECRET
+      access: process.env.JWT_ACCESS_SECRET,
+      refresh: process.env.JWT_REFRESH_SECRET
     }
 }
