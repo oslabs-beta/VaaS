@@ -34,6 +34,7 @@ const Login = () => {
           signInState: true,
           username: body.username
         }));
+        localStorage.setItem('token', res.token);
         navigate('/home');
       }
       if(res.invalid) setMessage('wrong username/password')
@@ -55,8 +56,8 @@ const Login = () => {
         <span>Password:</span>
         <input id="login-password-input" type="password" />
       </div>
-      <button className="btn-login" type="button" onClick={handleLogin}>Login</button>
-      <Link to="/register"><button type="button">Register</button></Link>
+      <button className="btn" type="button" onClick={handleLogin}>Login</button>
+      <Link to="/register"><button className="btn" type="button">Register</button></Link>
       <p>{message}</p>
     </div>
   )
