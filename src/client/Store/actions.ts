@@ -1,4 +1,4 @@
-import { ISignIn } from '../Interfaces/IAction';
+import { IDeleteUser, ISignIn } from '../Interfaces/IAction';
 import * as types from './actionTypes';
 
 export const setWelcome = (message: string) => ({
@@ -19,9 +19,11 @@ export const signIn = ({signInState, username}: ISignIn) => ({
   }
 });
 
-export const deleteUser = (credential: boolean) => ({
+export const deleteUser = ({username}: IDeleteUser ) => ({
   type: types.DELETE,
-  payload: credential,
+  payload: {
+    username
+  },
 });
 
 // export const setClusterInfo = () => ({
