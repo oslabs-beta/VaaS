@@ -16,8 +16,8 @@ const Login = () => {
 
   useEffect(() => {
     if(localStorage.getItem('token')) navigate('/home')
-    console.log('signInState: ', appReducer.signInState)
-    console.log('Signed in username: ', appReducer.username)
+    console.log('signInState from store: ', appReducer.signInState)
+    console.log('Signed in username from store: ', appReducer.username)
   }, [appReducer]);
 
   const handleLogin = async (): Promise<void> => {
@@ -34,7 +34,7 @@ const Login = () => {
         localStorage.setItem('username', body.username);
         dispatch(signIn({
           signInState: true,
-          username: localStorage.getItem('username')
+          username: body.username
         }));
         localStorage.setItem('token', res.token);
         navigate('/home');
@@ -44,8 +44,6 @@ const Login = () => {
       console.log('Get failed');
     }
   }
-
-  
 
   return (
     <div className="login-container">
