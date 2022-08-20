@@ -1,12 +1,17 @@
 export interface IConfigs {
   mongodb: IMongo,
-  // can add more configurations here for export
+  jwt: ITokenSecret
 }
 
 interface IMongo {
-  url: string,
-  port: number,
-  username: string,
-  password: string,
-  collection: string,
+  url: string | undefined,
+  port: number | undefined,
+  username: string | undefined,
+  password: string | undefined,
+  collection: string | undefined,
+}
+
+interface ITokenSecret {
+  access: string | undefined,
+  refresh: string | undefined
 }
