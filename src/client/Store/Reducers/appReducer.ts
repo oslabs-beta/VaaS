@@ -1,19 +1,14 @@
 import * as types from '../actionTypes';
 import { IAction } from '../../Interfaces/IAction'
+import { IAppReducer } from '../../Interfaces/IReducers'
 
-interface reducerState {
-  welcome: string,
-  signInState: boolean,
-  // clusterHealth: [],
-}
-
-const initialState: reducerState = {
-  welcome: 'Welcome to VaaS',
+const initialState: IAppReducer = {
   signInState: false,
+  username: ''
   // clusterHealth: [/* can be array - depends on what promQL returns*/],
 };
 
-const appReducer = (state: reducerState = initialState, action: IAction) => {
+const appReducer = (state: IAppReducer = initialState, action: IAction) => {
   switch (action.type) {
     case types.WELCOME: {
       return state;
@@ -39,7 +34,8 @@ const appReducer = (state: reducerState = initialState, action: IAction) => {
       // console.log(state.counter)
       return {
         ...state,
-        signInState: action.payload,
+        signInState: action.payload.signInState,
+        username: action.payload.username
       }
       //else return {state}
     }

@@ -2,28 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { LoginStates } from '../../Interfaces/ILogin';
+import { IReducers } from '../../Interfaces/IReducers';
 import { apiRoute } from '../../utils';
 import { signIn } from '../../Store/actions'
 import { Get, Post, Put, Delete } from '../../Services/index';
 import './styles.css';
 
-//put this in with other types later on
-interface reducers {
-  appReducer: {
-    welcome: string,
-    signInState: boolean
-  }
-}
-
-const Login = ({ welcome }: LoginStates) => {
-  const [message, setMessage] = useState(welcome);
+const Login = () => {
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
-  const appReducer = useSelector((state: reducers) => state.appReducer)
+  const appReducer = useSelector((state: IReducers) => state.appReducer)
   const navigate = useNavigate();
 
   useEffect(() => {
     console.log('signInState: ', appReducer.signInState)
+    console.log('Signed in username: ', appReducer.username)
   }, [appReducer]);
 
   const handleLogin = async (): Promise<void> => {
@@ -37,7 +30,10 @@ const Login = ({ welcome }: LoginStates) => {
       console.log(res)
       if(!body.username || !body.password) setMessage('please enter username and/or password')
       if(res.token) {
-        dispatch(signIn(true));
+        dispatch(signIn({
+          signInState: true,
+          username: body.username
+        }));
         navigate('/home');
       }
       if(res.invalid) setMessage('wrong username/password')
@@ -59,7 +55,6 @@ const Login = ({ welcome }: LoginStates) => {
         <span>Password:</span>
         <input id="login-password-input" type="password" />
       </div>
-      {/* <Link to="/home"><button className="btn-login" type="button" onClick={handleLogin}>Login</button></Link> */}
       <button className="btn-login" type="button" onClick={handleLogin}>Login</button>
       <Link to="/register"><button type="button">Register</button></Link>
       <p>{message}</p>
