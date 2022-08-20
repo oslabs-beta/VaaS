@@ -1,3 +1,7 @@
 .login-container {
   align-items: center;
 }
+
+.input-error-text {
+  color: red
+}

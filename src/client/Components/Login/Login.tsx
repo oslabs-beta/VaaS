@@ -10,6 +10,8 @@ import './styles.css';
 
 const Login = () => {
   const [message, setMessage] = useState('');
+  const [usernameErr, setUsernameErr] = useState('');
+  const [passwordErr, setPasswordErr] = useState('');
   const dispatch = useDispatch();
   const appReducer = useSelector((state: IReducers) => state.appReducer)
   const navigate = useNavigate();
@@ -29,7 +31,10 @@ const Login = () => {
       const res = await Put(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
       //use a hook to fire off action(type: signIn, res)
       console.log(res)
-      if(!body.username || !body.password) setMessage('please enter username and/or password')
+      if(!body.username) setUsernameErr(' please enter username');
+      else setUsernameErr('')
+      if(!body.password) setPasswordErr(' please enter password');
+      else setPasswordErr('');
       if(res.token) {
         localStorage.setItem('username', body.username);
         dispatch(signIn({
@@ -39,7 +44,8 @@ const Login = () => {
         localStorage.setItem('token', res.token);
         navigate('/home');
       }
-      if(res.invalid) setMessage('wrong username/password')
+      if(res.invalid) setMessage(res.message)
+      else setMessage('')
     } catch (err) {
       console.log('Get failed');
     }
@@ -57,14 +63,16 @@ const Login = () => {
       <div>
         <span>Username:</span>
         <input id="login-username-input" onSubmit={handleEnterKeyDown}/>
+        <span className='input-error-text'>{usernameErr}</span>
       </div>
       <div>
         <span>Password:</span>
         <input id="login-password-input" type="password" onKeyDown={handleEnterKeyDown}/>
+        <span className='input-error-text'>{passwordErr}</span>
       </div>
       <button className="btn" type="button" onClick={handleLogin}>Login</button>
       <Link to="/register"><button className="btn" type="button">Register</button></Link>
-      <p>{message}</p>
+      <p className='input-error-text'>{message}</p>
     </div>
   )
 }
