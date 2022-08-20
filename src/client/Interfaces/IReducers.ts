@@ -1,7 +1,7 @@
 export interface IAppReducer {
   welcome?: string,
   signInState: boolean,
-  username: string
+  username: string | null
   // clusterHealth: [],
 }
 

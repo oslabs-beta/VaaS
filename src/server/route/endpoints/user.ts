@@ -8,6 +8,7 @@ import { jwtVerify, bcrypt, authUser } from '../../warehouse/middlewares';
 router.route('/user:username')
   .get(jwtVerify, async (req: Request, res: Response) => {
     console.log(`Received ${req.method} request at terminal 'api/user' endpoint`)
+    req.params['username'] = req.params['username'].substring(1);
     try {
       const response = await User.find({ username: req.params['username'] })
       if (response.length === 0) {
