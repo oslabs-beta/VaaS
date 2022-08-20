@@ -15,6 +15,11 @@ export const signIn = (credential: boolean) => ({
   payload: credential,
 });
 
+export const deleteUser = (credential: boolean) => ({
+  type: types.DELETE,
+  payload: credential,
+});
+
 // export const setClusterInfo = () => ({
 //   type: types.CLUSTER_INFO,
 //   payload: 

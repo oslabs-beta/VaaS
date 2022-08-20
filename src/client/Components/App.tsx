@@ -7,6 +7,7 @@ import { Get, Post, Put, Delete } from '../Services/index';
 import Login from './Login/Login'
 import Home from './Home/Home'
 import Register from './Login/Register'
+import Settings from './Home/Settings'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register />} />
+      <Route path ="/settings" element={<Settings />} />
     </Routes>
   );
 }
