@@ -4,7 +4,6 @@ import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
 import bcrypt from 'bcrypt';
 
-
 export default async (req: Request, res: Response, next: (param?: unknown) => void): Promise<void | Response> => {
   console.log(`Received ${req.method} request at 'bcrypt' middleware`);
 
@@ -18,8 +17,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     console.log(`Success: Password hashed`);
   }
 
-
-  /* LOGIN USER */
+  /* LOGIN USER OR VERIFY PASSWORD FOR DELETE USER */
   else {
     const { username } = req.body;
     console.log(`Searching for user [${username}] in MongoDB`);
@@ -28,14 +26,13 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     res.locals.userId = user[0]._id;
 
     const result: boolean = await bcrypt.compare(password, res.locals.hashedPassword);
-    // If username does not exist, send message to client saying "Invalid credentials"
     if (!result) {
       const error: IError = {
         status: 401,
         message: 'Invalid credentials received',
         invalid: true
       };
-      console.log('Fail: Invalid credentials received');
+      console.log(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }   
   }
