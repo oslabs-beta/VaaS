@@ -49,8 +49,6 @@ const appReducer = (state: reducerState = initialState, action: IAction) => {
     }
   }
 }
-console.log(appReducer)
-;
 
 export default appReducer;
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { LoginStates } from '../../Interfaces/ILogin';
 import { apiRoute } from '../../utils';
@@ -10,16 +10,20 @@ import './styles.css';
 
 //put this in with other types later on
 interface reducers {
-  appReducer: Record<string, unknown>
+  appReducer: {
+    welcome: string,
+    signInState: boolean
+  }
 }
 
 const Login = ({ welcome }: LoginStates) => {
   const [message, setMessage] = useState(welcome);
   const dispatch = useDispatch();
   const appReducer = useSelector((state: reducers) => state.appReducer)
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(appReducer.signInState)
+    console.log('signInState: ', appReducer.signInState)
   }, [appReducer]);
 
   const handleLogin = async (): Promise<void> => {
@@ -28,11 +32,15 @@ const Login = ({ welcome }: LoginStates) => {
         username: (document.getElementById('login-username-input') as HTMLInputElement).value,
         password: (document.getElementById('login-password-input') as HTMLInputElement).value
       }
-
       const res = await Put(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
       //use a hook to fire off action(type: signIn, res)
-      console.log(res);
-      dispatch(signIn(res));
+      console.log(res)
+      if(!body.username || !body.password) setMessage('please enter username and/or password')
+      if(res.token) {
+        dispatch(signIn(true));
+        navigate('/home');
+      }
+      if(res.invalid) setMessage('wrong username/password')
     } catch (err) {
       console.log('Get failed');
     }
@@ -41,7 +49,7 @@ const Login = ({ welcome }: LoginStates) => {
   return (
     <div className="login-container">
       <div>
-        <h1>{message}</h1>
+        <h1>Vaas</h1>
       </div>
       <div>
         <span>Username:</span>
@@ -54,9 +62,9 @@ const Login = ({ welcome }: LoginStates) => {
       {/* <Link to="/home"><button className="btn-login" type="button" onClick={handleLogin}>Login</button></Link> */}
       <button className="btn-login" type="button" onClick={handleLogin}>Login</button>
       <Link to="/register"><button type="button">Register</button></Link>
+      <p>{message}</p>
     </div>
   )
 }
 
 export default Login;
-// export default connect(mapStateToProps, mapDispatcherToProps)(Login)

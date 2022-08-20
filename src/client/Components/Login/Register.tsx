@@ -1,11 +1,13 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { apiRoute } from '../../utils';
 import { Get, Post, Put, Delete } from '../../Services/index';
 
 const Register = () => {
+  const [registered, setRegistered] = useState('')
+  const navigate = useNavigate();
   const handleSignUp = async (): Promise<void> => {
     try {
       const body = {
@@ -16,6 +18,9 @@ const Register = () => {
       }
       const res = await Post(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
       console.log(res);
+      if(res.exists) setRegistered('user already exists')
+      else if (res.message) setRegistered('invalid inputs')
+      else navigate('/')
     } catch (err) {
       console.log('Post failed');
     }
@@ -44,6 +49,7 @@ const Register = () => {
         <input id="register-password-input" type="password" />
       </div>
       <button onClick={handleSignUp} type="button">Sign Up</button>
+      <p>{registered}</p>
     </div>
   )
 }
