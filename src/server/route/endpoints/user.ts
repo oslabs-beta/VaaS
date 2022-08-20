@@ -3,12 +3,21 @@ import { Request, Response } from "express";
 import { User } from '../../models';
 import { IUser } from "../../interfaces/IUser";
 import { IError } from '../../interfaces/IError';
+import { jwtVerify, bcrypt, authUser } from '../../warehouse/middlewares';
 
-router.route('/user')
-  .get(async (req: Request, res: Response) => {
+router.route('/user:username')
+  .get(jwtVerify, async (req: Request, res: Response) => {
     console.log(`Received ${req.method} request at terminal 'api/user' endpoint`)
     try {
-      return res.status(200).json();
+      const response = await User.find({ username: req.params['username'] })
+      if (response.length === 0) {
+        const error: IError = {
+          status: 401,
+          message: `Fail: User [${req.params['username']}] does not exist`
+        };
+        return res.status(error.status).json(error);
+      }
+      return res.status(200).json(response[0]);
     } catch (err) {
       const error: IError = {
         status: 500,
@@ -18,7 +27,8 @@ router.route('/user')
       return res.status(error.status).json(error);
     }
   })
-  .put(async (req: Request, res: Response) => {
+router.route('/user')
+  .put(jwtVerify, async (req: Request, res: Response) => {
     console.log(`Received ${req.method} request at terminal 'api/user' endpoint`);
     try {
       return res.status(200).json();
@@ -28,13 +38,21 @@ router.route('/user')
         message: `Unable to fulfull PUT request: ${err}`
       };
       console.log(err);
-      res.status(error.status).json(error);
+      return res.status(error.status).json(error);
     }
   })
-  .delete(async (req: Request, res: Response) => {
+  .delete(authUser, bcrypt, jwtVerify, async (req: Request, res: Response) => {
     console.log(`Received ${req.method} request at terminal 'api/user' endpoint`);
     try {
-      return res.status(200).json();
+      const response = await User.deleteOne({ username: req.body.username })
+      if (response.deletedCount === 0) {
+        const error: IError = {
+          status: 401,
+          message: `Fail: User [${req.body.username}] either does not exist or could not be deleted`
+        };
+        return res.status(error.status).json({error});
+      }
+      return res.status(200).json({ deleted: true });
     } catch (err) {
       const error: IError = {
         status: 500,
