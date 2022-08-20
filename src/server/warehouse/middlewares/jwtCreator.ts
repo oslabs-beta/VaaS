@@ -4,7 +4,7 @@ import { PartialSession } from '../../interfaces/IToken';
 import 'dotenv';
 
 export default (req: Request, res: Response, next: (param?: unknown) => void): void => {
-  const { username } = req.body, { userId } = res.locals.userId;
+  const { username } = req.body, { userId } = res.locals;
   const partialSession: PartialSession = {
     id: userId,
     username: username
