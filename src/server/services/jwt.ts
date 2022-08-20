@@ -22,20 +22,21 @@ export function encodeSession(accessSecret: any, partialSession: PartialSession)
   };
 }
 
-export function decodeSession(accessSecret: any, sessionToken: string): IDecodeResult {
+export function decodeSession(accessSecret: any, sessionToken: any): IDecodeResult {
   const algorithm: TAlgorithm = "HS512";
   let result: ITokenSession;
   try {
     result = decode(sessionToken, accessSecret, false, algorithm);
   } catch (err: any) {
-    if (err.message === "No token supplied" || err.message === "Not enough or too many segments") {
+    if (
+      err.message === "No token supplied" || 
+      err.message === "Not enough or too many segments" ||
+      err.message.indexOf("Unexpected token") === 0
+    ) {
       return { type: "invalid-token" };
     }
     if (err.message === "Signature verification failed" || err.message === "Algorithm not supported") {
       return { type: "integrity-error" };
-    }
-    if (err.message.indexOf("Unexpected token") === 0) {
-      return { type: "invalid-token" };
     }
     throw err;
   }
