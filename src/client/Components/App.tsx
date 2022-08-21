@@ -14,9 +14,10 @@ import { IReducers } from '../Interfaces/IReducers';
 const App = () => {
   const navigate = useNavigate();
   const navBarReducer = useSelector((state: IReducers) => state.navBarReducer);
-  
+
   useEffect(()=>{
-    if(!localStorage.getItem('token') || navBarReducer.title === 'Home') navigate('/');
+    if(!localStorage.getItem('token')) navigate('/');
+    if(localStorage.getItem('token') && navBarReducer.title === 'Home') navigate('/home');
   }, [])
 
   return (
