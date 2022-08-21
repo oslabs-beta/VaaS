@@ -34,7 +34,11 @@ const Register = () => {
       
       if(res.exists) setRegistered('user already exists');
       else if (!body.firstName || !body.lastName || !body.username || !body.password) setRegistered('');
-      else navigate('/home');
+      else {
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('username', body.username);
+        navigate('/home');
+      }
     } catch (err) {
       console.log('Post failed');
     }

@@ -7,7 +7,6 @@ import NavBar from './NavBar'
 import Cluster from '../Cards/Cluster';
 import './styles.css'
 
-
 const Home = () => {
   const userReducer = useSelector((state: IReducers) => state.userReducer);
 
