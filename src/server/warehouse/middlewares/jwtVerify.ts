@@ -8,12 +8,12 @@ export default (req: Request, res: Response, next: (param?: unknown) => void): v
   if (authorized.type === 'valid') {
     const tokenStatus = checkExpStatus(authorized.session);
     if (tokenStatus === 'active') {
-      console.log(`Success: JWT verified: [${req.headers.authorization}]`);
+      console.log(`Success: JWT is ${tokenStatus}: [${req.headers.authorization}]`);
       return next();
     } else {
       const error: IError = {
         status: 401,
-        message: `JWT is expired: [${req.headers.authorization}]`,
+        message: `JWT is ${tokenStatus}: [${req.headers.authorization}]`,
         invalid: true
       };
       console.log(`Fail: ${error.message}`);
