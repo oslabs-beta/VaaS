@@ -2,9 +2,23 @@ import router from '../router';
 import { Request, Response } from "express";
 import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
-import { bcrypt, authUser, jwtCreator } from '../../warehouse/middlewares';
+import { bcrypt, authUser, jwtCreator, jwtVerify } from '../../warehouse/middlewares';
 
 router.route('/auth')
+  .get(jwtVerify, async (req: Request, res: Response) => {
+    console.log(`Received ${req.method} request at terminal '/api/auth' endpoint`);
+    try {
+      console.log(`Success: Access to route is allowed`);
+      return res.status(201).json({ invalid: false });
+    } catch (err) {
+      const error: IError = {
+        status: 500,
+        message: `Unable to fulfull GET request: ${err}`
+      };
+      console.log(err);
+      return res.status(error.status).json(error);
+    }
+  })
   .post(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
     console.log(`Received ${req.method} request at terminal '/api/auth' endpoint`);
     try {
