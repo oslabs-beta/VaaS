@@ -1,4 +1,7 @@
 #cluster-card {
   border: 1px solid green;
   padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+
 }
