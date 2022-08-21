@@ -4,6 +4,9 @@ export interface IAppReducer {
   username: string | null
   // clusterHealth: [],
 }
+export interface INavBarReducer {
+  dropDownName: string,
+}
 
 export interface IReducers {
   appReducer: IAppReducer

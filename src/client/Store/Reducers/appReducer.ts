@@ -10,10 +10,6 @@ const initialState: IAppReducer = {
 
 const appReducer = (state: IAppReducer = initialState, action: IAction) => {
   switch (action.type) {
-    case types.WELCOME: {
-      return state;
-    }
-
     case types.SIGN_UP: {
       //have it set up where sign up does not automatically sign user in
       //credential is going to be an object

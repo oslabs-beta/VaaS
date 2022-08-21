@@ -1,14 +1,16 @@
 import e from 'express';
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { signIn } from '../../Store/actions';
 
 const NavBar = () => {
-  const [pageName, setPageName] = useState('Home')
+  const [pageName, setPageName] = useState('')
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => console.log(pageName) ,[pageName])
 
   const handleLogOut = (): void => {
     localStorage.removeItem('token');
@@ -21,6 +23,7 @@ const NavBar = () => {
   }
 
   const dropdown = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value)
     setPageName(e.target.value)
     navigate('/' + e.target.value.toLowerCase())
   }

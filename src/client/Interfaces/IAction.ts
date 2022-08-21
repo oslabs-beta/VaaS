@@ -11,3 +11,7 @@ export interface ISignIn {
 export interface IDeleteUser {
   username: string| null;
 }
+
+export interface ISetTitle {
+  title: string
+}
