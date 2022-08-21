@@ -3,22 +3,24 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { IReducers } from '../../Interfaces/IReducers';
-import './styles.css'
 import NavBar from './NavBar'
+import Cluster from '../Cards/Cluster';
+import './styles.css'
+
 
 const Home = () => {
-  const appReducer = useSelector((state: IReducers) => state.appReducer);
+  const userReducer = useSelector((state: IReducers) => state.userReducer);
 
   useEffect(() => {
-    console.log('signInState from store: ', appReducer.signInState)
+    console.log('signInState from store: ', userReducer.signInState)
     console.log('Signed in username from localStorage: ', localStorage.getItem('username'))
     console.log('JWT token stored from localStorage: ', localStorage.getItem('token'));
-  }, [appReducer]);
+  }, [userReducer]);
 
   return (
     <div>
       <NavBar />
-      This is the home page.
+      <Cluster />
     </div>
   )
 }
