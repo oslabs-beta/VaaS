@@ -7,7 +7,7 @@ function path(url: string): IPathRoute {
       methods: ['GET', 'PUT', 'DELETE']
     },
     '/auth': {
-      methods: ['POST', 'PUT']
+      methods: ['GET', 'POST', 'PUT']
     }
   }
   return allRoutes[url];
