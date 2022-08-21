@@ -1,10 +1,14 @@
-export interface IAppReducer {
+export interface IUserReducer {
   welcome?: string,
   signInState: boolean,
   username: string | null
   // clusterHealth: [],
 }
+export interface INavBarReducer {
+  title: string,
+}
 
 export interface IReducers {
-  appReducer: IAppReducer
+  userReducer: IUserReducer,
+  navBarReducer: INavBarReducer
 }

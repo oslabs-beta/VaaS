@@ -13,14 +13,14 @@ const Login = () => {
   const [usernameErr, setUsernameErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
   const dispatch = useDispatch();
-  const appReducer = useSelector((state: IReducers) => state.appReducer)
+  const userReducer = useSelector((state: IReducers) => state.userReducer)
   const navigate = useNavigate();
 
   useEffect(() => {
     if(localStorage.getItem('token')) navigate('/home')
-    console.log('signInState from store: ', appReducer.signInState)
-    console.log('Signed in username from store: ', appReducer.username)
-  }, [appReducer]);
+    console.log('signInState from store: ', userReducer.signInState)
+    console.log('Signed in username from store: ', userReducer.username)
+  }, [userReducer]);
 
   const handleLogin = async (): Promise<void> => {
     try {

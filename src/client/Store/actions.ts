@@ -26,6 +26,11 @@ export const deleteUser = ({username}: IDeleteUser ) => ({
   },
 });
 
+export const setTitle = (title : string) => ({
+  type: types.SET_TITLE,
+  payload: title
+});
+
 // export const setClusterInfo = () => ({
 //   type: types.CLUSTER_INFO,
 //   payload: 

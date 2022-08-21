@@ -8,3 +8,4 @@ export const CLUSTER_INFO = 'CLUSTER_INFO';
 
 export const DELETE = 'DELETE';
 
+export const SET_TITLE = 'SET_TITLE';

@@ -34,7 +34,7 @@ const Register = () => {
       
       if(res.exists) setRegistered('user already exists');
       else if (!body.firstName || !body.lastName || !body.username || !body.password) setRegistered('');
-      else navigate('/');
+      else navigate('/home');
     } catch (err) {
       console.log('Post failed');
     }

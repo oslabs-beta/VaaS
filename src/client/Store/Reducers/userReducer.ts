@@ -1,19 +1,15 @@
 import * as types from '../actionTypes';
 import { IAction } from '../../Interfaces/IAction'
-import { IAppReducer } from '../../Interfaces/IReducers'
+import { IUserReducer } from '../../Interfaces/IReducers'
 
-const initialState: IAppReducer = {
+const initialState: IUserReducer = {
   signInState: false,
   username: ''
   // clusterHealth: [/* can be array - depends on what promQL returns*/],
 };
 
-const appReducer = (state: IAppReducer = initialState, action: IAction) => {
+const userReducer = (state: IUserReducer = initialState, action: IAction) => {
   switch (action.type) {
-    case types.WELCOME: {
-      return state;
-    }
-
     case types.SIGN_UP: {
       //have it set up where sign up does not automatically sign user in
       //credential is going to be an object
@@ -46,6 +42,6 @@ const appReducer = (state: IAppReducer = initialState, action: IAction) => {
   }
 }
 
-export default appReducer;
+export default userReducer;
 
 

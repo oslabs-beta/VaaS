@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
-import appReducer from './appReducer';
+import userReducer from './userReducer';
+import navBarReducer from './navBarReducer'
 
 const reducer = combineReducers({
-  appReducer,
+  userReducer,
+  navBarReducer
 });
 
 export default reducer;
