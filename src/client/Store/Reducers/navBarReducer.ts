@@ -3,7 +3,7 @@ import { IAction } from '../../Interfaces/IAction'
 import { INavBarReducer } from '../../Interfaces/IReducers'
 
 const initialState: INavBarReducer = {
-  dropDownName: ''
+  title: 'Home'
 };
 
 const navBarReducer = (state: INavBarReducer = initialState, action: IAction) => {
@@ -12,7 +12,7 @@ const navBarReducer = (state: INavBarReducer = initialState, action: IAction) =>
 
       return { 
         ...state,
-        dropDownName: action.payload
+        title: action.payload
       }
     }
 

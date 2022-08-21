@@ -8,13 +8,16 @@ import Login from './Login/Login'
 import Home from './Home/Home'
 import Register from './Login/Register'
 import Settings from './Settings/Settings'
+import { useSelector } from 'react-redux';
+import { IReducers } from '../Interfaces/IReducers';
 
 const App = () => {
   const navigate = useNavigate();
+  const navBarReducer = useSelector((state: IReducers) => state.navBarReducer);
   
   useEffect(()=>{
-    if(!localStorage.getItem('token')) navigate('/');
-  },[])
+    if(!localStorage.getItem('token') || navBarReducer.title === 'Home') navigate('/');
+  }, [])
 
   return (
     <Routes>

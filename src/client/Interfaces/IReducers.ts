@@ -5,9 +5,10 @@ export interface IAppReducer {
   // clusterHealth: [],
 }
 export interface INavBarReducer {
-  dropDownName: string,
+  title: string,
 }
 
 export interface IReducers {
-  appReducer: IAppReducer
+  appReducer: IAppReducer,
+  navBarReducer: INavBarReducer
 }
