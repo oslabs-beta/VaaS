@@ -19,7 +19,6 @@ const Home = () => {
     <div>
       <NavBar />
       This is the home page.
-      <div>{'username: ' + localStorage.getItem('username')}</div>
     </div>
   )
 }
