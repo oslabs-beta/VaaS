@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { IReducers } from '../../Interfaces/IReducers';
 import NavBar from './NavBar'
+import UserWelcome from './UserWelcome';
 import Cluster from '../Cards/Cluster';
 import './styles.css'
 
@@ -20,6 +21,7 @@ const Home = () => {
   return (
     <div>
       <NavBar />
+      <UserWelcome />
       <Cluster />
     </div>
   )
