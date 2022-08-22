@@ -1,5 +1,10 @@
 .login-container {
-  align-items: center;
+  border: 1px solid black;
+  
+}
+
+.backdrop {
+  border: 1px solid black;
 }
 
 .input-error-text {
