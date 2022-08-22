@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { apiRoute } from '../../utils';
 import { Post } from '../../Services/index';
+import { Container, Button } from '@mui/material';
 
 const Register = () => {
   const [registered, setRegistered] = useState('')
@@ -48,14 +49,19 @@ const Register = () => {
   }
 
   return (
-    <div className="register-container">
+    <Container sx={{
+      bgcolor: '#cfe8fc',
+      height: '100vh',
+      justifyContent: 'center',
+      textAlign: 'center',
+      direction: 'column',
+      alignItems: 'center'
+    }}>
+       <Container maxWidth="sm" className="login-container">
       <div>
-        <h1>Vaas</h1>
+        <h1>VaaS</h1>
       </div>
       <div>
-        <div>
-          <Link to='/'>Go back</Link>
-        </div>
         <span>First Name:</span>
         <input id="firstname-input" onKeyDown={handleEnterKeyDown}/>
         <span className='input-error-text'>{firstNameErr}</span>
@@ -75,9 +81,14 @@ const Register = () => {
         <input id="register-password-input" type="password" onKeyDown={handleEnterKeyDown}/>
         <span className='input-error-text'>{passwordErr}</span>
       </div>
-      <button onClick={handleSignUp} type="button">Sign Up</button>
+
+      {/* <Link to='/'>Go back</Link> */}
+      <Button variant="contained" onClick = {() => navigate('/')}>Go Back</Button>
+        
+      <Button  variant="contained"onClick={handleSignUp} type="button">Sign Up</Button>
       <p className='input-error-text'>{registered}</p>
-    </div>
+      </Container>
+    </Container>
   )
 }
 
