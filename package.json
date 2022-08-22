@@ -14,6 +14,9 @@
   "author": "Murad Alqadi, Richard Zhang, Kevin Le, Irvin Ie",
   "license": "none",
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/material": "^5.10.1",
     "@reduxjs/toolkit": "^1.8.4",
     "@types/bcrypt": "^5.0.0",
     "@types/jwt-simple": "^0.5.33",

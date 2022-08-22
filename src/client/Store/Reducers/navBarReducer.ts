@@ -2,6 +2,7 @@ import * as types from '../actionTypes';
 import { IAction } from '../../Interfaces/IAction'
 import { INavBarReducer } from '../../Interfaces/IReducers'
 
+
 const initialState: INavBarReducer = {
   title: 'Home'
 };

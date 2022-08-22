@@ -1,5 +1,5 @@
 # VaaS
-Vaas
+VaaS
 Visualization tool for OpenFaas
 
 Developing

@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 import { IReducers } from '../../Interfaces/IReducers';
 import NavBar from './NavBar'
 import UserWelcome from './UserWelcome';
 import Cluster from '../Cards/Cluster';
 import './styles.css'
-
 
 const Home = () => {
   const userReducer = useSelector((state: IReducers) => state.userReducer);
