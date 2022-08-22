@@ -1,5 +1,4 @@
 import { Schema } from 'mongoose';
-
 import Database from '../mongoDb';
 import { IUser } from '../interfaces/IUser';
 const { mongo: { model } } = Database;

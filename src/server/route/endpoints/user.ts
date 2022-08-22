@@ -4,11 +4,11 @@ import { User } from '../../models';
 import { IUser } from "../../interfaces/IUser";
 import { IError } from '../../interfaces/IError';
 import { jwtVerify, bcrypt, authUser } from '../../warehouse/middlewares';
+import { terminal } from '../../services/terminal';
 
-router.route('/user:username')
+router.route('/user::username')
   .get(jwtVerify, async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at terminal 'api/user' endpoint`)
-    req.params['username'] = req.params['username'].substring(1);
+    terminal(`Received ${req.method} request at terminal 'api/user' endpoint`)
     try {
       const response = await User.find({ username: req.params['username'] })
       if (response.length === 0) {
@@ -18,20 +18,20 @@ router.route('/user:username')
         };
         return res.status(error.status).json(error);
       }
-      console.log(`Success: User [${req.params['username']}] document retrieved from MongoDB collection`);
+      terminal(`Success: User [${req.params['username']}] document retrieved from MongoDB collection`);
       return res.status(200).json(response[0]);
     } catch (err) {
       const error: IError = {
         status: 500,
         message: `Unable to fulfull GET request: ${err}`
       };
-      console.log(err);
+      terminal(err);
       return res.status(error.status).json(error);
     }
   })
 router.route('/user')
   .put(jwtVerify, async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at terminal 'api/user' endpoint`);
+    terminal(`Received ${req.method} request at terminal 'api/user' endpoint`);
     try {
       return res.status(200).json();
     } catch (err) {
@@ -39,12 +39,12 @@ router.route('/user')
         status: 500,
         message: `Unable to fulfull PUT request: ${err}`
       };
-      console.log(err);
+      terminal(err);
       return res.status(error.status).json(error);
     }
   })
   .delete(authUser, bcrypt, jwtVerify, async (req: Request, res: Response) => {
-    console.log(`Received ${req.method} request at terminal 'api/user' endpoint`);
+    terminal(`Received ${req.method} request at terminal 'api/user' endpoint`);
     try {
       const response = await User.deleteOne({ username: req.body.username })
       if (response.deletedCount === 0) {
@@ -54,14 +54,14 @@ router.route('/user')
         };
         return res.status(error.status).json({error});
       }
-      console.log(`Success: New user [${req.body.username}] deleted from MongoDB collection`);
+      terminal(`Success: New user [${req.body.username}] deleted from MongoDB collection`);
       return res.status(200).json({ deleted: true });
     } catch (err) {
       const error: IError = {
         status: 500,
         message: `Unable to fulfull DELETE request: ${err}`
       };
-      console.log(err);
+      terminal(err);
       return res.status(error.status).json(error);
     }
   });

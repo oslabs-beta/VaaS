@@ -3,8 +3,9 @@ import path from 'path';
 import cors from 'cors';
 import router from './route';
 import db from "./mongoDb";
-import { RequestHandler } from 'express-serve-static-core';
 import 'dotenv';
+import { RequestHandler } from 'express-serve-static-core';
+import { terminal } from './services/terminal';
 
 const app: Express = express();
 
@@ -19,7 +20,7 @@ const port: number = Number(process.env.EXPRESS_PORT) || 3000;
 app.use(express.static(path.join(__dirname, '../dist')));
 
 app.get('/', (req: Request, res: Response) => {
-  console.log('sending index.html');
+  terminal('sending index.html');
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
