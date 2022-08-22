@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { apiRoute } from '../../utils';
-import { Get, Post, Put, Delete } from '../../Services/index';
+import { Post } from '../../Services/index';
 
 const Register = () => {
   const [registered, setRegistered] = useState('')
@@ -42,7 +41,6 @@ const Register = () => {
     } catch (err) {
       console.log('Post failed');
     }
-    // alert('REGISTERED')
   }
 
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {

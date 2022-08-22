@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IReducers } from '../../Interfaces/IReducers';
 import { apiRoute } from '../../utils';
 import { signIn } from '../../Store/actions'
-import { Get, Post, Put, Delete } from '../../Services/index';
+import { Put } from '../../Services/index';
 import './styles.css';
 
 const Login = () => {
