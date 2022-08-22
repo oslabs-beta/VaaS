@@ -39,9 +39,9 @@ const Settings = () => {
       console.log(deleteStatus)
       if (deleteStatus.deleted === true) {
         console.log('Your account has been deleted');
-        dispatch(deleteUser({
-          username: body.username
-        }))
+        // dispatch(deleteUser({
+        //   username: body.username
+        // }))
         handleLogOut();
       } else {
         console.log('Account could not be deleted - ')
