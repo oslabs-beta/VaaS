@@ -5,7 +5,7 @@ export interface ITokenSession {
   eat: number;
 }
 
-export type PartialSession = Omit<ITokenSession, "iat" | "eat">;
+export type IPartialSession = Omit<ITokenSession, "iat" | "eat">;
 
 export interface IEncodeResult {
   token: string
@@ -23,4 +23,4 @@ export type IDecodeResult =
       type: "invalid-token";
     };
 
-export type ExpirationStatus = "expired" | "active" | "grace";
+export type IExpirationStatus = "expired" | "active" | "grace";

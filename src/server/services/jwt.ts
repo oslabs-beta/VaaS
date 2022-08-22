@@ -1,13 +1,13 @@
 import { encode, decode, TAlgorithm } from "jwt-simple";
 import { 
-  PartialSession, 
+  IPartialSession, 
   IEncodeResult, 
   IDecodeResult, 
   ITokenSession, 
-  ExpirationStatus
+  IExpirationStatus
 } from '../interfaces/IToken';
 
-export function encodeSession(accessSecret: any, partialSession: PartialSession): IEncodeResult {
+export function encodeSession(accessSecret: any, partialSession: IPartialSession): IEncodeResult {
   const algo: TAlgorithm = "HS512";
   const iat = Date.now(), 
     timeToExp = Number(process.env.JWT_EXP), 
@@ -46,7 +46,7 @@ export function decodeSession(accessSecret: any, sessionToken: any): IDecodeResu
   }
 }
 
-export function checkExpStatus(token: ITokenSession): ExpirationStatus {
+export function checkExpStatus(token: ITokenSession): IExpirationStatus {
   const now = Date.now();
   if (token.eat > now) return "active";
   const gracePeriod = token.eat + Number(process.env.JWT_grace);
