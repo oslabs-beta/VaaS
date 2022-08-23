@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { IReducers } from '../../Interfaces/IReducers';
 import { apiRoute } from '../../utils';
-import { signIn } from '../../Store/actions'
+import { setTitle, signIn } from '../../Store/actions'
 import { Put } from '../../Services/index';
 import './styles.css';
 import { Container, Button } from '@mui/material';
@@ -15,7 +15,7 @@ const Login = () => {
   const [usernameErr, setUsernameErr] = useState('');
   const [passwordErr, setPasswordErr] = useState('');
   const dispatch = useDispatch();
-  const userReducer = useSelector((state: IReducers) => state.userReducer)
+  const userReducer = useSelector((state: IReducers) => state.userReducer);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,6 +45,7 @@ const Login = () => {
           username: body.username
         }));
         localStorage.setItem('token', res.token);
+        dispatch(setTitle('Home'))
         navigate('/home');
       }
       if (res.invalid) setMessage(res.message)
@@ -82,7 +83,7 @@ const Login = () => {
           <span className='input-error-text'>{passwordErr}</span>
         </div>
         <Button variant="contained" className="btn" type="button" onClick={handleLogin}>Login</Button>
-        <Button variant="contained" className="btn" type="button" onClick={() => navigate('register')}>Register</Button>
+        <Button variant="contained" className="btn" type="button" onClick={() => navigate('/register')}>Register</Button>
         <p className='input-error-text'>{message}</p>
       </Container>
     </Container>
