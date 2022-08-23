@@ -19,11 +19,9 @@ const App = () => {
   useEffect(()=>{
     if(!localStorage.getItem('token') && location.pathname !== '/' && location.pathname !== '/register') navigate('/');
     dispatch(setTitle(location.pathname.replace('/', '').toUpperCase()))
-    console.log(location.pathname)
     if(localStorage.getItem('token')) {
       Get(apiRoute.getRoute('auth'), { authorization: localStorage.getItem('token') })
         .then(res => {
-          console.log('response:', res)
           if(res.invalid) {
             localStorage.removeItem('token');
             localStorage.removeItem('username');
