@@ -7,6 +7,9 @@ function path(url: string): IPathRoute {
     },
     '/auth': {
       methods: ['GET', 'POST', 'PUT']
+    },
+    '/cluster': {
+      methods: ['GET', 'POST', 'PUT', 'DELETE']
     }
   }
   return allRoutes[url];
