@@ -7,29 +7,29 @@ import { terminal } from '../../services/terminal';
 
 router.route('/auth')
   .get(jwtVerify, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '/api/auth' endpoint`);
+    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
       terminal(`Success: Access to route is allowed`);
       return res.status(201).json({ invalid: false });
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull GET request: ${err}`
+        message: `Unable to fulfull ${req.method} request: ${err}`
       };
       terminal(err);
       return res.status(error.status).json(error);
     }
   })
   .post(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '/api/auth' endpoint`);
+    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
       const { username, firstName, lastName } = req.body, { userId, hashedPassword, jwt } = res.locals;
       const attempt = new User({ 
         _id: userId, 
         username, 
         password: hashedPassword,
-        firstName, 
-        lastName 
+        firstName,
+        lastName
       });
       await attempt.save();
       terminal(`Success: New user [${userId}] stored in MongoDB collection`);
@@ -37,14 +37,14 @@ router.route('/auth')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull POST request: ${err}`
+        message: `Unable to fulfull ${req.method} request: ${err}`
       };
       terminal(err);
       return res.status(error.status).json(error);
     }
   })
   .put(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '/api/auth' endpoint`);
+    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
       const { jwt } = res.locals;
       terminal('Success: User login information authenticated');
@@ -52,7 +52,7 @@ router.route('/auth')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull GET request: ${err}`
+        message: `Unable to fulfull ${req.method} request: ${err}`
       };
       terminal(err);
       return res.status(error.status).json(error);
