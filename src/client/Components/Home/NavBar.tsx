@@ -23,23 +23,23 @@ const NavBar = () => {
   }
 
   const dropdown = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    try {
-      const res = await Get(apiRoute.getRoute('auth'), { authorization: localStorage.getItem('token') })
-        .catch(err => console.log(err));
-      console.log(res)
-      if (res.invalid) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        navigate('/')
-      } else {
-        dispatch(setTitle(e.target.value));
-        navigate('/' + e.target.value.toLowerCase());
-      }
-    } catch (err) {
-      console.log('Get failed err: ', err)
-    }
-    // dispatch(setTitle(e.target.value));
-    // navigate('/' + e.target.value.toLowerCase());
+    // try {
+    //   const res = await Get(apiRoute.getRoute('auth'), { authorization: localStorage.getItem('token') })
+    //     .catch(err => console.log(err));
+    //   console.log(res)
+    //   if (res.invalid) {
+    //     localStorage.removeItem('token');
+    //     localStorage.removeItem('username');
+    //     navigate('/')
+    //   } else {
+    //     dispatch(setTitle(e.target.value));
+    //     navigate('/' + e.target.value.toLowerCase());
+    //   }
+    // } catch (err) {
+    //   console.log('Get failed err: ', err)
+    // }
+    dispatch(setTitle(e.target.value));
+    navigate('/' + e.target.value.toLowerCase());
   }
 
   return (

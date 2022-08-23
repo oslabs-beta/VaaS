@@ -11,9 +11,9 @@ const Home = () => {
   const userReducer = useSelector((state: IReducers) => state.userReducer);
 
   useEffect(() => {
-    console.log('signInState from store: ', userReducer.signInState)
-    console.log('Signed in username from localStorage: ', localStorage.getItem('username'))
-    console.log('JWT token stored from localStorage: ', localStorage.getItem('token'));
+    console.log('signInState from store:', userReducer.signInState)
+    console.log('Signed in username from localStorage:', localStorage.getItem('username'))
+    console.log('JWT token stored from localStorage:', localStorage.getItem('token'));
   }, [userReducer]);
 
   return (

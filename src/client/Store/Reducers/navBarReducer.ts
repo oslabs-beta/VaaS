@@ -4,7 +4,7 @@ import { INavBarReducer } from '../../Interfaces/IReducers'
 
 
 const initialState: INavBarReducer = {
-  title: 'Home'
+  title: ''
 };
 
 const navBarReducer = (state: INavBarReducer = initialState, action: IAction) => {
