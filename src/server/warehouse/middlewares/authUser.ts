@@ -6,6 +6,14 @@ import { terminal } from '../../services/terminal';
 export default async (req: Request, res: Response, next: (param?: unknown) => void): Promise<void | Response> => {
   terminal(`Received ${req.method} request at 'authUser' middleware`);
   try {
+    if (!req.body.username) {
+      const error: IError = {
+        status: 500,
+        message: 'Unable to fulfull request without username'
+      };
+      terminal(`Fail: ${error.message}`);
+      return res.status(error.status).json(error);
+    }
     const { username } = req.body;
     terminal(`Searching for user [${username}] in MongoDB`);
     const user = await User.find({ username: username });
@@ -14,7 +22,6 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     if (req.method === 'POST') {
       // Validate request body
       if (
-        !req.body.username || 
         !req.body.password || 
         !req.body.firstName || 
         !req.body.lastName
@@ -70,7 +77,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
   } catch (err) {
     const error: IError = {
       status: 500,
-      message: `Unable to fulfull request at '/auth' endpoint: ${err}`
+      message: `Unable to fulfull request at '${req.baseUrl}${req.url}' endpoint: ${err}`
     };
     terminal(err);
     return res.status(error.status).json(error);

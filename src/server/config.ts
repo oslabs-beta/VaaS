@@ -1,7 +1,7 @@
 import 'dotenv/config';
-import { IConfigs } from "./interfaces/IConfigs";
+import { IConfig } from "./interfaces/IConfig";
 
-export const configs: IConfigs = {
+export const config: IConfig = {
     mongodb: {
       url: process.env.MONGO_URL,
       port: Number(process.env.MONGO_PORT),

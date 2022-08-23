@@ -1,12 +1,12 @@
 import mongoose, { Connection, Mongoose } from 'mongoose';
-import { configs } from './config';
-import { IConfigs } from "./interfaces/IConfigs";
+import { config } from './config';
+import { IConfig } from "./interfaces/IConfig";
 
 class Database {
-  private readonly _config: IConfigs;
+  private readonly _config: IConfig;
   private readonly _mongo: Mongoose;
 
-  constructor(config: IConfigs, mongo: Mongoose) {
+  constructor(config: IConfig, mongo: Mongoose) {
     this._config = config;
     this._mongo = mongo;
   }
@@ -42,4 +42,4 @@ class Database {
 }
 
 // FREEZE OBJECT TO PREVENT CHANGES TO IT
-export default Object.freeze(new Database(configs, mongoose));
+export default Object.freeze(new Database(config, mongoose));

@@ -7,6 +7,7 @@ export default (req: Request, res: Response, next: (param?: unknown) => void): v
   terminal(`Received ${req.method} request at 'jwtVerify' middleware`);
   const authorized = decodeSession(process.env.JWT_ACCESS_SECRET, req.headers.authorization);
   if (authorized.type === 'valid') {
+    res.locals.jwt = authorized.session;
     const tokenStatus = checkExpStatus(authorized.session);
     if (tokenStatus === 'active') {
       terminal(`Success: JWT is ${tokenStatus}: [${req.headers.authorization}]`);

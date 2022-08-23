@@ -1,4 +1,4 @@
-export interface IConfigs {
+export interface IConfig {
   mongodb: IMongo,
   jwt: ITokenSecret
 }
