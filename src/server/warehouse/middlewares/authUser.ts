@@ -71,6 +71,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
       // If it does exist, save stored password to res.locals.hashedPassword
       terminal(`Success: User [${user[0].username}] found`);
       res.locals.hashedPassword = user[0].password;
+      res.locals.userId = user[0]._id;
     }
     terminal(`Success: Forwarding ${req.method} request to next middleware`);
     return next();
