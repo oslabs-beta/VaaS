@@ -1,11 +1,5 @@
-/**
- * ************************************
- *
- * @module  pod-promql-requests
- * @description contains functions that fetch and return data from the Prometheus server
- *
- * ************************************
- */
+import { Get } from '../Services';
+import { apiRoute } from '../utils';
 
 // return a pod names as an array of strings
 export const fetchPodNamesList = async (nodeName) => {
