@@ -10,6 +10,9 @@ function path(url: string): IPathRoute {
     },
     '/cluster': {
       methods: ['GET', 'POST', 'PUT', 'DELETE']
+    },
+    '/prom': {
+      methods: ['GET']
     }
   }
   return allRoutes[url];
