@@ -16,6 +16,8 @@ export const fetchPodNamesList = async (nodeName) => {
     });
     return podNamesList;  
   };
+
+
   
   // return a pod info as an array of objects with {name, node, namespace, ip, deployment}
   export const fetchPodInfoList = async (nodeName) => {
