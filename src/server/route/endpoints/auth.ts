@@ -33,7 +33,7 @@ router.route('/auth')
       });
       await attempt.save();
       terminal(`Success: New user [${userId}] stored in MongoDB collection`);
-      return res.status(201).header("x-auth-token", jwt).json(jwt);
+      return res.status(201).header("x-auth-token", jwt).json({ ...jwt, userId: userId });
     } catch (err) {
       const error: IError = {
         status: 500,
@@ -46,9 +46,9 @@ router.route('/auth')
   .put(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
-      const { jwt } = res.locals;
+      const { jwt, userId } = res.locals;
       terminal('Success: User login information authenticated');
-      return res.status(201).header("x-auth-token", jwt).json(jwt);
+      return res.status(201).header("x-auth-token", jwt).json({ ...jwt, userId: userId });
     } catch (err) {
       const error: IError = {
         status: 500,
