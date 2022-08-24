@@ -8,8 +8,7 @@ export const clusterMetric = {
     try {
       const metric = await Get(apiRoute.getRoute(
         `/prom?id=${clusterId}&ns=${ns}&q=${query}`
-      ), clusterMetric.token)
-        .then(res => res.json());
+      ), clusterMetric.token);
       const cpuLoad= parseInt(metric.data.result[0].value[1]);
       return cpuLoad;  
     } catch (err) {
@@ -21,8 +20,7 @@ export const clusterMetric = {
     try {
       const metric = await Get(apiRoute.getRoute(
         `/prom?id=${clusterId}&ns=${ns}&q=${query}`
-      ))
-        .then(res => res.json());
+      ));
       const memoryLoad = metric.data.result[0].value[1];
       return memoryLoad;
     } catch (err) {
@@ -34,8 +32,7 @@ export const clusterMetric = {
     try {
       const metric = await Get(apiRoute.getRoute(
         `/prom?id=${clusterId}&ns=${ns}&q=${query}`
-      ))
-        .then(res => res.json());
+      ));
       const totalDeployments = metric.data.result;
       return totalDeployments;  
     } catch (err) {
@@ -47,8 +44,7 @@ export const clusterMetric = {
     try {
       const metric = await Get(apiRoute.getRoute(
         `/prom?id=${clusterId}&ns=${ns}&q=${query}`
-      ))
-        .then(res => res.json());
+      ));
       const totalPods = metric.data.result[0].value[1];
       return totalPods;  
     } catch (err) {
@@ -60,8 +56,7 @@ export const clusterMetric = {
     try {
       const metric = await Get(apiRoute.getRoute(
         `/prom?id=${clusterId}&ns=${ns}&q=${query}`
-      ))
-        .then(res => res.json());
+      ));
       const allServices = metric.data.result;
       return allServices;  
     } catch (err) {
@@ -73,8 +68,7 @@ export const clusterMetric = {
     try {
       const metric = await Get(apiRoute.getRoute(
         `/prom?id=${clusterId}&ns=${ns}&q=${query}`
-      ))
-        .then(res => res.json());
+      ));
       const namespaces = metric.data.result;
       return namespaces;
     } catch (err) {
