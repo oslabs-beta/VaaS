@@ -43,7 +43,7 @@ export function decodeSession(accessSecret: any, sessionToken: any): IDecodeResu
   return {
     type: "valid",
     session: result
-  }
+  };
 }
 
 export function checkExpStatus(token: ITokenSession): IExpirationStatus {
