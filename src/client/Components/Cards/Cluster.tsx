@@ -66,7 +66,7 @@ const Cluster = (props: ClusterTypes) => {
 
   return (
     <div id='cluster-card'>
-      <span>{'Cluster name: ' + clusterName}<button id="favorite-btn" onClick={handleFavorite}>Favorite</button></span>
+      <p>{'Cluster name: ' + clusterName}<button id="favorite-btn" onClick={handleFavorite}>Favorite</button></p>
       <p>{'Description: ' + description}</p>
       <p>{'Node: ' + nodeName}</p>
       <p>{'CPU usage: ' + cpuUsage + '%'}</p>

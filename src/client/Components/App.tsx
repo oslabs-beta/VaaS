@@ -13,24 +13,28 @@ import { setTitle } from '../Store/actions';
 
 const App = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(()=>{
     if(!localStorage.getItem('token') && location.pathname !== '/' && location.pathname !== '/register') navigate('/');
-    dispatch(setTitle(location.pathname.replace('/', '').toUpperCase()));
     if(localStorage.getItem('token')) {
-      Get(apiRoute.getRoute('auth'), { authorization: localStorage.getItem('token') })
-        .then(res => {
+      const verified = async () => {
+        try{
+          const res = await Get(apiRoute.getRoute('auth'), { authorization: localStorage.getItem('token') });
           if(res.invalid) {
             localStorage.removeItem('token');
             localStorage.removeItem('username');
             navigate('/');
           }
-        })
-        .catch(err => console.log(err));
+          if(!res.invalid && (location.pathname === '/' || location.pathname === '/register')) navigate('/home');
+        } catch (err) {
+          console.log(err);
+        }
+      };
+      verified();
     }
-    
+    dispatch(setTitle(location.pathname.replace('/', '').toUpperCase()));
   }, [location]);
 
   return (

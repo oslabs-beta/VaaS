@@ -21,11 +21,9 @@ const Home = () => {
     console.log('Signed in userId from localStorage:', localStorage.getItem('userId'));
     const getClusters = async () => {
       const res = await Get(apiRoute.getRoute('cluster'), { authorization: localStorage.getItem('token') });
-      console.log(res);
       setClusters(res);
     };
     getClusters();
-    console.log(clusters);
   }, [clusters.length]);
 
   return (
@@ -33,7 +31,6 @@ const Home = () => {
       <NavBar />
       <UserWelcome />
       {clusters.map((element, idx) => {
-        console.log(element);
         return <Cluster
           key={idx}
           description={element.description}
