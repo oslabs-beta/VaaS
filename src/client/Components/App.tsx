@@ -16,6 +16,8 @@ const App = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  
+
   useEffect(()=>{
     if(!localStorage.getItem('token') && location.pathname !== '/' && location.pathname !== '/register') navigate('/');
     if(localStorage.getItem('token')) {
