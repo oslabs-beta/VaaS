@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { clusterMetric } from '../../Queries/clusterPromQL';
-import { nodeMetric } from '../../Queries/nodePromQL';
+import { clusterMetric, nodeMetric } from '../../Queries';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 
 import './styles.css';

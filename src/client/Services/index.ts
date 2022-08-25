@@ -8,4 +8,4 @@ export {
     Post,
     Put,
     Delete
-}
+};
