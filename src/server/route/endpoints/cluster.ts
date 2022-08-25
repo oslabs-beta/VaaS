@@ -187,7 +187,7 @@ router.route('/cluster')
       return res.status(error.status).json(error);
     }
   })
-  .delete(authUser, bcrypt, jwtVerify, async (req: Request, res: Response) => {
+  .delete(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     // Validate request body
     if (!req.body.clusterId) {

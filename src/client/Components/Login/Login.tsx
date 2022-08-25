@@ -81,9 +81,7 @@ const Login = () => {
           maxWidth="sm" 
           className="login-container"
           sx={{
-            bgcolor: '#ffffff',
-            height: '50%',
-            width: '50%',
+            width: '40%',
             opacity: '95%',
             direction: 'column',
             textAlign: 'center',
@@ -92,16 +90,18 @@ const Login = () => {
             flexDirection: 'column',
             justifyContent: 'center',
             backgroundRepeat: 'no-repeat',
+            padding: '1.5rem',
+            borderRadius: '2%'
           }}
           >
           <div>
-            <h1>Login</h1>
+            <h1>VaaS</h1>
           </div>
           <div>
           </div>
             <TextField
               id="login-username-input"
-              label="Username"
+              label={usernameErr}
               type="username"
               autoComplete="current-password"
               variant="outlined"
@@ -112,7 +112,7 @@ const Login = () => {
           <div>
             <TextField
               id="login-password-input"
-              label="Password"
+              label={passwordErr}
               type="password"
               autoComplete="current-password"
               variant="outlined"

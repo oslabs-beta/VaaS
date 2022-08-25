@@ -7,6 +7,7 @@ import { Get } from '../../Services';
 import { setTitle, signIn } from '../../Store/actions';
 import { apiRoute } from '../../utils';
 import { Button, MenuItem, Menu } from '@mui/material';  
+import UserWelcome from './UserWelcome';
 // const NavBar = () => {
 
 
@@ -82,8 +83,7 @@ export default function NavBar() {
       };
 
   return (
-    <div id ='navbar'>
-      <div>
+    <div id='navbar'>
       <Button
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
@@ -102,12 +102,13 @@ export default function NavBar() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem value ='home' onClick={routeHome}>Home</MenuItem>
-        <MenuItem value ='admin' onClick={routeAdmin}>Admin</MenuItem>
-        <MenuItem value = 'visualizer' onClick={routeAddCluster}>Cluster</MenuItem>
         <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+        <MenuItem value = 'addCluster' onClick={routeAddCluster}>Cluster</MenuItem>
+        <MenuItem value ='admin' onClick={routeAdmin}>Admin</MenuItem>
+        <MenuItem value ='home' onClick={routeHome}>Home</MenuItem>
       </Menu>
-      </div>
+      <UserWelcome />
+      <div className="title">VaaS</div>
     </div>
   );
 }

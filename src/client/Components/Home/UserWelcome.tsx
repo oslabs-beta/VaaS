@@ -8,10 +8,10 @@ const UserWelcome = () => {
     // useEffect(() => {
     //     const name = useSelector((state: IUserReducer) => state.username)
     // }, [userReducer])
-    const greetings = `Welcome to VaaS, ${username} - here is your overview`;
+    const greetings = `Welcome, ${username}`;
 
     return (
-        <div id = 'welcomeBanner'>
+        <div id = 'welcome-banner'>
             {greetings}
         </div>
     );

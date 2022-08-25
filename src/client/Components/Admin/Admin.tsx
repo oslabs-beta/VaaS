@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Delete, Put } from '../../Services/index';
+import { Get, Put, Delete } from '../../Services/index';
 import { apiRoute } from '../../utils';
 import { signIn, deleteUser } from '../../Store/actions';
 
@@ -13,8 +13,21 @@ import { Title } from '@mui/icons-material';
 
 const Admin = () => {
   const [passwordErr, setPasswordErr] = useState('');
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const user = await Get(apiRoute.getRoute('user'));
+  //     setUsername(user.username);
+  //     setFirstName(user.firstName);
+  //     setLastName(user.lastName);
+  //   };
+  //   fetchUser();
+  // }, []);
 
   const handleLogOut = (): void => {
     localStorage.removeItem('token');
@@ -29,7 +42,7 @@ const Admin = () => {
   const handleUpdate = async (): Promise<void> => {
     try {
       const body = {
-        username: localStorage.getItem('username'),
+        username: (document.getElementById('username-input') as HTMLInputElement).value,
         firstName: (document.getElementById('firstName-input') as HTMLInputElement).value,
         lastName: (document.getElementById('lastName-input') as HTMLInputElement).value
       };
@@ -38,7 +51,6 @@ const Admin = () => {
       console.log(updateStatus);
       if (updateStatus.success) {
         console.log('Your account details have been updated');
-        handleLogOut();
       } else {
         console.log('Your account details could not be updated');
       }
@@ -72,33 +84,6 @@ const Admin = () => {
   };
 
   return (
-    // <div className='Admin'>
-    //     <div>
-    //       <h2>Admin Settings</h2>
-    //       <div>
-    //       <div>
-    //           Update Administrator Account Details
-    //         </div>
-    //         <div>
-    //           <input id="login-password-input" placeholder="Change Username" onKeyDown={handleEnterKeyDown} />
-    //           <input id="login-password-input" placeholder="Change First Name" onKeyDown={handleEnterKeyDown} />
-    //           <input id="login-password-input" placeholder="Change Last Name" onKeyDown={handleEnterKeyDown} />
-    //         </div>
-    //         <button className="btn" type="button" onClick={handleUpdate}>Update Admin Details</button>
-    //       </div>
-    //       <div>
-    //         <div>
-    //           Delete Administrator Account
-    //         </div>
-    //         <div>
-    //           <input id="login-password-input" type="password" placeholder="Enter Password" onKeyDown={handleEnterKeyDown} />
-    //         </div>
-    //         <button className="btn" type="button" onClick={handleDelete}>Delete</button>
-    //         <p className='input-error-text'>{passwordErr}</p>
-    //       </div>
-    //     </div>
-    //   
-    // </div>
 
     <div>
       <Accordion>
