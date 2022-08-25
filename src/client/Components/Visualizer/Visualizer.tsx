@@ -1,12 +1,9 @@
 import React from 'react';
 
-import NavBar from '../Home/NavBar';
-
 const Visualizer = () => {
   return (
     <div>
-      <NavBar />
-      This is the visualizer page.
+      This is the Visualizer module.
     </div>
   );
 };
