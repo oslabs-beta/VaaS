@@ -1,27 +1,50 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { IReducers } from '../../Interfaces/IReducers';
+import { ClusterTypes } from '../../Interfaces/ICluster';
 import NavBar from './NavBar';
 import UserWelcome from './UserWelcome';
 import Cluster from '../Cards/Cluster';
 import './styles.css';
+import { Get } from '../../Services';
+import { apiRoute } from '../../utils';
+
+
+//export this
+
 
 const Home = () => {
   const userReducer = useSelector((state: IReducers) => state.userReducer);
+  const [clusters, setClusters] = useState<ClusterTypes[]>([]);
 
   useEffect(() => {
     console.log('signInState from store:', userReducer.signInState);
     console.log('Signed in username from localStorage:', localStorage.getItem('username'));
     console.log('JWT token stored from localStorage:', localStorage.getItem('token'));
     console.log('Signed in userId from localStorage:', localStorage.getItem('userId'));
-  }, [userReducer]);
+    const getClusters = async () => {
+      const res = await Get(apiRoute.getRoute('cluster'), { authorization: localStorage.getItem('token') });
+      console.log(res);
+      setClusters(res);
+    };
+    getClusters();
+    console.log(clusters);
+  }, [clusters.length]);
 
   return (
     <div>
       <NavBar />
       <UserWelcome />
-      <Cluster />
+      {clusters.map((element, idx) => {
+        console.log(element);
+        return <Cluster
+          key={idx}
+          description={element.description}
+          name={element.name}
+          _id={element._id}
+        />;
+      })}
     </div>
   );
 };
