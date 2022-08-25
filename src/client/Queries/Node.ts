@@ -19,7 +19,7 @@ const nodeMetric = {
       console.log(err);
     }
   },
-  nodePods : async(clusterId: string, ns: string, node : string) => {
+  nodePods: async(clusterId: string, ns: string, node : string) => {
    const query = `(kube_pod_info{node="${node}"})`;
    try {
     const metric = await Query(clusterId, ns, query);
