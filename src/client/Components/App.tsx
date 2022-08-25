@@ -16,6 +16,8 @@ const App = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  
+
   useEffect(()=>{
     if(!localStorage.getItem('token') && location.pathname !== '/' && location.pathname !== '/register') navigate('/');
     dispatch(setTitle(location.pathname.replace('/', '').toUpperCase()));

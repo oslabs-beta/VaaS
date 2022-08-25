@@ -49,7 +49,6 @@ const Settings = () => {
 
   return (
     <div className='Settings'>
-      <div>
         <NavBar />
         <div>
           <h2>Delete User</h2>
@@ -65,7 +64,6 @@ const Settings = () => {
           <p className='input-error-text'>{passwordErr}</p>
         </div>
       </div>
-    </div>
   );
 };
 
