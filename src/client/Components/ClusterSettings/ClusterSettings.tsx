@@ -18,7 +18,6 @@ const ClusterSettings = (props: ClusterSettings) => {
 
   return (
     <div>
-      This is the ClusterSettings module.
       <div><button onClick={handleDelete} type='button'>Delete Cluster</button></div>
     </div>
   );

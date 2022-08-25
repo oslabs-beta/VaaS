@@ -1,7 +1,7 @@
 body {
   padding: 0;
   font-family: 'Cabin', sans-serif;
-  padding-bottom: 10rem;
+  padding-bottom: 3.8rem;
 }
 
 #logout-btn {
@@ -17,6 +17,7 @@ body {
   bottom: 0;
   display: flex;
   margin-left: -10px;
+  border-top: 1px solid #717982;
 }
 
 #dropdown {
