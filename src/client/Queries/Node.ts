@@ -20,13 +20,13 @@ const nodeMetric = {
     }
   },
   nodePods: async(clusterId: string, ns: string, node : string) => {
-   const query = `(kube_pod_info{node="${node}"})`;
-   try {
-    const metric = await Query(clusterId, ns, query);
+    const query = `(kube_pod_info{node="${node}"})`;
+    try {
+      const metric = await Query(clusterId, ns, query);
       return metric.data.result[0];
-     } catch (err) {
-       console.log(err);
-     }
+    } catch (err) {
+      console.log(err);
+    }
   },
   podCapacity: async(clusterId: string, ns: string) => {
     const query = '(kube_node_status_capacity{resource="pods"})';
