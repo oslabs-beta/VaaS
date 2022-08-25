@@ -25,5 +25,6 @@ module.exports = {
     "no-console": "off",
     "comma-dangle": "off",
     "react/jsx-filename-extension": "off",
+    "semi": [2, "always"],
   }
 };

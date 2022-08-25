@@ -12,7 +12,7 @@ class Database {
   }
 
   connect(): Mongoose {
-    console.log("Attempting to connect to MongoDB cluster")
+    console.log("Attempting to connect to MongoDB cluster");
     const { mongodb: { url, port, collection, password, username } } = this._config;
     let protocol: string;
     // IF ADMIN INPUTS LOCALHOST, CHANGE PROTOCOL DEFINITION
@@ -27,8 +27,8 @@ class Database {
     const db: Connection = this._mongo.connection;
     db.on('error', console.error.bind(console, 'Connection error:'));
     db.once('open', () => {
-      console.log(`Successfully connected to MongoDB cluster: ${uri}`)
-    })
+      console.log(`Successfully connected to MongoDB cluster: ${uri}`);
+    });
     return mongoose;
   }
 

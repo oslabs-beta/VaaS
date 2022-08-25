@@ -14,7 +14,7 @@ function path(url: string): IPathRoute {
     '/prom': {
       methods: ['GET']
     }
-  }
+  };
   return allRoutes[url];
 }
 

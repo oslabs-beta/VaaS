@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { clusterMetric } from '../../Queries/clusterPromQL';
 
-import './styles.css'
+import './styles.css';
 
 const Cluster = () => {
   const [nodeName, setNodeName] = useState('');
@@ -9,27 +10,14 @@ const Cluster = () => {
   const [totalDeployments, setTotalDeployments] = useState('');
   const [totalPods, setTotalPods] = useState('');
 
-  const fetchClusterNodes = async () => {
-    const data = await fetch('http://localhost:30000/api/v1/query?query=kube_node_info', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res => res.json());
-    const nodes = data.data.result.map((result: any) => {
-      return result.metric.node;
-    });
-    return nodes;
-  }
-
   useEffect(() => {
     //we will fetch data from Prometheus api? set the data here
-    fetchClusterNodes().then(res => {
-      console.log(res);
-      setNodeName(res[0]);
-    });
+    const fetchNodes = async () => {
+      const nodes = await clusterMetric.allNodes('63055ac68682abcebadaf605', 'k8');
+      setNodeName(nodes);
+    };
+    
+    fetchNodes();
 
     setCpuUsage('');
     setMemoryUsage('');
@@ -46,7 +34,7 @@ const Cluster = () => {
       <p>{'Total deployments: '  + totalDeployments}</p>
       <p>{'Total Pods: ' + totalPods}</p>
     </div>
-  )
-}
+  );
+};
 
 export default Cluster;
