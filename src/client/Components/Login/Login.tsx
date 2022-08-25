@@ -7,7 +7,8 @@ import { apiRoute } from '../../utils';
 import { setTitle, signIn } from '../../Store/actions';
 import { Put } from '../../Services/index';
 import './styles.css';
-import { Container, Button } from '@mui/material';
+import { Container, Box, Button, TextField } from '@mui/material';
+
 
 
 const Login = () => {
@@ -62,31 +63,52 @@ const Login = () => {
 
   return (
     <Container sx={{
-      bgcolor: '#cfe8fc',
+      bgcolor: '#77c6ef',
       height: '100vh',
       justifyContent: 'center',
+      display: 'flex',
       direction: 'column',
       textAlign: 'center',
       alignItems: 'center',
     }} className="backdrop">
-      <Container maxWidth="sm" className="login-container">
+      <Box
+        maxWidth="sm" 
+        className="login-container"
+        sx={{
+          bgcolor: '#e8a322',
+          width: '50%',
+        }}
+        >
         <div>
           <h1>VaaS</h1>
         </div>
         <div>
-          <span>Username:</span>
-          <input id="login-username-input" onSubmit={handleEnterKeyDown} />
-          <span className='input-error-text'>{usernameErr}</span>
         </div>
+          <TextField
+          id="login-username-input"
+          label="Username"
+          type="username"
+          autoComplete="current-password"
+          variant="filled"
+          onSubmit={handleEnterKeyDown}
+        />
         <div>
-          <span>Password:</span>
-          <input id="login-password-input" type="password" onKeyDown={handleEnterKeyDown} />
+          <TextField
+          id="login-password-input"
+          label="Password"
+          type="password"
+          autoComplete="current-password"
+          variant="filled"
+          onKeyDown={handleEnterKeyDown}
+        />
+        
           <span className='input-error-text'>{passwordErr}</span>
         </div>
         <Button variant="contained" className="btn" type="button" onClick={handleLogin}>Login</Button>
         <Button variant="contained" className="btn" type="button" onClick={() => navigate('/register')}>Register</Button>
         <p className='input-error-text'>{message}</p>
-      </Container>
+        
+      </Box>
     </Container>
   );
 };
