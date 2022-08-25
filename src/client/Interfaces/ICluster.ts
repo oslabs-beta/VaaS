@@ -5,6 +5,6 @@ export interface ClusterTypes {
   faas_port?: number,
   name?: string,
   description?: string,
-  favorite?: Array<string>[],
+  favorite?: string[],
   __v?: number
 }

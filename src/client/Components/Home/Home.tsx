@@ -10,10 +10,6 @@ import './styles.css';
 import { Get } from '../../Services';
 import { apiRoute } from '../../utils';
 
-
-//export this
-
-
 const Home = () => {
   const userReducer = useSelector((state: IReducers) => state.userReducer);
   const [clusters, setClusters] = useState<ClusterTypes[]>([]);
@@ -43,6 +39,7 @@ const Home = () => {
           description={element.description}
           name={element.name}
           _id={element._id}
+          favorite={element.favorite}
         />;
       })}
     </div>

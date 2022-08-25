@@ -8,6 +8,7 @@ import './styles.css';
 const Cluster = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
   const [description, setDescription] = useState<string | undefined>('');
+  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(false);
   const [nodeName, setNodeName] = useState('');
   const [cpuUsage, setCpuUsage] = useState<number | undefined>(0);
   const [memoryUsage, setMemoryUsage] = useState('');
@@ -15,7 +16,6 @@ const Cluster = (props: ClusterTypes) => {
   const [totalPods, setTotalPods] = useState('');
 
   useEffect(() => {
-    //we will fetch data from Prometheus api? set the data here
     const fetchNodes = async () => {
       const nodes = await clusterMetric.allNodes(props._id, 'k8');
       setNodeName(nodes);
@@ -31,7 +31,6 @@ const Cluster = (props: ClusterTypes) => {
       setMemoryUsage(memoryUsage);
     };
     fetchMemoryUsage();
-
     const fetchTotalDeployments = async () => {
       const totalDeployments = await clusterMetric.totalDeployments(props._id, 'k8');
       setTotalDeployments(totalDeployments.length);
@@ -47,9 +46,29 @@ const Cluster = (props: ClusterTypes) => {
     setDescription(props.description);
   }, []);
 
+  const handleFavorite = async () => {
+    try {
+      if(props.favorite) {
+        for (const element of props.favorite) {
+          if(element === localStorage.getItem('userId')) {
+            setFavoriteStatus(!favoriteStatus);
+            break;
+          }
+        }
+      }
+      const body = {
+        clusterId: props._id,
+        favorite: favoriteStatus
+      };
+
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div id='cluster-card'>
-      <p>{'Cluster name: ' + clusterName}</p>
+      <span>{'Cluster name: ' + clusterName}<button id="favorite-btn" onClick={handleFavorite}>Favorite</button></span>
       <p>{'Description: ' + description}</p>
       <p>{'Node: ' + nodeName}</p>
       <p>{'CPU usage: ' + cpuUsage + '%'}</p>
