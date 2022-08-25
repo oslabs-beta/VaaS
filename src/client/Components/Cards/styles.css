@@ -3,4 +3,9 @@
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
+  margin-top: 1rem;
+}
+
+#favorite-btn {
+  float: right;
 }

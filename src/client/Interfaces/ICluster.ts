@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface ClusterTypes {
   _id?: string | undefined,
   url?: string,
@@ -5,6 +7,9 @@ export interface ClusterTypes {
   faas_port?: number,
   name?: string,
   description?: string,
-  favorite?: Array<string>[],
-  __v?: number
+  favorite?: string[],
+  __v?: number,
+  favoriteStatus?: boolean,
+  homeRender?: boolean | undefined,
+  setHomeRender: Dispatch<SetStateAction<boolean>>
 }

@@ -10,13 +10,11 @@ import './styles.css';
 import { Get } from '../../Services';
 import { apiRoute } from '../../utils';
 
-
-//export this
-
-
 const Home = () => {
   const userReducer = useSelector((state: IReducers) => state.userReducer);
+  const [favoriteClusters, setFavoriteClusters] = useState<ClusterTypes[]>([]);
   const [clusters, setClusters] = useState<ClusterTypes[]>([]);
+  const [homeRender, setHomeRender] = useState(false);
 
   useEffect(() => {
     console.log('signInState from store:', userReducer.signInState);
@@ -25,26 +23,45 @@ const Home = () => {
     console.log('Signed in userId from localStorage:', localStorage.getItem('userId'));
     const getClusters = async () => {
       const res = await Get(apiRoute.getRoute('cluster'), { authorization: localStorage.getItem('token') });
-      console.log(res);
-      setClusters(res);
+      const favArr: ClusterTypes[] = [];
+      const arr: ClusterTypes[] = [];
+      res.forEach((element: any) => {
+        if(element.favorite.includes(localStorage.getItem('userId'))) favArr.push(element);
+        else arr.push(element);
+      });
+      setFavoriteClusters(favArr);
+      setClusters(arr);
     };
     getClusters();
-    console.log(clusters);
-  }, [clusters.length]);
+  }, [homeRender]);
 
   return (
     <div>
-      <NavBar />
       <UserWelcome />
-      {clusters.map((element, idx) => {
-        console.log(element);
+      {favoriteClusters.map((element, idx) => {
         return <Cluster
           key={idx}
           description={element.description}
           name={element.name}
           _id={element._id}
+          favorite={element.favorite}
+          favoriteStatus={true}
+          setHomeRender={setHomeRender}
         />;
       })}
+      {clusters.map((element, idx) => {
+        return <Cluster
+          key={idx}
+          description={element.description}
+          name={element.name}
+          _id={element._id}
+          favorite={element.favorite}
+          favoriteStatus={false}
+          homeRender={homeRender}
+          setHomeRender={setHomeRender}
+        />;
+      })}
+      <NavBar />
     </div>
   );
 };

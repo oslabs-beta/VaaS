@@ -10,14 +10,14 @@ const clusterMetric = {
       console.log(err);
     }
   },
-  memoryLoad: async(clusterId: string, ns: string) => {
+  memoryLoad: async(clusterId: string | undefined, ns: string) => {
     const query = '(1-sum(kube_node_status_allocatable{resource="memory", unit="byte"})/sum(kube_node_status_capacity{resource="memory", unit="byte"}))*100';
     try {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result[0].value[1];
     } catch (err) {
       console.log(err);
-    }
+    } 
   },
   totalDeployments: async(clusterId: string | undefined, ns: string) => {
     const query = 'kube_deployment_created';

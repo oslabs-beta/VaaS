@@ -1,6 +1,6 @@
 import * as types from '../actionTypes';
-import { IAction } from '../../Interfaces/IAction'
-import { IUserReducer } from '../../Interfaces/IReducers'
+import { IAction } from '../../Interfaces/IAction';
+import { IUserReducer } from '../../Interfaces/IReducers';
 
 const initialState: IUserReducer = {
   signInState: false,
@@ -15,7 +15,7 @@ const userReducer = (state: IUserReducer = initialState, action: IAction) => {
       //credential is going to be an object
       //pass credential back to via fetch request
       //async await here
-      return {state}
+      return {state};
     }
 
     case types.SIGN_IN: {
@@ -32,7 +32,7 @@ const userReducer = (state: IUserReducer = initialState, action: IAction) => {
         ...state,
         signInState: action.payload.signInState,
         username: action.payload.username
-      }
+      };
       //else return {state}
     }
 
@@ -40,7 +40,7 @@ const userReducer = (state: IUserReducer = initialState, action: IAction) => {
       return state;
     }
   }
-}
+};
 
 export default userReducer;
 
