@@ -20,6 +20,7 @@ const clusterMetric = {
       const metric = await Get(apiRoute.getRoute(
         `/prom?id=${clusterId}&ns=${ns}&q=${query}`
       ), clusterMetric.token);
+      console.log(metric);
       return metric.data.result[0].value[1];
     } catch (err) {
       console.log(err);

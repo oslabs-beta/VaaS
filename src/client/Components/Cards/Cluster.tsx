@@ -26,7 +26,7 @@ const Cluster = (props: ClusterTypes) => {
     };
     fetchCpuUsage();
     const fetchMemoryUsage = async () => {
-      const memoryUsage = await nodeMetric.memoryLoad(props._id, 'k8', nodeName);
+      const memoryUsage = await clusterMetric.memoryLoad(props._id, 'k8');
       setMemoryUsage(memoryUsage);
     };
     fetchMemoryUsage();
@@ -59,7 +59,6 @@ const Cluster = (props: ClusterTypes) => {
         clusterId: props._id,
         favorite: favoriteStatus
       };
-
     } catch (err) {
       console.log(err);
     }
