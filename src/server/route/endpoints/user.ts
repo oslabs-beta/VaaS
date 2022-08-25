@@ -7,7 +7,7 @@ import { terminal } from '../../services/terminal';
 
 router.route('/user::username')
   .get(jwtVerify, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`)
+    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
       const user = await User.find({ username: req.params['username'] });
       if (user.length === 0) {
@@ -28,10 +28,10 @@ router.route('/user::username')
       terminal(err);
       return res.status(error.status).json(error);
     }
-  })
+  });
 router.route('/user')
   .get(jwtVerify, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`)
+    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
       const users = await User.find({ });
       if (users.length === 0) {
@@ -55,7 +55,7 @@ router.route('/user')
   })
   .put(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-    const { username, firstName, lastName } = req.body
+    const { username, firstName, lastName } = req.body;
     const { jwt: { id } } = res.locals;
     try {
       // Check to see if cluster exists
@@ -93,7 +93,7 @@ router.route('/user')
   .delete(authUser, bcrypt, jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
-      const response = await User.deleteOne({ username: req.body.username })
+      const response = await User.deleteOne({ username: req.body.username });
       if (response.deletedCount === 0) {
         const error: IError = {
           status: 401,

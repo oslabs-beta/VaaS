@@ -83,4 +83,4 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     terminal(err);
     return res.status(error.status).json(error);
   }
-}
+};

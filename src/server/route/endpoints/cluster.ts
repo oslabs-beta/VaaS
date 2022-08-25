@@ -28,7 +28,7 @@ router.route('/cluster::name')
       terminal(err);
       return res.status(error.status).json(error);
     }
-  })
+  });
 router.route('/cluster')
   .get(jwtVerify, async (req: Request, res: Response) => {
       terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
@@ -70,7 +70,7 @@ router.route('/cluster')
       return res.status(error.status).json(error);
     }
     try {
-      const { url, k8_port, faas_port, name, description } = req.body
+      const { url, k8_port, faas_port, name, description } = req.body;
       terminal(`Searching for cluster [${name}] in MongoDB`);
       const cluster = await Cluster.find({ name: name });
       terminal(`Success: MongoDB query executed [${name}]`);
@@ -199,7 +199,7 @@ router.route('/cluster')
       return res.status(error.status).json(error);
     }
     try {
-      const response = await Cluster.deleteOne({ _id: req.body.clusterId })
+      const response = await Cluster.deleteOne({ _id: req.body.clusterId });
       if (response.deletedCount === 0) {
         const error: IError = {
           status: 401,

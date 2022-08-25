@@ -19,8 +19,8 @@ export default (req: Request, res: Response, next: (param?: unknown) => void): v
     const error: IError = {
       status: 405,
       message: 'This type of method is not supported by this endpoint'
-    }
+    };
     res.setHeader('allow', route.methods);
     return res.status(405).json(error);
   }
-}
+};
