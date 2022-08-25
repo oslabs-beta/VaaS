@@ -13,3 +13,7 @@ export interface ClusterTypes {
   homeRender?: boolean | undefined,
   setHomeRender: Dispatch<SetStateAction<boolean>>
 }
+
+export interface ClusterSettings {
+  id?: string | undefined
+}

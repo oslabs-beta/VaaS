@@ -5,7 +5,6 @@ import { Container, Box, Button, TextField } from '@mui/material';
 import { IReducers } from '../../Interfaces/IReducers';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import NavBar from './NavBar';
-import UserWelcome from './UserWelcome';
 import Cluster from '../Cards/Cluster';
 import './styles.css';
 import { Get } from '../../Services';
@@ -38,7 +37,6 @@ const Home = () => {
 
   return (
     <div>
-      <UserWelcome />
       {favoriteClusters.map((element, idx) => {
         return <Cluster
           key={idx}

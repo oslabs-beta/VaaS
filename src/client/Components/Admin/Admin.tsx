@@ -1,15 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Delete, Put } from '../../Services/index';
+import { Get, Put, Delete } from '../../Services/index';
 import { apiRoute } from '../../utils';
 import { signIn, deleteUser } from '../../Store/actions';
 import NavBar from '../Home/NavBar';
 
 const Admin = () => {
   const [passwordErr, setPasswordErr] = useState('');
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const user = await Get(apiRoute.getRoute('user'));
+  //     setUsername(user.username);
+  //     setFirstName(user.firstName);
+  //     setLastName(user.lastName);
+  //   };
+  //   fetchUser();
+  // }, []);
 
   const handleLogOut = (): void => {
     localStorage.removeItem('token');
@@ -24,16 +37,15 @@ const Admin = () => {
   const handleUpdate = async (): Promise<void> => {
     try {
       const body = {
-        username: localStorage.getItem('username'),
+        username: (document.getElementById('username-input') as HTMLInputElement).value,
         firstName: (document.getElementById('firstName-input') as HTMLInputElement).value,
-        lastName: (document.getElementById('firstName-input') as HTMLInputElement).value
+        lastName: (document.getElementById('lastName-input') as HTMLInputElement).value
       };
       // use a hook to fire off action(type: signIn, res)
       const updateStatus = await Put(apiRoute.getRoute('user'), body, { authorization: localStorage.getItem('token') }).catch(err => console.log(err));
       console.log(updateStatus);
       if (updateStatus.success) {
         console.log('Your account details have been updated');
-        handleLogOut();
       } else {
         console.log('Your account details could not be updated');
       }
@@ -75,9 +87,9 @@ const Admin = () => {
               Update Administrator Account Details
             </div>
             <div>
-              <input id="login-password-input" placeholder="Change Username" onKeyDown={handleEnterKeyDown} />
-              <input id="login-password-input" placeholder="Change First Name" onKeyDown={handleEnterKeyDown} />
-              <input id="login-password-input" placeholder="Change Last Name" onKeyDown={handleEnterKeyDown} />
+              <input id="username-input" placeholder="Change Username" onKeyDown={handleEnterKeyDown} />
+              <input id="firstName-input" placeholder="Change First Name" onKeyDown={handleEnterKeyDown} />
+              <input id="lastName-input" placeholder="Change Last Name" onKeyDown={handleEnterKeyDown} />
             </div>
             <button className="btn" type="button" onClick={handleUpdate}>Update Admin Details</button>
           </div>
