@@ -2,7 +2,7 @@
   background-color: #ffffff;
   padding: 0 0.5rem;
   text-align: left;
-  /* display: flex; */
+  height: 13rem;
   flex-direction: column;
   margin-top: 1rem;  
   border-radius: 10px
@@ -11,4 +11,13 @@
 #favorite-btn {
   float: right;
   padding: 3px
+}
+
+.card-title {
+  vertical-align: top;
+
+}
+
+.card-control {
+  margin-bottom: -5rem;
 }

@@ -20,7 +20,7 @@ import Paper from '@mui/material/Paper';
 const Cluster = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
   const [description, setDescription] = useState<string | undefined>('');
-  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(props.favoriteStatus);
+  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(false);
   const [nodeName, setNodeName] = useState('');
   const [cpuUsage, setCpuUsage] = useState<number | undefined>(0);
   const [memoryUsage, setMemoryUsage] = useState('');
@@ -64,10 +64,10 @@ const Cluster = (props: ClusterTypes) => {
     try {
       const body = {
         clusterId: props._id,
-        favorite: !props.favoriteStatus
+        favorite: !favoriteStatus
       };
       await Put(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
-      setFavoriteStatus(!props.favoriteStatus);
+      setFavoriteStatus(!favoriteStatus);
       // props.favoriteStatus = !props.favoriteStatus;
       props.setHomeRender(!props.homeRender);
       
@@ -107,19 +107,23 @@ const Cluster = (props: ClusterTypes) => {
       
     }} id="cluster-card">
 
-      <div>
+      <div className='card-controls'>
         <button id="favorite-btn" onClick={handleFavorite}>Favorite</button>
         <button id="favorite-btn" onClick={handleVisualizer}>Visualizer</button>
         <button id="favorite-btn" onClick={handleSettings}>Settings</button>
       </div>
 
       <div>
-        <h2>{'' + clusterName}</h2>
-        <p>{'' + description}</p>
-        <p>{'Favorite Status:' + props.favoriteStatus}</p>
+        <div className='card-title'>
+        {props.favoriteStatus && '❤️'}
+        {!props.favoriteStatus && '🤍'}&nbsp;<b>{'' + clusterName}:&nbsp;</b> 
+          {'' + description}
+        </div>
       </div>
       <TableContainer component={Paper}>
-        <Table aria-label="spanning table">
+        <Table aria-label="spanning table" sx={{
+          'overflow-y': 'visible'
+        }}>
           <TableRow>
             <TableCell align="center">Node</TableCell>
             <TableCell align="center">CPU Usage</TableCell>
@@ -137,7 +141,7 @@ const Cluster = (props: ClusterTypes) => {
         </Table>
       </TableContainer>
       {visualizer && <Visualizer />}
-      {settings && <ClusterSettings />}
+      {settings && <ClusterSettings id={props._id}/>}
     </Container>
   );
 };
