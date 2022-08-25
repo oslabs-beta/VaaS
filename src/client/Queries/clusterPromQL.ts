@@ -75,7 +75,7 @@ export const clusterMetric = {
       console.log(err);
     }
   },
-  allNodes: async (clusterId: string, ns: string) => {
+  allNodes: async (clusterId: string | undefined, ns: string) => {
     const query = 'kube_node_info';
     try {
       const metric = await Get(apiRoute.getRoute(
