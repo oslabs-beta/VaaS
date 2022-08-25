@@ -10,13 +10,13 @@ import './styles.css';
 import { Container, Box, Button, TextField } from '@mui/material';
 
 
-
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
   const [passwordErr, setPasswordErr] = useState('Password');
   const dispatch = useDispatch();
   const userReducer = useSelector((state: IReducers) => state.userReducer);
   const navigate = useNavigate();
+
 
   useEffect(() => {
     //sign in state might need to be removed - because we are working with persistent state 
@@ -63,50 +63,77 @@ const Login = () => {
   };
 
   return (
-    <Container sx={{
-      bgcolor: '#77c6ef',
-      height: '100vh',
-      justifyContent: 'center',
-      display: 'flex',
-      direction: 'column',
-      textAlign: 'center',
-      alignItems: 'center',
-    }} className="backdrop">
-      <Box
-        maxWidth="sm" 
-        className="login-container"
-        sx={{
-          bgcolor: '#e8a322',
-          width: '50%',
-        }}
-        >
-        <div>
-          <h1>VaaS</h1>
-        </div>
-        <div>
-        </div>
-          <TextField
-          id="login-username-input"
-          label={usernameErr}
-          type="username"
-          autoComplete="current-password"
-          variant="filled"
-          onKeyDown={handleEnterKeyDown}
-        />
-        <div>
-          <TextField
-          id="login-password-input"
-          label={passwordErr}
-          type="password"
-          autoComplete="current-password"
-          variant="filled"
-          onKeyDown={handleEnterKeyDown}
-        />
-        </div>
-        <Button variant="contained" className="btn" type="button" onClick={handleLogin}>Login</Button>
-        <Button variant="contained" className="btn" type="button" onClick={() => navigate('/register')}>Register</Button>
-      </Box>
-    </Container>
+    <div>
+      <Container sx={{
+        height: '100vh',
+        minWidth: '100%',
+        justifyContent: 'center',
+        display: 'flex',
+        direction: 'column',
+        textAlign: 'center',
+        alignItems: 'center',
+        backgroundSize: 'contain',
+        bgcolor: '#3a4a5b',
+        
+      }} className="backdrop">
+      
+        <Box
+          maxWidth="sm" 
+          className="login-container"
+          sx={{
+            bgcolor: '#ffffff',
+            height: '50%',
+            width: '50%',
+            opacity: '95%',
+            direction: 'column',
+            textAlign: 'center',
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+          >
+          <div>
+            <h1>Login</h1>
+          </div>
+          <div>
+          </div>
+            <TextField
+              id="login-username-input"
+              label="Username"
+              type="username"
+              autoComplete="current-password"
+              variant="outlined"
+              size='small'
+              onSubmit={handleEnterKeyDown}
+              margin="dense"
+          />
+          <div>
+            <TextField
+              id="login-password-input"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              variant="outlined"
+              size='small'
+              onKeyDown={handleEnterKeyDown}
+              margin="dense"
+            />
+          </div>
+          <Container id = 'buttonContainer' sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '.5em',
+            padding: '.5em',
+          }}>
+            <Button variant="contained" className="btn" type="button" onClick={handleLogin}>Login</Button>
+            <Button variant="contained" className="btn" type="button" onClick={() => navigate('/register')}>Register</Button>
+          </Container>
+          
+        </Box>
+      </Container>
+    </div>
   );
 };
 
