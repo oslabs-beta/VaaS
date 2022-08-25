@@ -10,10 +10,6 @@ import './styles.css';
 import { Get } from '../../Services';
 import { apiRoute } from '../../utils';
 
-
-//export this
-
-
 const Home = () => {
   const userReducer = useSelector((state: IReducers) => state.userReducer);
   const [clusters, setClusters] = useState<ClusterTypes[]>([]);
@@ -25,11 +21,9 @@ const Home = () => {
     console.log('Signed in userId from localStorage:', localStorage.getItem('userId'));
     const getClusters = async () => {
       const res = await Get(apiRoute.getRoute('cluster'), { authorization: localStorage.getItem('token') });
-      console.log(res);
       setClusters(res);
     };
     getClusters();
-    console.log(clusters);
   }, [clusters.length]);
 
   return (
@@ -37,12 +31,12 @@ const Home = () => {
       <NavBar />
       <UserWelcome />
       {clusters.map((element, idx) => {
-        console.log(element);
         return <Cluster
           key={idx}
           description={element.description}
           name={element.name}
           _id={element._id}
+          favorite={element.favorite}
         />;
       })}
     </div>
