@@ -21,8 +21,6 @@ const Cluster = (props: ClusterTypes) => {
       setNodeName(nodes);
     };
     fetchNodes();
-    setClusterName(props.name);
-    setDescription(props.description);
     const fetchCpuUsage = async () => {
       const cpuUsage = await nodeMetric.cpuLoad(props._id, 'k8');
       setCpuUsage(cpuUsage);
@@ -42,9 +40,11 @@ const Cluster = (props: ClusterTypes) => {
     setTotalDeployments('');
     const fetchTotalPod = async () => {
       const totalPods = await clusterMetric.totalPods(props._id, 'k8');
-      setTotalPods(totalPods.length);
+      setTotalPods(totalPods);
     };
     fetchTotalPod();
+    setClusterName(props.name);
+    setDescription(props.description);
   }, []);
 
   return (
