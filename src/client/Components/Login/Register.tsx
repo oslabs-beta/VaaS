@@ -6,7 +6,7 @@ import { Post } from '../../Services/index';
 import { Container, Button } from '@mui/material';
 
 const Register = () => {
-  const [registered, setRegistered] = useState('')
+  const [registered, setRegistered] = useState('');
   const [firstNameErr, setFirstNameErr] = useState('');
   const [lastNameErr, setLastNameErr] = useState('');
   const [usernameErr, setUsernameErr] = useState('');
@@ -20,7 +20,7 @@ const Register = () => {
         lastName: (document.getElementById('lastname-input') as HTMLInputElement).value,
         username: (document.getElementById('register-username-input') as HTMLInputElement).value,
         password: (document.getElementById('register-password-input') as HTMLInputElement).value,
-      }
+      };
       const res = await Post(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
       console.log(res);
       if(!body.firstName) setFirstNameErr(' please enter first name');
@@ -42,11 +42,11 @@ const Register = () => {
     } catch (err) {
       console.log('Post failed');
     }
-  }
+  };
 
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if(e.key === 'Enter') handleSignUp();
-  }
+  };
 
   return (
     <Container sx={{
@@ -89,7 +89,7 @@ const Register = () => {
       <p className='input-error-text'>{registered}</p>
       </Container>
     </Container>
-  )
-}
+  );
+};
 
 export default Register;

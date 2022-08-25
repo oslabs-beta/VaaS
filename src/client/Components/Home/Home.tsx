@@ -2,18 +2,19 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { IReducers } from '../../Interfaces/IReducers';
-import NavBar from './NavBar'
+import NavBar from './NavBar';
 import UserWelcome from './UserWelcome';
 import Cluster from '../Cards/Cluster';
-import './styles.css'
+import './styles.css';
 
 const Home = () => {
   const userReducer = useSelector((state: IReducers) => state.userReducer);
 
   useEffect(() => {
-    console.log('signInState from store:', userReducer.signInState)
-    console.log('Signed in username from localStorage:', localStorage.getItem('username'))
+    console.log('signInState from store:', userReducer.signInState);
+    console.log('Signed in username from localStorage:', localStorage.getItem('username'));
     console.log('JWT token stored from localStorage:', localStorage.getItem('token'));
+    console.log('Signed in userId from localStorage:', localStorage.getItem('userId'));
   }, [userReducer]);
 
   return (
@@ -22,7 +23,7 @@ const Home = () => {
       <UserWelcome />
       <Cluster />
     </div>
-  )
-}
+  );
+};
 
 export default Home;

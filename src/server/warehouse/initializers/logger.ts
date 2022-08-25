@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { terminal } from '../../services/terminal';
 
 export default (req: Request, res: Response, next: (param?: unknown) => void): void => {
-  console.clear()
+  console.clear();
   const date: Date = new Date();
   terminal([{
     date: `${date.toLocaleDateString()} - ${date.toLocaleTimeString()}`,
@@ -12,4 +12,4 @@ export default (req: Request, res: Response, next: (param?: unknown) => void): v
     query: req.query
   }]);
   return next();
-}
+};

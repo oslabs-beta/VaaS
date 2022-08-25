@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { IReducers } from '../../Interfaces/IReducers';
 import { apiRoute } from '../../utils';
-import { setTitle, signIn } from '../../Store/actions'
+import { setTitle, signIn } from '../../Store/actions';
 import { Put } from '../../Services/index';
 import './styles.css';
 import { Container, Button } from '@mui/material';
@@ -21,8 +21,8 @@ const Login = () => {
   useEffect(() => {
     //sign in state might need to be removed - because we are working with persistent state 
     //might be that we use redux-persist in conjunction with local.storage as oppose to actually touching local storage
-    console.log('signInState from store: ', userReducer.signInState)
-    console.log('Signed in username from store: ', userReducer.username)
+    console.log('signInState from store: ', userReducer.signInState);
+    console.log('Signed in username from store: ', userReducer.username);
   }, [userReducer]);
 
   const handleLogin = async (): Promise<void> => {
@@ -30,12 +30,12 @@ const Login = () => {
       const body = {
         username: (document.getElementById('login-username-input') as HTMLInputElement).value,
         password: (document.getElementById('login-password-input') as HTMLInputElement).value
-      }
+      };
       const res = await Put(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
       //use a hook to fire off action(type: signIn, res)
-      console.log(res)
+      console.log(res);
       if (!body.username) setUsernameErr(' please enter username');
-      else setUsernameErr('')
+      else setUsernameErr('');
       if (!body.password) setPasswordErr(' please enter password');
       else setPasswordErr('');
       if (res.token) {
@@ -45,19 +45,20 @@ const Login = () => {
           username: body.username
         }));
         localStorage.setItem('token', res.token);
-        dispatch(setTitle('Home'))
+        localStorage.setItem('userId', res.userId);
+        dispatch(setTitle('Home'));
         navigate('/home');
       }
-      if (res.invalid) setMessage(res.message)
-      else setMessage('')
+      if (res.invalid) setMessage(res.message);
+      else setMessage('');
     } catch (err) {
       console.log('Get failed');
     }
-  }
+  };
 
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleLogin();
-  }
+  };
 
   return (
     <Container sx={{
@@ -87,14 +88,7 @@ const Login = () => {
         <p className='input-error-text'>{message}</p>
       </Container>
     </Container>
-  )
-}
-
-/*
-className = "login-container" for parent container
-
-
-*/
-
+  );
+};
 
 export default Login;

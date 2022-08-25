@@ -8,7 +8,7 @@ import { setTitle, signIn } from '../../Store/actions';
 import { apiRoute } from '../../utils';
 
 const NavBar = () => {
-  const navBarReducer = useSelector((state: IReducers) => state.navBarReducer)
+  const navBarReducer = useSelector((state: IReducers) => state.navBarReducer);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -20,11 +20,11 @@ const NavBar = () => {
       username: ''
     }));
     navigate('/');
-  }
+  };
 
   const dropdown = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     navigate('/' + e.target.value.toLowerCase());
-  }
+  };
 
   return (
     <div id='navbar'>
@@ -38,7 +38,7 @@ const NavBar = () => {
       </select>
       <span id='username-navbar'>{'Username: ' + localStorage.getItem('username')}</span>
     </div>
-  )
-}
+  );
+};
 
 export default NavBar;

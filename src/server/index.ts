@@ -13,7 +13,7 @@ db.connect();
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }) as RequestHandler);
-app.use(express.json() as RequestHandler) 
+app.use(express.json() as RequestHandler);
 
 const port: number = Number(process.env.EXPRESS_PORT) || 3000;
 

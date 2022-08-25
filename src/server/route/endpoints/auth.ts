@@ -48,7 +48,7 @@ router.route('/auth')
     try {
       const { jwt, userId } = res.locals;
       terminal('Success: User login information authenticated');
-      return res.status(201).header("x-auth-token", jwt).json({ ...jwt, userId: userId });
+      return res.status(201).header("x-auth-token", jwt).json({ ...jwt, userId });
     } catch (err) {
       const error: IError = {
         status: 500,
@@ -57,7 +57,6 @@ router.route('/auth')
       terminal(err);
       return res.status(error.status).json(error);
     }
-  })
-
+  });
 
 export default router;

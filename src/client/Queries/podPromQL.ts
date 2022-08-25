@@ -58,4 +58,4 @@ export const fetchPodNamesList = async (nodeName) => {
       uid: data.data.result[0].metric.uid
     };
     return currentPodInfo;  
-  }
+  };

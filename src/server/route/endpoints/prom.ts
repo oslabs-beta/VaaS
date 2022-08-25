@@ -67,7 +67,7 @@ router.route('/prom')
       terminal(err);
       return res.status(error.status).json(error);
     }
-  })
+  });
 
 
 export default router;

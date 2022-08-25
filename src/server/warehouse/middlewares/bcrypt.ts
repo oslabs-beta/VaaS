@@ -36,4 +36,4 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
   }
   terminal(`Success: Forwarding ${req.method} request to next middleware`);
   return next();
-}
+};

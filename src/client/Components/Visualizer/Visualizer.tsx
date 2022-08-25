@@ -8,7 +8,7 @@ const Visualizer = () => {
       <NavBar />
       This is the visualizer page.
     </div>
-  )
-}
+  );
+};
 
 export default Visualizer;
