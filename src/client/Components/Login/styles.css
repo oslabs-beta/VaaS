@@ -1,16 +1,16 @@
 .login-container {
-  border: 1px solid black;
-  
-}
-
-.backdrop {
-  border: 1px solid black;
+  -moz-box-shadow: 0 0 10px rgb(229, 229, 229);
+  -webkit-box-shadow: 0 0 10px rgb(229, 229, 229);
+  box-shadow: 0 0 10px rgb(229, 229, 229);
+  background-color: white;
 }
 
 .input-error-text {
-  color: red
+  color: red;
 }
 
 body {
   background-color: #3a4a5b;
+  font-family: 'Cabin', sans-serif;
+  padding-bottom: 10rem;
 }

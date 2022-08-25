@@ -62,7 +62,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
       if (!user[0]) {
         const error: IError = {
           status: 401,
-          message: 'Invalid credentials received',
+          message: 'Invalid credentials',
           invalid: true
         };
         terminal(`Fail: ${error.message}`);

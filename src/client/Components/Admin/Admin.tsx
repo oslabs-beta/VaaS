@@ -14,15 +14,15 @@ const Admin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const user = await Get(apiRoute.getRoute('user'));
-      setUsername(user.username);
-      setFirstName(user.firstName);
-      setLastName(user.lastName);
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const user = await Get(apiRoute.getRoute('user'));
+  //     setUsername(user.username);
+  //     setFirstName(user.firstName);
+  //     setLastName(user.lastName);
+  //   };
+  //   fetchUser();
+  // }, []);
 
   const handleLogOut = (): void => {
     localStorage.removeItem('token');

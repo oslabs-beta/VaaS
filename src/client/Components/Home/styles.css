@@ -10,10 +10,11 @@ body {
   background: white;
   padding: 0.5rem;
   margin: 0;
-  border: 1px solid green;
-  width: 96.5vw;
+  width: 100vw;
   position: fixed;
   bottom: 0;
+  display: flex;
+  margin-left: -10px;
 }
 
 #dropdown {
@@ -23,5 +24,28 @@ body {
 
 #username-navbar {
   float: right;
-  margin-right: 1rem
+  margin-right: 1rem;
+}
+
+#welcome-banner {
+  font-size: 15px;
+  padding: 8px;
+  color: #3a4a5b;
+  margin-left: 1.5rem;
+  cursor: default;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.title {
+  margin-left: auto;
+  margin-right: 2rem;
+  font-size: 20px;
+  padding: 3px;
+  color: #3a4a5b;
+  cursor: default;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }

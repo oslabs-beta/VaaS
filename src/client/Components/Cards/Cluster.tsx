@@ -115,7 +115,7 @@ const Cluster = (props: ClusterTypes) => {
         </tr>
       </table>
       {visualizer && <Visualizer />}
-      {settings && <ClusterSettings />}
+      {settings && <ClusterSettings id={props._id}/>}
     </div>
   );
 };
