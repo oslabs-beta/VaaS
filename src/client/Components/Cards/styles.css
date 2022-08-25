@@ -1,11 +1,14 @@
 #cluster-card {
-  border: 1px solid green;
+  background-color: #ffffff;
   padding: 0 0.5rem;
-  display: flex;
+  text-align: left;
+  /* display: flex; */
   flex-direction: column;
-  margin-top: 1rem;
+  margin-top: 1rem;  
+  border-radius: 10px
 }
 
 #favorite-btn {
   float: right;
+  padding: 3px
 }

@@ -1,5 +1,7 @@
 body {
   padding: 0;
+  font-family: 'Cabin', sans-serif;
+  padding-bottom: 10rem;
 }
 
 #logout-btn {
