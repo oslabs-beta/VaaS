@@ -3,16 +3,23 @@ import { clusterMetric, nodeMetric } from '../../Queries';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 
 import './styles.css';
+import { Put } from '../../Services';
+import { apiRoute } from '../../utils';
+import Visualizer from '../Visualizer/Visualizer';
+import ClusterSettings from '../ClusterSettings/ClusterSettings';
+
 
 const Cluster = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
   const [description, setDescription] = useState<string | undefined>('');
-  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(false);
+  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(props.favoriteStatus);
   const [nodeName, setNodeName] = useState('');
   const [cpuUsage, setCpuUsage] = useState<number | undefined>(0);
   const [memoryUsage, setMemoryUsage] = useState('');
   const [totalDeployments, setTotalDeployments] = useState('');
   const [totalPods, setTotalPods] = useState('');
+  const [visualizer, setVisualizer] = useState(false);
+  const [settings, setSettings] = useState(false);
 
   useEffect(() => {
     const fetchNodes = async () => {
@@ -47,18 +54,33 @@ const Cluster = (props: ClusterTypes) => {
 
   const handleFavorite = async () => {
     try {
-      if(props.favorite) {
-        for (const element of props.favorite) {
-          if(element === localStorage.getItem('userId')) {
-            setFavoriteStatus(!favoriteStatus);
-            break;
-          }
-        }
-      }
       const body = {
         clusterId: props._id,
-        favorite: favoriteStatus
+        favorite: !props.favoriteStatus
       };
+      await Put(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
+      setFavoriteStatus(!props.favoriteStatus);
+      // props.favoriteStatus = !props.favoriteStatus;
+      props.setHomeRender(!props.homeRender);
+      
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleVisualizer = async () => {
+    try {
+      setVisualizer(!visualizer);
+      setSettings(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSettings = async () => {
+    try {
+      setSettings(!settings);
+      setVisualizer(false);
     } catch (err) {
       console.log(err);
     }
@@ -66,13 +88,34 @@ const Cluster = (props: ClusterTypes) => {
 
   return (
     <div id='cluster-card'>
-      <p>{'Cluster name: ' + clusterName}<button id="favorite-btn" onClick={handleFavorite}>Favorite</button></p>
-      <p>{'Description: ' + description}</p>
-      <p>{'Node: ' + nodeName}</p>
-      <p>{'CPU usage: ' + cpuUsage + '%'}</p>
-      <p>{'Memory usage: ' + memoryUsage}</p>
-      <p>{'Total deployments: '  + totalDeployments}</p>
-      <p>{'Total Pods: ' + totalPods}</p>
+      <div>
+        <button id="favorite-btn" onClick={handleFavorite}>Favorite</button>
+        <button id="favorite-btn" onClick={handleVisualizer}>Visualizer</button>
+        <button id="favorite-btn" onClick={handleSettings}>Settings</button>
+      </div>
+      <div>
+        <h2>{'' + clusterName}</h2>
+        <p>{'' + description}</p>
+        <p>{'Favorite Status:' + props.favoriteStatus}</p>
+      </div>
+      <table>
+        <tr>
+          <td>Node</td>
+          <td>CPU Usage</td>
+          <td>Memory Usage</td>
+          <td>Total Deployments</td>
+          <td>Total Pods</td>
+        </tr>
+        <tr>
+          <td>{'' + nodeName}</td>
+          <td>{'' + cpuUsage + '%'}</td>
+          <td>{'' + memoryUsage}</td>
+          <td>{'' + totalDeployments}</td>
+          <td>{'' + totalPods}</td>
+        </tr>
+      </table>
+      {visualizer && <Visualizer />}
+      {settings && <ClusterSettings />}
     </div>
   );
 };

@@ -12,9 +12,8 @@ import { Container, Box, Button, TextField } from '@mui/material';
 
 
 const Login = () => {
-  const [message, setMessage] = useState('');
-  const [usernameErr, setUsernameErr] = useState('');
-  const [passwordErr, setPasswordErr] = useState('');
+  const [usernameErr, setUsernameErr] = useState('Username');
+  const [passwordErr, setPasswordErr] = useState('Password');
   const dispatch = useDispatch();
   const userReducer = useSelector((state: IReducers) => state.userReducer);
   const navigate = useNavigate();
@@ -36,9 +35,9 @@ const Login = () => {
       //use a hook to fire off action(type: signIn, res)
       console.log(res);
       if (!body.username) setUsernameErr(' please enter username');
-      else setUsernameErr('');
+      else setUsernameErr('Username');
       if (!body.password) setPasswordErr(' please enter password');
-      else setPasswordErr('');
+      else setPasswordErr('Password');
       if (res.token) {
         localStorage.setItem('username', body.username);
         dispatch(signIn({
@@ -50,8 +49,10 @@ const Login = () => {
         dispatch(setTitle('Home'));
         navigate('/home');
       }
-      if (res.invalid) setMessage(res.message);
-      else setMessage('');
+      if (res.invalid) {
+        setUsernameErr(res.message);
+        setPasswordErr('');
+      }
     } catch (err) {
       console.log('Get failed');
     }
@@ -86,28 +87,24 @@ const Login = () => {
         </div>
           <TextField
           id="login-username-input"
-          label="Username"
+          label={usernameErr}
           type="username"
           autoComplete="current-password"
           variant="filled"
-          onSubmit={handleEnterKeyDown}
+          onKeyDown={handleEnterKeyDown}
         />
         <div>
           <TextField
           id="login-password-input"
-          label="Password"
+          label={passwordErr}
           type="password"
           autoComplete="current-password"
           variant="filled"
           onKeyDown={handleEnterKeyDown}
         />
-        
-          <span className='input-error-text'>{passwordErr}</span>
         </div>
         <Button variant="contained" className="btn" type="button" onClick={handleLogin}>Login</Button>
         <Button variant="contained" className="btn" type="button" onClick={() => navigate('/register')}>Register</Button>
-        <p className='input-error-text'>{message}</p>
-        
       </Box>
     </Container>
   );

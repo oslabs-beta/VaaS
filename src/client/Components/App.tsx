@@ -4,8 +4,8 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Login from './Login/Login';
 import Home from './Home/Home';
 import Register from './Login/Register';
-import Settings from './Settings/Settings';
-import Visualizer from './Visualizer/Visualizer';
+import Admin from './Admin/Admin';
+import AddCluster from './AddCluster/AddCluster';
 import { Get } from '../Services';
 import { apiRoute } from '../utils';
 import { useDispatch } from 'react-redux';
@@ -42,8 +42,8 @@ const App = () => {
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register />} />
-      <Route path ="/settings" element={<Settings />} />
-      <Route path ="/visualizer" element={<Visualizer />} />
+      <Route path ="/admin" element={<Admin />} />
+      <Route path ="/addcluster" element={<AddCluster />} />
     </Routes>
   );
 };

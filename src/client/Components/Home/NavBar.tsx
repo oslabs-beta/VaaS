@@ -60,12 +60,12 @@ export default function NavBar() {
     navigate('/home');
   };
 
-  const routeSettings = () => {
-    navigate('/settings');
+  const routeAdmin = () => {
+    navigate('/admin');
   };
 
-  const routeVisualizer = () => {
-    navigate('/visualizer');
+  const routeAddCluster = () => {
+    navigate('/addcluster');
   };
 
   
@@ -73,6 +73,7 @@ export default function NavBar() {
   const handleLogOut = (): void => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
+        localStorage.removeItem('userId');
         dispatch(signIn({
           signInState: false,
           username: ''
@@ -81,34 +82,31 @@ export default function NavBar() {
       };
 
   return (
- 
-    <div>
-      <div id ='navbar'>
-        <div>
-        <Button
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={navBarOpen}
-        >
-          Navigator
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={navBarClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          <MenuItem value ='home' onClick={routeHome}>Home</MenuItem>
-          <MenuItem value ='setting' onClick={routeSettings}>Setting</MenuItem>
-          <MenuItem value = 'visualizer' onClick={routeVisualizer}>Visualizer</MenuItem>
-          <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-        </Menu>
-        </div>
+    <div id ='navbar'>
+      <div>
+      <Button
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={navBarOpen}
+      >
+        Ξ
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={navBarClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem value ='home' onClick={routeHome}>Home</MenuItem>
+        <MenuItem value ='admin' onClick={routeAdmin}>Admin</MenuItem>
+        <MenuItem value = 'visualizer' onClick={routeAddCluster}>Cluster</MenuItem>
+        <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+      </Menu>
       </div>
     </div>
   );
