@@ -1,23 +1,45 @@
-#cluster-card {
+#Kube {
   background-color: #ffffff;
   padding: 0 0.5rem;
   text-align: left;
-  height: 13rem;
   flex-direction: column;
   margin-top: 1rem;  
-  border-radius: 10px
+  border-radius: 10px;
+  height: 86vh;
 }
 
-#favorite-btn {
-  float: right;
-  padding: 3px
-}
-
-.card-title {
+.cluster-title {
   vertical-align: top;
-
+  margin-top: 0.7rem;
+  font-size: 18px;
 }
 
-.card-control {
+.faas-title {
+  vertical-align: top;
+  margin-top: 0.7rem;
+  color: white;
+  font-size: 13px;
+  cursor: default;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.card-controls {
+  display: inline-block;
+  width: 100%;
   margin-bottom: -5rem;
+}
+
+
+#card-control {
+  display: inline-block;
+  font-size: 12px;
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.set-favorite {
+  cursor: pointer;
+  user-select: none;
 }

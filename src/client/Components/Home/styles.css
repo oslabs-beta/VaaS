@@ -1,7 +1,27 @@
 body {
   padding: 0;
   font-family: 'Cabin', sans-serif;
-  padding-bottom: 3.8rem;
+  padding-bottom: 3rem;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.Kube-port {
+  -webkit-scroll-snap-type: y mandatory;
+  scroll-snap-type: y mandatory;
+}
+
+.Kube-container {
+  -webkit-scroll-snap-align: start;
+  scroll-snap-align: start;
 }
 
 #logout-btn {
@@ -13,10 +33,11 @@ body {
   padding: 0.5rem;
   margin: 0;
   width: 100vw;
+  height: 1.6rem;
   position: fixed;
   bottom: 0;
   display: flex;
-  margin-left: -10px;
+  margin-left: -1.4rem;
   border-top: 1px solid #717982;
 }
 
@@ -31,8 +52,7 @@ body {
 }
 
 #welcome-banner {
-  font-size: 15px;
-  padding: 8px;
+  font-size: 0.75rem;
   color: #3a4a5b;
   margin-left: 1.5rem;
   cursor: default;
@@ -42,13 +62,10 @@ body {
 }
 
 .title {
-  margin-left: auto;
-  margin-right: 2rem;
-  font-size: 20px;
-  padding: 3px;
+  font-weight: 700;
+  margin-right: auto;
+  margin-left: 1.5rem;
+  font-size: 1.3em;
   color: #3a4a5b;
   cursor: default;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
 }

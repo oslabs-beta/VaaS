@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Get, Put, Delete } from '../../Services/index';
+import { Post, Put, Delete } from '../../Services/index';
 import { apiRoute } from '../../utils';
-import { signIn, deleteUser } from '../../Store/actions';
+import { signIn } from '../../Store/actions';
 
-import { Accordion, AccordionSummary, AccordionDetails, Box, Button, Container, TextField} from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Button, Container, TextField } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import NavBar from '../Home/NavBar';
-import { Title } from '@mui/icons-material';
+import UserWelcome from '../Admin/UserWelcome';
 
 const Admin = () => {
   const [passwordErr, setPasswordErr] = useState('');
@@ -19,15 +19,9 @@ const Admin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     const user = await Get(apiRoute.getRoute('user'));
-  //     setUsername(user.username);
-  //     setFirstName(user.firstName);
-  //     setLastName(user.lastName);
-  //   };
-  //   fetchUser();
-  // }, []);
+  const routeAddCluster = () => {
+    navigate('/addcluster');
+  };
 
   const handleLogOut = (): void => {
     localStorage.removeItem('token');
@@ -37,6 +31,21 @@ const Admin = () => {
       username: ''
     }));
     navigate('/');
+  };
+
+  const handleAdd = async () => {
+    try {
+      const body = {
+        url: (document.getElementById('cluster-url') as HTMLInputElement).value,
+        k8_port: (document.getElementById('k8_port') as HTMLInputElement).value,
+        faas_port: (document.getElementById('faas_port') as HTMLInputElement).value,
+        name: (document.getElementById('cluster-name') as HTMLInputElement).value,
+        description: (document.getElementById('cluster-description') as HTMLInputElement).value,
+      };
+      await Post(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleUpdate = async (): Promise<void> => {
@@ -86,7 +95,10 @@ const Admin = () => {
   return (
 
     <div>
-      <Accordion>
+      <UserWelcome />
+      <Accordion sx={{
+            marginTop: '0.5rem'
+          }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -95,9 +107,7 @@ const Admin = () => {
           <div>Administrator Account Details</div>
         </AccordionSummary>
         <AccordionDetails>
-          <Container sx={{
-          }}
-          >
+          <Container>
           <div>
           <TextField
               id="login-username-input"
@@ -144,18 +154,99 @@ const Admin = () => {
         </AccordionSummary>
         <AccordionDetails>
           <Container>
+            <div>
+              <TextField
+                  id="delete-password-input"
+                  label="Enter Password"
+                  type="password"
+                  variant="outlined"
+                  size='small'
+                  onSubmit={handleEnterKeyDown}
+                  margin="dense"
+              />
+            </div>
+            <Button id="delete-password-input" variant="contained" className="btn" type="button" onClick={handleDelete}>Delete</Button>
+          </Container>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion sx={{
+            marginTop: '0.5rem'
+          }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <div>Add Cluster</div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Container>
+          <TextField
+              id="cluster-url"
+              label="Cluster URL"
+              type="username"
+              variant="outlined"
+              size='small'
+              margin="dense"
+          />
           <div>
             <TextField
-                id="delete-password-input"
-                label="Enter Password"
-                type="password"
-                variant="outlined"
-                size='small'
-                onSubmit={handleEnterKeyDown}
-                margin="dense"
+              id="k8_port"
+              label="Kubernetes Port"
+              type="text"
+              variant="outlined"
+              size='small'
+              margin="dense"
             />
           </div>
-           <Button id="delete-password-input" variant="contained" className="btn" type="button" onClick={handleDelete}>Delete</Button>
+          <div>
+            <TextField
+              id="faas_port"
+              label="FaaS Port"
+              type="text"
+              variant="outlined"
+              size='small'
+              margin="dense"
+            />
+          </div>
+          <div>
+            <TextField
+              id="cluster-name"
+              label="Cluster Name"
+              type="text"
+              variant="outlined"
+              size='small'
+              margin="dense"
+            />
+          </div>
+          <div>
+            <TextField
+              id="cluster-description"
+              label="Cluster Description"
+              type="text"
+              variant="outlined"
+              size='small'
+              margin="dense"
+            />
+          </div>
+          <Button variant="contained" className="btn" type="button" onClick={handleAdd}>Add Cluster</Button>
+          </Container>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion sx={{
+          }}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <div>View All Clusters</div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Container>
+          <Button variant="contained" className="btn" type="button">View All Clusters</Button>
           </Container>
         </AccordionDetails>
       </Accordion>

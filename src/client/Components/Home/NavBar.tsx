@@ -6,43 +6,10 @@ import { Get } from '../../Services';
 
 import { setTitle, signIn } from '../../Store/actions';
 import { apiRoute } from '../../utils';
-import { Button, MenuItem, Menu } from '@mui/material';  
-import UserWelcome from './UserWelcome';
-// const NavBar = () => {
-
-
-//   const handleLogOut = (): void => {
-//     localStorage.removeItem('token');
-//     localStorage.removeItem('username');
-//     dispatch(signIn({
-//       signInState: false,
-//       username: ''
-//     }));
-//     navigate('/');
-//   };
-
-//   const dropdown = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-//     navigate('/' + e.target.value.toLowerCase());
-//   };
-
-  
-
-//   return (
-//     <div>
-//       <div id='navbar'>
-//         <span>{navBarReducer.title}</span>
-//         <button className='btn' id='logout-btn' onClick={handleLogOut}>Logout</button>
-//         <select id='dropdown' defaultValue='test' onChange={dropdown}>
-//           <option value='test' disabled hidden>Dropdown</option>
-//           <option value='Home'>Home</option>
-//           <option value='Settings'>Settings</option>
-//           <option value='Visualizer'>Visualizer</option>
-//         </select>
-//         <span id='username-navbar'>{'Username: ' + localStorage.getItem('username')}</span>
-//       </div>
-//     </div>
-//   );
-// };
+import { Button, MenuItem, Menu } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import SettingsIcon from '@mui/icons-material/Settings';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function NavBar() {
   const navBarReducer = useSelector((state: IReducers) => state.navBarReducer);
@@ -65,12 +32,6 @@ export default function NavBar() {
     navigate('/admin');
   };
 
-  const routeAddCluster = () => {
-    navigate('/addcluster');
-  };
-
-  
-
   const handleLogOut = (): void => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
@@ -84,31 +45,34 @@ export default function NavBar() {
 
   return (
     <div id='navbar'>
+      <div className="title noselect">VaaS</div>
       <Button
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
-        onClick={navBarOpen}
+        onClick={handleLogOut}
       >
-        Ξ
+        <LogoutIcon />
       </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={navBarClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
+      <Button
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={routeHome}
       >
-        <MenuItem onClick={handleLogOut}>Logout</MenuItem>
-        <MenuItem value = 'addCluster' onClick={routeAddCluster}>Cluster</MenuItem>
-        <MenuItem value ='admin' onClick={routeAdmin}>Admin</MenuItem>
-        <MenuItem value ='home' onClick={routeHome}>Home</MenuItem>
-      </Menu>
-      <UserWelcome />
-      <div className="title">VaaS</div>
+        <HomeIcon />
+      </Button>
+      <Button
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={routeAdmin}
+      >
+        <SettingsIcon />
+      </Button>
     </div>
   );
 }
