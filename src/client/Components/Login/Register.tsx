@@ -65,15 +65,17 @@ const Register = () => {
        <Container maxWidth='sm' className='login-container' 
        sx = {{
           width: '40%',
+          minWidth: '300px',
           opacity: '95%',
           direction: 'column',
           textAlign: 'center',
+          color: '#3a4a5b',
           alignItems: 'center',
           flexDirection: 'column',
           justifyContent: 'center',
           backgroundRepeat: 'no-repeat',
           padding: '1.5rem',
-          borderRadius: '5%'
+          borderRadius: '2%'
        }}>
       <div>
         <h2>VaaS Registration</h2>

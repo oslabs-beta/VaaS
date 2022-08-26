@@ -5,7 +5,6 @@ import Login from './Login/Login';
 import Home from './Home/Home';
 import Register from './Login/Register';
 import Admin from './Admin/Admin';
-import AddCluster from './AddCluster/AddCluster';
 import { Get } from '../Services';
 import { apiRoute } from '../utils';
 import { useDispatch } from 'react-redux';
@@ -15,8 +14,6 @@ const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
-
-  
 
   useEffect(()=>{
     if(!localStorage.getItem('token') && location.pathname !== '/' && location.pathname !== '/register') navigate('/');
@@ -45,7 +42,6 @@ const App = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path ="/admin" element={<Admin />} />
-      <Route path ="/addcluster" element={<AddCluster />} />
     </Routes>
   );
 };

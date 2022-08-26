@@ -145,7 +145,7 @@ router.route('/cluster')
               $push: { favorite: id } 
             }
           );
-          terminal(`Success: Cluster [${req.body.name}] added to favorites`);
+          terminal(`Success: Cluster [${req.body.clusterId}] added to favorites`);
           return res.status(201).json({ success: true });
         }
         case false: {
@@ -160,7 +160,7 @@ router.route('/cluster')
               $pull: { favorite: id } 
             }
           );
-          terminal(`Success: Cluster [${req.body.name}] removed from favorites`);
+          terminal(`Success: Cluster [${req.body.clusterId}] removed from favorites`);
           return res.status(201).json({ success: true });
         }
         case undefined: {
@@ -174,7 +174,7 @@ router.route('/cluster')
               description: description
             }
           );
-          terminal(`Success: Cluster [${req.body.name}] document updated`);
+          terminal(`Success: Cluster [${req.body.clusterId}] document updated`);
           return res.status(201).json({ success: true });
         }
       }
@@ -187,7 +187,7 @@ router.route('/cluster')
       return res.status(error.status).json(error);
     }
   })
-  .delete(authUser, bcrypt, jwtVerify, async (req: Request, res: Response) => {
+  .delete(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     // Validate request body
     if (!req.body.clusterId) {

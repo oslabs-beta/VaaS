@@ -1,0 +1,9 @@
+#welcome-banner {
+  margin-left: 0rem;
+  font-size: 0.8rem;
+  color: #ffffff;
+  cursor: default;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}

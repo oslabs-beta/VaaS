@@ -7,6 +7,7 @@ import { Put } from '../../Services';
 import { apiRoute } from '../../utils';
 import Visualizer from '../Visualizer/Visualizer';
 import ClusterSettings from '../ClusterSettings/ClusterSettings';
+import OpenFaaS from './OpenFaaS';
 import { Container, Box } from '@mui/system';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -17,7 +18,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 
-const Cluster = (props: ClusterTypes) => {
+const Kube = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
   const [description, setDescription] = useState<string | undefined>('');
   const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(false);
@@ -96,7 +97,6 @@ const Cluster = (props: ClusterTypes) => {
 
   return (
     <Container sx={{
-      height: '50vh',
       minWidth: '100%',
       justifyContent: 'center',
       display: 'flex',
@@ -104,46 +104,45 @@ const Cluster = (props: ClusterTypes) => {
       textAlign: 'left',
       backgroundSize: 'contain',
       bgcolor: '#3a4a5b'
-      
-    }} id="cluster-card">
-
-      <div className='card-controls'>
-        <button id="favorite-btn" onClick={handleFavorite}>Favorite</button>
-        <button id="favorite-btn" onClick={handleVisualizer}>Visualizer</button>
-        <button id="favorite-btn" onClick={handleSettings}>Settings</button>
-      </div>
-
+    }} id="Kube">
       <div>
-        <div className='card-title'>
-        {props.favoriteStatus && '❤️'}
-        {!props.favoriteStatus && '🤍'}&nbsp;<b>{'' + clusterName}:&nbsp;</b> 
-          {'' + description}
+        <div className='cluster-title'>
+          {props.favoriteStatus && <span className='set-favorite' onClick={handleFavorite}>❤️</span>}
+          {!props.favoriteStatus && <span className='set-favorite' onClick={handleFavorite}>🤍</span>}&nbsp;<b>{'' + clusterName}:&nbsp;</b> 
+            {'' + description}
+        </div>
+        <div className='card-controls'>
+          <p><div id="card-control" onClick={handleVisualizer}>Visualizer</div></p>
+          <p><div id="card-control" onClick={handleSettings}>Settings</div></p>
         </div>
       </div>
       <TableContainer component={Paper}>
         <Table aria-label="spanning table" sx={{
           'overflow-y': 'visible'
         }}>
-          <TableRow>
+          <TableHead>
             <TableCell align="center">Node</TableCell>
             <TableCell align="center">CPU Usage</TableCell>
             <TableCell align="center">Memory Usage</TableCell>
             <TableCell align="center">Total Deployments</TableCell>
             <TableCell align="center">Total Pods</TableCell>
-          </TableRow>
-        <TableBody>
-          <TableCell align="center">{'' + nodeName}</TableCell>
-          <TableCell align="center">{'' + cpuUsage + '%'}</TableCell>
-          <TableCell align="center">{'' + memoryUsage}</TableCell>
-          <TableCell align="center">{'' + totalDeployments}</TableCell>
-          <TableCell align="center">{'' + totalPods}</TableCell>
-        </TableBody>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell align="center">{'' + nodeName}</TableCell>
+              <TableCell align="center">{'' + cpuUsage + '%'}</TableCell>
+              <TableCell align="center">{'' + memoryUsage}</TableCell>
+              <TableCell align="center">{'' + totalDeployments}</TableCell>
+              <TableCell align="center">{'' + totalPods}</TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
       </TableContainer>
       {visualizer && <Visualizer />}
       {settings && <ClusterSettings id={props._id}/>}
+      <OpenFaaS setHomeRender={props.setHomeRender} />
     </Container>
   );
 };
 
-export default Cluster;
+export default Kube;

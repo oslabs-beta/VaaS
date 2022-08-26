@@ -5,7 +5,7 @@ import { Container, Box, Button, TextField } from '@mui/material';
 import { IReducers } from '../../Interfaces/IReducers';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import NavBar from './NavBar';
-import Cluster from '../Cards/Cluster';
+import Kube from '../Cards/Kube';
 import './styles.css';
 import { Get } from '../../Services';
 import { apiRoute } from '../../utils';
@@ -36,31 +36,35 @@ const Home = () => {
   }, [homeRender]);
 
   return (
-    <div>
-      {favoriteClusters.map((element, idx) => {
-        return <Cluster
-          key={idx}
-          description={element.description}
-          name={element.name}
-          _id={element._id}
-          favorite={element.favorite}
-          favoriteStatus={true}
-          setHomeRender={setHomeRender}
-        />;
-      })}
-      {clusters.map((element, idx) => {
-        return <Cluster
-          key={idx}
-          description={element.description}
-          name={element.name}
-          _id={element._id}
-          favorite={element.favorite}
-          favoriteStatus={false}
-          homeRender={homeRender}
-          setHomeRender={setHomeRender}
-        />;
-      })}
-      <NavBar />
+    <div className="Kube-port">
+      <div className="Kube-container">
+        {favoriteClusters.map((element, idx) => {
+          return <Kube
+            key={idx}
+            description={element.description}
+            name={element.name}
+            _id={element._id}
+            favorite={element.favorite}
+            favoriteStatus={true}
+            setHomeRender={setHomeRender}
+          />;
+        })}
+      </div>
+      <div className="Kube-container">
+        {clusters.map((element, idx) => {
+          return <Kube
+            key={idx}
+            description={element.description}
+            name={element.name}
+            _id={element._id}
+            favorite={element.favorite}
+            favoriteStatus={false}
+            homeRender={homeRender}
+            setHomeRender={setHomeRender}
+          />;
+        })}
+        <NavBar />
+      </div>
     </div>
   );
 };

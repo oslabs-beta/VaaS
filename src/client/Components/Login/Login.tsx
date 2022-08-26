@@ -73,6 +73,7 @@ const Login = () => {
         textAlign: 'center',
         alignItems: 'center',
         backgroundSize: 'contain',
+        color: '#3a4a5b',
         bgcolor: '#3a4a5b',
         
       }} className="backdrop">
@@ -82,6 +83,7 @@ const Login = () => {
           className="login-container"
           sx={{
             width: '40%',
+            minWidth: '250px',
             opacity: '95%',
             direction: 'column',
             textAlign: 'center',
