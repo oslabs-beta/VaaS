@@ -16,6 +16,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useDispatch } from 'react-redux';
+import { IReducers } from '../../Interfaces/IReducers';
+import { useSelector } from 'react-redux';
+import { setRender } from '../../Store/actions';
 
 
 const Kube = (props: ClusterTypes) => {
@@ -29,6 +33,8 @@ const Kube = (props: ClusterTypes) => {
   const [totalPods, setTotalPods] = useState('');
   const [visualizer, setVisualizer] = useState(false);
   const [settings, setSettings] = useState(false);
+  const dispatch = useDispatch();
+  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
 
   useEffect(() => {
     const fetchNodes = async () => {
@@ -69,9 +75,7 @@ const Kube = (props: ClusterTypes) => {
       };
       await Put(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
       setFavoriteStatus(!favoriteStatus);
-      // props.favoriteStatus = !props.favoriteStatus;
-      props.setHomeRender(!props.homeRender);
-      
+      dispatch(setRender(!clusterReducer.render));
     } catch (err) {
       console.log(err);
     }
@@ -140,7 +144,7 @@ const Kube = (props: ClusterTypes) => {
       </TableContainer>
       {visualizer && <Visualizer />}
       {settings && <ClusterSettings id={props._id}/>}
-      <OpenFaaS setHomeRender={props.setHomeRender} />
+      <OpenFaaS />
     </Container>
   );
 };

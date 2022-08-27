@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { IReducers } from '../../Interfaces/IReducers';
 import { apiRoute } from '../../utils';
-import { setTitle, signIn } from '../../Store/actions';
+import { setTitle } from '../../Store/actions';
 import { Put } from '../../Services/index';
 import './styles.css';
 import { Container, Box, Button, TextField } from '@mui/material';
@@ -14,16 +14,15 @@ const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
   const [passwordErr, setPasswordErr] = useState('Password');
   const dispatch = useDispatch();
-  const userReducer = useSelector((state: IReducers) => state.userReducer);
+  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
   const navigate = useNavigate();
 
 
   useEffect(() => {
     //sign in state might need to be removed - because we are working with persistent state 
     //might be that we use redux-persist in conjunction with local.storage as oppose to actually touching local storage
-    console.log('signInState from store: ', userReducer.signInState);
-    console.log('Signed in username from store: ', userReducer.username);
-  }, [userReducer]);
+    console.log('render state from clusterReducer: ', clusterReducer.render);
+  }, [clusterReducer]);
 
   const handleLogin = async (): Promise<void> => {
     try {
@@ -32,7 +31,6 @@ const Login = () => {
         password: (document.getElementById('login-password-input') as HTMLInputElement).value
       };
       const res = await Put(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
-      //use a hook to fire off action(type: signIn, res)
       console.log(res);
       if (!body.username) setUsernameErr(' please enter username');
       else setUsernameErr('Username');
@@ -40,10 +38,6 @@ const Login = () => {
       else setPasswordErr('Password');
       if (res.token) {
         localStorage.setItem('username', body.username);
-        dispatch(signIn({
-          signInState: true,
-          username: body.username
-        }));
         localStorage.setItem('token', res.token);
         localStorage.setItem('userId', res.userId);
         dispatch(setTitle('Home'));

@@ -11,12 +11,10 @@ import { Get } from '../../Services';
 import { apiRoute } from '../../utils';
 
 const Home = () => {
-  const userReducer = useSelector((state: IReducers) => state.userReducer);
+  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
   const [clusters, setClusters] = useState<ClusterTypes[]>([]);
-  const [homeRender, setHomeRender] = useState(false);
 
   useEffect(() => {
-    console.log('signInState from store:', userReducer.signInState);
     console.log('Signed in username from localStorage:', localStorage.getItem('username'));
     console.log('JWT token stored from localStorage:', localStorage.getItem('token'));
     console.log('Signed in userId from localStorage:', localStorage.getItem('userId'));
@@ -25,14 +23,14 @@ const Home = () => {
       setClusters(res);
     };
     getClusters();
-  }, [homeRender]);
+  }, [clusterReducer.render]);
 
   return (
     <div className="Kube-port">
       <div className="Kube-container">
         {clusters.map((element, idx) => {
           let bool = false;
-          if (element.favorite?.includes(localStorage.getItem('userId') as string)) bool = true;
+          if(element.favorite?.includes(localStorage.getItem('userId') as string)) bool = true;
           return <Kube
             key={idx}
             description={element.description}
@@ -40,8 +38,6 @@ const Home = () => {
             _id={element._id}
             favorite={element.favorite}
             favoriteStatus={bool}
-            homeRender={homeRender}
-            setHomeRender={setHomeRender}
           />;
         })}
       </div>

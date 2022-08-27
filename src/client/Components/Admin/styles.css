@@ -7,3 +7,7 @@
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
+
+#add-cluster-msg {
+  margin-left: 1rem;
+}

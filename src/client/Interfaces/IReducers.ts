@@ -1,14 +1,11 @@
-export interface IUserReducer {
-  welcome?: string,
-  signInState: boolean,
-  username: string | null
-  // clusterHealth: [],
+export interface IClusterReducer {
+  render: boolean | undefined,
 }
 export interface INavBarReducer {
   title: string,
 }
 
 export interface IReducers {
-  userReducer: IUserReducer,
+  clusterReducer: IClusterReducer,
   navBarReducer: INavBarReducer
 }
