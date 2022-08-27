@@ -8,7 +8,7 @@ import { apiRoute } from '../../utils';
 import Visualizer from '../Visualizer/Visualizer';
 import ClusterSettings from '../ClusterSettings/ClusterSettings';
 import OpenFaaS from './OpenFaaS';
-import { Container, Box } from '@mui/system';
+import { Container } from '@mui/system';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -16,12 +16,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useDispatch } from 'react-redux';
+import { IReducers } from '../../Interfaces/IReducers';
+import { useSelector } from 'react-redux';
+import { setRender } from '../../Store/actions';
 
 
 const Kube = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
   const [description, setDescription] = useState<string | undefined>('');
-  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(false);
+  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(props.favoriteStatus);
   const [nodeName, setNodeName] = useState('');
   const [cpuUsage, setCpuUsage] = useState<number | undefined>(0);
   const [memoryUsage, setMemoryUsage] = useState('');
@@ -29,6 +33,8 @@ const Kube = (props: ClusterTypes) => {
   const [totalPods, setTotalPods] = useState('');
   const [visualizer, setVisualizer] = useState(false);
   const [settings, setSettings] = useState(false);
+  const dispatch = useDispatch();
+  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
 
   useEffect(() => {
     const fetchNodes = async () => {
@@ -69,9 +75,7 @@ const Kube = (props: ClusterTypes) => {
       };
       await Put(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
       setFavoriteStatus(!favoriteStatus);
-      // props.favoriteStatus = !props.favoriteStatus;
-      props.setHomeRender(!props.homeRender);
-      
+      dispatch(setRender(!clusterReducer.render));
     } catch (err) {
       console.log(err);
     }
@@ -140,7 +144,7 @@ const Kube = (props: ClusterTypes) => {
       </TableContainer>
       {visualizer && <Visualizer />}
       {settings && <ClusterSettings id={props._id}/>}
-      <OpenFaaS setHomeRender={props.setHomeRender} />
+      <OpenFaaS />
     </Container>
   );
 };

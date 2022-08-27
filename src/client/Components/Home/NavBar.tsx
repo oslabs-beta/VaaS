@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { IReducers } from '../../Interfaces/IReducers';
 import { Get } from '../../Services';
 
-import { setTitle, signIn } from '../../Store/actions';
+import { setTitle } from '../../Store/actions';
 import { apiRoute } from '../../utils';
 import { Button, MenuItem, Menu } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
@@ -36,10 +36,6 @@ export default function NavBar() {
         localStorage.removeItem('token');
         localStorage.removeItem('username');
         localStorage.removeItem('userId');
-        dispatch(signIn({
-          signInState: false,
-          username: ''
-        }));
         navigate('/');
       };
 

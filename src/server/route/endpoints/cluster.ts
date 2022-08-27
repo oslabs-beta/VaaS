@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { Types } from 'mongoose';
 import { Cluster } from '../../models';
 import { IError } from '../../interfaces/IError';
-import { bcrypt, authUser, jwtVerify } from '../../warehouse/middlewares';
+import { jwtVerify } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
 router.route('/cluster::name')
@@ -14,7 +14,7 @@ router.route('/cluster::name')
       if (response.length === 0) {
         const error: IError = {
           status: 401,
-          message: `Fail: Cluster [${req.params['name']}] does not exist`
+          message: `Fail: Cluster [${req.params['name']}] does not exist`,
         };
         return res.status(error.status).json(error);
       }

@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { ClusterSettings } from '../../Interfaces/ICluster';
+import { IReducers } from '../../Interfaces/IReducers';
 import { Delete } from '../../Services';
+import { setRender } from '../../Store/actions';
 import { apiRoute } from '../../utils';
 
 const ClusterSettings = (props: ClusterSettings) => {
+  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
+  const dispatch = useDispatch();
+
   const handleDelete = async () => {
     console.log(props.id);
     try {
@@ -11,6 +18,7 @@ const ClusterSettings = (props: ClusterSettings) => {
         clusterId: props.id
       };
       await Delete(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
+      dispatch(setRender(!clusterReducer.render));
     } catch (err) {
       console.log(err);
     }

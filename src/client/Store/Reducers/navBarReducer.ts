@@ -15,7 +15,6 @@ const navBarReducer = (state: INavBarReducer = initialState, action: IAction) =>
         title: action.payload
       };
     }
-
     default: {
       return state;
     }

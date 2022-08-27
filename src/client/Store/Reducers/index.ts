@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import userReducer from './userReducer';
+import clusterReducer from './clusterReducer';
 import navBarReducer from './navBarReducer';
 
 const reducer = combineReducers({
-  userReducer,
+  clusterReducer,
   navBarReducer
 });
 

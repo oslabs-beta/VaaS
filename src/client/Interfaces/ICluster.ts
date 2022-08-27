@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export interface ClusterTypes {
   _id?: string | undefined,
   url?: string,
@@ -10,8 +8,6 @@ export interface ClusterTypes {
   favorite?: string[],
   __v?: number,
   favoriteStatus?: boolean,
-  homeRender?: boolean | undefined,
-  setHomeRender: Dispatch<SetStateAction<boolean>>
 }
 
 export interface ClusterSettings {
