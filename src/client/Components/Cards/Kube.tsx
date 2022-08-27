@@ -8,7 +8,7 @@ import { apiRoute } from '../../utils';
 import Visualizer from '../Visualizer/Visualizer';
 import ClusterSettings from '../ClusterSettings/ClusterSettings';
 import OpenFaaS from './OpenFaaS';
-import { Container, Box } from '@mui/system';
+import { Container } from '@mui/system';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,7 +21,7 @@ import Paper from '@mui/material/Paper';
 const Kube = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
   const [description, setDescription] = useState<string | undefined>('');
-  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(false);
+  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(props.favoriteStatus);
   const [nodeName, setNodeName] = useState('');
   const [cpuUsage, setCpuUsage] = useState<number | undefined>(0);
   const [memoryUsage, setMemoryUsage] = useState('');
