@@ -2,32 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Post, Put, Delete, Get } from '../../Services/index';
 import { apiRoute } from '../../utils';
-
 import { Accordion, AccordionSummary, AccordionDetails, Button, Container, TextField } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import NavBar from '../Home/NavBar';
 import UserWelcome from '../Admin/UserWelcome';
+import { ClusterTypes } from '../../Interfaces/ICluster';
 
 const Admin = () => {
-  const [passwordErr, setPasswordErr] = useState('');
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [updateUserErr, setUpdateUserErr] = useState('');
+  const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
   const navigate = useNavigate();
 
-  const routeAddCluster = () => {
-    navigate('/addcluster');
-  };
-
-  const handleLogOut = (): void => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    navigate('/');
-  };
-
-  const handleAdd = async () => {
+  const handleAddCluster = async (): Promise<void> => {
     try {
       const body = {
         url: (document.getElementById('cluster-url') as HTMLInputElement).value,
@@ -36,9 +24,9 @@ const Admin = () => {
         name: (document.getElementById('cluster-name') as HTMLInputElement).value,
         description: (document.getElementById('cluster-description') as HTMLInputElement).value,
       };
-      if(!body.url || !body.k8_port || !body.faas_port || !body.name || !body.description) {
+      if (!body.url || !body.k8_port || !body.faas_port || !body.name || !body.description) {
         setAddClusterMessage('Missing input fields');
-        body.name = '';
+        return;
       }
       const res = await Get(apiRoute.getRoute(`cluster:${body.name}`), { authorization: localStorage.getItem('token') });
       console.log(res);
@@ -52,17 +40,26 @@ const Admin = () => {
     }
   };
 
-  const handleUpdate = async (): Promise<void> => {
+  const handleUserUpdate = async (): Promise<void> => {
     try {
       const body = {
-        username: (document.getElementById('username-input') as HTMLInputElement).value,
-        firstName: (document.getElementById('firstName-input') as HTMLInputElement).value,
-        lastName: (document.getElementById('lastName-input') as HTMLInputElement).value
+        username: (document.getElementById('update-username-input') as HTMLInputElement).value,
+        firstName: (document.getElementById('update-firstName-input') as HTMLInputElement).value,
+        lastName: (document.getElementById('update-lastName-input') as HTMLInputElement).value
       };
-      // use a hook to fire off action(type: signIn, res)
+      if(!body.username && !body.firstName && !body.lastName) {
+        setUpdateUserErr('No inputs in input fields');
+        return;
+      }
+      const user = await Get(apiRoute.getRoute(`user:${localStorage.username}`), { authorization: localStorage.getItem('token') });
+      console.log(user);
+      if(!body.username) body.username = user.username;
+      if(!body.firstName) body.firstName = user.firstName;
+      if(!body.lastName) body.lastName = user.lastName;
       const updateStatus = await Put(apiRoute.getRoute('user'), body, { authorization: localStorage.getItem('token') }).catch(err => console.log(err));
-      console.log(updateStatus);
       if (updateStatus.success) {
+        localStorage.setItem('username', body.username);
+        setUpdateUserErr('User successfully updated');
         console.log('Your account details have been updated');
       } else {
         console.log('Your account details could not be updated');
@@ -72,32 +69,47 @@ const Admin = () => {
     }
   };
 
-  const handleDelete = async (): Promise<void> => {
+  const handleUserDelete = async (): Promise<void> => {
     try {
-      const body = {
+      const userBody = {
         username: localStorage.getItem('username'),
         password: (document.getElementById('delete-password-input') as HTMLInputElement).value
       };
-      const deleteStatus = await Delete(apiRoute.getRoute('user'), body, { authorization: localStorage.getItem('token') }).catch(err => console.log(err));
+      const deleteStatus = await Delete(apiRoute.getRoute('user'), userBody, { authorization: localStorage.getItem('token') }).catch(err => console.log(err));
       console.log(deleteStatus);
+      const clusters = await Get(apiRoute.getRoute('cluster'), { authorization: localStorage.getItem('token') });
+      console.log(clusters);
+      clusters.forEach(async (cluster: ClusterTypes) => {
+        const clusterBody = {
+          clusterId: cluster._id,
+          favorite: false,
+        };
+        await Put(apiRoute.getRoute('cluster'), clusterBody, { authorization: localStorage.getItem('token') });
+      });
       if (deleteStatus.deleted) {
         console.log('Your account has been deleted');
-        handleLogOut();
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        navigate('/');
       } else {
         console.log('Account could not be deleted - ');
-        setPasswordErr('Incorrect password input');
+        setDeletePasswordErr('Incorrect password');
       }
     } catch (err) {
       console.log('Delete request to server failed', err);
     }
   };
 
-  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') handleUpdate();
+  const handleEnterKeyDownUpdate = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') handleUserUpdate();
+  };
+
+  const handleEnterKeyDownDelete = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') handleUserDelete();
   };
 
   return (
-
     <div>
       <UserWelcome />
       <Accordion sx={{
@@ -114,37 +126,40 @@ const Admin = () => {
           <Container>
             <div>
               <TextField
-                id="login-username-input"
+                id="update-username-input"
                 label="Username"
                 type="username"
                 autoComplete="current-password"
                 variant="outlined"
                 size='small'
-                onSubmit={handleEnterKeyDown}
+                onKeyDown={handleEnterKeyDownUpdate}
                 margin="dense"
               />
               <TextField
-                id="firstName-input"
+                id="update-firstName-input"
                 label="First Name"
                 type="firstName"
                 autoComplete="current-password"
                 variant="outlined"
                 size='small'
-                onSubmit={handleEnterKeyDown}
+                onKeyDown={handleEnterKeyDownUpdate}
                 margin="dense"
               />
               <TextField
-                id="lastName-input"
+                id="update-lastName-input"
                 label="Last Name"
                 type="userName"
                 autoComplete="current-password"
                 variant="outlined"
                 size='small'
-                onSubmit={handleEnterKeyDown}
+                onKeyDown={handleEnterKeyDownUpdate}
                 margin="dense"
               />
             </div>
-            <Button variant="contained" className="btn" type="button" onClick={handleUpdate}>Update Admin Details</Button>
+            <span>
+              <Button variant="contained" className="btn" type="button" onClick={handleUserUpdate}>Update Admin Details</Button>
+              <span id='update-user-err'>{updateUserErr}</span>
+            </span>
           </Container>
         </AccordionDetails>
       </Accordion>
@@ -165,11 +180,14 @@ const Admin = () => {
                 type="password"
                 variant="outlined"
                 size='small'
-                onSubmit={handleEnterKeyDown}
+                onKeyDown={handleEnterKeyDownDelete}
                 margin="dense"
               />
             </div>
-            <Button id="delete-password-input" variant="contained" className="btn" type="button" onClick={handleDelete}>Delete</Button>
+            <span>
+              <Button id="delete-password-input" variant="contained" className="btn" type="button" onClick={handleUserDelete}>Delete</Button>
+              <span id='delete-password-err'>{deletePasswordErr}</span>
+            </span>
           </Container>
         </AccordionDetails>
       </Accordion>
@@ -234,7 +252,10 @@ const Admin = () => {
                 margin="dense"
               />
             </div>
-            <span><Button variant="contained" className="btn" type="button" onClick={handleAdd}>Add Cluster</Button><span id='add-cluster-msg'>{addClusterMessage}</span></span>
+            <span>
+              <Button variant="contained" className="btn" type="button" onClick={handleAddCluster}>Add Cluster</Button>
+              <span id='add-cluster-msg'>{addClusterMessage}</span>
+            </span>
           </Container>
         </AccordionDetails>
       </Accordion>

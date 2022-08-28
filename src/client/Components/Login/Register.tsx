@@ -89,7 +89,7 @@ const Register = () => {
               size='small'
               variant='outlined'
               margin="dense"
-              onSubmit={handleEnterKeyDown}
+              onKeyDown={handleEnterKeyDown}
             />
             {/* <span className='input-error-text'>{usernameErr}</span> */}
           <div>
@@ -101,7 +101,7 @@ const Register = () => {
               size='small'
               variant='outlined'
               margin="dense"
-              onSubmit={handleEnterKeyDown}
+              onKeyDown={handleEnterKeyDown}
             />
             {/* <span className='input-error-text'>{usernameErr}</span> */}
           <div>
@@ -113,7 +113,7 @@ const Register = () => {
               size='small'
               autoComplete='current-username'
               variant='outlined'
-              onSubmit={handleEnterKeyDown}
+              onKeyDown={handleEnterKeyDown}
               margin="dense"
             />
             {/* <span className='input-error-text'>{usernameErr}</span> */}

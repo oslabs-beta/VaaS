@@ -102,7 +102,7 @@ const Login = () => {
               autoComplete="current-password"
               variant="outlined"
               size='small'
-              onSubmit={handleEnterKeyDown}
+              onKeyDown={handleEnterKeyDown}
               margin="dense"
           />
           <div>
