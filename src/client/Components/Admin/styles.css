@@ -8,6 +8,10 @@
   user-select: none; /* Standard syntax */
 }
 
+#delete-password-err {
+  margin-left: 1rem;
+}
+
 #add-cluster-msg {
   margin-left: 1rem;
 }

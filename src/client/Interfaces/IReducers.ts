@@ -1,5 +1,5 @@
 export interface IClusterReducer {
-  render: boolean | undefined,
+  render: boolean,
 }
 export interface INavBarReducer {
   title: string,
