@@ -8,6 +8,10 @@
   user-select: none; /* Standard syntax */
 }
 
+#update-user-err {
+  margin-left: 1rem;
+}
+
 #delete-password-err {
   margin-left: 1rem;
 }

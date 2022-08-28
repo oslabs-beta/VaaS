@@ -10,14 +10,12 @@ import UserWelcome from '../Admin/UserWelcome';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 
 const Admin = () => {
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleAddCluster = async () => {
+  const handleAddCluster = async (): Promise<void> => {
     try {
       const body = {
         url: (document.getElementById('cluster-url') as HTMLInputElement).value,
@@ -49,10 +47,19 @@ const Admin = () => {
         firstName: (document.getElementById('update-firstName-input') as HTMLInputElement).value,
         lastName: (document.getElementById('update-lastName-input') as HTMLInputElement).value
       };
+      if(!body.username && !body.firstName && !body.lastName) {
+        setUpdateUserErr('No inputs in input fields');
+        return;
+      }
+      const user = await Get(apiRoute.getRoute(`user:${localStorage.username}`), { authorization: localStorage.getItem('token') });
+      console.log(user);
+      if(!body.username) body.username = user.username;
+      if(!body.firstName) body.firstName = user.firstName;
+      if(!body.lastName) body.lastName = user.lastName;
       const updateStatus = await Put(apiRoute.getRoute('user'), body, { authorization: localStorage.getItem('token') }).catch(err => console.log(err));
-      console.log(updateStatus);
       if (updateStatus.success) {
         localStorage.setItem('username', body.username);
+        setUpdateUserErr('User successfully updated');
         console.log('Your account details have been updated');
       } else {
         console.log('Your account details could not be updated');
@@ -64,11 +71,11 @@ const Admin = () => {
 
   const handleUserDelete = async (): Promise<void> => {
     try {
-      const body = {
+      const userBody = {
         username: localStorage.getItem('username'),
         password: (document.getElementById('delete-password-input') as HTMLInputElement).value
       };
-      const deleteStatus = await Delete(apiRoute.getRoute('user'), body, { authorization: localStorage.getItem('token') }).catch(err => console.log(err));
+      const deleteStatus = await Delete(apiRoute.getRoute('user'), userBody, { authorization: localStorage.getItem('token') }).catch(err => console.log(err));
       console.log(deleteStatus);
       const clusters = await Get(apiRoute.getRoute('cluster'), { authorization: localStorage.getItem('token') });
       console.log(clusters);
@@ -125,7 +132,7 @@ const Admin = () => {
                 autoComplete="current-password"
                 variant="outlined"
                 size='small'
-                onSubmit={handleEnterKeyDownUpdate}
+                onKeyDown={handleEnterKeyDownUpdate}
                 margin="dense"
               />
               <TextField
@@ -135,7 +142,7 @@ const Admin = () => {
                 autoComplete="current-password"
                 variant="outlined"
                 size='small'
-                onSubmit={handleEnterKeyDownUpdate}
+                onKeyDown={handleEnterKeyDownUpdate}
                 margin="dense"
               />
               <TextField
@@ -145,13 +152,13 @@ const Admin = () => {
                 autoComplete="current-password"
                 variant="outlined"
                 size='small'
-                onSubmit={handleEnterKeyDownUpdate}
+                onKeyDown={handleEnterKeyDownUpdate}
                 margin="dense"
               />
             </div>
             <span>
               <Button variant="contained" className="btn" type="button" onClick={handleUserUpdate}>Update Admin Details</Button>
-              <span>{}</span>
+              <span id='update-user-err'>{updateUserErr}</span>
             </span>
           </Container>
         </AccordionDetails>
