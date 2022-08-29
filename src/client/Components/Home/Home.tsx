@@ -25,21 +25,37 @@ const Home = () => {
     getClusters();
   }, [clusterReducer.render]);
 
+  const favClusters: JSX.Element[] = [];
+  const nonFavClusters: JSX.Element[] = [];
+
+  clusters.forEach((element, idx) => {
+    if (element.favorite?.includes(localStorage.getItem('userId') as string)) {
+      (favClusters as any).push(<Kube
+        key={idx}
+        description={element.description}
+        name={element.name}
+        _id={element._id}
+        favorite={element.favorite}
+        favoriteStatus={true}
+      />);
+    }
+    else {
+      (nonFavClusters as any).push(<Kube
+        key={idx}
+        description={element.description}
+        name={element.name}
+        _id={element._id}
+        favorite={element.favorite}
+        favoriteStatus={false}
+      />);
+    }
+  });
+
   return (
     <div className="Kube-port">
       <div className="Kube-container">
-        {clusters.map((element, idx) => {
-          let bool = false;
-          if(element.favorite?.includes(localStorage.getItem('userId') as string)) bool = true;
-          return <Kube
-            key={idx}
-            description={element.description}
-            name={element.name}
-            _id={element._id}
-            favorite={element.favorite}
-            favoriteStatus={bool}
-          />;
-        })}
+        {favClusters}
+        {nonFavClusters}
       </div>
       <NavBar />
     </div>
