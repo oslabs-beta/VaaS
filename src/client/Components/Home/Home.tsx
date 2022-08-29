@@ -31,7 +31,7 @@ const Home = () => {
   clusters.forEach((element, idx) => {
     if (element.favorite?.includes(localStorage.getItem('userId') as string)) {
       (favClusters as any).push(<Kube
-        key={idx}
+        key={'fav' + idx}
         description={element.description}
         name={element.name}
         _id={element._id}
@@ -41,7 +41,7 @@ const Home = () => {
     }
     else {
       (nonFavClusters as any).push(<Kube
-        key={idx}
+        key={'nonFav' + idx}
         description={element.description}
         name={element.name}
         _id={element._id}
