@@ -38,6 +38,7 @@ const Register = () => {
       else {
         localStorage.setItem('token', res.token);
         localStorage.setItem('username', body.username);
+        localStorage.setItem('userId', res.userId);
         navigate('/home');
       }
     } catch (err) {

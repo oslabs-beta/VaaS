@@ -25,7 +25,6 @@ import { setRender } from '../../Store/actions';
 const Kube = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
   const [description, setDescription] = useState<string | undefined>('');
-  const [favoriteStatus, setFavoriteStatus] = useState<boolean | undefined>(props.favoriteStatus);
   const [nodeName, setNodeName] = useState('');
   const [cpuUsage, setCpuUsage] = useState<number | undefined>(0);
   const [memoryUsage, setMemoryUsage] = useState('');
@@ -71,10 +70,9 @@ const Kube = (props: ClusterTypes) => {
     try {
       const body = {
         clusterId: props._id,
-        favorite: !favoriteStatus
+        favorite: !props.favoriteStatus
       };
       await Put(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
-      setFavoriteStatus(!favoriteStatus);
       dispatch(setRender(!clusterReducer.render));
     } catch (err) {
       console.log(err);
