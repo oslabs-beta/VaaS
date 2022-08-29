@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import CustomQuery from '../Modules/CustomQuery';
+import { Visualizer } from '../../Interfaces/IVisualizer';
 
-const Visualizer = () => {
+const Visualizer = (props: Visualizer) => {
   return (
     <div>
-      This is the Visualizer component.
+      <CustomQuery id= {props.id} />
     </div>
   );
 };

@@ -142,7 +142,7 @@ const Kube = (props: ClusterTypes) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {visualizer && <Visualizer />}
+      {visualizer && <Visualizer id={props._id}/>}
       {settings && <ClusterSettings id={props._id}/>}
       <OpenFaaS />
     </Container>
