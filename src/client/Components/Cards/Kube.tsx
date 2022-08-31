@@ -5,9 +5,7 @@ import { ClusterTypes } from '../../Interfaces/ICluster';
 import './styles.css';
 import { Put } from '../../Services';
 import { apiRoute } from '../../utils';
-import Visualizer from '../Visualizer/Visualizer';
-import ClusterSettings from '../ClusterSettings/ClusterSettings';
-import OpenFaaS from './OpenFaaS';
+import Module from './Module';
 import { Container } from '@mui/system';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -30,8 +28,7 @@ const Kube = (props: ClusterTypes) => {
   const [memoryUsage, setMemoryUsage] = useState('');
   const [totalDeployments, setTotalDeployments] = useState('');
   const [totalPods, setTotalPods] = useState('');
-  const [visualizer, setVisualizer] = useState(false);
-  const [settings, setSettings] = useState(false);
+  const [module, setModule] = useState(false);
   const dispatch = useDispatch();
   const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
 
@@ -79,19 +76,9 @@ const Kube = (props: ClusterTypes) => {
     }
   };
 
-  const handleVisualizer = async () => {
+  const handleModule = async () => {
     try {
-      setVisualizer(!visualizer);
-      setSettings(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleSettings = async () => {
-    try {
-      setSettings(!settings);
-      setVisualizer(false);
+      setModule(!module);
     } catch (err) {
       console.log(err);
     }
@@ -114,8 +101,7 @@ const Kube = (props: ClusterTypes) => {
             {'' + description}
         </div>
         <div className='card-controls'>
-          <p><div id="card-control" onClick={handleVisualizer}>Visualizer</div></p>
-          <p><div id="card-control" onClick={handleSettings}>Settings</div></p>
+          <p><div id="card-control" onClick={handleModule}>Modules</div></p>
         </div>
       </div>
       <TableContainer component={Paper}>
@@ -140,9 +126,7 @@ const Kube = (props: ClusterTypes) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {visualizer && <Visualizer />}
-      {settings && <ClusterSettings id={props._id}/>}
-      <OpenFaaS />
+      {module && <Module id={props._id} />}
     </Container>
   );
 };

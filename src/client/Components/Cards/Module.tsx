@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { clusterMetric, nodeMetric } from '../../Queries';
-import { ClusterTypes } from '../../Interfaces/ICluster';
+import { Modules } from '../../Interfaces/ICluster';
 
 import './styles.css';
 import { Put } from '../../Services';
 import { apiRoute } from '../../utils';
-import Visualizer from '../Visualizer/Visualizer';
-import ClusterSettings from '../ClusterSettings/ClusterSettings';
+import Visualizer from '../Modules/Visualizer';
+import ClusterSettings from '../Modules/ClusterSettings';
 import { Container, Box } from '@mui/system';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import Card from '@mui/material/Card';
 
 
-const OpenFaaS = (props: ClusterTypes) => {
+const Module = (props: Modules) => {
   const [visualizer, setVisualizer] = useState(false);
   const [settings, setSettings] = useState(false);
 
@@ -44,4 +37,4 @@ const OpenFaaS = (props: ClusterTypes) => {
   );
 };
 
-export default OpenFaaS;
+export default Module;
