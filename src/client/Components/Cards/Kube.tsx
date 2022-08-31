@@ -10,6 +10,7 @@ import ClusterSettings from '../Modules/ClusterSettings';
 import { Container } from '@mui/system';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@mui/icons-material/Settings';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 import { useDispatch } from 'react-redux';
 import { IReducers } from '../../Interfaces/IReducers';
 import { useSelector } from 'react-redux';
@@ -106,7 +107,8 @@ const Kube = (props: ClusterTypes) => {
           id="basic-button"
           onClick={handleSettings}
         >
-          <SettingsIcon />
+          {module && <SettingsIcon />}
+          {settings && <AnalyticsIcon />}
         </Button>
       </div>
       <div id='overview'>
