@@ -7,6 +7,8 @@ import { IReducers } from '../../Interfaces/IReducers';
 import { Delete } from '../../Services';
 import { setRender } from '../../Store/actions';
 import { apiRoute } from '../../utils';
+import { Container } from '@mui/system';
+import Card from '@mui/material/Card';
 
 const ClusterSettings = (props: Modules) => {
   const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
@@ -26,12 +28,27 @@ const ClusterSettings = (props: Modules) => {
   };
 
   return (
-    <div>
-      <div className='module-title'>
-        Settings
+    <Container component={Card} sx={{
+      height: '33vh',
+      minWidth: '100%',
+      justifyContent: 'left',
+      display: 'flex',
+      direction: 'column',
+      textAlign: 'left',
+      backgroundSize: 'contain',
+      marginBottom: '0.5rem',
+      backgroundImage: "linear-gradient(#4f4a4b, #AFAFAF)"
+    }} id="cluster-card">
+      <div>
+        <div className='module-title'>
+          Settings
+        </div>
+        <div>
+          will render here
+          <button onClick={handleDelete} type='button'>Delete Cluster</button>
+        </div>
       </div>
-      <div><button onClick={handleDelete} type='button'>Delete Cluster</button></div>
-    </div>
+    </Container>
   );
 };
 

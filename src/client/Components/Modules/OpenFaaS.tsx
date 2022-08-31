@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modules } from '../../Interfaces/ICluster';
 import './styles.css';
-import { Container } from '@mui/system';
-
 
 const OpenFaaS = (props: Modules) => {
   return (

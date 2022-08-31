@@ -114,8 +114,6 @@ const Kube = (props: ClusterTypes) => {
             <div className='ov-content'>
               <div><h3>Summary</h3></div>
               <div>{'Node: ' + nodeName}</div>
-              <div>{'Total Deployments: ' + totalDeployments}</div>
-              <div>{'Total Pods: ' + totalPods}</div>
             </div>
         </div>
         <div className='ov-box'>
@@ -130,8 +128,18 @@ const Kube = (props: ClusterTypes) => {
             <div>{'' + memoryUsage}</div>
           </div>
         </div>
-        <div className='ov-box'></div>
-        <div className='ov-box'></div>
+        <div className='ov-box'>
+          <div className='ov-content'>
+            <div><h3>Deployments</h3></div>
+            <div>{'' + totalDeployments}</div>
+          </div>
+        </div>
+        <div className='ov-box'>
+          <div className='ov-content'>
+            <div><h3>Pods</h3></div>
+            <div>{'' + totalPods}</div>
+          </div>
+        </div>
         <div className='ov-box'></div>
       </div>
       <div id='module'>

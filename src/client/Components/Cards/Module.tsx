@@ -20,7 +20,6 @@ const Module = (props: Modules) => {
       direction: 'column',
       textAlign: 'left',
       backgroundSize: 'contain',
-      bgcolor: '#3a4a5b',
       marginBottom: '0.5rem',
       backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)"
     }} id="cluster-card">

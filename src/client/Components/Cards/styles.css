@@ -7,7 +7,7 @@ h3 {
   padding: 0 0.5rem;
   text-align: left;
   flex-direction: column;
-  margin-top: 1rem;  
+  margin-top: 0.6rem;  
   border-radius: 10px;
 }
 
@@ -17,7 +17,7 @@ h3 {
 }
 
 .cluster-title {
-  font-size: 18px;
+  font-size: 17px;
   margin-right: auto;
   margin-left: 0;
 }
