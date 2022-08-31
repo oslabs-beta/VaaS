@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import './styles.css';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { ClusterTypes, Modules } from '../../Interfaces/ICluster';

@@ -116,29 +116,32 @@ const Kube = (props: ClusterTypes) => {
           <SettingsIcon />
         </Button>
       </div>
-      <TableContainer component={Paper}>
-        <Table aria-label="spanning table" sx={{
-          'overflow-y': 'visible',
-        }}>
-          <TableHead>
-            <TableCell align="center">Node</TableCell>
-            <TableCell align="center">CPU Usage</TableCell>
-            <TableCell align="center">Memory Usage</TableCell>
-            <TableCell align="center">Total Deployments</TableCell>
-            <TableCell align="center">Total Pods</TableCell>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell align="center">{'' + nodeName}</TableCell>
-              <TableCell align="center">{'' + cpuUsage + '%'}</TableCell>
-              <TableCell align="center">{'' + memoryUsage}</TableCell>
-              <TableCell align="center">{'' + totalDeployments}</TableCell>
-              <TableCell align="center">{'' + totalPods}</TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <div>
+      <div id='overview'>
+        <div className='ov-box'>
+            <div className='ov-content'>
+              <div><h3>Summary</h3></div>
+              <div>{'Node: ' + nodeName}</div>
+              <div>{'Total Deployments: ' + totalDeployments}</div>
+              <div>{'Total Pods: ' + totalPods}</div>
+            </div>
+        </div>
+        <div className='ov-box'>
+          <div className='ov-content'>
+            <div><h3>CPU Usage</h3></div>
+            <div>{'' + cpuUsage + '%'}</div>
+          </div>
+        </div>
+        <div className='ov-box'>
+          <div className='ov-content'>
+            <div><h3>Memory Usage</h3></div>
+            <div>{'' + memoryUsage}</div>
+          </div>
+        </div>
+        <div className='ov-box'></div>
+        <div className='ov-box'></div>
+        <div className='ov-box'></div>
+      </div>
+      <div id='module'>
         {module && <Module id={props._id} />}
         {settings && <ClusterSettings id={props._id} />}
       </div>
