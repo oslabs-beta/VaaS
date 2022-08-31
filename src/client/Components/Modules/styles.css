@@ -1,4 +1,4 @@
-.faas-title {
+.module-title {
   vertical-align: top;
   margin-top: 0.7rem;
   color: white;
@@ -7,5 +7,4 @@
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
-  border: 1px red solid;
 }

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './styles.css';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { ClusterTypes, Modules } from '../../Interfaces/ICluster';
+import { Modules } from '../../Interfaces/ICluster';
 import { IReducers } from '../../Interfaces/IReducers';
 import { Delete } from '../../Services';
 import { setRender } from '../../Store/actions';
@@ -27,6 +27,9 @@ const ClusterSettings = (props: Modules) => {
 
   return (
     <div>
+      <div className='module-title'>
+        Settings
+      </div>
       <div><button onClick={handleDelete} type='button'>Delete Cluster</button></div>
     </div>
   );
