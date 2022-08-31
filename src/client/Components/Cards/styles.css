@@ -26,6 +26,17 @@
   color: black;
 }
 
+.faas-title {
+  vertical-align: top;
+  margin-top: 0.7rem;
+  color: white;
+  font-size: 13px;
+  cursor: default;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
 .card-controls {
   display: inline-block;
   width: 100%;
