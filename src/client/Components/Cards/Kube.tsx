@@ -5,22 +5,16 @@ import { ClusterTypes } from '../../Interfaces/ICluster';
 import './styles.css';
 import { Put } from '../../Services';
 import { apiRoute } from '../../utils';
-import Visualizer from '../Visualizer/Visualizer';
-import ClusterSettings from '../ClusterSettings/ClusterSettings';
-import OpenFaaS from './OpenFaaS';
+import Module from './Module';
+import ClusterSettings from '../Modules/ClusterSettings';
 import { Container } from '@mui/system';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import SettingsIcon from '@mui/icons-material/Settings';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 import { useDispatch } from 'react-redux';
 import { IReducers } from '../../Interfaces/IReducers';
 import { useSelector } from 'react-redux';
 import { setRender } from '../../Store/actions';
-
 
 const Kube = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
@@ -30,7 +24,7 @@ const Kube = (props: ClusterTypes) => {
   const [memoryUsage, setMemoryUsage] = useState('');
   const [totalDeployments, setTotalDeployments] = useState('');
   const [totalPods, setTotalPods] = useState('');
-  const [visualizer, setVisualizer] = useState(false);
+  const [module, setModule] = useState(true);
   const [settings, setSettings] = useState(false);
   const dispatch = useDispatch();
   const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
@@ -79,19 +73,10 @@ const Kube = (props: ClusterTypes) => {
     }
   };
 
-  const handleVisualizer = async () => {
-    try {
-      setVisualizer(!visualizer);
-      setSettings(false);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const handleSettings = async () => {
     try {
+      setModule(!module);
       setSettings(!settings);
-      setVisualizer(false);
     } catch (err) {
       console.log(err);
     }
@@ -100,14 +85,14 @@ const Kube = (props: ClusterTypes) => {
   return (
     <Container sx={{
       minWidth: '100%',
-      justifyContent: 'center',
+      justifyContent: 'left',
       display: 'flex',
       direction: 'column',
       textAlign: 'left',
       backgroundSize: 'contain',
-      bgcolor: '#3a4a5b'
+      bgcolor: '#3a4a5b',
     }} id="Kube">
-      <div>
+      <div className='Kube-top-row'>
         <div className='cluster-title'>
           {props.favoriteStatus && <span className='set-favorite' onClick={handleFavorite}>❤️</span>}
           {!props.favoriteStatus && <span className='set-favorite' onClick={handleFavorite}>🤍</span>}&nbsp;<b>{'' + clusterName}:&nbsp;</b> 
@@ -140,7 +125,7 @@ const Kube = (props: ClusterTypes) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {visualizer && <Visualizer id={props._id}/>}
+      {visualizer && <Visualizer />}
       {settings && <ClusterSettings id={props._id}/>}
       <OpenFaaS />
     </Container>

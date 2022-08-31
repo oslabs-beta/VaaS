@@ -123,8 +123,32 @@ const Login = () => {
             gap: '.5em',
             padding: '.5em',
           }}>
-            <Button variant="contained" className="btn" type="button" onClick={handleLogin}>Login</Button>
-            <Button variant="contained" className="btn" type="button" onClick={() => navigate('/register')}>Register</Button>
+            <Button 
+              className="btn" 
+              type="button" 
+              onClick={handleLogin}
+              variant='contained'
+              sx={{
+                color: 'white', 
+                backgroundColor: '#3a4a5b', 
+                borderColor: 'white',
+              }}
+            >
+              Login
+            </Button>
+            <Button 
+              className="btn" 
+              type="button" 
+              onClick={() => navigate('/register')}
+              variant='contained'
+              sx={{
+                color: 'white', 
+                backgroundColor: '#3a4a5b', 
+                borderColor: 'white',
+              }}
+            >
+              Register
+            </Button>
           </Container>
           
         </Box>

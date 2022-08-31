@@ -10,6 +10,7 @@ export interface ClusterTypes {
   favoriteStatus?: boolean,
 }
 
-export interface ClusterSettings {
+export interface Modules {
+  _id?: string | undefined,
   id?: string | undefined
 }

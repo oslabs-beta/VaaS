@@ -44,28 +44,31 @@ export default function NavBar() {
       <div className="title noselect">VaaS</div>
       <Button
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
         onClick={handleLogOut}
+        sx={{
+          "&.MuiButton-text": { color: "#3a4a5b" },
+          }}
+        variant="text"
       >
         <LogoutIcon />
       </Button>
       <Button
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
         onClick={routeHome}
+        sx={{
+          "&.MuiButton-text": { color: "#3a4a5b" },
+          }}
+        variant="text"
       >
         <HomeIcon />
       </Button>
       <Button
         id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
         onClick={routeAdmin}
+        sx={{
+          "&.MuiButton-text": { color: "#3a4a5b" },
+          }}
+        variant="text"
       >
         <SettingsIcon />
       </Button>
