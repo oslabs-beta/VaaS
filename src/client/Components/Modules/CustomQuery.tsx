@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modules } from '../../Interfaces/ICluster';
+import './styles.css';
 
-const Visualizer = (props: Modules) => {
+const CustomQuery = (props: Modules) => {
   return (
     <div>
       <div className='module-title'>
-        Visualizer
+        Run Custom Query
       </div>
       <div>
         will render here
@@ -14,4 +15,4 @@ const Visualizer = (props: Modules) => {
   );
 };
 
-export default Visualizer;
+export default CustomQuery;

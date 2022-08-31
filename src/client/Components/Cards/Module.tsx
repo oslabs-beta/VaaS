@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { clusterMetric, nodeMetric } from '../../Queries';
 import { Modules } from '../../Interfaces/ICluster';
-
 import './styles.css';
-import { Put } from '../../Services';
-import { apiRoute } from '../../utils';
+
 import OpenFaaS from '../Modules/OpenFaaS';
-import { Container, Box } from '@mui/system';
+import Visualizer from '../Modules/Visualizer';
+import CustomQuery from '../Modules/CustomQuery';
+import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
 
 
 const Module = (props: Modules) => {
+  const [faas, setFaaS] = useState(true);
+  const [visualizer, setVisualizer] = useState(false);
+  const [custom, setCustom] = useState(false);
+
   return (
     <Container component={Card} sx={{
       height: '33vh',
@@ -23,7 +26,9 @@ const Module = (props: Modules) => {
       marginBottom: '0.5rem',
       backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)"
     }} id="cluster-card">
-      <OpenFaaS />
+      {faas && <OpenFaaS id={props.id} />}
+      {visualizer && <Visualizer id={props.id} />}
+      {custom && <CustomQuery id={props.id} />}
     </Container>
   );
 };
