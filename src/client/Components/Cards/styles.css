@@ -9,6 +9,7 @@ h3 {
   flex-direction: column;
   margin-top: 0.6rem;  
   border-radius: 10px;
+  height: 300px;
 }
 
 .Kube-top-row {
@@ -32,7 +33,8 @@ h3 {
   display: flex;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
-  overflow-y: auto;
+  overflow-y: none;
+  overflow-x: auto;
 }
 
 #overview::-webkit-scrollbar {
@@ -56,7 +58,7 @@ h3 {
 }
 
 #module {
-  height: 22vw;
+  height: 133px;
   margin-top: 0.5rem;
   width: 100%;
 }
