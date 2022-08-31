@@ -1,45 +1,62 @@
+h3 {
+  text-align: center;
+}
+
 #Kube {
   background-color: #ffffff;
   padding: 0 0.5rem;
   text-align: left;
   flex-direction: column;
-  margin-top: 1rem;  
+  margin-top: 0.6rem;  
   border-radius: 10px;
-  height: 86vh;
+}
+
+.Kube-top-row {
+  display: flex;
+  margin-top: 0.5rem;
 }
 
 .cluster-title {
-  vertical-align: top;
-  margin-top: 0.7rem;
-  font-size: 18px;
-}
-
-.faas-title {
-  vertical-align: top;
-  margin-top: 0.7rem;
-  color: white;
-  font-size: 13px;
-  cursor: default;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
-}
-
-.card-controls {
-  display: inline-block;
-  width: 100%;
-  margin-bottom: -5rem;
-}
-
-
-#card-control {
-  display: inline-block;
-  font-size: 12px;
-  margin-right: 0;
-  margin-left: auto;
+  font-size: 17px;
+  margin-right: auto;
+  margin-left: 0;
 }
 
 .set-favorite {
   cursor: pointer;
   user-select: none;
+}
+
+#overview {
+  width: 100%;
+  display: flex;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  overflow-y: auto;
+}
+
+#overview::-webkit-scrollbar {
+  width: 100%;
+  display: none;
+}
+
+.ov-box {
+  background-color: #fafafa;
+  outline: 1px solid #3a4a5b1e;
+  display: inline-block;
+  margin: 0.5rem;
+  font-size: 0.5rem;
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+}
+
+.ov-content {
+  margin: 0.5rem;
+}
+
+#module {
+  height: 22vw;
+  margin-top: 0.5rem;
+  width: 100%;
 }

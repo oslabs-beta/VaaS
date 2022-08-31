@@ -140,18 +140,29 @@ const Register = () => {
           padding: '.5em',
         }}>
           <Button 
-            variant='contained' 
             onClick = {() => navigate('/')}
+            variant='contained'
+            sx={{
+              color: 'white', 
+              backgroundColor: '#3a4a5b', 
+              borderColor: 'white',
+            }}
           > Go Back
           </Button>
-            
           <Button 
-            variant='contained'
             onClick={handleSignUp} 
+            variant='contained'
+            sx={{
+              color: 'white', 
+              backgroundColor: '#3a4a5b', 
+              borderColor: 'white',
+            }}
             type='button'
           > Sign Up</Button>
         </Container>
-        <div><p className='input-error-text'>{registered}</p></div>
+        <div>
+          <p className='input-error-text'>{registered}</p>
+        </div>
       </Container>
     </Container>
   );
