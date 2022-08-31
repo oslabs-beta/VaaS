@@ -29,7 +29,7 @@ const ClusterSettings = (props: Modules) => {
 
   return (
     <Container component={Card} sx={{
-      height: '33vh',
+      height: '100%',
       minWidth: '100%',
       justifyContent: 'left',
       display: 'flex',
