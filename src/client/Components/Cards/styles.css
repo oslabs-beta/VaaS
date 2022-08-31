@@ -8,21 +8,22 @@
   height: 86vh;
 }
 
-.cluster-title {
-  vertical-align: top;
-  margin-top: 0.7rem;
-  font-size: 18px;
+.Kube-top-row {
+  display: flex;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
-.faas-title {
-  vertical-align: top;
-  margin-top: 0.7rem;
-  color: white;
-  font-size: 13px;
-  cursor: default;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+.cluster-title {
+  font-size: 18px;
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.cluster-settings {
+  margin-left: auto;
+  margin-right: 0;
+  color: black;
 }
 
 .card-controls {

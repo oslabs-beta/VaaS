@@ -6,6 +6,7 @@ import './styles.css';
 import { Put } from '../../Services';
 import { apiRoute } from '../../utils';
 import Module from './Module';
+import ClusterSettings from '../Modules/ClusterSettings';
 import { Container } from '@mui/system';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,11 +15,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { useDispatch } from 'react-redux';
 import { IReducers } from '../../Interfaces/IReducers';
 import { useSelector } from 'react-redux';
 import { setRender } from '../../Store/actions';
-
 
 const Kube = (props: ClusterTypes) => {
   const [clusterName, setClusterName] = useState<string | undefined>('');
@@ -28,7 +30,8 @@ const Kube = (props: ClusterTypes) => {
   const [memoryUsage, setMemoryUsage] = useState('');
   const [totalDeployments, setTotalDeployments] = useState('');
   const [totalPods, setTotalPods] = useState('');
-  const [module, setModule] = useState(false);
+  const [module, setModule] = useState(true);
+  const [settings, setSettings] = useState(false);
   const dispatch = useDispatch();
   const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
 
@@ -76,9 +79,10 @@ const Kube = (props: ClusterTypes) => {
     }
   };
 
-  const handleModule = async () => {
+  const handleSettings = async () => {
     try {
       setModule(!module);
+      setSettings(!settings);
     } catch (err) {
       console.log(err);
     }
@@ -87,26 +91,34 @@ const Kube = (props: ClusterTypes) => {
   return (
     <Container sx={{
       minWidth: '100%',
-      justifyContent: 'center',
+      justifyContent: 'left',
       display: 'flex',
       direction: 'column',
       textAlign: 'left',
       backgroundSize: 'contain',
-      bgcolor: '#3a4a5b'
+      bgcolor: '#3a4a5b',
     }} id="Kube">
-      <div>
+      <div className='Kube-top-row'>
         <div className='cluster-title'>
           {props.favoriteStatus && <span className='set-favorite' onClick={handleFavorite}>❤️</span>}
           {!props.favoriteStatus && <span className='set-favorite' onClick={handleFavorite}>🤍</span>}&nbsp;<b>{'' + clusterName}:&nbsp;</b> 
             {'' + description}
         </div>
-        <div className='card-controls'>
-          <p><div id="card-control" onClick={handleModule}>Modules</div></p>
-        </div>
+        <Button 
+          className='cluster-settings' 
+          sx={{
+            color: "#3a4a5b",
+          }}
+          variant="text"
+          id="basic-button"
+          onClick={handleSettings}
+        >
+          <SettingsIcon />
+        </Button>
       </div>
       <TableContainer component={Paper}>
         <Table aria-label="spanning table" sx={{
-          'overflow-y': 'visible'
+          'overflow-y': 'visible',
         }}>
           <TableHead>
             <TableCell align="center">Node</TableCell>
@@ -126,7 +138,10 @@ const Kube = (props: ClusterTypes) => {
           </TableBody>
         </Table>
       </TableContainer>
-      {module && <Module id={props._id} />}
+      <div>
+        {module && <Module id={props._id} />}
+        {settings && <ClusterSettings id={props._id} />}
+      </div>
     </Container>
   );
 };
