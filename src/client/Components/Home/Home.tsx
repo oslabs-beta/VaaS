@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Box, Button, TextField } from '@mui/material';
+import { useAppSelector } from '../../Store/hooks';
 
-import { IReducers } from '../../Interfaces/IReducers';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
@@ -11,7 +9,7 @@ import { Get } from '../../Services';
 import { apiRoute } from '../../utils';
 
 const Home = () => {
-  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
+  const clusterReducer = useAppSelector(state => state.clusterReducer);
   const [clusters, setClusters] = useState<ClusterTypes[]>([]);
 
   useEffect(() => {
