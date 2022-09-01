@@ -9,7 +9,7 @@ import Module from './Module';
 import ClusterSettings from '../Modules/ClusterSettings';
 import { Container } from '@mui/system';
 import Button from '@mui/material/Button';
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsIcon from '@mui/icons-material/Settings';  
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import { useDispatch } from 'react-redux';
 import { IReducers } from '../../Interfaces/IReducers';
