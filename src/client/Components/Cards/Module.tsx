@@ -14,11 +14,12 @@ import GrainIcon from '@mui/icons-material/Grain';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Module = (props: Modules) => {
-  const { state } = useLocation();
+  const { state }: any = useLocation();
   const navigate = useNavigate();
   const [faas, setFaaS] = useState(true);
   const [visualizer, setVisualizer] = useState(false);
   const [custom, setCustom] = useState(false);
+  const [currentModule, setCurrentModule] = useState('module');
   const [style, setStyle] = useState({
     color: "white",
     minHeight: '100%',
@@ -44,11 +45,31 @@ const Module = (props: Modules) => {
       setButtonColor({
         color: "#3a4a5b"
       });
+      if (state) {
+        switch (state[1]) {
+          case 'faas':
+            setFaaS(true);
+            setVisualizer(false);
+            setCustom(false);
+            break;
+          case 'visualizer':
+            setFaaS(false);
+            setVisualizer(true);
+            setCustom(false);
+            break;
+          case 'custom':
+            setFaaS(false);
+            setVisualizer(false);
+            setCustom(true);
+            break;
+        }
+      }
     }
   }, []);
 
   const handleFaaSButton = () => {
     setFaaS(true);
+    setCurrentModule('faas');
     setVisualizer(false);
     setCustom(false);
   };
@@ -56,6 +77,7 @@ const Module = (props: Modules) => {
   const handleVisualizerButton = () => {
     setFaaS(false);
     setVisualizer(true);
+    setCurrentModule('visualizer');
     setCustom(false);
   };
 
@@ -63,6 +85,7 @@ const Module = (props: Modules) => {
     setFaaS(false);
     setVisualizer(false);
     setCustom(true);
+    setCurrentModule('custom');
   };
 
   return (
@@ -109,7 +132,14 @@ const Module = (props: Modules) => {
             variant="text"
             id="basic-button"
             className='full-screen-button'
-            onClick={()=> navigate('/module', { state: props.id })}
+            onClick={()=> navigate(
+              '/module', 
+              { state: [
+                  props.id,
+                  currentModule
+                ]
+              }
+            )}
           >
             <FullscreenIcon />
           </Button>}
@@ -121,7 +151,13 @@ const Module = (props: Modules) => {
             variant="text"
             id="basic-button"
             className='full-screen-button'
-            onClick={()=> navigate('/home', { state: props.id })}
+            onClick={()=> navigate(
+              '/home', 
+              { state: [
+                  props.id
+                ]
+              }
+            )}
           >
             <FullscreenExitIcon />
           </Button>}
