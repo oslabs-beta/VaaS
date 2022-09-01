@@ -9,6 +9,7 @@ import { setRender } from '../../Store/actions';
 import { apiRoute } from '../../utils';
 import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
+import Button from '@mui/material/Button';
 
 const ClusterSettings = (props: Modules) => {
   const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
@@ -68,31 +69,49 @@ const ClusterSettings = (props: Modules) => {
   return (
     <Container component={Card} sx={{
       color: "white",
-      minHeight: '143px',
+      minHeight: '100%',
       minWidth: '100%',
       display: 'flex',
       textAlign: 'left',
-      marginBottom: '0.5rem',
       backgroundImage: "linear-gradient(#4f4a4b, #AFAFAF)"
     }} className="module-container">
       <div className='Module-top-row'>
-        <div className='settings-title noselect'>
+        <div className='module-title noselect'>
           Cluster Settings
         </div>
+        <Button 
+          sx={{
+            color: 'white',
+            marginRight: '9px'
+          }}
+          variant="text"
+          id="basic-button"
+          className='full-screen-button'
+          onClick={handleDeleteCluster}
+        >
+          Delete
+        </Button>
+        <Button 
+          sx={{
+            color: 'white'
+          }}
+          variant="text"
+          id="basic-button"
+          className='full-screen-button'
+          onClick={handleUpdateCluster}
+        >
+          Update
+        </Button>
       </div>
       <div id='module-content'>
         Cluster ID: {props.id}
-        <button onClick={handleDeleteCluster} id='delete-cluster-btn' type='button'>Delete Cluster</button>
         <span>{updateClusterError}</span>
-      </div>
-      <div>
         <p>{`Update cluster - URL: ${props.url} - K8 Port: ${props.k8_port} - FaaS Port: ${props.faas_port} - Cluster name: ${props.name} - Cluster Description: ${props.description}`}</p>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-url' type="text" placeholder='URL'/>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-k8' type="text" placeholder='K8 port'/>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-faas' type="text" placeholder='FaaS port'/>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-name' type="text" placeholder='Cluster name'/>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-description' type="text" placeholder='Cluster description'/>
-        <button onClick={handleUpdateCluster}>Update cluster</button>
       </div>
     </Container>
   );
