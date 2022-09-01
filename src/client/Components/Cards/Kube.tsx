@@ -157,7 +157,7 @@ const Kube = (props: ClusterTypes) => {
       </div>
       <div id='module'>
         {module && <Module id={props._id} nested={true} />}
-        {settings && <ClusterSettings id={props._id} />}
+        {settings && <ClusterSettings url={props.url} k8_port={props.k8_port} faas_port={props.faas_port} name={props.name} description={props.description} id={props._id} />}
       </div>
     </Container>
   );
