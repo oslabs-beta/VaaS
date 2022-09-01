@@ -1,15 +1,12 @@
 import React from 'react';
+// import Graph from 'react-graph-vis';
+// import '../../Interfaces/IGraph';
 import { Modules } from '../../Interfaces/ICluster';
 
 const Visualizer = (props: Modules) => {
   return (
     <div>
-      <div className='module-title'>
-        Visualizer
-      </div>
-      <div>
-        will render here
-      </div>
+      will render here
     </div>
   );
 };

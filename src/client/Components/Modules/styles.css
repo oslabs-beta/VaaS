@@ -1,10 +1,5 @@
-.module-title {
-  margin-top: 0.7rem;
-  color: white;
-  font-size: 0.6rem;
-  cursor: default;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
-  display: block;
+.setting-fields {
+  width: 100%;
+  border: 1px red border;
+  overflow: scroll;
 }

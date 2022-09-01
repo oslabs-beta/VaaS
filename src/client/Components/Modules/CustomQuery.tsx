@@ -9,10 +9,10 @@ import { apiRoute } from '../../utils';
 import customMetric from '../../Queries/Custom';
 import { Accordion, AccordionSummary, AccordionDetails, Button, Container, TextField } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Module from 'module';
+import { Modules } from '../../Interfaces/ICluster';
 
 
-const CustomQuery = (props: Module) => {
+const CustomQuery = (props: Modules) => {
   const handleCustom = async (): Promise<void> => {
     try {
       const query = (document.getElementById('query-input') as HTMLInputElement).value;
@@ -27,6 +27,7 @@ const CustomQuery = (props: Module) => {
 
   return (
     <div>
+
       <TextField
       id="query-input"
       variant="outlined"
@@ -34,7 +35,7 @@ const CustomQuery = (props: Module) => {
       // onKeyDown={handleEnterKeyDownUpdate}
       margin="dense"/>
       <Button variant="contained" className="btn" type="button" onClick = {handleCustom}>Custom Query Search</Button>
-
+      will render here
     </div>
   );
 };

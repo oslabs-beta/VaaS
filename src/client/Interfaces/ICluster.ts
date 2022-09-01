@@ -11,6 +11,12 @@ export interface ClusterTypes {
 }
 
 export interface Modules {
-  _id?: string | undefined,
-  id?: string | undefined
+  _id?: string,
+  id?: string,
+  nested?: boolean,
+  name?: string,
+  url?: string,
+  k8_port?: number | undefined,
+  faas_port?: number | undefined,
+  description?: string,
 }

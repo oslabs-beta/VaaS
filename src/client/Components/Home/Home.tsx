@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Box, Button, TextField } from '@mui/material';
+import { useAppSelector } from '../../Store/hooks';
 
-import { IReducers } from '../../Interfaces/IReducers';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
@@ -11,7 +9,7 @@ import { Get } from '../../Services';
 import { apiRoute } from '../../utils';
 
 const Home = () => {
-  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
+  const clusterReducer = useAppSelector(state => state.clusterReducer);
   const [clusters, setClusters] = useState<ClusterTypes[]>([]);
 
   useEffect(() => {
@@ -32,8 +30,11 @@ const Home = () => {
     if (element.favorite?.includes(localStorage.getItem('userId') as string)) {
       (favClusters as any).push(<Kube
         key={'fav' + idx}
-        description={element.description}
+        url={element.url}
+        k8_port={element.k8_port}
+        faas_port={element.faas_port}
         name={element.name}
+        description={element.description}
         _id={element._id}
         favorite={element.favorite}
         favoriteStatus={true}
@@ -42,8 +43,11 @@ const Home = () => {
     else {
       (nonFavClusters as any).push(<Kube
         key={'nonFav' + idx}
-        description={element.description}
+        url={element.url}
+        k8_port={element.k8_port}
+        faas_port={element.faas_port}
         name={element.name}
+        description={element.description}
         _id={element._id}
         favorite={element.favorite}
         favoriteStatus={false}
