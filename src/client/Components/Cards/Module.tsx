@@ -10,6 +10,7 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import GrainIcon from '@mui/icons-material/Grain';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 const Module = (props: Modules) => {
@@ -20,24 +21,28 @@ const Module = (props: Modules) => {
   const [custom, setCustom] = useState(false);
   const [style, setStyle] = useState({
     color: "white",
-    minHeight: '143px',
+    minHeight: '100%',
     minWidth: '100%',
     display: 'flex',
     textAlign: 'left',
-    marginBottom: '0.5rem',
     backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)"
+  });
+  const [buttonColor, setButtonColor] = useState({
+    color: "white"
   });
 
   useEffect(() => {
     if (!props.nested) {
       setStyle({
         color: 'black',
-        minHeight: '58vw',
+        minHeight: '92vh',
         minWidth: '100%',
         display: 'flex',
         textAlign: 'left',
-        marginBottom: '0.5rem',
         backgroundImage: ""
+      });
+      setButtonColor({
+        color: "#3a4a5b"
       });
     }
   }, []);
@@ -65,19 +70,40 @@ const Module = (props: Modules) => {
       <Container component={Card} sx={style} className="module-container">
         <div className='Module-top-row'>
           <div className='module-title noselect'>
-              {faas && <div>OpenFaaS</div>}
-              {visualizer && <div>Visualizer</div>}
-              {custom && <div>Run Custom Query</div>}
-              
+            {faas && <div>OpenFaaS</div>}
+            {visualizer && <div>Visualizer</div>}
+            {custom && <div>Run Custom Query</div>}
           </div>
-          <span>
-            <button className='module-btn' onClick={handleFaaSButton}>OpenFaaS</button>
-            <button className='module-btn' onClick={handleVisualizerButton}>Visualizer</button>
-            <button className='module-btn' onClick={handleCustomButton}>Custom Queries</button>
-          </span>
+          <Button 
+            sx={buttonColor}
+            variant="text"
+            id="basic-button"
+            className='full-screen-button'
+            onClick={handleCustomButton}
+          >
+            Query
+          </Button>
+          <Button 
+            sx={buttonColor}
+            variant="text"
+            id="basic-button"
+            className='full-screen-button'
+            onClick={handleFaaSButton}
+          >
+            FaaS
+          </Button>
+          <Button 
+            sx={buttonColor}
+            variant="text"
+            id="basic-button"
+            className='full-screen-button'
+            onClick={handleVisualizerButton}
+          >
+            <GrainIcon />
+          </Button>
           {props.nested && <Button 
             sx={{
-              color: "white",
+              ...buttonColor,
               marginRight: '-9px'
             }}
             variant="text"
@@ -89,7 +115,7 @@ const Module = (props: Modules) => {
           </Button>}
           {!props.nested && <Button 
             sx={{
-              color: "#3a4a5b",
+              ...buttonColor,
               marginRight: '-9px'
             }}
             variant="text"
