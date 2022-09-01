@@ -15,8 +15,6 @@ import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { setRender } from '../../Store/actions';
 
 const Kube = (props: ClusterTypes) => {
-  const [clusterName, setClusterName] = useState<string | undefined>('');
-  const [description, setDescription] = useState<string | undefined>('');
   const [nodeName, setNodeName] = useState('');
   const [cpuUsage, setCpuUsage] = useState<number | undefined>(0);
   const [memoryUsage, setMemoryUsage] = useState('');
@@ -54,8 +52,6 @@ const Kube = (props: ClusterTypes) => {
       setTotalPods(totalPods);
     };
     fetchTotalPod();
-    setClusterName(props.name);
-    setDescription(props.description);
   }, []);
 
   const handleFavorite = async () => {
@@ -95,8 +91,8 @@ const Kube = (props: ClusterTypes) => {
           {props.favoriteStatus && <span className='set-favorite noselect' onClick={handleFavorite}>❤️</span>}
           {!props.favoriteStatus && <span className='set-favorite noselect' onClick={handleFavorite}>🤍</span>}
           <span className='set-favorite noselect'>&nbsp;</span>
-          <b>{'' + clusterName}:&nbsp;</b> 
-            {'' + description}
+          <b>{'' + props.name}:&nbsp;</b> 
+            {'' + props.description}
         </div>
         <Button 
           sx={{
@@ -155,7 +151,7 @@ const Kube = (props: ClusterTypes) => {
       </div>
       <div id='module'>
         {module && <Module id={props._id} nested={true} />}
-        {settings && <ClusterSettings id={props._id} />}
+        {settings && <ClusterSettings url={props.url} k8_port={props.k8_port} faas_port={props.faas_port} name={props.name} description={props.description} id={props._id} />}
       </div>
     </Container>
   );

@@ -30,8 +30,11 @@ const Home = () => {
     if (element.favorite?.includes(localStorage.getItem('userId') as string)) {
       (favClusters as any).push(<Kube
         key={'fav' + idx}
-        description={element.description}
+        url={element.url}
+        k8_port={element.k8_port}
+        faas_port={element.faas_port}
         name={element.name}
+        description={element.description}
         _id={element._id}
         favorite={element.favorite}
         favoriteStatus={true}
@@ -40,8 +43,11 @@ const Home = () => {
     else {
       (nonFavClusters as any).push(<Kube
         key={'nonFav' + idx}
-        description={element.description}
+        url={element.url}
+        k8_port={element.k8_port}
+        faas_port={element.faas_port}
         name={element.name}
+        description={element.description}
         _id={element._id}
         favorite={element.favorite}
         favoriteStatus={false}

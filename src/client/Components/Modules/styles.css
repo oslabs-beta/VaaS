@@ -7,3 +7,11 @@
   margin-right: auto;
   margin-left: 0;
 }
+
+#delete-cluster-btn {
+  margin: 0 0.5rem;
+}
+
+.update-cluster-input {
+  margin: 0 0.5rem
+}
