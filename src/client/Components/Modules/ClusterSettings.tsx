@@ -103,13 +103,13 @@ const ClusterSettings = (props: Modules) => {
       </div>
       <div id='module-content'>
         Cluster ID: {props.id}
-        <span>{updateClusterError}</span>
         <p>{`Update cluster - URL: ${props.url} - K8 Port: ${props.k8_port} - FaaS Port: ${props.faas_port} - Cluster name: ${props.name} - Cluster Description: ${props.description}`}</p>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-url' type="text" placeholder='URL'/>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-k8' type="text" placeholder='K8 port'/>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-faas' type="text" placeholder='FaaS port'/>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-name' type="text" placeholder='Cluster name'/>
         <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-description' type="text" placeholder='Cluster description'/>
+        <p>{updateClusterError}</p>
       </div>
     </Container>
   );
