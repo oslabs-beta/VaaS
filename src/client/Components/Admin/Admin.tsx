@@ -1,8 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Post, Put, Delete, Get } from '../../Services/index';
 import { apiRoute } from '../../utils';
-import { Accordion, AccordionSummary, AccordionDetails, Button, Container, TextField } from '@mui/material';
+
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+
+
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import NavBar from '../Home/NavBar';

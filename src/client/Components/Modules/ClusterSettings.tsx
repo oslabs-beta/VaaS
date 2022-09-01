@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import './styles.css';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { Modules } from '../../Interfaces/ICluster';
-import { IReducers } from '../../Interfaces/IReducers';
 import { Delete } from '../../Services';
 import { setRender } from '../../Store/actions';
 import { apiRoute } from '../../utils';
 import { Container } from '@mui/system';
-import Card from '@mui/material/Card';
+import Card from '@mui/material/Card'
 
 const ClusterSettings = (props: Modules) => {
-  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
-  const dispatch = useDispatch();
+  const clusterReducer = useAppSelector(state => state.clusterReducer);
+  const dispatch = useAppDispatch();
 
   const handleDelete = async () => {
     console.log(props.id);

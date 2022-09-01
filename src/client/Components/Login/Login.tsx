@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { useNavigate } from 'react-router-dom';
 
-import { IReducers } from '../../Interfaces/IReducers';
 import { apiRoute } from '../../utils';
 import { setTitle } from '../../Store/actions';
 import { Put } from '../../Services/index';
@@ -13,8 +12,8 @@ import { Container, Box, Button, TextField } from '@mui/material';
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
   const [passwordErr, setPasswordErr] = useState('Password');
-  const dispatch = useDispatch();
-  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
+  const dispatch = useAppDispatch();
+  const clusterReducer = useAppSelector(state => state.clusterReducer);
   const navigate = useNavigate();
 
 

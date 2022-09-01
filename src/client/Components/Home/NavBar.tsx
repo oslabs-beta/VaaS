@@ -1,25 +1,14 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { IReducers } from '../../Interfaces/IReducers';
-import { Get } from '../../Services';
 
-import { setTitle } from '../../Store/actions';
-import { apiRoute } from '../../utils';
-import { Button, MenuItem, Menu } from '@mui/material';
+
+import { Button } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function NavBar() {
-  const navBarReducer = useSelector((state: IReducers) => state.navBarReducer);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const navBarOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
   
   const routeHome = () => {
     navigate('/home');
