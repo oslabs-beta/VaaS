@@ -38,12 +38,21 @@ const ClusterSettings = (props: Modules) => {
         name: (document.getElementById('update-cluster-name') as HTMLInputElement).value || props.name,
         description: (document.getElementById('update-cluster-description') as HTMLInputElement).value || props.description,
       };
-
+      if(body.url === props.url && body.k8_port === props.k8_port && body.faas_port === props.faas_port && body.name === props.name && body.description === props.description) {
+        setUpdateClusterError('Nothing to update!');
+        return;
+      }
       if(!body.k8_port?.toString().match(/[0-9]/g) || !body.faas_port?.toString().match(/[0-9]/g)) {
         setUpdateClusterError('Port(s) must be numbers');
         return;
       }
-
+      if(body.name !== props.name) {
+        const cluster = await Get(apiRoute.getRoute(`cluster:${body.name}`), { authorization: localStorage.getItem('token') });
+        if(!cluster.message) {
+          setUpdateClusterError('Cluster name already exists. Try another name.');
+          return;
+        }
+      }
       await Put(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
       setUpdateClusterError('Cluster successfully updated');
       dispatch(setRender(!clusterReducer.render));

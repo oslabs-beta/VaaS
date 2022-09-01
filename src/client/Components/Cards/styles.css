@@ -96,3 +96,7 @@ h3 {
   display: block;
   width: 100%;
 }
+
+.module-btn {
+  float: right;
+}
