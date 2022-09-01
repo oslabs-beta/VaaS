@@ -1,6 +1,5 @@
-#delete-cluster-btn {  margin: 0 8px;
-}
-
-.update-cluster-input {
-  margin: 0 8px;
+.setting-fields {
+  width: 100%;
+  border: 1px red border;
+  overflow: scroll;
 }

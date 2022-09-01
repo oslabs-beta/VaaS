@@ -163,8 +163,7 @@ const Module = (props: Modules) => {
           </Button>}
         </div>
         <div id='module-content'>
-          Cluster ID: {props.id}
-          {location.pathname === '/module' && state as JSX.Element}
+          <div className='cluster-id'>Cluster ID: {props.id}{location.pathname === '/module' && state[0] as JSX.Element}</div>
           {faas && <OpenFaaS id={props.id} />}
           {visualizer && <Visualizer id={props.id} />}
           {custom && <CustomQuery id={props.id} />}
