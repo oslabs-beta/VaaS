@@ -17,8 +17,6 @@ import { useSelector } from 'react-redux';
 import { setRender } from '../../Store/actions';
 
 const Kube = (props: ClusterTypes) => {
-  const [clusterName, setClusterName] = useState<string | undefined>('');
-  const [description, setDescription] = useState<string | undefined>('');
   const [nodeName, setNodeName] = useState('');
   const [cpuUsage, setCpuUsage] = useState<number | undefined>(0);
   const [memoryUsage, setMemoryUsage] = useState('');
@@ -56,8 +54,6 @@ const Kube = (props: ClusterTypes) => {
       setTotalPods(totalPods);
     };
     fetchTotalPod();
-    setClusterName(props.name);
-    setDescription(props.description);
   }, []);
 
   const handleFavorite = async () => {
@@ -97,8 +93,8 @@ const Kube = (props: ClusterTypes) => {
           {props.favoriteStatus && <span className='set-favorite noselect' onClick={handleFavorite}>❤️</span>}
           {!props.favoriteStatus && <span className='set-favorite noselect' onClick={handleFavorite}>🤍</span>}
           <span className='set-favorite noselect'>&nbsp;</span>
-          <b>{'' + clusterName}:&nbsp;</b> 
-            {'' + description}
+          <b>{'' + props.name}:&nbsp;</b> 
+            {'' + props.description}
         </div>
         <Button 
           sx={{
