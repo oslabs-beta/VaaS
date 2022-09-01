@@ -29,24 +29,22 @@ const ClusterSettings = (props: Modules) => {
 
   return (
     <Container component={Card} sx={{
-      height: '100%',
+      color: "white",
+      minHeight: '143px',
       minWidth: '100%',
-      justifyContent: 'left',
       display: 'flex',
-      direction: 'column',
       textAlign: 'left',
-      backgroundSize: 'contain',
       marginBottom: '0.5rem',
       backgroundImage: "linear-gradient(#4f4a4b, #AFAFAF)"
-    }} id="cluster-card">
-      <div>
-        <div className='module-title'>
-          Settings
+    }} className="module-container">
+      <div className='Module-top-row'>
+        <div className='settings-title noselect'>
+          Cluster Settings
         </div>
-        <div>
-          will render here
-          <button onClick={handleDelete} type='button'>Delete Cluster</button>
-        </div>
+      </div>
+      <div id='module-content'>
+        Cluster ID: {props.id}
+        <button onClick={handleDelete} type='button'>Delete Cluster</button>
       </div>
     </Container>
   );

@@ -5,6 +5,9 @@ import Login from './Login/Login';
 import Home from './Home/Home';
 import Register from './Login/Register';
 import Admin from './Admin/Admin';
+import Module from './Cards/Module';
+import Visualizer from './Modules/Visualizer';
+import CustomQuery from './Modules/CustomQuery';
 import { Get } from '../Services';
 import { apiRoute } from '../utils';
 import { useDispatch } from 'react-redux';
@@ -41,7 +44,8 @@ const App = () => {
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register />} />
-      <Route path ="/admin" element={<Admin />} />
+      <Route path="/admin" element={<Admin />} />
+      <Route path="/module" element={<Module />} />
     </Routes>
   );
 };

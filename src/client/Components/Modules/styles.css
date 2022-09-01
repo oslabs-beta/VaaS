@@ -1,10 +1,9 @@
-.module-title {
-  margin-top: 0.7rem;
+.settings-title {
   color: white;
-  font-size: 0.6rem;
+  font-size: 1rem;
+  width: 100%;
+  display: inline-block;
   cursor: default;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
-  display: block;
+  margin-right: auto;
+  margin-left: 0;
 }

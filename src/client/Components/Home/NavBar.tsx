@@ -20,9 +20,6 @@ export default function NavBar() {
   const navBarOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const navBarClose = () => {
-    setAnchorEl(null);
-  };
   
   const routeHome = () => {
     navigate('/home');
@@ -33,11 +30,11 @@ export default function NavBar() {
   };
 
   const handleLogOut = (): void => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        localStorage.removeItem('userId');
-        navigate('/');
-      };
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
+    navigate('/');
+  };
 
   return (
     <div id='navbar'>
@@ -46,8 +43,8 @@ export default function NavBar() {
         id="basic-button"
         onClick={handleLogOut}
         sx={{
-          "&.MuiButton-text": { color: "#3a4a5b" },
-          }}
+          color: "#3a4a5b"
+        }}
         variant="text"
       >
         <LogoutIcon />
@@ -56,8 +53,8 @@ export default function NavBar() {
         id="basic-button"
         onClick={routeHome}
         sx={{
-          "&.MuiButton-text": { color: "#3a4a5b" },
-          }}
+          color: "#3a4a5b"
+        }}
         variant="text"
       >
         <HomeIcon />
@@ -66,8 +63,8 @@ export default function NavBar() {
         id="basic-button"
         onClick={routeAdmin}
         sx={{
-          "&.MuiButton-text": { color: "#3a4a5b" },
-          }}
+          color: "#3a4a5b"
+        }}
         variant="text"
       >
         <SettingsIcon />

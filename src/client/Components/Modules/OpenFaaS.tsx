@@ -5,12 +5,7 @@ import './styles.css';
 const OpenFaaS = (props: Modules) => {
   return (
     <div>
-      <div className='module-title'>
-        OpenFaaS
-      </div>
-      <div>
-        will render here
-      </div>
+      will render here
     </div>
   );
 };

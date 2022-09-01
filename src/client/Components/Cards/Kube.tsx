@@ -90,16 +90,17 @@ const Kube = (props: ClusterTypes) => {
       direction: 'column',
       textAlign: 'left',
       backgroundSize: 'contain',
-      bgcolor: '#3a4a5b',
+      bgColor: '#3a4a5b',
     }} id="Kube">
       <div className='Kube-top-row'>
         <div className='cluster-title'>
-          {props.favoriteStatus && <span className='set-favorite' onClick={handleFavorite}>❤️</span>}
-          {!props.favoriteStatus && <span className='set-favorite' onClick={handleFavorite}>🤍</span>}&nbsp;<b>{'' + clusterName}:&nbsp;</b> 
+          {props.favoriteStatus && <span className='set-favorite noselect' onClick={handleFavorite}>❤️</span>}
+          {!props.favoriteStatus && <span className='set-favorite noselect' onClick={handleFavorite}>🤍</span>}
+          <span className='set-favorite noselect'>&nbsp;</span>
+          <b>{'' + clusterName}:&nbsp;</b> 
             {'' + description}
         </div>
         <Button 
-          className='cluster-settings' 
           sx={{
             color: "#3a4a5b",
           }}
@@ -114,38 +115,48 @@ const Kube = (props: ClusterTypes) => {
       <div id='overview'>
         <div className='ov-box'>
             <div className='ov-content'>
-              <div><h3>Summary</h3></div>
+              <div className='noselect'>
+                <h3>Summary</h3>
+              </div>
               <div>{'Node: ' + nodeName}</div>
             </div>
         </div>
         <div className='ov-box'>
           <div className='ov-content'>
-            <div><h3>CPU Usage</h3></div>
+            <div className='noselect'>
+              <h3>CPU Usage</h3>
+            </div>
             <div>{'' + cpuUsage + '%'}</div>
           </div>
         </div>
         <div className='ov-box'>
           <div className='ov-content'>
-            <div><h3>Memory Usage</h3></div>
+            <div className='noselect'>
+              <h3>Memory Usage</h3>
+            </div>
             <div>{'' + memoryUsage}</div>
           </div>
         </div>
         <div className='ov-box'>
           <div className='ov-content'>
-            <div><h3>Deployments</h3></div>
+            <div className='noselect'>
+              <h3>Deployments</h3>
+            </div>
             <div>{'' + totalDeployments}</div>
           </div>
         </div>
         <div className='ov-box'>
           <div className='ov-content'>
-            <div><h3>Pods</h3></div>
+            <div className='noselect'>
+              <h3>Pods</h3>
+            </div>
             <div>{'' + totalPods}</div>
           </div>
         </div>
         <div className='ov-box'></div>
       </div>
       <div id='module'>
-        {module && <Module id={props._id} />}
+        {module && <Module id={props._id} nested={true} />}
         {settings && <ClusterSettings id={props._id} />}
       </div>
     </Container>
