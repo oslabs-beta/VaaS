@@ -28,6 +28,10 @@ const Admin = () => {
         setAddClusterMessage('Missing input fields');
         return;
       }
+      if(!body.k8_port.match(/[0-9]/g) || !body.faas_port.match(/[0-9]/g)) {
+        setAddClusterMessage('Port(s) must be numbers');
+        return;
+      }
       const res = await Get(apiRoute.getRoute(`cluster:${body.name}`), { authorization: localStorage.getItem('token') });
       console.log(res);
       if (res.message) {

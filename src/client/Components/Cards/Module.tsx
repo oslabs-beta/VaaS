@@ -42,15 +42,39 @@ const Module = (props: Modules) => {
     }
   }, []);
 
+  const handleFaaSButton = () => {
+    setFaaS(true);
+    setVisualizer(false);
+    setCustom(false);
+  };
+
+  const handleVisualizerButton = () => {
+    setFaaS(false);
+    setVisualizer(true);
+    setCustom(false);
+  };
+
+  const handleCustomButton = () => {
+    setFaaS(false);
+    setVisualizer(false);
+    setCustom(true);
+  };
+
   return (
     <div>
       <Container component={Card} sx={style} className="module-container">
         <div className='Module-top-row'>
           <div className='module-title noselect'>
-            {faas && <div>OpenFaaS</div>}
-            {visualizer && <div>Visualizer</div>}
-            {custom && <div>Run Custom Query</div>}
+              {faas && <div>OpenFaaS</div>}
+              {visualizer && <div>Visualizer</div>}
+              {custom && <div>Run Custom Query</div>}
+              
           </div>
+          <span>
+            <button className='module-btn' onClick={handleFaaSButton}>OpenFaaS</button>
+            <button className='module-btn' onClick={handleVisualizerButton}>Visualizer</button>
+            <button className='module-btn' onClick={handleCustomButton}>Custom Queries</button>
+          </span>
           {props.nested && <Button 
             sx={{
               color: "white",
