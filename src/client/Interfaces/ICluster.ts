@@ -12,5 +12,6 @@ export interface ClusterTypes {
 
 export interface Modules {
   _id?: string | undefined,
-  id?: string | undefined
+  id?: string | undefined,
+  nested?: boolean | undefined
 }

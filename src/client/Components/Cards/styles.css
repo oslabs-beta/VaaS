@@ -35,6 +35,7 @@ h3 {
   scrollbar-width: none;  /* Firefox */
   overflow-y: none;
   overflow-x: auto;
+  /* border: 1px red solid; */
 }
 
 #overview::-webkit-scrollbar {
@@ -44,13 +45,14 @@ h3 {
 
 .ov-box {
   background-color: #fafafa;
-  outline: 1px solid #3a4a5b1e;
+  border: 1px solid #3a4a5b1e;
   display: inline-block;
-  margin: 0.5rem;
   font-size: 0.5rem;
   width: 100px;
   height: 100px;
   min-width: 100px;
+  margin-top: 0.25rem;
+  margin-right: 0.5rem;
 }
 
 .ov-content {
@@ -58,7 +60,39 @@ h3 {
 }
 
 #module {
-  height: 133px;
+  height: 143px;
   margin-top: 0.5rem;
+  width: 100%;
+}
+
+.module-container {
+  width: 100%;
+  flex-direction: column;
+}
+
+.Module-top-row {
+  width: 100%;
+  display: flex;
+  margin-top: 0.5rem;
+}
+
+.module-title {
+  font-size: 1rem;
+  width: 100%;
+  display: inline-block;
+  cursor: default;
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.full-screen-button {
+  display: inline-block;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+#module-content {
+  font-size: 0.6rem;
+  display: block;
   width: 100%;
 }

@@ -5,12 +5,7 @@ import './styles.css';
 const CustomQuery = (props: Modules) => {
   return (
     <div>
-      <div className='module-title'>
-        Run Custom Query
-      </div>
-      <div>
-        will render here
-      </div>
+      will render here
     </div>
   );
 };
