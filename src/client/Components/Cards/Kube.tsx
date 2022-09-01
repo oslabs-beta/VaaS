@@ -7,13 +7,11 @@ import { Put } from '../../Services';
 import { apiRoute } from '../../utils';
 import Module from './Module';
 import ClusterSettings from '../Modules/ClusterSettings';
-import { Container } from '@mui/system';
+import Container from '@mui/system/Container';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
-import { useDispatch } from 'react-redux';
-import { IReducers } from '../../Interfaces/IReducers';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { setRender } from '../../Store/actions';
 
 const Kube = (props: ClusterTypes) => {
@@ -24,8 +22,8 @@ const Kube = (props: ClusterTypes) => {
   const [totalPods, setTotalPods] = useState('');
   const [module, setModule] = useState(true);
   const [settings, setSettings] = useState(false);
-  const dispatch = useDispatch();
-  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
+  const dispatch = useAppDispatch();
+  const clusterReducer = useAppSelector(state => state.clusterReducer);
 
   useEffect(() => {
     const fetchNodes = async () => {

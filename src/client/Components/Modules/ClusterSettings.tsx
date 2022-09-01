@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './styles.css';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { Modules } from '../../Interfaces/ICluster';
-import { IReducers } from '../../Interfaces/IReducers';
 import { Delete, Get, Put } from '../../Services';
 import { setRender } from '../../Store/actions';
 import { apiRoute } from '../../utils';
@@ -12,8 +10,8 @@ import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 
 const ClusterSettings = (props: Modules) => {
-  const clusterReducer = useSelector((state: IReducers) => state.clusterReducer);
-  const dispatch = useDispatch();
+  const clusterReducer = useAppSelector(state => state.clusterReducer);
+  const dispatch = useAppDispatch();
   const [updateClusterError, setUpdateClusterError] = useState('');
 
   const handleDeleteCluster = async () => {

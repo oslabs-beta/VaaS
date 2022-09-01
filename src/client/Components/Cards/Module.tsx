@@ -5,7 +5,7 @@ import OpenFaaS from '../Modules/OpenFaaS';
 import Visualizer from '../Modules/Visualizer';
 import CustomQuery from '../Modules/CustomQuery';
 import NavBar from '../Home/NavBar';
-import { Container } from '@mui/system';
+import Container from '@mui/system/Container';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
