@@ -30,28 +30,37 @@ const Kube = (props: ClusterTypes) => {
       const nodes = await clusterMetric.allNodes(props._id, 'k8');
       setNodeName(nodes);
     };
-    fetchNodes();
     const fetchCpuUsage = async () => {
       const cpuUsage = await nodeMetric.cpuLoad(props._id, 'k8');
       setCpuUsage(cpuUsage);
     };
-    fetchCpuUsage();
     const fetchMemoryUsage = async () => {
       const memoryUsage = await clusterMetric.memoryLoad(props._id, 'k8');
       setMemoryUsage(memoryUsage);
     };
-    fetchMemoryUsage();
     const fetchTotalDeployments = async () => {
       const totalDeployments = await clusterMetric.totalDeployments(props._id, 'k8');
       setTotalDeployments(totalDeployments.length);
     };
-    fetchTotalDeployments();
     setTotalDeployments('');
     const fetchTotalPod = async () => {
       const totalPods = await clusterMetric.totalPods(props._id, 'k8');
       setTotalPods(totalPods);
     };
+    fetchNodes();
+    fetchCpuUsage();
+    fetchMemoryUsage();
+    fetchTotalDeployments();
     fetchTotalPod();
+    // fetch data every 2 secs
+    // const interval = setInterval(() => {
+    //   fetchNodes();
+    //   fetchCpuUsage();
+    //   fetchMemoryUsage();
+    //   fetchTotalDeployments();
+    //   fetchTotalPod();
+    // }, 2000);
+    // return () => clearInterval(interval);
   }, []);
 
   const handleFavorite = async () => {
@@ -91,10 +100,10 @@ const Kube = (props: ClusterTypes) => {
           {props.favoriteStatus && <span className='set-favorite noselect' onClick={handleFavorite}>❤️</span>}
           {!props.favoriteStatus && <span className='set-favorite noselect' onClick={handleFavorite}>🤍</span>}
           <span className='set-favorite noselect'>&nbsp;</span>
-          <b>{'' + props.name}:&nbsp;</b> 
-            {'' + props.description}
+          <b>{'' + props.name}:&nbsp;</b>
+          {'' + props.description}
         </div>
-        <Button 
+        <Button
           sx={{
             color: "#3a4a5b",
           }}
@@ -108,12 +117,12 @@ const Kube = (props: ClusterTypes) => {
       </div>
       <div id='overview'>
         <div className='ov-box'>
-            <div className='ov-content'>
-              <div className='noselect'>
-                <h3>Summary</h3>
-              </div>
-              <div>{'Node: ' + nodeName}</div>
+          <div className='ov-content'>
+            <div className='noselect'>
+              <h3>Summary</h3>
             </div>
+            <div>{'Node: ' + nodeName}</div>
+          </div>
         </div>
         <div className='ov-box'>
           <div className='ov-content'>
