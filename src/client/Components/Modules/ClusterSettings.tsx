@@ -54,11 +54,15 @@ const ClusterSettings = (props: Modules) => {
         }
       }
       await Put(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
-      setUpdateClusterError('Cluster successfully updated');
+      setUpdateClusterError('Cluster successfully updated!');
       dispatch(setRender(!clusterReducer.render));
     } catch (err) {
       console.log('Update cluster error:', err);
     }
+  };
+
+  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') handleUpdateCluster();
   };
 
   return (
@@ -83,11 +87,11 @@ const ClusterSettings = (props: Modules) => {
       </div>
       <div>
         <p>{`Update cluster - URL: ${props.url} - K8 Port: ${props.k8_port} - FaaS Port: ${props.faas_port} - Cluster name: ${props.name} - Cluster Description: ${props.description}`}</p>
-        <input className='update-cluster-input' id='update-cluster-url' type="text" placeholder='URL'/>
-        <input className='update-cluster-input' id='update-cluster-k8' type="text" placeholder='K8 port'/>
-        <input className='update-cluster-input' id='update-cluster-faas' type="text" placeholder='FaaS port'/>
-        <input className='update-cluster-input' id='update-cluster-name' type="text" placeholder='Cluster name'/>
-        <input className='update-cluster-input' id='update-cluster-description' type="text" placeholder='Cluster description'/>
+        <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-url' type="text" placeholder='URL'/>
+        <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-k8' type="text" placeholder='K8 port'/>
+        <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-faas' type="text" placeholder='FaaS port'/>
+        <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-name' type="text" placeholder='Cluster name'/>
+        <input onKeyDown={handleEnterKeyDown} className='update-cluster-input' id='update-cluster-description' type="text" placeholder='Cluster description'/>
         <button onClick={handleUpdateCluster}>Update cluster</button>
       </div>
     </Container>
