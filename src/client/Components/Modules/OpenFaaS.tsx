@@ -20,7 +20,12 @@ const OpenFaaS = (props: Modules) => {
 
     const test2 = async () => {
       try {
-        const res = await fetch(`http://localhost:30003/system/functions`).then(res => res.json());
+        const headers = {
+          "Access-Control-Allow-Origin": "*"
+        };
+        const res = await fetch(`http://localhost:30003/system/functions`, {
+          headers
+        }).then(res => res.json());
         console.log(res);
         setDeployedFunctions(res);
       } catch (error) {
@@ -42,7 +47,7 @@ const OpenFaaS = (props: Modules) => {
       <select name="selectList" id="selectList" defaultValue={'default'}>
         <option hidden value="default" disabled>Deployed functions</option>
         {deployedFunctions.map((element, idx) => {
-          return <option key={idx} value="">{element.title}</option>;
+          return <option key={idx} value="">{element.name}</option>;
         })}
       </select>
     </div>
