@@ -37,8 +37,10 @@ const CustomQuery = (props: Modules) => {
       // onKeyDown={handleEnterKeyDownUpdate}
       margin="dense"/>
       <Button variant="contained" className="btn" type="button" onClick = {handleCustom}>Custom Query Search</Button>
+      { data &&
       <div>{JSON.stringify(data, null, 2)}</div>
-    </div>
+      }
+      </div>
   );
 };
 
