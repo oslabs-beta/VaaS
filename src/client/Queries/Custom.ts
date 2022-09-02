@@ -9,4 +9,4 @@ const customMetric = async (clusterId: string, ns: string, query: string) => {
   }
 };
 
-export default customMetric; 
+export default customMetric;

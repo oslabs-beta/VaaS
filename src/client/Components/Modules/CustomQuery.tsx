@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState} from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { Visualizer } from '../../Interfaces/IVisualizer';
@@ -13,17 +13,19 @@ import { Modules } from '../../Interfaces/ICluster';
 
 
 const CustomQuery = (props: Modules) => {
+  const [data, setData] = useState<any[]>();
+
   const handleCustom = async (): Promise<void> => {
     try {
       const query = (document.getElementById('query-input') as HTMLInputElement).value;
       const outputQuery = await customMetric(props.id as string, 'k8', query);
+      setData(outputQuery);
     console.log('THIS IS OUTPUT QUERY', outputQuery);
+
     } catch (error){
       console.log(error);
     }
   };
-
-// event handle clicks    
 
   return (
     <div>
@@ -35,7 +37,7 @@ const CustomQuery = (props: Modules) => {
       // onKeyDown={handleEnterKeyDownUpdate}
       margin="dense"/>
       <Button variant="contained" className="btn" type="button" onClick = {handleCustom}>Custom Query Search</Button>
-      will render here
+      <div>{JSON.stringify(data, null, 2)}</div>
     </div>
   );
 };
