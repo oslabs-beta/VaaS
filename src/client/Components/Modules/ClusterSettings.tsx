@@ -46,6 +46,8 @@ const ClusterSettings = (props: Modules) => {
         url: (document.getElementById('update-cluster-url') as HTMLInputElement).value || props.url,
         k8_port: (document.getElementById('update-cluster-k8') as HTMLInputElement).value || props.k8_port,
         faas_port: (document.getElementById('update-cluster-faas') as HTMLInputElement).value || props.faas_port,
+        faas_username: (document.getElementById('update-cluster-faas-username') as HTMLInputElement).value,
+        faas_password: (document.getElementById('update-cluster-faas-password') as HTMLInputElement).value,
         name: (document.getElementById('update-cluster-name') as HTMLInputElement).value || props.name,
         description: (document.getElementById('update-cluster-description') as HTMLInputElement).value || props.description,
       };
@@ -145,6 +147,28 @@ const ClusterSettings = (props: Modules) => {
             type="text"
             placeholder={String(props.faas_port)} 
             label="FaaS Port"
+            variant="filled"
+            size='small'
+            margin="dense"
+            sx={settingsField}
+          />
+          <TextField 
+            onKeyDown={handleEnterKeyDown} 
+            className='update-cluster-input' 
+            id='update-cluster-faas-username' 
+            type="text"
+            label="FaaS Username"
+            variant="filled"
+            size='small'
+            margin="dense"
+            sx={settingsField}
+          />
+          <TextField 
+            onKeyDown={handleEnterKeyDown} 
+            className='update-cluster-input' 
+            id='update-cluster-faas-password' 
+            type="text"
+            label="FaaS Password"
             variant="filled"
             size='small'
             margin="dense"
