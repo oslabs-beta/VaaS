@@ -16,6 +16,7 @@ router.route('/cluster::name')
           status: 401,
           message: `Fail: Cluster [${req.params['name']}] does not exist`,
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
       terminal(`Success: Cluster [${req.params['name']}] document retrieved from MongoDB collection`);
@@ -25,7 +26,7 @@ router.route('/cluster::name')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
@@ -48,7 +49,7 @@ router.route('/cluster')
           status: 500,
           message: `Unable to fulfill ${req.method} request: ${err}`
         };
-        terminal(err);
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
     })
@@ -106,7 +107,7 @@ router.route('/cluster')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -148,8 +149,11 @@ router.route('/cluster')
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
-      const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`).toString('base64');
-      const authorization = `Basic ${encodeAuth}`;
+      let authorization;
+      if (faas_username && faas_password) {
+        const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`).toString('base64');
+        authorization = `Basic ${encodeAuth}`;
+      }
       switch(req.body.favorite) {
         case true: {
           await Cluster.updateOne(
@@ -204,7 +208,7 @@ router.route('/cluster')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -226,6 +230,7 @@ router.route('/cluster')
           status: 401,
           message: `Fail: Cluster [${req.body.clusterId}] either does not exist or could not be deleted`
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json({error});
       }
       terminal(`Success: Cluster [${req.body.clusterId}] deleted from MongoDB collection`);
@@ -235,7 +240,7 @@ router.route('/cluster')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });

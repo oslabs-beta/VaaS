@@ -28,24 +28,34 @@ const Kube = (props: ClusterTypes) => {
   useEffect(() => {
     const fetchNodes = async () => {
       const nodes = await clusterMetric.allNodes(props._id, 'k8');
-      setNodeName(nodes);
+      if (nodes) {
+        setNodeName(nodes);
+      }
     };
     const fetchCpuUsage = async () => {
       const cpuUsage = await nodeMetric.cpuLoad(props._id, 'k8');
-      setCpuUsage(cpuUsage);
+      if (cpuUsage) {
+        setCpuUsage(cpuUsage);
+      }
     };
     const fetchMemoryUsage = async () => {
       const memoryUsage = await clusterMetric.memoryLoad(props._id, 'k8');
-      setMemoryUsage(memoryUsage);
+      if (memoryUsage) {
+        setMemoryUsage(memoryUsage);
+      }
     };
     const fetchTotalDeployments = async () => {
       const totalDeployments = await clusterMetric.totalDeployments(props._id, 'k8');
-      setTotalDeployments(totalDeployments.length);
+      if (totalDeployments) {
+        setTotalDeployments(totalDeployments.length);
+      }
     };
     setTotalDeployments('');
     const fetchTotalPod = async () => {
       const totalPods = await clusterMetric.totalPods(props._id, 'k8');
-      setTotalPods(totalPods);
+      if (totalPods) {
+        setTotalPods(totalPods);
+      }
     };
     fetchNodes();
     fetchCpuUsage();

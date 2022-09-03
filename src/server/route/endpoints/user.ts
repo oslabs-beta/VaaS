@@ -16,6 +16,7 @@ router.route('/user::username')
           message: `Fail: User [${req.params['username']}] does not exist`,
           exists: false
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
       terminal(`Success: User [${req.params['username']}] document retrieved from MongoDB collection`);
@@ -25,7 +26,7 @@ router.route('/user::username')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
@@ -40,6 +41,7 @@ router.route('/user')
           message: `Fail: No user data exists`,
           exists: false
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
       terminal(`Success: No user data exists in MongoDB collection`);
@@ -49,7 +51,7 @@ router.route('/user')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -86,7 +88,7 @@ router.route('/user')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -99,6 +101,7 @@ router.route('/user')
           status: 401,
           message: `Fail: User [${req.body.username}] either does not exist or could not be deleted`
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json({error});
       }
       terminal(`Success: User [${req.body.username}] deleted from MongoDB collection`);
@@ -108,7 +111,7 @@ router.route('/user')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
