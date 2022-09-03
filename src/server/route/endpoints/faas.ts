@@ -73,16 +73,16 @@ router.route('/faas')
         return res.status(error.status).json(error);
       }
     }
-    // if (
-    //   !req.headers.id
-    // ) {
-    //   const error: IError = {
-    //     status: 500,
-    //     message: 'Unable to fulfill request without parameter (id) passed'
-    //   };
-    //   terminal(`Fail: ${error.message}`);
-    //   return res.status(error.status).json(error);
-    // }
+    if (
+      !req.headers.id
+    ) {
+      const error: IError = {
+        status: 500,
+        message: 'Unable to fulfill request without parameter (id) passed'
+      };
+      terminal(`Fail: ${error.message}`);
+      return res.status(error.status).json(error);
+    }
     const { id } = req.headers;
     try {
       const cluster = await Cluster.findOne({ _id: id });

@@ -149,8 +149,11 @@ router.route('/cluster')
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
-      const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`).toString('base64');
-      const authorization = `Basic ${encodeAuth}`;
+      let authorization;
+      if (faas_username && faas_password) {
+        const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`).toString('base64');
+        authorization = `Basic ${encodeAuth}`;
+      }
       switch(req.body.favorite) {
         case true: {
           await Cluster.updateOne(
