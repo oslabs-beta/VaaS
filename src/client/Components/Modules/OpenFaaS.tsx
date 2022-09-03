@@ -45,7 +45,7 @@ const OpenFaaS = (props: Modules) => {
     };
     openFaaSFunctions();
     fetchFunctions();
-  }, []);
+  }, [renderFunctions]);
 
   const handleDeployOpenFaaS = async () => {
     try {

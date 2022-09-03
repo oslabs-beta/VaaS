@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
 import { clusterMetric, podMetric } from '../../Queries';
 import Box  from '@mui/material/Box';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+
 
 
 import Graph from 'react-graph-vis';
@@ -27,8 +26,8 @@ const Visualizer = (props: Modules) => {
   //clusterMetric.allServices
   //clusterMetric.allNodes
   //clusterMetric.totalDeployments
- 
-
+  const { state }: any = useLocation();
+  const [id] = useState(props.id || state[0]);
   const [ nameSpaces, setNameSpaces ] = useState<any[]>([]);
   const [ services, setServices ] = useState<any[]>([]);
   const [ nodes, setNodes ] = useState<any[]> ([]);
@@ -39,27 +38,27 @@ const Visualizer = (props: Modules) => {
 
   useEffect(() => {
     const fetchNamespaces = async () => {
-      const namespaces = await clusterMetric.allNamespaces(props.id, 'k8');
+      const namespaces = await clusterMetric.allNamespaces(id, 'k8');
       setNameSpaces(namespaces);
     };
     fetchNamespaces();
     const fetchServices = async () => {
-      const services = await clusterMetric.allServices(props.id, 'k8');
+      const services = await clusterMetric.allServices(id, 'k8');
       setServices(services);
     };
     fetchServices();
     const fetchNodes = async () => {
-      const nodes = await clusterMetric.allNodes(props.id, 'k8');
+      const nodes = await clusterMetric.allNodes(id, 'k8');
       setNodes(nodes);
     };
     fetchNodes();
     const fetchTotalDeployments = async () => {
-      const totalDeployments = await clusterMetric.totalDeployments(props.id, 'k8');
+      const totalDeployments = await clusterMetric.totalDeployments(id, 'k8');
       setTotalDeployments(totalDeployments);
     };
     fetchTotalDeployments();
     // const fetchNameList= async () => {
-    //   const pods = await podMetric.namesList(props.id, 'k8', `${nodeName}`);
+    //   const pods = await podMetric.namesList(id, 'k8', `${nodeName}`);
     //   setNameList(pods);
     //   };
     // fetchNameList();
@@ -117,13 +116,13 @@ const Visualizer = (props: Modules) => {
     graph.edges.push(cpEdge);
 
     // const fetchNameList= async () => {
-    //   const pods = await podMetric.namesList(props.id, 'k8', `${nodeName}`);
+    //   const pods = await podMetric.namesList(id, 'k8', `${nodeName}`);
     //   setNameList(pods);
     //   };
     // fetchNameList();
 
     // const fetchNameList= async () => {
-    //   const pods = await podMetric.namesList(props.id, 'k8', `${nodeName}`);
+    //   const pods = await podMetric.namesList(id, 'k8', `${nodeName}`);
     //   setNameList(pods);
     // };
     // fetchNameList();
