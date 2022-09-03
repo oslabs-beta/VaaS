@@ -153,7 +153,7 @@ router.route('/faas')
     }
   });
 router.route('/faas/invoke')
-  .post(async (req: Request, res: Response) => {
+  .post(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     if(
       !req.body.clusterId || 
