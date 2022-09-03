@@ -1,7 +1,7 @@
 import { Query } from '../Services';
 
 const podMetric = {
-  namesList: async (clusterId: string, ns: string, node: string) => {
+  namesList: async (clusterId: string | undefined, ns: string, node: string) => {
     const query = `kube_pod_info{node="${node}"}`;
     try {
       const metric = await Query(clusterId, ns, query);

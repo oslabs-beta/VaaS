@@ -37,7 +37,7 @@ const clusterMetric = {
       console.log(err);
     }
   },
-  allServices: async(clusterId: string, ns: string) => {
+  allServices: async(clusterId: string | undefined, ns: string) => {
     const query = 'kube_service_created';
     try {
       const metric = await Query(clusterId, ns, query);
@@ -46,7 +46,7 @@ const clusterMetric = {
       console.log(err);
     }
   },
-  allNamespaces: async(clusterId: string, ns: string) => {
+  allNamespaces: async(clusterId: string | undefined, ns: string) => {
     const query = 'kube_namespace_created';
     try {
       const metric = await Query(clusterId, ns, query);
