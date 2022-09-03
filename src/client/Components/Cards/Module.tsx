@@ -20,6 +20,7 @@ const Module = (props: Modules) => {
   const [visualizer, setVisualizer] = useState(false);
   const [custom, setCustom] = useState(false);
   const [currentModule, setCurrentModule] = useState('module');
+  const [id] = useState(props.id || state[0]);
   const [style, setStyle] = useState({
     color: "white",
     minHeight: '100%',
@@ -135,7 +136,7 @@ const Module = (props: Modules) => {
             onClick={()=> navigate(
               '/module', 
               { state: [
-                  props.id,
+                  id,
                   currentModule
                 ]
               }
@@ -154,7 +155,7 @@ const Module = (props: Modules) => {
             onClick={()=> navigate(
               '/home', 
               { state: [
-                  props.id
+                  id
                 ]
               }
             )}
@@ -163,10 +164,10 @@ const Module = (props: Modules) => {
           </Button>}
         </div>
         <div id='module-content'>
-          <div className='cluster-id'>Cluster ID: {props.id}{location.pathname === '/module' && state[0] as JSX.Element}</div>
-          {faas && <OpenFaaS id={props.id} />}
-          {visualizer && <Visualizer id={props.id} />}
-          {custom && <CustomQuery id={props.id} />}
+          <div className='cluster-id'>Cluster ID: {id}</div>
+          {faas && <OpenFaaS id={id} />}
+          {visualizer && <Visualizer id={id} />}
+          {custom && <CustomQuery id={id} />}
         </div>
       </Container>
       {!props.nested && <NavBar />}

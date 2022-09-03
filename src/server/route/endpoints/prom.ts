@@ -17,7 +17,7 @@ router.route('/prom')
     ) {
       const error: IError = {
         status: 500,
-        message: 'Unable to fulfull request without all parameters (id, ns, q) passed'
+        message: 'Unable to fulfill request without all parameters (id, ns, q) passed'
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
@@ -57,14 +57,15 @@ router.route('/prom')
           message: `Fail: Cluster [${id}] does not exist`,
           exists: false
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });

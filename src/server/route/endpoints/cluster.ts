@@ -16,6 +16,7 @@ router.route('/cluster::name')
           status: 401,
           message: `Fail: Cluster [${req.params['name']}] does not exist`,
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
       terminal(`Success: Cluster [${req.params['name']}] document retrieved from MongoDB collection`);
@@ -23,9 +24,9 @@ router.route('/cluster::name')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
@@ -46,9 +47,9 @@ router.route('/cluster')
       } catch (err) {
         const error: IError = {
           status: 500,
-          message: `Unable to fulfull ${req.method} request: ${err}`
+          message: `Unable to fulfill ${req.method} request: ${err}`
         };
-        terminal(err);
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
     })
@@ -59,18 +60,20 @@ router.route('/cluster')
       !req.body.url || 
       !req.body.k8_port || 
       !req.body.faas_port || 
+      !req.body.faas_username ||
+      !req.body.faas_password ||
       !req.body.name ||
       !req.body.description
     ) {
       const error: IError = {
         status: 500,
-        message: 'Unable to fulfull request without all fields completed'
+        message: 'Unable to fulfill request without all fields completed'
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
     try {
-      const { url, k8_port, faas_port, name, description } = req.body;
+      const { url, k8_port, faas_port, faas_username, faas_password, name, description } = req.body;
       terminal(`Searching for cluster [${name}] in MongoDB`);
       const cluster = await Cluster.find({ name: name });
       terminal(`Success: MongoDB query executed [${name}]`);
@@ -84,11 +87,14 @@ router.route('/cluster')
         return res.status(error.status).json(error);
       }
       const clusterId = new Types.ObjectId();
+      const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`).toString('base64');
+      const authorization = `Basic ${encodeAuth}`;
       const attempt = new Cluster({ 
         _id: clusterId,
         url,
         k8_port,
         faas_port,
+        authorization,
         name,
         description,
         favorite: []
@@ -99,9 +105,9 @@ router.route('/cluster')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -111,14 +117,25 @@ router.route('/cluster')
     if (!req.body.clusterId) {
       const error: IError = {
         status: 500,
-        message: 'Unable to fulfull request without clusterId'
+        message: 'Unable to fulfill request without clusterId'
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
-    const { clusterId, url, k8_port, faas_port, name, description } = req.body;
-    const { jwt: { id } } = res.locals;
+    if (
+      (req.body.faas_username && !req.body.faas_password) ||
+      (req.body.faas_password && !req.body.faas_username)
+    ) {
+      const error: IError = {
+        status: 500,
+        message: 'Unable to fulfill request without both OpenFaaS credentials, username and password'
+      };
+      terminal(`Fail: ${error.message}`);
+      return res.status(error.status).json(error);
+    }
     try {
+      const { clusterId, url, k8_port, faas_port, faas_username, faas_password, name, description } = req.body;
+      const { jwt: { id } } = res.locals;
       // Check to see if cluster exists
       terminal(`Searching for cluster [${name}] in MongoDB`);
       const cluster = await Cluster.find({ _id: clusterId });
@@ -132,6 +149,11 @@ router.route('/cluster')
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
+      let authorization;
+      if (faas_username && faas_password) {
+        const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`).toString('base64');
+        authorization = `Basic ${encodeAuth}`;
+      }
       switch(req.body.favorite) {
         case true: {
           await Cluster.updateOne(
@@ -140,6 +162,7 @@ router.route('/cluster')
               url: url,
               k8_port: k8_port,
               faas_port: faas_port,
+              authorization: authorization,
               name: name,
               description: description,
               $push: { favorite: id } 
@@ -155,6 +178,7 @@ router.route('/cluster')
               url: url,
               k8_port: k8_port,
               faas_port: faas_port,
+              authorization: authorization,
               name: name,
               description: description,
               $pull: { favorite: id } 
@@ -170,6 +194,7 @@ router.route('/cluster')
               url: url,
               k8_port: k8_port,
               faas_port: faas_port,
+              authorization: authorization,
               name: name,
               description: description
             }
@@ -181,9 +206,9 @@ router.route('/cluster')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -193,7 +218,7 @@ router.route('/cluster')
     if (!req.body.clusterId) {
       const error: IError = {
         status: 500,
-        message: 'Unable to fulfull request without clusterId'
+        message: 'Unable to fulfill request without clusterId'
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
@@ -205,6 +230,7 @@ router.route('/cluster')
           status: 401,
           message: `Fail: Cluster [${req.body.clusterId}] either does not exist or could not be deleted`
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json({error});
       }
       terminal(`Success: Cluster [${req.body.clusterId}] deleted from MongoDB collection`);
@@ -212,9 +238,9 @@ router.route('/cluster')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });

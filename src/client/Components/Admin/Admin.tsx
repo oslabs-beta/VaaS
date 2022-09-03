@@ -30,6 +30,8 @@ const Admin = () => {
         url: (document.getElementById('cluster-url') as HTMLInputElement).value,
         k8_port: (document.getElementById('k8_port') as HTMLInputElement).value,
         faas_port: (document.getElementById('faas_port') as HTMLInputElement).value,
+        faas_username: (document.getElementById('faas_username') as HTMLInputElement).value,
+        faas_password: (document.getElementById('faas_password') as HTMLInputElement).value,
         name: (document.getElementById('cluster-name') as HTMLInputElement).value,
         description: (document.getElementById('cluster-description') as HTMLInputElement).value,
       };
@@ -239,6 +241,26 @@ const Admin = () => {
               <TextField
                 id="faas_port"
                 label="FaaS Port"
+                type="text"
+                variant="outlined"
+                size='small'
+                margin="dense"
+              />
+            </div>
+            <div>
+              <TextField
+                id="faas_username"
+                label="FaaS Username"
+                type="text"
+                variant="outlined"
+                size='small'
+                margin="dense"
+              />
+            </div>
+            <div>
+              <TextField
+                id="faas_password"
+                label="FaaS Password"
                 type="text"
                 variant="outlined"
                 size='small'

@@ -14,9 +14,9 @@ router.route('/auth')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -37,9 +37,9 @@ router.route('/auth')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -52,9 +52,9 @@ router.route('/auth')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfull ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
