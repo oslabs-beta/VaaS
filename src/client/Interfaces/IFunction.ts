@@ -13,7 +13,7 @@ export interface FunctionTypes {
 export interface DeployedFunctionTypes {
   name: string;
   replicas: number;
-  invocation: number;
+  invocationCount: number;
   image: string;
-  
+
 }

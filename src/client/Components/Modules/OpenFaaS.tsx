@@ -130,7 +130,7 @@ const OpenFaaS = (props: Modules) => {
           <span>
             {`
             Replicas: ${displayFunctionData(selectedDeployedFunction)?.replicas} 
-            Invocation count: ${displayFunctionData(selectedDeployedFunction)?.invocation}
+            Invocation count: ${displayFunctionData(selectedDeployedFunction)?.invocationCount}
             Image: ${displayFunctionData(selectedDeployedFunction)?.image}
             URL: ${props.url}:${props.faas_port}/function/${selectedDeployedFunction}
             `}
