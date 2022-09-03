@@ -178,10 +178,10 @@ router.route('/faas/invoke')
             'Content-Type': 'application/json',
             'Authorization': authorization
           }
-        });
-        const data = await fetch(func.url).then(res => res.text());
+        })
+        .then(res => res.text());
         terminal(`Success: OpenFaaS function [${functionName}] posted`);
-        return res.status(200).json(data);
+        return res.status(200).json(func);
       } else {
         const error: IError = {
           status: 401,
