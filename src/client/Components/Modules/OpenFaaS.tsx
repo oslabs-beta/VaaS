@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Modules } from '../../Interfaces/ICluster';
-import { Get, Post } from '../../Services';
-import { FunctionTypes } from '../../Interfaces/IFunction';
+import { Delete, Get, Post } from '../../Services';
+import { DeployedFunctionTypes, FunctionTypes } from '../../Interfaces/IFunction';
 import './styles.css';
 import { apiRoute } from '../../utils';
 import { useLocation } from 'react-router-dom';
@@ -9,13 +9,13 @@ import { useLocation } from 'react-router-dom';
 const OpenFaaS = (props: Modules) => {
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
-  const [deployedFunctions, setDeployedFunctions] = useState<FunctionTypes[]>([]);
+  const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
   const [openFaaSFunctions, setOpenFaaSFunctions] = useState<FunctionTypes[]>([]);
   const [selectedOpenFaaSFunction, setSelectedOpenFaaSFunction] = useState('');
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
   const [invokedOutput, setInvokedOutput] = useState('');
   const [renderFunctions, setRenderFunctions] = useState(false);
-
+  console.log(deployedFunctions);
   useEffect(() => {
     const openFaaSFunctions = async () => {
       try {
@@ -29,7 +29,7 @@ const OpenFaaS = (props: Modules) => {
       try {
         const funcs = await Get(
           apiRoute.getRoute(`faas`),
-          { 
+          {
             authorization: localStorage.getItem('token'),
             id: id
           }
@@ -81,9 +81,30 @@ const OpenFaaS = (props: Modules) => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const body = {
+        clusterId: id,
+        functionName: selectedDeployedFunction
+      };
+      const response = await Delete(apiRoute.getRoute('faas'), body, { authorization: localStorage.getItem('token') });
+      if (response.success) {
+        setDeployedFunctions(deployedFunctions.filter(element => element.name !== body.functionName));
+        setInvokedOutput('Deployed function deleted');
+      }
+    } catch (error) {
+      console.log('Error in handleInvoke', error);
+    }
+  };
+
   const handleDeployedFunctionChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedDeployedFunction(e.target.value);
   };
+
+  const displayFunctionData = (name: string) => {
+    return deployedFunctions.find(element => element.name === name);
+  };
+
   return (
     <div>
       <select onChange={handleOpenFaaSFunctionsChange} defaultValue="default">
@@ -101,6 +122,20 @@ const OpenFaaS = (props: Modules) => {
           })}
         </select>
         <button onClick={handleInvoke}>Invoke selected function</button>
+        <button onClick={handleDelete}>Delete selected function</button>
+      </div>
+      <div>
+        {
+          selectedDeployedFunction &&
+          <span>
+            {`
+            Replicas: ${displayFunctionData(selectedDeployedFunction)?.replicas} 
+            Invocation count: ${displayFunctionData(selectedDeployedFunction)?.invocation}
+            Image: ${displayFunctionData(selectedDeployedFunction)?.image}
+            URL: ${props.url}:${props.faas_port}/function/${selectedDeployedFunction}
+            `}
+          </span>
+        }
       </div>
       <div>
         {invokedOutput}

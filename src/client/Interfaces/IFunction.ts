@@ -9,3 +9,11 @@ export interface FunctionTypes {
   };
   repo_url: string;
 }
+
+export interface DeployedFunctionTypes {
+  name: string;
+  replicas: number;
+  invocation: number;
+  image: string;
+  
+}

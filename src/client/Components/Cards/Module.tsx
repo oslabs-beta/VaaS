@@ -165,7 +165,7 @@ const Module = (props: Modules) => {
         </div>
         <div id='module-content'>
           <div className='cluster-id'>Cluster ID: {id}</div>
-          {faas && <OpenFaaS id={id} />}
+          {faas && <OpenFaaS url={props.url} faas_port={props.faas_port} id={id} />}
           {visualizer && <Visualizer id={id} />}
           {custom && <CustomQuery id={id} />}
         </div>

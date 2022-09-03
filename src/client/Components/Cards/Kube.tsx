@@ -169,7 +169,7 @@ const Kube = (props: ClusterTypes) => {
         <div className='ov-box'></div>
       </div>
       <div id='module'>
-        {module && <Module id={props._id} nested={true} />}
+        {module && <Module url={props.url} faas_port={props.faas_port} id={props._id} nested={true} />}
         {settings && <ClusterSettings url={props.url} k8_port={props.k8_port} faas_port={props.faas_port} name={props.name} description={props.description} id={props._id} />}
       </div>
     </Container>
