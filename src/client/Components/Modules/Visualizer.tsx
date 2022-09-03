@@ -255,14 +255,14 @@ const Visualizer = (props: Modules) => {
     <Box sx={{ 
       flexGrow: 1,
       height: '90vh' }}> 
-      <AppBar position='relative' sx={{
+      {/* <AppBar position='relative' sx={{
       }}>
         <Toolbar>
           <Typography variant='h5' component='div' sx={{ flexGrow: 1 }}>
           Visualizer
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
     
       <Graph
         graph={graph}
