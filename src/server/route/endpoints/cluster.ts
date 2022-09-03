@@ -123,8 +123,8 @@ router.route('/cluster')
       return res.status(error.status).json(error);
     }
     if (
-      (req.body.username && !req.body.password) ||
-      (req.body.password && !req.body.username)
+      (req.body.faas_username && !req.body.faas_password) ||
+      (req.body.faas_password && !req.body.faas_username)
     ) {
       const error: IError = {
         status: 500,

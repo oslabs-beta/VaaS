@@ -87,7 +87,7 @@ const OpenFaaS = (props: Modules) => {
   return (
     <div>
       <select onChange={handleOpenFaaSFunctionsChange} defaultValue="default">
-        <option value="default">OpenFaaS Functions Store</option>
+        <option value="default" hidden>OpenFaaS Functions Store</option>
         {openFaaSFunctions.map((element, idx) => {
           return <option key={idx} value={element.name}>{element.name}</option>;
         })}
@@ -95,7 +95,7 @@ const OpenFaaS = (props: Modules) => {
       <button onClick={handleDeployOpenFaaS}>Deploy selected function from OpenFaaS function store</button>
       <div>
         <select onChange={handleDeployedFunctionChange} defaultValue="default">
-          <option value="default">Deployed Functions</option>
+          <option value="default" hidden>Deployed Functions</option>
           {deployedFunctions.map((element, idx) => {
             return <option key={idx} value={element.name}>{element.name}</option>;
           })}
