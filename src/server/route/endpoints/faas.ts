@@ -84,12 +84,10 @@ router.route('/faas')
     //   return res.status(error.status).json(error);
     // }
     const { id } = req.headers;
-    console.log('fuck me', id);
     try {
       const cluster = await Cluster.findOne({ _id: id });
       if (cluster) {
         const { url, faas_port, authorization } = cluster;
-        console.log(cluster);
         const functionInfo = await fetch(`${url}:${faas_port}/system/functions`, {
           method: 'GET',
           headers: {
