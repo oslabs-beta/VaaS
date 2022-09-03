@@ -19,12 +19,8 @@ const Home = () => {
     console.log('Signed in userId from localStorage:', localStorage.getItem('userId'));
     const getClusters = async () => {
       const res = await Get(apiRoute.getRoute('cluster'), { authorization: localStorage.getItem('token') });
-      console.log(res);
-      if (res.message) {
-        setNoClusterError('Please add cluster information in administrator portal');
-      } else {
-        setClusters(res);
-      }
+      if (res.message) setNoClusterError('Please add cluster information in administrator portal');
+      else setClusters(res);
     };
     getClusters();
   }, [clusterReducer.render]);
@@ -34,7 +30,7 @@ const Home = () => {
 
   clusters.forEach((element, idx) => {
     if (element.favorite?.includes(localStorage.getItem('userId') as string)) {
-      (favClusters as any).push(<Kube
+      favClusters.push(<Kube
         key={'fav' + idx}
         url={element.url}
         k8_port={element.k8_port}
@@ -47,7 +43,7 @@ const Home = () => {
       />);
     }
     else {
-      (nonFavClusters as any).push(<Kube
+      nonFavClusters.push(<Kube
         key={'nonFav' + idx}
         url={element.url}
         k8_port={element.k8_port}
