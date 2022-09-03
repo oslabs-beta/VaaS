@@ -86,7 +86,7 @@ router.route('/cluster')
         return res.status(error.status).json(error);
       }
       const clusterId = new Types.ObjectId();
-      const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`, 'base64');
+      const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`).toString('base64');
       const authorization = `Basic ${encodeAuth}`;
       const attempt = new Cluster({ 
         _id: clusterId,
@@ -148,7 +148,7 @@ router.route('/cluster')
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
-      const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`, 'base64');
+      const encodeAuth = Buffer.from(`${faas_username}:${faas_password}`).toString('base64');
       const authorization = `Basic ${encodeAuth}`;
       switch(req.body.favorite) {
         case true: {
