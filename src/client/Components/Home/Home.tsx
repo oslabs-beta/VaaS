@@ -11,6 +11,7 @@ import { apiRoute } from '../../utils';
 const Home = () => {
   const clusterReducer = useAppSelector(state => state.clusterReducer);
   const [clusters, setClusters] = useState<ClusterTypes[]>([]);
+  const [noClusterError, setNoClusterError] = useState('');
 
   useEffect(() => {
     console.log('Signed in username from localStorage:', localStorage.getItem('username'));
@@ -18,7 +19,12 @@ const Home = () => {
     console.log('Signed in userId from localStorage:', localStorage.getItem('userId'));
     const getClusters = async () => {
       const res = await Get(apiRoute.getRoute('cluster'), { authorization: localStorage.getItem('token') });
-      setClusters(res);
+      console.log(res);
+      if (res.message) {
+        setNoClusterError('Please add cluster information in administrator portal');
+      } else {
+        setClusters(res);
+      }
     };
     getClusters();
   }, [clusterReducer.render]);
@@ -61,6 +67,7 @@ const Home = () => {
         {favClusters}
         {nonFavClusters}
       </div>
+      {noClusterError}
       <NavBar />
     </div>
   );

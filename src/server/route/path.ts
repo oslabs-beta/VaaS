@@ -13,6 +13,9 @@ function path(url: string): IPathRoute {
     },
     '/prom': {
       methods: ['GET']
+    },
+    '/faas': {
+      methods: ['GET', 'POST', 'PUT', 'DELETE']
     }
   };
   return allRoutes[url];
