@@ -57,6 +57,7 @@ router.route('/prom')
           message: `Fail: Cluster [${id}] does not exist`,
           exists: false
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
     } catch (err) {
@@ -64,7 +65,7 @@ router.route('/prom')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });

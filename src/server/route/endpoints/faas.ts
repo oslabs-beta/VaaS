@@ -9,7 +9,6 @@ import { terminal } from '../../services/terminal';
 router.route('/faas::functionName')
 .get(jwtVerify, async (req: Request, res: Response) => {
   terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-  console.log('THIS IS HEADERS AND PARAMS',req.headers, req.params);
   if (
     !req.headers.clusterid ||
     !req.params.functionName
@@ -36,7 +35,7 @@ router.route('/faas::functionName')
         },
       })
       .then(res => res.json());
-      terminal(`Success: OpenFaaS function [${functionName}] retrieved`);
+      terminal(`Success: OpenFaaS function [${functionName} @ ${url}:${faas_port}] retrieved`);
       return res.status(200).json(functionInfo);
     } else {
       const error: IError = {
@@ -44,6 +43,7 @@ router.route('/faas::functionName')
         message: `Fail: Cluster [${clusterid}] does not exist`,
         exists: false
       };
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   } catch (err) {
@@ -51,28 +51,45 @@ router.route('/faas::functionName')
       status: 500,
       message: `Unable to fulfill ${req.method} request: ${err}`
     };
-    terminal(err);
+    terminal(`Fail: ${error.message}`);
     return res.status(error.status).json(error);
   }
 });
 router.route('/faas')
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-    if (
-      !req.query.id
-    ) {
-      const error: IError = {
-        status: 500,
-        message: 'Unable to fulfill request without parameter (id) passed'
-      };
-      terminal(`Fail: ${error.message}`);
-      return res.status(error.status).json(error);
+    if (req.query.OpenFaaSStore) {
+      try {
+        const functions = await fetch('https://raw.githubusercontent.com/openfaas/store/master/functions.json')
+        .then(res => res.json());
+        terminal(`Success: OpenFaaS Store functions retrieved`);
+        return res.status(200).json(functions);
+      } catch (err) {
+        const error: IError = {
+          status: 500,
+          message: `Unable to fulfill ${req.method} request: ${err}`
+        };
+        terminal(`Fail: ${error.message}`);
+        return res.status(error.status).json(error);
+      }
     }
-    const { id } = req.query;
+    // if (
+    //   !req.headers.id
+    // ) {
+    //   const error: IError = {
+    //     status: 500,
+    //     message: 'Unable to fulfill request without parameter (id) passed'
+    //   };
+    //   terminal(`Fail: ${error.message}`);
+    //   return res.status(error.status).json(error);
+    // }
+    const { id } = req.headers;
+    console.log('fuck me', id);
     try {
       const cluster = await Cluster.findOne({ _id: id });
       if (cluster) {
         const { url, faas_port, authorization } = cluster;
+        console.log(cluster);
         const functionInfo = await fetch(`${url}:${faas_port}/system/functions`, {
           method: 'GET',
           headers: {
@@ -82,7 +99,7 @@ router.route('/faas')
           },
         })
         .then(res => res.json());
-        terminal(`Success: OpenFaaS functions retrieved`);
+        terminal(`Success: Deployed OpenFaaS functions retrieved`);
         return res.status(200).json(functionInfo);
       } else {
         const error: IError = {
@@ -90,6 +107,7 @@ router.route('/faas')
           message: `Fail: Cluster [${id}] does not exist`,
           exists: false
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
     } catch (err) {
@@ -97,7 +115,7 @@ router.route('/faas')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -133,7 +151,7 @@ router.route('/faas')
             image
           })
         });
-        terminal(`Success: OpenFaaS function [${service}] posted`);
+        terminal(`Success: OpenFaaS function [${service}] deployed`);
         return res.status(200).json({ success: true });
       } else {
         const error: IError = {
@@ -141,6 +159,7 @@ router.route('/faas')
           message: `Fail: Cluster [${clusterId}] does not exist`,
           exists: false
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
     } catch (err) {
@@ -148,7 +167,7 @@ router.route('/faas')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
@@ -180,7 +199,7 @@ router.route('/faas/invoke')
           }
         })
         .then(res => res.text());
-        terminal(`Success: OpenFaaS function [${functionName}] posted`);
+        terminal(`Success: OpenFaaS function [${functionName}] invoked`);
         return res.status(200).json(func);
       } else {
         const error: IError = {
@@ -188,6 +207,7 @@ router.route('/faas/invoke')
           message: `Fail: Cluster [${clusterId}] does not exist`,
           exists: false
         };
+        terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
     } catch (err) {
@@ -195,7 +215,7 @@ router.route('/faas/invoke')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });

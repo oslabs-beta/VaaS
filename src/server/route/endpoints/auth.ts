@@ -16,7 +16,7 @@ router.route('/auth')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -39,7 +39,7 @@ router.route('/auth')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
@@ -54,7 +54,7 @@ router.route('/auth')
         status: 500,
         message: `Unable to fulfill ${req.method} request: ${err}`
       };
-      terminal(err);
+      terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
