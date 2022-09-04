@@ -138,7 +138,8 @@ const OpenFaaS = (props: Modules) => {
         }
       </div>
       <div>
-        {invokedOutput}
+        <textarea placeholder='Request Body' cols={80} rows={6}></textarea>
+        <textarea placeholder='Response Body' cols={80} rows={6} value={invokedOutput}></textarea>
       </div>
     </div>
   );
