@@ -168,6 +168,56 @@ router.route('/faas')
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
+  })
+  .delete(async (req: Request, res: Response) => {
+    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    if(
+      !req.body.clusterId || 
+      !req.body.functionName
+    ) {
+      const error: IError = {
+        status: 500,
+        message: 'Unable to fulfill request without all parameters (clusterId, functionName) passed'
+      };
+      terminal(`Fail: ${error.message}`);
+      return res.status(error.status).json(error);
+    }
+    try {
+      const { clusterId, functionName } = req.body;
+      const cluster = await Cluster.findOne({ _id: clusterId });
+      if (cluster) {
+        const { url, faas_port, authorization } = cluster;
+        await fetch(`${url}:${faas_port}/system/functions`, {
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': authorization
+          },
+          body: JSON.stringify({
+            functionName
+          })
+        })
+        .then(res => res.text());
+        terminal(`Success: OpenFaaS function [${functionName}] deleted`);
+        return res.status(200).json({ success: true });
+      } else {
+        const error: IError = {
+          status: 401,
+          message: `Fail: Cluster [${clusterId}] does not exist`,
+          exists: false
+        };
+        terminal(`Fail: ${error.message}`);
+        return res.status(error.status).json(error);
+      }
+    } catch (err) {
+      const error: IError = {
+        status: 500,
+        message: `Unable to fulfill ${req.method} request: ${err}`
+      };
+      terminal(`Fail: ${error.message}`);
+      return res.status(error.status).json(error);
+    }
   });
 router.route('/faas/invoke')
   .post(jwtVerify, async (req: Request, res: Response) => {

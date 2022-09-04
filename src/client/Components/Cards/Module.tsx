@@ -27,7 +27,8 @@ const Module = (props: Modules) => {
     minWidth: '100%',
     display: 'flex',
     textAlign: 'left',
-    backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)"
+    backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)",
+    overflow: 'auto'
   });
   const [buttonColor, setButtonColor] = useState({
     color: "white"
@@ -41,7 +42,8 @@ const Module = (props: Modules) => {
         minWidth: '100%',
         display: 'flex',
         textAlign: 'left',
-        backgroundImage: ""
+        backgroundImage: "",
+        overflow: 'auto'
       });
       setButtonColor({
         color: "#3a4a5b"
@@ -165,7 +167,7 @@ const Module = (props: Modules) => {
         </div>
         <div id='module-content'>
           <div className='cluster-id'>Cluster ID: {id}</div>
-          {faas && <OpenFaaS id={id} />}
+          {faas && <OpenFaaS url={props.url} faas_port={props.faas_port} id={id} />}
           {visualizer && <Visualizer id={id} />}
           {custom && <CustomQuery id={id} />}
         </div>
