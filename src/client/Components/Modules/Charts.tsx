@@ -15,7 +15,7 @@ const Charts = (props: Modules) => {
 
   return (
     <div>
-      {id}
+
     </div>
   );
 };

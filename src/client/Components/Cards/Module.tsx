@@ -35,8 +35,9 @@ const Module = (props: Modules) => {
     backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)",
     overflow: "auto",
   });
-  const [buttonColor, setButtonColor] = useState({
+  const [buttonStyle, setButtonStyle] = useState({
     color: "white",
+    width: "1px"
   });
 
   useEffect(() => {
@@ -50,7 +51,8 @@ const Module = (props: Modules) => {
         backgroundImage: "",
         overflow: "auto",
       });
-      setButtonColor({
+      setButtonStyle({
+        ...buttonStyle,
         color: "#3a4a5b",
       });
       if (state) {
@@ -140,7 +142,7 @@ const Module = (props: Modules) => {
             {
               custom && 
               <div>
-                Run Custom Query
+                Query
               </div>
             }
             {
@@ -151,7 +153,7 @@ const Module = (props: Modules) => {
             }
           </div>
           <Button
-            sx={buttonColor}
+            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
@@ -160,7 +162,7 @@ const Module = (props: Modules) => {
             <DataObjectIcon />
           </Button>
           <Button
-            sx={buttonColor}
+            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
@@ -169,7 +171,7 @@ const Module = (props: Modules) => {
             <FunctionsIcon />
           </Button>
           <Button
-            sx={buttonColor}
+            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
@@ -178,7 +180,7 @@ const Module = (props: Modules) => {
             <QueryStatsIcon />
           </Button>
           <Button
-            sx={buttonColor}
+            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
@@ -190,12 +192,12 @@ const Module = (props: Modules) => {
             props.nested && 
             <Button
               sx={{
-                ...buttonColor,
+                ...buttonStyle,
                 marginRight: "-9px",
               }}
               variant="text"
               id="basic-button"
-              className="full-screen-button"
+              className="module-button"
               onClick={() =>
                 navigate(
                   "/module", 
@@ -215,12 +217,12 @@ const Module = (props: Modules) => {
             !props.nested && 
             <Button
               sx={{
-                ...buttonColor,
+                ...buttonStyle,
                 marginRight: "-9px",
               }}
               variant="text"
               id="basic-button"
-              className="full-screen-button"
+              className="module-button"
               onClick={() => 
                 navigate(
                   "/home", 
@@ -233,9 +235,6 @@ const Module = (props: Modules) => {
           }
         </div>
         <div id="module-content">
-          <div className="cluster-id">
-            Cluster ID: {id}
-          </div>
           {
             custom && 
             <CustomQuery id={id} />
@@ -257,6 +256,14 @@ const Module = (props: Modules) => {
             <Visualizer id={id} />
           }
         </div>
+      </Container>
+      <Container 
+        className="cluster-id"
+        sx={{
+          color: style.color
+        }}
+      >
+        {id}
       </Container>
       {
         !props.nested && 

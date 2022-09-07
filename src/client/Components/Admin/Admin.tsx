@@ -12,20 +12,36 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { dark } from '@mui/material/styles/createPalette';
 
 const Admin = () => {
   const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
+  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
+  const [containerStyle] = useState({
+    width: '350px',
+    marginTop: '-10px'
+  });
   const [textFieldStyle] = useState({
     background: '#FFFFFF',
     borderRadius: '5px',
-    marginRight: '3px',
     marginBottom: '0px',
-    width: '350px',
+    width: '100%',
+    fontSize: '10px',
+  });
+  const [buttonStyle] = useState({
+    background: '#3a4a5b',
+    borderRadius: '5px',
+    marginBottom: '0px',
+    width: '100%',
     fontSize: '10px'
   });
+
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   const handleAddCluster = async (): Promise<void> => {
     try {
@@ -197,10 +213,12 @@ const Admin = () => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <div>Administrator Account Details</div>
+          Administrator Account Details
         </AccordionSummary>
         <AccordionDetails>
-          <Container>
+          <Container 
+            sx={containerStyle}
+          >
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDownUpdate}
@@ -216,26 +234,28 @@ const Admin = () => {
             </div>
             <div>
               <TextField
-                id="update-firstName-input"
-                label="First Name"
-                type="firstName"
-                autoComplete="current-password"
-                variant="outlined"
-                size='small'
                 onKeyDown={handleEnterKeyDownUpdate}
+                autoComplete="current-password"
+                id="update-firstName-input"
+                type="firstName"
+                label="First Name"
+                variant="filled"
+                size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
             <div>
               <TextField
-                id="update-lastName-input"
-                label="Last Name"
-                type="userName"
-                autoComplete="current-password"
-                variant="outlined"
-                size='small'
                 onKeyDown={handleEnterKeyDownUpdate}
+                autoComplete="current-password"
+                id="update-lastName-input"
+                type="userName"
+                label="Last Name"
+                variant="filled"
+                size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
             <div>
@@ -244,6 +264,7 @@ const Admin = () => {
                 className="btn" 
                 type="button" 
                 onClick={handleUserUpdate}
+                sx={buttonStyle}
               >
                 Update Admin Details
               </Button>
@@ -254,66 +275,46 @@ const Admin = () => {
           </Container>
         </AccordionDetails>
       </Accordion>
+
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <div>Delete Administrator Account</div>
+          Delete Administrator Account
         </AccordionSummary>
         <AccordionDetails>
-          <Container>
+          <Container
+            sx={containerStyle}
+          >
             <div>
               <TextField
-                id="delete-password-input"
-                label="Enter Password"
-                type="password"
-                variant="outlined"
-                size='small'
                 onKeyDown={handleEnterKeyDownDelete}
+                id="delete-password-input"
+                type="password"
+                label="Enter Password to Confirm Deletion"
+                variant="filled"
+                size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
-            <span>
+            <div>
               <Button 
                 id="delete-password-input" 
                 variant="contained" 
                 className="btn" 
                 type="button" 
                 onClick={handleUserDelete}
+                sx={buttonStyle}
               >
                 Delete
               </Button>
               <span id='delete-password-err'>
                 {deletePasswordErr}
               </span>
-            </span>
-          </Container>
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion
-        sx={{
-          marginTop: '0.5rem'
-        }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <div>Dark Mode</div>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Container>
-            <Button 
-              variant="contained" 
-              className="btn" 
-              type="button"
-            >
-              Enable Dark Mode
-            </Button>
+            </div>
           </Container>
         </AccordionDetails>
       </Accordion>
@@ -328,91 +329,187 @@ const Admin = () => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <div>Add Cluster</div>
+          Add Cluster
         </AccordionSummary>
         <AccordionDetails>
-          <Container>
+          <Container
+            sx={containerStyle}
+          >
             <TextField
+              onKeyDown={handleAddCluster}
               id="cluster-url"
+              type="text"
               label="Cluster URL"
-              type="username"
-              variant="outlined"
+              variant="filled"
               size='small'
               margin="dense"
+              sx={textFieldStyle}
             />
             <div>
               <TextField
+                onKeyDown={handleAddCluster}
                 id="k8_port"
+                type="text"
                 label="Kubernetes Port"
-                type="text"
-                variant="outlined"
+                variant="filled"
                 size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
             <div>
               <TextField
+                onKeyDown={handleAddCluster}
                 id="faas_port"
+                type="text"
                 label="FaaS Port"
-                type="text"
-                variant="outlined"
+                variant="filled"
                 size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
             <div>
               <TextField
+                onKeyDown={handleAddCluster}
                 id="faas_username"
+                type="username"
                 label="FaaS Username"
-                type="text"
-                variant="outlined"
+                variant="filled"
                 size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
             <div>
               <TextField
+                onKeyDown={handleAddCluster}
                 id="faas_password"
+                type="password"
                 label="FaaS Password"
-                type="text"
-                variant="outlined"
+                variant="filled"
                 size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
             <div>
               <TextField
+                onKeyDown={handleAddCluster}
                 id="cluster-name"
-                label="Cluster Name"
                 type="text"
-                variant="outlined"
+                label="Cluster Name"
+                variant="filled"
                 size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
             <div>
               <TextField
+                onKeyDown={handleAddCluster}
                 id="cluster-description"
-                label="Cluster Description"
                 type="text"
-                variant="outlined"
+                label="Cluster Description"
+                variant="filled"
                 size='small'
                 margin="dense"
+                sx={textFieldStyle}
               />
             </div>
-            <span>
+            <div>
               <Button 
                 variant="contained" 
                 className="btn" 
                 type="button" 
                 onClick={handleAddCluster}
+                sx={buttonStyle}
               >
                 Add Cluster
               </Button>
-              <span id='add-cluster-msg'>
+              <div id='add-cluster-msg'>
                 {addClusterMessage}
-              </span>
-            </span>
+              </div>
+            </div>
+          </Container>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion
+        sx={{
+          marginTop: '0.5rem'
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          Dark Mode
+        </AccordionSummary>
+        <AccordionDetails>
+          <Container
+            sx={containerStyle}
+          >
+            {
+              !darkMode &&
+              <Button 
+                variant="contained" 
+                className="btn" 
+                type="button"
+                onClick={handleDarkMode}
+                sx={buttonStyle}
+              >
+                Enable Dark Mode
+              </Button>
+            }
+            {
+              darkMode &&
+              <Button 
+                variant="contained" 
+                className="btn" 
+                type="button"
+                onClick={handleDarkMode}
+                sx={buttonStyle}
+              >
+                Disable Dark Mode
+              </Button>
+            }
+          </Container>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion
+        sx={{
+          marginTop: '0.5rem'
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          About VaaS
+        </AccordionSummary>
+        <AccordionDetails>
+          <Container
+            sx={containerStyle}
+          >
+            <Button 
+              variant="contained" 
+              className="btn" 
+              type="button"
+              sx={buttonStyle}
+              onClick={() => window.open('https://vaas.dev/', '_blank', 'noopener,noreferrer')}
+            >
+              Learn about the project
+            </Button>
+            <h3>
+              Developed by:
+            </h3>
+            <p>
+              Murad Alqadi, Kevin Le, Richard Zhang, Irvin Ie
+            </p>
           </Container>
         </AccordionDetails>
       </Accordion>
