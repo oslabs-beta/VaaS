@@ -1,5 +1,9 @@
 .setting-fields {
   width: 100%;
-  border: 1px red border;
-  overflow: scroll;
+  text-align: center;
+}
+
+.custom-query {
+  width: 100%;
+  text-align: center;
 }

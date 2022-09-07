@@ -1,16 +1,7 @@
-import React, { useEffect, useState} from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { Visualizer } from '../../Interfaces/IVisualizer';
-import { IReducers } from '../../Interfaces/IReducers';
-import { Delete } from '../../Services';
-import { setRender } from '../../Store/actions';
-import { apiRoute } from '../../utils';
+import React, { useState} from 'react';
 import customMetric from '../../Queries/Custom';
-import { Accordion, AccordionSummary, AccordionDetails, Button, Container, TextField } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Container, TextField, Button } from '@mui/material';
 import { Modules } from '../../Interfaces/ICluster';
-
 
 const CustomQuery = (props: Modules) => {
   const [data, setData] = useState<any[]>();
@@ -20,27 +11,61 @@ const CustomQuery = (props: Modules) => {
       const query = (document.getElementById('query-input') as HTMLInputElement).value;
       const outputQuery = await customMetric(props.id as string, 'k8', query);
       setData(outputQuery);
-    console.log('THIS IS OUTPUT QUERY', outputQuery);
-
     } catch (error){
       console.log(error);
     }
   };
 
-  return (
-    <div>
+  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') handleCustom();
+  };
 
-      <TextField
-      id="query-input"
-      variant="outlined"
-      size='small'
-      // onKeyDown={handleEnterKeyDownUpdate}
-      margin="dense"/>
-      <Button variant="contained" className="btn" type="button" onClick = {handleCustom}>Custom Query Search</Button>
-      { data &&
-      <div>{JSON.stringify(data, null, 2)}</div>
-      }
+  return (
+    <Container className='custom-query'>
+      <div>
+        <TextField
+          onKeyDown={handleEnterKeyDown}
+          id='query-input'
+          type="text"
+          label="Input Custom Query"
+          variant="filled"
+          size='small'
+          margin="dense"
+          sx={{
+            background: 'white',
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+            width: '350px',
+            fontSize: '10px'
+          }}
+        />
       </div>
+      <div>
+        <Button 
+          variant="contained" 
+          className="btn" 
+          type="button" 
+          onClick = {handleCustom}
+          sx={{
+            background: '#3a4a5b',
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+            width: '350px',
+            fontSize: '10px'
+          }}
+        >
+          Invoke Custom Query
+        </Button>
+      </div>
+      {
+        data && 
+        <div>
+          {JSON.stringify(data, null, 2)}
+        </div>
+      }
+    </Container>
   );
 };
 

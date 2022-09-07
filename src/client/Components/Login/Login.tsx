@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { useNavigate } from 'react-router-dom';
-
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { apiRoute } from '../../utils';
 import { setTitle } from '../../Store/actions';
 import { Put } from '../../Services/index';
-import './styles.css';
+import { IReducers } from '../../Interfaces/IReducers';
 import { Container, Box, Button, TextField } from '@mui/material';
-
+import './styles.css';
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
   const [passwordErr, setPasswordErr] = useState('Password');
   const dispatch = useAppDispatch();
-  const clusterReducer = useAppSelector(state => state.clusterReducer);
+  const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     //sign in state might need to be removed - because we are working with persistent state 
@@ -29,12 +27,18 @@ const Login = () => {
         username: (document.getElementById('login-username-input') as HTMLInputElement).value,
         password: (document.getElementById('login-password-input') as HTMLInputElement).value
       };
-      const res = await Put(apiRoute.getRoute('auth'), body).catch(err => console.log(err));
-      console.log(res);
+      const res = await Put(
+        apiRoute.getRoute('auth'), 
+        body
+      )
+      .catch(err => console.log(err));
+
       if (!body.username) setUsernameErr(' please enter username');
       else setUsernameErr('Username');
+
       if (!body.password) setPasswordErr(' please enter password');
       else setPasswordErr('Password');
+
       if (res.token) {
         localStorage.setItem('username', body.username);
         localStorage.setItem('token', res.token);
@@ -57,20 +61,21 @@ const Login = () => {
 
   return (
     <div>
-      <Container sx={{
-        height: '100vh',
-        minWidth: '100%',
-        justifyContent: 'center',
-        display: 'flex',
-        direction: 'column',
-        textAlign: 'center',
-        alignItems: 'center',
-        backgroundSize: 'contain',
-        color: '#3a4a5b',
-        bgcolor: '#3a4a5b',
-        
-      }} className="backdrop">
-      
+      <Container 
+        sx={{
+          height: '100vh',
+          minWidth: '100%',
+          justifyContent: 'center',
+          display: 'flex',
+          direction: 'column',
+          textAlign: 'center',
+          alignItems: 'center',
+          backgroundSize: 'contain',
+          color: '#3a4a5b',
+          bgcolor: '#3a4a5b',
+        }} 
+        className="backdrop"
+      >
         <Box
           maxWidth="sm" 
           className="login-container"
@@ -88,13 +93,11 @@ const Login = () => {
             padding: '1.5rem',
             borderRadius: '2%'
           }}
-          >
+        >
           <div>
             <h1>VaaS</h1>
           </div>
-          <div>
-          </div>
-            <TextField
+          <TextField
               id="login-username-input"
               label={usernameErr}
               type="username"
@@ -104,24 +107,25 @@ const Login = () => {
               onKeyDown={handleEnterKeyDown}
               margin="dense"
           />
-          <div>
-            <TextField
-              id="login-password-input"
-              label={passwordErr}
-              type="password"
-              autoComplete="current-password"
-              variant="outlined"
-              size='small'
-              onKeyDown={handleEnterKeyDown}
-              margin="dense"
-            />
-          </div>
-          <Container id = 'buttonContainer' sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '.5em',
-            padding: '.5em',
-          }}>
+          <TextField
+            id="login-password-input"
+            label={passwordErr}
+            type="password"
+            autoComplete="current-password"
+            variant="outlined"
+            size='small'
+            onKeyDown={handleEnterKeyDown}
+            margin="dense"
+          />
+          <Container 
+            id = 'buttonContainer' 
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '.5em',
+              padding: '.5em',
+            }}
+          >
             <Button 
               className="btn" 
               type="button" 
@@ -149,7 +153,6 @@ const Login = () => {
               Register
             </Button>
           </Container>
-          
         </Box>
       </Container>
     </div>
