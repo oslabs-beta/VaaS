@@ -1,39 +1,47 @@
 import React, { useState } from 'react';
-import './styles.css';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { Modules } from '../../Interfaces/ICluster';
-import { Delete, Get, Put } from '../../Services';
+import { Get, Put, Delete } from '../../Services';
 import { setRender } from '../../Store/actions';
 import { apiRoute } from '../../utils';
+import { IReducers } from '../../Interfaces/IReducers';
 import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import './styles.css';
 
 const ClusterSettings = (props: Modules) => {
-  const clusterReducer = useAppSelector(state => state.clusterReducer);
+  const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const dispatch = useAppDispatch();
   const [updateClusterError, setUpdateClusterError] = useState('');
   const [settingsField] = useState({
     background: 'white',
     borderRadius: '5px',
     marginRight: '3px',
-    width: '28%',
-    fontSize: '10px',
-    border: '1px red border'
+    marginBottom: '0px',
+    width: '350px',
+    fontSize: '10px'
   });
   const [buttonColor] = useState({
     color: "white"
   });
 
   const handleDeleteCluster = async () => {
-    console.log(props.id);
     try {
       const body = {
         clusterId: props.id
       };
-      await Delete(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
-      dispatch(setRender(!clusterReducer.render));
+      await Delete(
+        apiRoute.getRoute('cluster'), 
+        body, 
+        { 
+          authorization: localStorage.getItem('token') 
+        }
+      );
+      dispatch(
+        setRender(!clusterReducer.render)
+      );
     } catch (err) {
       console.log('Delete cluster error:', err);
     }
@@ -81,9 +89,17 @@ const ClusterSettings = (props: Modules) => {
           return;
         }
       }
-      await Put(apiRoute.getRoute('cluster'), body, { authorization: localStorage.getItem('token') });
+      await Put(
+        apiRoute.getRoute('cluster'), 
+        body, 
+        { 
+          authorization: localStorage.getItem('token') 
+        }
+      );
       setUpdateClusterError('Cluster successfully updated!');
-      dispatch(setRender(!clusterReducer.render));
+      dispatch(
+        setRender(!clusterReducer.render)
+      );
     } catch (err) {
       console.log('Update cluster error:', err);
     }
@@ -94,14 +110,19 @@ const ClusterSettings = (props: Modules) => {
   };
 
   return (
-    <Container component={Card} sx={{
-      color: "white",
-      minHeight: '100%',
-      minWidth: '100%',
-      display: 'flex',
-      textAlign: 'left',
-      backgroundImage: "linear-gradient(#4f4a4b, #AFAFAF)"
-    }} className="module-container">
+    <Container 
+      className="module-container"
+      component={Card} 
+      sx={{
+        color: "white",
+        minHeight: '100%',
+        minWidth: '100%',
+        display: 'flex',
+        justifyContent: 'left',
+        alignContent: 'center',
+        backgroundImage: "linear-gradient(#4f4a4b, #AFAFAF)"
+      }} 
+    >
       <div className='Module-top-row'>
         <div className='module-title noselect'>
           Cluster Settings
@@ -119,101 +140,112 @@ const ClusterSettings = (props: Modules) => {
           Delete
         </Button>
         <Button
-          sx={buttonColor}
+          className='full-screen-button'
           variant="text"
           id="basic-button"
-          className='full-screen-button'
           onClick={handleUpdateCluster}
+          sx={buttonColor}
         >
           Update
         </Button>
       </div>
       <div id='module-content'>
-        <div className='cluster-id'>Cluster ID: {props.id}</div>
+        <div className='cluster-id'>
+          Cluster ID: {props.id}
+        </div>
         <div className='setting-fields'>
-          <TextField
-            onKeyDown={handleEnterKeyDown}
-            className='update-cluster-input'
-            id='update-cluster-url'
-            type="text"
-            placeholder={props.url}
-            label="Cluster URL"
-            variant="filled"
-            size='small'
-            margin="dense"
-            sx={settingsField}
-          />
-          <TextField
-            onKeyDown={handleEnterKeyDown}
-            className='update-cluster-input'
-            id='update-cluster-k8'
-            type="text"
-            placeholder={String(props.k8_port)}
-            label="Kubernetes Port"
-            variant="filled"
-            size='small'
-            margin="dense"
-            sx={settingsField}
-          />
-          <TextField
-            onKeyDown={handleEnterKeyDown}
-            className='update-cluster-input'
-            id='update-cluster-faas'
-            type="text"
-            placeholder={String(props.faas_port)}
-            label="FaaS Port"
-            variant="filled"
-            size='small'
-            margin="dense"
-            sx={settingsField}
-          />
-          <TextField
-            onKeyDown={handleEnterKeyDown}
-            className='update-cluster-input'
-            id='update-cluster-faas-username'
-            type="text"
-            label="FaaS Username"
-            variant="filled"
-            size='small'
-            margin="dense"
-            sx={settingsField}
-          />
-          <TextField
-            onKeyDown={handleEnterKeyDown}
-            className='update-cluster-input'
-            id='update-cluster-faas-password'
-            type="text"
-            label="FaaS Password"
-            variant="filled"
-            size='small'
-            margin="dense"
-            sx={settingsField}
-          />
-          <TextField
-            onKeyDown={handleEnterKeyDown}
-            className='update-cluster-input'
-            id='update-cluster-name'
-            type="text"
-            placeholder={props.name}
-            label="Cluster Name"
-            variant="filled"
-            size='small'
-            margin="dense"
-            sx={settingsField}
-          />
-          <TextField
-            onKeyDown={handleEnterKeyDown}
-            className='update-cluster-input'
-            id='update-cluster-description'
-            type="text"
-            placeholder={props.description}
-            label="Cluster Description"
-            variant="filled"
-            size='small'
-            margin="dense"
-            sx={settingsField}
-          />
-          <span>{updateClusterError}</span>
+          <div>
+            <TextField
+              onKeyDown={handleEnterKeyDown}
+              id='update-cluster-url'
+              type="text"
+              placeholder={props.url}
+              label="Cluster URL"
+              variant="filled"
+              size='small'
+              margin="dense"
+              sx={settingsField}
+            />
+          </div>
+          <div>
+            <TextField
+              onKeyDown={handleEnterKeyDown}
+              id='update-cluster-k8'
+              type="text"
+              placeholder={String(props.k8_port)}
+              label="Kubernetes Port"
+              variant="filled"
+              size='small'
+              margin="dense"
+              sx={settingsField}
+            />
+          </div>
+          <div>
+            <TextField
+              onKeyDown={handleEnterKeyDown}
+              id='update-cluster-faas'
+              type="text"
+              placeholder={String(props.faas_port)}
+              label="FaaS Port"
+              variant="filled"
+              size='small'
+              margin="dense"
+              sx={settingsField}
+            />
+          </div>
+          <div>
+            <TextField
+              onKeyDown={handleEnterKeyDown}
+              id='update-cluster-faas-username'
+              type="text"
+              label="FaaS Username"
+              variant="filled"
+              size='small'
+              margin="dense"
+              sx={settingsField}
+            />
+          </div>
+          <div>
+            <TextField
+              onKeyDown={handleEnterKeyDown}
+              id='update-cluster-faas-password'
+              type="text"
+              label="FaaS Password"
+              variant="filled"
+              size='small'
+              margin="dense"
+              sx={settingsField}
+            />
+          </div>
+          <div>
+            <TextField
+              onKeyDown={handleEnterKeyDown}
+              id='update-cluster-name'
+              type="text"
+              placeholder={props.name}
+              label="Cluster Name"
+              variant="filled"
+              size='small'
+              margin="dense"
+              sx={settingsField}
+            />
+          </div>
+          <div>
+            <TextField
+              onKeyDown={handleEnterKeyDown}
+              id='update-cluster-description'
+              type="text"
+              placeholder={props.description}
+              label="Cluster Description"
+              variant="filled"
+              size='small'
+              margin="dense"
+              sx={settingsField}
+            />
+          </div>
+          <div>
+            {updateClusterError}
+          </div>
         </div>
       </div>
     </Container>

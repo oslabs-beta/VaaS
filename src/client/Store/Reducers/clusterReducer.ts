@@ -21,5 +21,3 @@ const clusterReducer = (state: IClusterReducer = initialState, action: IAction) 
 };
 
 export default clusterReducer;
-
-

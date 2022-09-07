@@ -1,7 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
 import { Button } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -27,34 +25,36 @@ export default function NavBar() {
 
   return (
     <div id='navbar'>
-      <div className="title noselect">VaaS</div>
+      <div className="title noselect">
+        VaaS
+      </div>
       <Button
         id="basic-button"
         onClick={handleLogOut}
+        variant="text"
         sx={{
           color: "#3a4a5b"
         }}
-        variant="text"
       >
         <LogoutIcon />
       </Button>
       <Button
         id="basic-button"
         onClick={routeHome}
+        variant="text"
         sx={{
           color: "#3a4a5b"
         }}
-        variant="text"
       >
         <HomeIcon />
       </Button>
       <Button
         id="basic-button"
         onClick={routeAdmin}
+        variant="text"
         sx={{
           color: "#3a4a5b"
         }}
-        variant="text"
       >
         <SettingsIcon />
       </Button>

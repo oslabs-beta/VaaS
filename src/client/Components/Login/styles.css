@@ -1,3 +1,7 @@
+body {
+  background-color: #3a4a5b;
+}
+
 .login-container {
   background-color: white;
   border: 0.5px solid black;
@@ -5,8 +9,4 @@
 
 .input-error-text {
   color: red;
-}
-
-body {
-  background-color: #3a4a5b;
 }
