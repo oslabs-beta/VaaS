@@ -176,6 +176,7 @@ const OpenFaaS = (props: Modules) => {
         sx={{
           display: 'flex',
           gap: '1.5rem',
+          marginLeft: '-1rem',
           justifyContent: 'center'
         }}
       >
