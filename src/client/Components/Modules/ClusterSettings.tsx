@@ -13,7 +13,11 @@ import './styles.css';
 
 const ClusterSettings = (props: Modules) => {
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
+  const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const dispatch = useAppDispatch();
+
+  const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
+
   const [updateClusterError, setUpdateClusterError] = useState('');
   const [settingsField] = useState({
     background: 'white',
@@ -51,22 +55,22 @@ const ClusterSettings = (props: Modules) => {
     try {
       const body = {
         clusterId: props.id,
-        url: (document.getElementById('update-cluster-url') as HTMLInputElement).value || props.url,
-        k8_port: (document.getElementById('update-cluster-k8') as HTMLInputElement).value || props.k8_port,
-        faas_port: (document.getElementById('update-cluster-faas') as HTMLInputElement).value || props.faas_port,
+        url: (document.getElementById('update-cluster-url') as HTMLInputElement).value || dbData?.url,
+        k8_port: (document.getElementById('update-cluster-k8') as HTMLInputElement).value || dbData?.k8_port,
+        faas_port: (document.getElementById('update-cluster-faas') as HTMLInputElement).value || dbData?.faas_port,
         faas_username: (document.getElementById('update-cluster-faas-username') as HTMLInputElement).value,
         faas_password: (document.getElementById('update-cluster-faas-password') as HTMLInputElement).value,
-        name: (document.getElementById('update-cluster-name') as HTMLInputElement).value || props.name,
-        description: (document.getElementById('update-cluster-description') as HTMLInputElement).value || props.description,
+        name: (document.getElementById('update-cluster-name') as HTMLInputElement).value || dbData?.name,
+        description: (document.getElementById('update-cluster-description') as HTMLInputElement).value || dbData?.description,
       };
       if (
-        body.url === props.url &&
-        body.k8_port === props.k8_port &&
-        body.faas_port === props.faas_port &&
+        body.url === dbData?.url &&
+        body.k8_port === dbData?.k8_port &&
+        body.faas_port === dbData?.faas_port &&
         !body.faas_username &&
         !body.faas_password &&
-        body.name === props.name &&
-        body.description === props.description
+        body.name === dbData?.name &&
+        body.description === dbData?.description
       ) {
         setUpdateClusterError('Nothing to update!');
         return;
@@ -82,7 +86,7 @@ const ClusterSettings = (props: Modules) => {
         setUpdateClusterError('Port(s) must be numbers');
         return;
       }
-      if (body.name !== props.name) {
+      if (body.name !== dbData?.name) {
         const cluster = await Get(apiRoute.getRoute(`cluster:${body.name}`), { authorization: localStorage.getItem('token') });
         if (!cluster.message) {
           setUpdateClusterError('Cluster name already exists. Try another name.');
@@ -157,7 +161,7 @@ const ClusterSettings = (props: Modules) => {
                 onKeyDown={handleEnterKeyDown}
                 id='update-cluster-url'
                 type="text"
-                placeholder={props.url}
+                placeholder={dbData?.url}
                 label="Cluster URL"
                 variant="filled"
                 size='small'
@@ -170,7 +174,7 @@ const ClusterSettings = (props: Modules) => {
                 onKeyDown={handleEnterKeyDown}
                 id='update-cluster-k8'
                 type="text"
-                placeholder={String(props.k8_port)}
+                placeholder={String(dbData?.k8_port)}
                 label="Kubernetes Port"
                 variant="filled"
                 size='small'
@@ -183,7 +187,7 @@ const ClusterSettings = (props: Modules) => {
                 onKeyDown={handleEnterKeyDown}
                 id='update-cluster-faas'
                 type="text"
-                placeholder={String(props.faas_port)}
+                placeholder={String(dbData?.faas_port)}
                 label="FaaS Port"
                 variant="filled"
                 size='small'
@@ -220,7 +224,7 @@ const ClusterSettings = (props: Modules) => {
                 onKeyDown={handleEnterKeyDown}
                 id='update-cluster-name'
                 type="text"
-                placeholder={props.name}
+                placeholder={dbData?.name}
                 label="Cluster Name"
                 variant="filled"
                 size='small'
@@ -233,7 +237,7 @@ const ClusterSettings = (props: Modules) => {
                 onKeyDown={handleEnterKeyDown}
                 id='update-cluster-description'
                 type="text"
-                placeholder={props.description}
+                placeholder={dbData?.description}
                 label="Cluster Description"
                 variant="filled"
                 size='small'

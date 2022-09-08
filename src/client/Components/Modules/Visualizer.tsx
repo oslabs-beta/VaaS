@@ -33,6 +33,7 @@ const Visualizer = (props: Modules) => {
   const [style, setStyle] = useState({
     color: "#FFFFFF",
   });
+  const [offline, setOffline] = useState(false);
 
   useEffect(() => {
     const updateColor = () => {
@@ -41,23 +42,28 @@ const Visualizer = (props: Modules) => {
       }
     };
     const fetchNamespaces = async () => {
-      const namespaces = await clusterMetric.allNamespaces(id, "k8");
-      setNameSpaces(namespaces);
+      let namespaces;
+      try {
+        namespaces = await clusterMetric.allNamespaces(id, "k8");
+      } catch (err) {
+        setOffline(true);
+      }
+      if (!offline) setNameSpaces(namespaces);
     };
     fetchNamespaces();
     const fetchServices = async () => {
       const services = await clusterMetric.allServices(id, "k8");
-      setServices(services);
+      if (!offline) setServices(services);
     };
     fetchServices();
     const fetchNodes = async () => {
       const nodes = await clusterMetric.allNodes(id, "k8");
-      setNodes(nodes);
+      if (!offline) setNodes(nodes);
     };
     fetchNodes();
     const fetchTotalDeployments = async () => {
       const totalDeployments = await clusterMetric.totalDeployments(id, "k8");
-      setTotalDeployments(totalDeployments);
+      if (!offline) setTotalDeployments(totalDeployments);
     };
     // updateColor();
     fetchTotalDeployments();

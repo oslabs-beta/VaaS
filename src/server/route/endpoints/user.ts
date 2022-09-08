@@ -57,7 +57,7 @@ router.route('/user')
   })
   .put(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-    const { username, firstName, lastName } = req.body;
+    const { username, firstName, lastName, darkMode, refreshRate } = req.body;
     const { jwt: { id } } = res.locals;
     try {
       // Check to see if cluster exists
@@ -78,7 +78,9 @@ router.route('/user')
         {
           username: username,
           firstName: firstName,
-          lastName: lastName
+          lastName: lastName,
+          darkMode: darkMode,
+          refreshRate: refreshRate
         }
       );
       terminal(`Success: User [${req.body.username}] document updated`);

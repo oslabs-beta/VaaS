@@ -1,5 +1,5 @@
 export interface ClusterTypes {
-  _id?: string | undefined,
+  _id: string,
   url?: string,
   k8_port?: number,
   faas_port?: number,

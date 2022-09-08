@@ -29,7 +29,9 @@ router.route('/auth')
         username, 
         password: hashedPassword,
         firstName,
-        lastName
+        lastName,
+        darkMode: false,
+        refreshRate: 60000
       });
       await attempt.save();
       terminal(`Success: New user [${userId}] stored in MongoDB collection`);

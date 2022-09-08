@@ -4,9 +4,13 @@ import { Delete, Get, Post } from "../../Services";
 import { DeployedFunctionTypes, FunctionTypes } from "../../Interfaces/IFunction";
 import { apiRoute } from "../../utils";
 import { useLocation } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../Store/hooks";
+import { IReducers } from "../../Interfaces/IReducers";
 import "./styles.css";
 
 const OpenFaaS = (props: Modules) => {
+  const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
+  const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
   const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
@@ -205,8 +209,8 @@ const OpenFaaS = (props: Modules) => {
               displayFunctionData(selectedDeployedFunction)?.invocationCount
             }
             Image: ${displayFunctionData(selectedDeployedFunction)?.image}
-            URL: ${props.url}:${
-              props.faas_port
+            URL: ${dbData?.url}:${
+              dbData?.faas_port
             }/function/${selectedDeployedFunction}
             `}
           </span>

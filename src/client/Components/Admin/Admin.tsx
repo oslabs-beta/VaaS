@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Get, Post, Put, Delete } from '../../Services/index';
 import { apiRoute } from '../../utils';
@@ -12,13 +12,13 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { dark } from '@mui/material/styles/createPalette';
 
 const Admin = () => {
   const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
   const [darkMode, setDarkMode] = useState(false);
+  const [refreshRate, setRefreshRate] = useState(0);
   const navigate = useNavigate();
   const [containerStyle] = useState({
     width: '350px',
@@ -39,9 +39,19 @@ const Admin = () => {
     fontSize: '10px'
   });
 
-  const handleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const user = await Get(
+        apiRoute.getRoute(`user:${localStorage.username}`), 
+        { 
+          authorization: localStorage.getItem('token') 
+        }
+      );
+      setDarkMode(user.darkMode);
+      setRefreshRate(user.refreshRate/1000);
+    };
+    getUserInfo();
+  }, [darkMode, refreshRate]);
 
   const handleAddCluster = async (): Promise<void> => {
     try {
@@ -155,8 +165,7 @@ const Admin = () => {
         { 
           authorization: localStorage.getItem('token') 
         }
-      )
-      .catch(err => console.log(err));
+      );
 
       const clusters = await Get(
         apiRoute.getRoute('cluster'), 
@@ -192,12 +201,64 @@ const Admin = () => {
     }
   };
 
+  const handleDarkMode = async (): Promise<void> => {
+    try {
+      const body = {
+        darkMode: !darkMode,
+      };
+
+      const updateStatus = await Put(
+        apiRoute.getRoute('user'), 
+        body, 
+        { 
+          authorization: localStorage.getItem('token') 
+        }
+      );      
+      if (updateStatus.success) {
+        setDarkMode(!darkMode);
+        console.log('Dark mode enabled');
+      } else {
+        console.log('Dark mode could not be enabled');
+      }
+    } catch (err) {
+      console.log('Update request to server failed', err);
+    }
+  };
+
+  const handleRefreshRate = async (): Promise<void> => {
+    try {
+      const body = {
+        refreshRate: Number((document.getElementById('refresh-rate-input') as HTMLInputElement).value)*1000
+      };
+      const updateStatus = await Put(
+        apiRoute.getRoute('user'), 
+        body, 
+        { 
+          authorization: localStorage.getItem('token') 
+        }
+      );
+      if (updateStatus.success) {
+        console.log(body.refreshRate);
+        setRefreshRate(body.refreshRate/1000);      
+        console.log('Refresh rate updated');
+      } else {
+        console.log('Refresh rate could not be updated');
+      }
+    } catch (err) {
+      console.log('Update request to server failed', err);
+    }
+  };
+
   const handleEnterKeyDownUpdate = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleUserUpdate();
   };
 
   const handleEnterKeyDownDelete = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleUserDelete();
+  };
+
+  const handleEnterKeyDownRefreshRate = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') handleRefreshRate();
   };
 
   return (
@@ -435,11 +496,48 @@ const Admin = () => {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion
-        sx={{
-          marginTop: '0.5rem'
-        }}
-      >
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          Cluster Refresh Rate
+        </AccordionSummary>
+        <AccordionDetails>
+          <Container
+            sx={containerStyle}
+          >
+            <div>
+              <TextField
+                onKeyDown={handleEnterKeyDownRefreshRate}
+                id="refresh-rate-input"
+                type="text"
+                label="Enter Refresh Rate in Seconds"
+                variant="filled"
+                size='small'
+                margin="dense"
+                placeholder={String(refreshRate)}
+                sx={textFieldStyle}
+              />
+            </div>
+            <div>
+              <Button 
+                id="refresh-rate-input" 
+                variant="contained" 
+                className="btn" 
+                type="button" 
+                onClick={handleRefreshRate}
+                sx={buttonStyle}
+              >
+                Update Refresh Rate
+              </Button>
+            </div>
+          </Container>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"

@@ -2,6 +2,12 @@ export const SET_RENDER = "SET_RENDER";
 
 export const SET_TITLE = "SET_TITLE";
 
-export const SET_CLUSTERS = "SET_CLUSTERS";
+export const STORE_CLUSTERS = "STORE_CLUSTERS";
+
+export const STORE_CLUSTER_METRICS = "STORE_CLUSTER_METRICS";
+
+export const STORE_CLUSTER_METRIC_ALLNODES = "STORE_CLUSTER_METRIC_NODE";
 
 export const SET_UI = "SET_UI";
+
+export const SET_FAV_RENDER = "SET_FAV_RENDER";

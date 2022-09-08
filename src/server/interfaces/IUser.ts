@@ -6,4 +6,6 @@ export interface IUser extends Document{
   lastName: string,
   username: string,
   password: string,
+  darkMode: boolean,
+  refreshRate: number
 }

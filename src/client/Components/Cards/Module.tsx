@@ -242,9 +242,7 @@ const Module = (props: Modules) => {
           {
             faas && 
             <OpenFaaS 
-              url={props.url} 
-              faas_port={props.faas_port} 
-              id={id} 
+              id={id}
             />
           }
           {
