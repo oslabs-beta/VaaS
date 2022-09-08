@@ -41,7 +41,7 @@ const OpenFaaS = (props: Modules) => {
 
   const [textAreaRows, setTextAreaRows] = useState(4);
   const [textAreaStyle, setTextAreaStyle] = useState({
-    color: 'white',
+    color: '#F0F0F0',
     height: '140px'
   });
 

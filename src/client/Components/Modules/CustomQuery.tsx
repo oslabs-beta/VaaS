@@ -16,7 +16,7 @@ const CustomQuery = (props: Modules) => {
       setResponseStyle({
         ...responseStyle,
         color: '#F0F0F0',
-        height: '80vw'
+        height: '65vh'
       });
     }
   }, []);
