@@ -20,3 +20,20 @@ export interface IClusterMetrics {
   totalPods: any;
   allNodes: any;
 }
+
+export interface IClusterUIAction {
+  type: string;
+  payload: IClusterUIPayload;
+}
+
+export interface IClusterUIPayload {
+  clusterId: string,
+  clusterUIState: IClusterUIState
+}
+
+export interface IClusterUIState {
+  clusterId?: string,
+  currentModule: string,
+  fullscreen: boolean,
+  modules: any
+}

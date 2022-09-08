@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ClusterTypes } from "../../Interfaces/ICluster";
 import { Put } from "../../Services";
 import { apiRoute } from "../../utils";
 import Module from "./Module";
 import ClusterSettings from "../Modules/ClusterSettings";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { setFavRender } from "../../Store/actions";
+import { setFavRender, setUI } from "../../Store/actions";
 import { IReducers } from "../../Interfaces/IReducers";
 import Container from "@mui/system/Container";
 import Button from "@mui/material/Button";
@@ -18,11 +18,36 @@ const Kube = (props: ClusterTypes) => {
   const dispatch = useAppDispatch();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
+  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
 
   const [module, setModule] = useState(true);
   const [settings, setSettings] = useState(false);
 
   const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props._id));
+
+  useEffect(() => {
+    dispatch(
+      setUI(
+        props._id, 
+        {
+          currentModule: 'OpenFaaS',
+          fullscreen: false,
+          modules: {
+            OpenFaaS: {
+              deployDropdown: '',
+              invokeDropdown: '',
+              requestBody: '',
+              responseBody: ''
+            },
+            query: {
+              inputField: '',
+              responseObject: ''
+            }
+          }
+        }
+      )
+    );
+  }, []);
 
   const handleFavorite = async () => {
     try {
@@ -47,6 +72,7 @@ const Kube = (props: ClusterTypes) => {
 
   const handleSettings = async () => {
     try {
+      console.log(uiReducer);
       setModule(!module);
       setSettings(!settings);
     } catch (err) {

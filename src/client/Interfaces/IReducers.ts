@@ -1,4 +1,4 @@
-import { IClusterMetrics } from "./IAction";
+import { IClusterMetrics, IClusterUIState } from "./IAction";
 import { ClusterTypes } from "./ICluster";
 
 export interface IClusterReducer {
@@ -15,12 +15,12 @@ export interface IApiReducer {
   }
 }
 
-export interface IUiReducer {
-  clusters: any;
+export interface IUIReducer {
+  clusterUIState: IClusterUIState;
 }
 
 export interface IReducers {
   clusterReducer: IClusterReducer;
+  uiReducer: IUIReducer;
   apiReducer: IApiReducer;
-  uiReducer: IUiReducer;
 }

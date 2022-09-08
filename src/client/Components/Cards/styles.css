@@ -91,13 +91,6 @@ h3 {
   margin-top: 6px;
 }
 
-.cluster-id {
-  color: #ffffff;
-  font-size: 10px;
-  text-align: right;
-  margin-top: -15px;
-}
-
 .module-button {
   display: inline-block;
   margin-left: auto;
@@ -115,6 +108,13 @@ h3 {
 
 .module-btn {
   float: right;
+}
+
+.cluster-id {
+  color: #ffffff;
+  font-size: 10px;
+  text-align: right;
+  margin-top: -15px;
 }
 
 #gauge-chart3 {
