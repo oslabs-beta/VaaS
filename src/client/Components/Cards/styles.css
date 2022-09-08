@@ -110,9 +110,15 @@ h3 {
   float: right;
 }
 
+<<<<<<< HEAD
 .cluster-id {
   color: #ffffff;
   font-size: 10px;
   text-align: right;
   margin-top: -15px;
+=======
+#gauge-chart3 {
+  color: black;
+  height: 2px;
+>>>>>>> d0a767ab8648f681c54b2e493ddb4d006b18cd5c
 }
