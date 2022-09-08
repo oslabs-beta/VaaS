@@ -3,7 +3,7 @@ import { IAction } from "../../Interfaces/IAction";
 import { IUiReducer } from "../../Interfaces/IReducers";
 
 const initialState: IUiReducer = {
-  test2: ''
+  clusters: {}
 };
 
 const uiReducer = (state: IUiReducer = initialState, action: IAction) => {

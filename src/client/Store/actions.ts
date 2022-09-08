@@ -30,14 +30,6 @@ export const storeClusterQueryData = (clusterId: string | undefined, clusterMetr
   }
 });
 
-export const storeClusterMetricAllNodes = (clusterId: string | undefined, allNodes: string) => ({
-  type: types.STORE_CLUSTER_METRIC_ALLNODES,
-  payload: {
-    clusterId,
-    allNodes
-  }
-});
-
 export const setUI = (test2: string) => ({
   type: types.SET_UI,
   payload: test2

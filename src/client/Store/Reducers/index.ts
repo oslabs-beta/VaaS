@@ -1,14 +1,14 @@
 import { combineReducers } from 'redux';
 
 import clusterReducer from './clusterReducer';
-import navBarReducer from './navBarReducer';
 import apiReducer from './apiReducer';
+import uiReducer from './uiReducer';
+
 
 const reducer = combineReducers({
   clusterReducer,
-  navBarReducer,
   apiReducer,
-  //uiReducer
+  uiReducer
 });
 
 export default reducer;
