@@ -14,7 +14,7 @@ export interface IClusterPayload {
 }
 
 export interface IClusterMetrics {
-  cpuLoad: any | unknown;
+  cpuLoad: any;
   memoryLoad: any;
   totalDeployments: any;
   totalPods: any;

@@ -6,10 +6,6 @@ export interface IClusterReducer {
   favRender: boolean;
 }
 
-export interface INavBarReducer {
-  title: string;
-}
-
 export interface IApiReducer {
   initialLoad: boolean;
   lastFetch: number;
@@ -20,11 +16,11 @@ export interface IApiReducer {
 }
 
 export interface IUiReducer {
-  test2: string;
+  clusters: any;
 }
 
 export interface IReducers {
   clusterReducer: IClusterReducer;
-  navBarReducer: INavBarReducer;
   apiReducer: IApiReducer;
+  uiReducer: IUiReducer;
 }

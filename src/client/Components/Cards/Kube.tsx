@@ -11,6 +11,7 @@ import Container from "@mui/system/Container";
 import Button from "@mui/material/Button";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
+import GaugeChart from 'react-gauge-chart';
 import "./styles.css";
 
 const Kube = (props: ClusterTypes) => {
@@ -30,8 +31,8 @@ const Kube = (props: ClusterTypes) => {
         favorite: !props.favoriteStatus,
       };
       await Put(
-        apiRoute.getRoute("cluster"), 
-        body, 
+        apiRoute.getRoute("cluster"),
+        body,
         {
           authorization: localStorage.getItem("token"),
         }
@@ -69,18 +70,18 @@ const Kube = (props: ClusterTypes) => {
       <div className="Kube-top-row">
         <div className="cluster-title">
           {
-            props.favoriteStatus && 
-            <span 
-              className="set-favorite noselect" 
+            props.favoriteStatus &&
+            <span
+              className="set-favorite noselect"
               onClick={handleFavorite}
             >
               ❤️
             </span>
           }
           {
-            !props.favoriteStatus && 
-            <span 
-              className="set-favorite noselect" 
+            !props.favoriteStatus &&
+            <span
+              className="set-favorite noselect"
               onClick={handleFavorite}
             >
               🤍
@@ -117,16 +118,38 @@ const Kube = (props: ClusterTypes) => {
           <div className="ov-content">
             <div className="noselect">
               <h3>CPU Usage</h3>
+              <GaugeChart id="gauge-chart3"
+                nrOfLevels={30}
+                colors={["#FF5F6D", "#FFC371"]}
+                arcWidth={0.1}
+                percent={apiReducer.clusterQueryData[props._id]?.cpuLoad/100}
+                style={{
+                  width: '60%',
+                  
+                }}
+                textColor='black'
+              />
             </div>
-            <div>{"" + apiReducer.clusterQueryData[props._id]?.cpuLoad + "%"}</div>
           </div>
         </div>
         <div className="ov-box">
           <div className="ov-content">
             <div className="noselect">
               <h3>Memory Usage</h3>
+              <p>{apiReducer.clusterQueryData[props._id]?.memoryLoad + ' /2048 MB'}</p>
+              <GaugeChart id="gauge-chart3"
+                nrOfLevels={30}
+                colors={["#FF5F6D", "#FFC371"]}
+                arcWidth={0.1}
+                percent={apiReducer.clusterQueryData[props._id]?.memoryLoad/2048}
+                style={{
+                  width: '60%',
+                  
+                }}
+                textColor='black'
+              />
+              
             </div>
-            <div>{"" + apiReducer.clusterQueryData[props._id]?.memoryLoad + " MB used"}</div>
           </div>
         </div>
         <div className="ov-box">
