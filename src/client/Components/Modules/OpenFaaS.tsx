@@ -301,7 +301,8 @@ const OpenFaaS = (props: Modules) => {
         >
           <Box
             sx={{
-              margin: '10px'
+              margin: '4px',
+              marginLeft: '10px'
             }}
           >
             <b>Function Information</b>
