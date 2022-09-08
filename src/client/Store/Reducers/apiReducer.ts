@@ -1,18 +1,33 @@
 import * as types from "../actionTypes";
-import { IAction } from "../../Interfaces/IAction";
+import { IClusterAction } from "../../Interfaces/IAction";
 import { IApiReducer } from "../../Interfaces/IReducers";
 
 const initialState: IApiReducer = {
-  clusters: [],
-  clusterMetrics: {}
+  initialLoad: true,
+  lastFetch: new Date().getTime(),
+  clusterDbData: [],
+  clusterQueryData: {}
 };
 
-const apiReducer = (state: IApiReducer = initialState, action: IAction) => {
+const apiReducer = (state: IApiReducer = initialState, action: IClusterAction) => {
   switch (action.type) {
-    case types.SET_CLUSTERS: {
+    case types.STORE_CLUSTERS: {
       return {
         ...state,
-        clusters: action.payload,
+        initialLoad: false,
+        lastFetch: new Date().getTime(),
+        clusterDbData: action.payload,
+      };
+    }
+    case types.STORE_CLUSTER_METRICS: {
+      return {
+        ...state,
+        clusterQueryData: {
+          ...state.clusterQueryData,
+          initialLoad: false,
+          lastFetch: new Date().getTime(),
+          [action.payload.clusterId]: action.payload.clusterMetrics
+        }
       };
     }
     default: {

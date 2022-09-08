@@ -4,10 +4,15 @@ import { Button } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
+import { IReducers } from '../../Interfaces/IReducers';
+import { setRender } from '../../Store/actions';
 
 export default function NavBar() {
   const navigate = useNavigate();
-  
+  const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
+  const dispatch = useAppDispatch();
   const routeHome = () => {
     navigate('/home');
   };
@@ -47,6 +52,16 @@ export default function NavBar() {
         }}
       >
         <HomeIcon />
+      </Button>
+      <Button
+        id="basic-button"
+        onClick={() => dispatch(setRender(!clusterReducer.render))}
+        variant="text"
+        sx={{
+          color: "#3a4a5b"
+        }}
+      >
+        <RefreshIcon />
       </Button>
       <Button
         id="basic-button"

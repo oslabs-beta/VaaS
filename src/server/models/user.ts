@@ -9,6 +9,8 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   lastName: String,
   username: String,
   password: String,
+  darkMode: Boolean,
+  refreshRate: Number
 });
 
 // THIRD PARAMETER DEFINES DEFAULT COLLECTION NAME
