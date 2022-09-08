@@ -1,4 +1,4 @@
-import { IClusterMetrics } from '../Interfaces/IAction';
+import { IClusterMetrics, IClusterUIState } from '../Interfaces/IAction';
 import { ClusterTypes } from '../Interfaces/ICluster';
 import * as types from './actionTypes';
 
@@ -30,15 +30,10 @@ export const storeClusterQueryData = (clusterId: string | undefined, clusterMetr
   }
 });
 
-export const storeClusterMetricAllNodes = (clusterId: string | undefined, allNodes: string) => ({
-  type: types.STORE_CLUSTER_METRIC_ALLNODES,
+export const setUI = (clusterId: string | undefined, clusterUIState: IClusterUIState) => ({
+  type: types.SET_UI,
   payload: {
     clusterId,
-    allNodes
+    clusterUIState
   }
-});
-
-export const setUI = (test2: string) => ({
-  type: types.SET_UI,
-  payload: test2
 });

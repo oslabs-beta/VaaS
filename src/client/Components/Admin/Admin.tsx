@@ -7,6 +7,7 @@ import UserWelcome from '../Admin/UserWelcome';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
+import Box from "@mui/material/Box";
 import TextField from '@mui/material/TextField';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -17,6 +18,7 @@ const Admin = () => {
   const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
+  const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
   const [darkMode, setDarkMode] = useState(false);
   const [refreshRate, setRefreshRate] = useState(0);
   const navigate = useNavigate();
@@ -143,10 +145,9 @@ const Admin = () => {
           'username', 
           body.username
         );
-        setUpdateUserErr('User successfully updated');
-        console.log('Your account details have been updated');
+        setUpdateUserErr('Account information successfully updated');
       } else {
-        console.log('Your account details could not be updated');
+        setUpdateUserErr('Your account details could not be updated');
       }
     } catch (err) {
       console.log('Update request to server failed', err);
@@ -240,9 +241,9 @@ const Admin = () => {
       if (updateStatus.success) {
         console.log(body.refreshRate);
         setRefreshRate(body.refreshRate/1000);      
-        console.log('Refresh rate updated');
+        setUpdateRefreshRateMessage(`Refresh rate successfully set to ${body.refreshRate/1000} seconds`);
       } else {
-        console.log('Refresh rate could not be updated');
+        setUpdateRefreshRateMessage('Refresh rate could not be updated');
       }
     } catch (err) {
       console.log('Update request to server failed', err);
@@ -255,6 +256,10 @@ const Admin = () => {
 
   const handleEnterKeyDownDelete = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleUserDelete();
+  };
+
+  const handleEnterKeyDownAddCluster = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') handleAddCluster();
   };
 
   const handleEnterKeyDownRefreshRate = (e: React.KeyboardEvent<HTMLInputElement>): void => {
@@ -397,7 +402,7 @@ const Admin = () => {
             sx={containerStyle}
           >
             <TextField
-              onKeyDown={handleAddCluster}
+              onKeyDown={handleEnterKeyDownAddCluster}
               id="cluster-url"
               type="text"
               label="Cluster URL"
@@ -408,7 +413,7 @@ const Admin = () => {
             />
             <div>
               <TextField
-                onKeyDown={handleAddCluster}
+                onKeyDown={handleEnterKeyDownAddCluster}
                 id="k8_port"
                 type="text"
                 label="Kubernetes Port"
@@ -420,7 +425,7 @@ const Admin = () => {
             </div>
             <div>
               <TextField
-                onKeyDown={handleAddCluster}
+                onKeyDown={handleEnterKeyDownAddCluster}
                 id="faas_port"
                 type="text"
                 label="FaaS Port"
@@ -432,7 +437,7 @@ const Admin = () => {
             </div>
             <div>
               <TextField
-                onKeyDown={handleAddCluster}
+                onKeyDown={handleEnterKeyDownAddCluster}
                 id="faas_username"
                 type="username"
                 label="FaaS Username"
@@ -444,7 +449,7 @@ const Admin = () => {
             </div>
             <div>
               <TextField
-                onKeyDown={handleAddCluster}
+                onKeyDown={handleEnterKeyDownAddCluster}
                 id="faas_password"
                 type="password"
                 label="FaaS Password"
@@ -456,7 +461,7 @@ const Admin = () => {
             </div>
             <div>
               <TextField
-                onKeyDown={handleAddCluster}
+                onKeyDown={handleEnterKeyDownAddCluster}
                 id="cluster-name"
                 type="text"
                 label="Cluster Name"
@@ -468,7 +473,7 @@ const Admin = () => {
             </div>
             <div>
               <TextField
-                onKeyDown={handleAddCluster}
+                onKeyDown={handleEnterKeyDownAddCluster}
                 id="cluster-description"
                 type="text"
                 label="Cluster Description"
@@ -517,7 +522,7 @@ const Admin = () => {
                 variant="filled"
                 size='small'
                 margin="dense"
-                placeholder={String(refreshRate)}
+                placeholder={`Currently set to ${String(refreshRate)} seconds`}
                 sx={textFieldStyle}
               />
             </div>
@@ -532,6 +537,9 @@ const Admin = () => {
               >
                 Update Refresh Rate
               </Button>
+              <div>
+                {updateRefreshRateMessage}
+              </div>
             </div>
           </Container>
         </AccordionDetails>
@@ -602,12 +610,23 @@ const Admin = () => {
             >
               Learn about the project
             </Button>
-            <h3>
-              Developed by:
-            </h3>
-            <p>
-              Murad Alqadi, Kevin Le, Richard Zhang, Irvin Ie
-            </p>
+            <Box sx={{textAlign: 'center'}}>
+              <h3>
+                Developed by:
+              </h3>
+              <p>
+                Murad Alqadi
+              </p>
+              <p>
+                Kevin Le
+              </p>
+              <p>
+                Richard Zhang
+              </p>
+              <p>
+                Irvin Ie
+              </p>
+            </Box>
           </Container>
         </AccordionDetails>
       </Accordion>

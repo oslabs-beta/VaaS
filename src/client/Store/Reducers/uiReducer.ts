@@ -1,17 +1,35 @@
 import * as types from "../actionTypes";
-import { IAction } from "../../Interfaces/IAction";
-import { IUiReducer } from "../../Interfaces/IReducers";
+import { IClusterUIAction } from "../../Interfaces/IAction";
+import { IUIReducer } from "../../Interfaces/IReducers";
 
-const initialState: IUiReducer = {
-  test2: ''
+const initialState: IUIReducer = {
+  clusterUIState: {
+    currentModule: 'OpenFaaS',
+    fullscreen: false,
+    modules: {
+      OpenFaaS: {
+        deployDropdown: '',
+        invokeDropdown: '',
+        requestBody: '',
+        responseBody: ''
+      },
+      query: {
+        inputField: '',
+        responseObject: ''
+      }
+    }
+  }
 };
 
-const uiReducer = (state: IUiReducer = initialState, action: IAction) => {
+const uiReducer = (state: IUIReducer = initialState, action: IClusterUIAction) => {
   switch (action.type) {
     case types.SET_UI: {
       return {
         ...state,
-        test2: action.payload,
+        clusterUIState: {
+          ...state.clusterUIState,
+          [action.payload.clusterId]: action.payload.clusterUIState
+        }
       };
     }
     default: {
