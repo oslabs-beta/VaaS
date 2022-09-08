@@ -9,7 +9,6 @@ import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import './styles.css';
 
 const ClusterSettings = (props: Modules) => {
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
@@ -155,7 +154,12 @@ const ClusterSettings = (props: Modules) => {
           </Button>
         </div>
         <div id='module-content'>
-          <div className='setting-fields'>
+          <Container 
+            sx={{
+              width: '100%',
+              textAlign: 'center'
+            }}
+          >
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDown}
@@ -248,7 +252,7 @@ const ClusterSettings = (props: Modules) => {
             <div>
               {updateClusterError}
             </div>
-          </div>
+          </Container>
         </div>
       </Container>
       <Container className='cluster-id'>

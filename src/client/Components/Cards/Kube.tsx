@@ -133,65 +133,67 @@ const Kube = (props: ClusterTypes) => {
       </div>
       <div id="overview">
         <div className="ov-box">
-          <div className="ov-content">
-            <div className="noselect">
-              <h3>Summary</h3>
-            </div>
-            <div>{"Node: " + apiReducer.clusterQueryData[props._id]?.allNodes[0]}</div>
+          <div className="ov-title noselect">
+            <h3>Nodes</h3>
+          </div>
+          <div className="ov-nodes">
+            <div>Count: <b>{(apiReducer.clusterQueryData[props._id]?.allNodes.length || 0)}</b></div>
+            <div><b>{(apiReducer.clusterQueryData[props._id]?.allNodes[0] || '🔴')}</b></div>
           </div>
         </div>
         <div className="ov-box">
+          <div className="ov-title noselect">
+            <h3>Deployments</h3>
+          </div>
           <div className="ov-content">
-            <div className="noselect">
-              <h3>CPU Usage</h3>
-              <GaugeChart id="gauge-chart3"
-                nrOfLevels={30}
-                colors={["#FF5F6D", "#FFC371"]}
-                arcWidth={0.1}
-                percent={apiReducer.clusterQueryData[props._id]?.cpuLoad/100}
-                style={{
-                  width: '60%',
-                  
-                }}
-                textColor='black'
-              />
-            </div>
+            <div>{(apiReducer.clusterQueryData[props._id]?.totalDeployments || 0)}</div>
           </div>
         </div>
         <div className="ov-box">
+          <div className="ov-title noselect">
+            <h3>Pods</h3>
+          </div>
           <div className="ov-content">
-            <div className="noselect">
-              <h3>Memory Usage</h3>
-              <p>{apiReducer.clusterQueryData[props._id]?.memoryLoad + ' /2048 MB'}</p>
-              <GaugeChart id="gauge-chart3"
-                nrOfLevels={30}
-                colors={["#FF5F6D", "#FFC371"]}
-                arcWidth={0.1}
-                percent={apiReducer.clusterQueryData[props._id]?.memoryLoad/2048}
-                style={{
-                  width: '60%',
-                  
-                }}
-                textColor='black'
-              />
-              
-            </div>
+            <div>{(apiReducer.clusterQueryData[props._id]?.totalPods || 0)}</div>
           </div>
         </div>
         <div className="ov-box">
+          <div className="ov-title noselect">
+            <h3>CPU Usage</h3>
+          </div>
           <div className="ov-content">
-            <div className="noselect">
-              <h3>Deployments</h3>
-            </div>
-            <div>{"" + apiReducer.clusterQueryData[props._id]?.totalDeployments}</div>
+            <GaugeChart
+              nrOfLevels={30}
+              colors={["green", "#FF5F6D"]}
+              arcWidth={0.1}
+              percent={(apiReducer.clusterQueryData[props._id]?.cpuLoad || 0)/100}
+              style={{
+                width: '90px',
+                height: '2px'
+              }}
+              textColor='black'
+            />
           </div>
         </div>
         <div className="ov-box">
+          <div className="ov-title noselect">
+            <h3>Memory Usage</h3>
+          </div>
           <div className="ov-content">
-            <div className="noselect">
-              <h3>Pods</h3>
-            </div>
-            <div>{"" + apiReducer.clusterQueryData[props._id]?.totalPods}</div>
+            <GaugeChart
+              nrOfLevels={30}
+              colors={["green", "#FF5F6D"]}
+              arcWidth={0.1}
+              percent={(apiReducer.clusterQueryData[props._id]?.memoryLoad || 0)/2048}
+              style={{
+                width: '90px',
+                height: '2px'
+              }}
+              textColor='black'
+            />
+          </div>
+          <div className="ov-metric">
+            <p>{(apiReducer.clusterQueryData[props._id]?.memoryLoad || 0) + ' /2048 MB'}</p>
           </div>
         </div>
       </div>

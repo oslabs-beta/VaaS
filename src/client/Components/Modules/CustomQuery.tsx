@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import ReactJson from 'react-json-view';
 import customMetric from '../../Queries/Custom';
 import { Container, TextField, Button } from '@mui/material';
@@ -6,6 +6,20 @@ import { Modules } from '../../Interfaces/ICluster';
 
 const CustomQuery = (props: Modules) => {
   const [data, setData] = useState<any[]>();
+  const [responseStyle, setResponseStyle] = useState({
+    color: 'white',
+    height: '280px'
+  });
+
+  useEffect(() => {
+    if (!props.nested) {
+      setResponseStyle({
+        ...responseStyle,
+        color: '#F0F0F0',
+        height: '65vh'
+      });
+    }
+  }, []);
 
   const handleCustom = async (): Promise<void> => {
     try {
@@ -22,7 +36,12 @@ const CustomQuery = (props: Modules) => {
   };
 
   return (
-    <Container className='custom-query'>
+    <Container 
+      sx={{
+        width: '100%',
+        textAlign: 'center'
+      }}
+    >
       <div>
         <TextField
           onKeyDown={handleEnterKeyDown}
@@ -37,7 +56,7 @@ const CustomQuery = (props: Modules) => {
             borderRadius: '5px',
             marginRight: '3px',
             marginBottom: '0px',
-            width: '350px',
+            width: '100%',
             fontSize: '10px'
           }}
         />
@@ -52,20 +71,28 @@ const CustomQuery = (props: Modules) => {
             background: '#3a4a5b',
             borderRadius: '5px',
             marginRight: '3px',
-            marginBottom: '0px',
-            width: '350px',
+            marginBottom: '20px',
+            width: '100%',
             fontSize: '10px'
           }}
         >
           Invoke Custom Query
         </Button>
+        <Container
+          sx={{
+            backgroundColor: responseStyle.color,
+            height: responseStyle.height,
+            width: '100%',
+            overflow: 'scroll',
+            padding: '1rem',
+            borderRadius: '15px',
+            textAlign: 'left',
+            fontSize: '13px'
+          }}
+        >
+          <ReactJson src={data || {input: 'query'}} />
+        </Container>
       </div>
-      {
-        data && 
-        <div>
-          <ReactJson src={data}/>
-        </div>
-      }
     </Container>
   );
 };

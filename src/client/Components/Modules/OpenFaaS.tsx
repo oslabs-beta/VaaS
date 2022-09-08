@@ -6,7 +6,14 @@ import { apiRoute } from "../../utils";
 import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { IReducers } from "../../Interfaces/IReducers";
-import "./styles.css";
+import { 
+  Container,
+  Box,
+  TextField, 
+  Button, 
+  FormControl, 
+  NativeSelect 
+} from '@mui/material';
 
 const OpenFaaS = (props: Modules) => {
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
@@ -20,7 +27,33 @@ const OpenFaaS = (props: Modules) => {
   const [invokedOutput, setInvokedOutput] = useState("");
   const [renderFunctions, setRenderFunctions] = useState(false);
   
+  const [dropdownStyle] = useState({
+    background: 'white',
+    borderRadius: '5px',
+    padding: '0.5rem',
+    marginBottom: '0px',
+    width: '100%',
+    fontSize: '10px'
+  });
+  const [inputStyle] = useState({
+    width: '45%'
+  });
+
+  const [textAreaRows, setTextAreaRows] = useState(4);
+  const [textAreaStyle, setTextAreaStyle] = useState({
+    color: '#F0F0F0',
+    height: '140px'
+  });
+
   useEffect(() => {
+    if (!props.nested) {
+      setTextAreaStyle({
+        ...textAreaStyle,
+        color: '#F0F0F0',
+        height: '42.5vw'
+      });
+      setTextAreaRows(8);
+    }
     const openFaaSFunctions = async () => {
       try {
         const funcs = await Get(
@@ -138,101 +171,197 @@ const OpenFaaS = (props: Modules) => {
   };
 
   return (
-    <div>
-      <select 
-        onChange={handleOpenFaaSFunctionsChange} 
-        defaultValue="default"
+    <Container>
+      <Box
+        sx={{
+          display: 'flex',
+          gap: '1.5rem',
+          marginLeft: '-1rem',
+          justifyContent: 'center'
+        }}
       >
-        <option 
-          value="default" 
-          hidden
+        <Box
+          sx={inputStyle}
         >
-          OpenFaaS Functions Store
-        </option>
-        {openFaaSFunctions.map((element, idx) => {
-          return (
-            <option 
-              key={idx} 
-              value={element.name}
-            >
-              {element.name}
-            </option>
-          );
-        })}
-      </select>
-      <button 
-        onClick={handleDeployOpenFaaS}
-      >
-        Deploy selected function from OpenFaaS function store
-      </button>
-      <div>
-        <select 
-          onChange={handleDeployedFunctionChange} 
-          defaultValue="default"
-        >
-          <option 
-            value="default" 
-            hidden
+          <FormControl fullWidth
+            sx={dropdownStyle}
           >
-            Deployed Functions
-          </option>
-          {deployedFunctions.map((element, idx) => {
-            return (
-              <option 
-                key={idx} 
-                value={element.name}
+            <NativeSelect
+              onChange={handleOpenFaaSFunctionsChange} 
+              inputProps={{
+                name: 'OpenFaaS Functions Store',
+                id: 'uncontrolled-native',
+              }}
+            >
+              {openFaaSFunctions.map((element, idx) => {
+                return (
+                  <option 
+                    key={idx} 
+                    value={element.name}
+                  >
+                    {element.name}
+                  </option>
+                );
+              })}
+            </NativeSelect>
+          </FormControl>
+          <Button 
+              variant="contained" 
+              className="btn" 
+              type="button" 
+              onClick = {handleDeployOpenFaaS}
+              sx={{
+                background: '#3a4a5b',
+                borderRadius: '5px',
+                marginBottom: '20px',
+                width: '100%',
+                fontSize: '10px',
+                marginLeft: '0.5rem'
+              }}
+            >
+              Deploy from store
+            </Button>
+          </Box>
+          <Box
+            sx={inputStyle}
+          >
+            <FormControl fullWidth
+              sx={dropdownStyle}
+            >
+              <NativeSelect
+                inputProps={{
+                  name: 'Deployed Functions',
+                  id: 'uncontrolled-native',
+                }}
+                onChange={handleDeployedFunctionChange} 
               >
-                {element.name}
-              </option>
-            );
-          })}
-        </select>
-        <button 
-          onClick={handleInvoke}
+                {deployedFunctions.map((element, idx) => {
+                  return (
+                    <option 
+                      key={idx} 
+                      value={element.name}
+                    >
+                      {element.name}
+                    </option>
+                  );
+                })}
+              </NativeSelect>
+            </FormControl>
+            <Box
+              sx={{
+                width: '100%',
+                marginLeft: '0.6rem'
+              }}
+            >
+              <Button 
+                  variant="contained" 
+                  className="btn" 
+                  type="button" 
+                  onClick = {handleInvoke}
+                  sx={{
+                    background: '#3a4a5b',
+                    borderRadius: '5px',
+                    marginBottom: '20px',
+                    width: '49%',
+                    fontSize: '10px'
+                  }}
+                >
+                  Invoke
+                </Button>
+                <Button 
+                  variant="contained" 
+                  className="btn" 
+                  type="button" 
+                  onClick = {handleDelete}
+                  sx={{
+                    background: '#3a4a5b',
+                    borderRadius: '5px',
+                    marginBottom: '20px',
+                    width: '49%',
+                    fontSize: '10px',
+                    marginLeft: '1px'
+                  }}
+                >
+                  Delete
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        <Box
+          sx={{
+            background: textAreaStyle.color,
+            color: 'black',
+            width: '100%',
+            height: '40px',
+            overflow: 'scroll',
+            borderRadius: '15px',
+            textAlign: 'left',
+            fontSize: '13px'
+          }}
         >
-          Invoke selected function
-        </button>
-        <button 
-          onClick={handleDelete}
-        >
-          Delete selected function
-        </button>
-      </div>
+          <Box
+            sx={{
+              margin: '4px',
+              marginLeft: '10px'
+            }}
+          >
+            <b>Function Information</b>
+            {selectedDeployedFunction && (
+              <span>
+                {`
+                Replicas: ${
+                  displayFunctionData(selectedDeployedFunction)?.replicas
+                } 
+                Invocation count: ${
+                  displayFunctionData(selectedDeployedFunction)?.invocationCount
+                }
+                Image: ${displayFunctionData(selectedDeployedFunction)?.image}
+                URL: ${dbData?.url}:${
+                  dbData?.faas_port
+                }/function/${selectedDeployedFunction}
+                `}
+              </span>
+            )}
+          </Box>
+        </Box>
       <div>
-        {selectedDeployedFunction && (
-          <span>
-            {`
-            Replicas: ${
-              displayFunctionData(selectedDeployedFunction)?.replicas
-            } 
-            Invocation count: ${
-              displayFunctionData(selectedDeployedFunction)?.invocationCount
-            }
-            Image: ${displayFunctionData(selectedDeployedFunction)?.image}
-            URL: ${dbData?.url}:${
-              dbData?.faas_port
-            }/function/${selectedDeployedFunction}
-            `}
-          </span>
-        )}
-      </div>
-      <div>
-        <textarea 
-          placeholder="Request Body" 
-          cols={70} 
-          rows={12}
-        >
-        </textarea>
-        <textarea
-          placeholder="Response Body"
-          cols={70}
-          rows={12}
+      <TextField
+          type="text"
+          label="Request Body"
+          variant="filled"
+          size='small'
+          margin="dense"
+          multiline
+          rows={textAreaRows}
+          sx={{
+            background: textAreaStyle.color,
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+            width: '100%',
+            fontSize: '10px'
+          }}
+        />
+        <TextField
           value={invokedOutput}
-          readOnly
-        >
-        </textarea>
+          type="text"
+          label="Response Body"
+          variant="filled"
+          size='small'
+          margin="dense"
+          multiline
+          rows={textAreaRows}
+          sx={{
+            background: textAreaStyle.color,
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+            width: '100%',
+            fontSize: '10px'
+          }}
+        />
       </div>
-    </div>
+    </Container>
   );
 };
 

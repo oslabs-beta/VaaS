@@ -142,13 +142,13 @@ const Module = (props: Modules) => {
             {
               custom && 
               <div>
-                Query
+                Prom Query
               </div>
             }
             {
               charts && 
               <div>
-                Charts
+                Metrics
               </div>
             }
           </div>
@@ -166,18 +166,18 @@ const Module = (props: Modules) => {
             variant="text"
             id="basic-button"
             className="module-button"
-            onClick={handleFaaSButton}
+            onClick={handleChartsButton}
           >
-            <FunctionsIcon />
+            <QueryStatsIcon />
           </Button>
           <Button
             sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
-            onClick={handleChartsButton}
+            onClick={handleFaaSButton}
           >
-            <QueryStatsIcon />
+            <FunctionsIcon />
           </Button>
           <Button
             sx={buttonStyle}
@@ -237,21 +237,31 @@ const Module = (props: Modules) => {
         <div id="module-content">
           {
             custom && 
-            <CustomQuery id={id} />
+            <CustomQuery 
+              id={id} 
+              nested={props.nested} 
+            />
           }
           {
             faas && 
             <OpenFaaS 
-              id={id}
+              id={id} 
+              nested={props.nested} 
             />
           }
           {
             charts && 
-            <Charts id={id} />
+            <Charts              
+              id={id} 
+              nested={props.nested} 
+            />
           }
           {
             visualizer && 
-            <Visualizer id={id} />
+            <Visualizer               
+              id={id} 
+              nested={props.nested} 
+            />
           }
         </div>
       </Container>
