@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../Store/hooks";
 import { useLocation } from "react-router-dom";
-import apiReducer from "../../Store/Reducers/apiReducer";
+
 import { nodeMetric } from "../../Queries";
 import Box from "@mui/material/Box";
 
@@ -48,7 +48,7 @@ const Visualizer = (props: Modules) => {
       setTotalDeployments(apiReducer.clusterQueryData[id].totalDeployments);
     } 
     
-  }, [nodes]);
+  }, []);
 
   useEffect(() => {
     //if we have multiple master nodes - we would need to do a foreach to iterate through nodes
@@ -58,7 +58,7 @@ const Visualizer = (props: Modules) => {
       setNameList(pods);
       };
       fetchNameList();
-  },[]);
+  },[nodes]);
 
   const graph: any = {
     nodes: [
@@ -217,10 +217,10 @@ const Visualizer = (props: Modules) => {
     },
     physics: {
       barnesHut: {
-        gravitationalConstant: -1000,
-        centralGravity: 0,
-        springLength: 150,
-        springConstant: 0.003,
+        gravitationalConstant: -2500,
+        centralGravity: -.05,
+        springLength: 180,
+        springConstant: .002,
         damping: 0.09,
       },
     },
