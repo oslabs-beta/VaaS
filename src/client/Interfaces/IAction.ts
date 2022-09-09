@@ -14,11 +14,14 @@ export interface IClusterPayload {
 }
 
 export interface IClusterMetrics {
-  cpuLoad: any;
+  cpuLoad: any | unknown;
   memoryLoad: any;
   totalDeployments: any;
   totalPods: any;
   allNodes: any;
+  allNamespaces: any;
+  allServices: any;
+  allNameList: any;
 }
 
 export interface IClusterUIAction {

@@ -146,7 +146,7 @@ const Kube = (props: ClusterTypes) => {
             <h3>Deployments</h3>
           </div>
           <div className="ov-content">
-            <div>{(apiReducer.clusterQueryData[props._id]?.totalDeployments || 0)}</div>
+            <div>{(apiReducer.clusterQueryData[props._id]?.totalDeployments.length || 0)}</div>
           </div>
         </div>
         <div className="ov-box">
