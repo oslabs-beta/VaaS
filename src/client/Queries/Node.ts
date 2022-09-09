@@ -23,7 +23,7 @@ const nodeMetric = {
     const query = `(kube_pod_info{node="${node}"})`;
     try {
       const metric = await Query(clusterId, ns, query);
-      return metric.data.result[0];
+      return metric.data.result;
     } catch (err) {
       console.log(err);
     }

@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useAppSelector } from "../../Store/hooks";
 import { useLocation } from "react-router-dom";
-import { Modules } from "../../Interfaces/ICluster";
-import { clusterMetric, podMetric } from "../../Queries";
+import apiReducer from "../../Store/Reducers/apiReducer";
+import { nodeMetric } from "../../Queries";
 import Box from "@mui/material/Box";
+
+import { Modules } from "../../Interfaces/ICluster";
+import { IReducers } from "../../Interfaces/IReducers";
 
 import Graph from "react-graph-vis";
 import cpIcon from "./icons/control-plane-icon.svg";
@@ -13,16 +17,11 @@ import svcIcon from "./icons/service-icon.svg";
 import podIcon from "./icons/pod-icon.svg";
 
 const Visualizer = (props: Modules) => {
-  // we would need to pull this information from cluster
-  //fetch request to 'http://localhost:3000X/api/v1/query?query=kube_namespace_created'
-  //'http://localhost:30000/api/v1/query?query=kube_service_created'
-  //http://localhost:30000/api/v1/query?query=kube_deployment_created
-  //http://localhost:30000/api/v1/query?query=kube_service_created
+  
+  const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
+  console.log(apiReducer.clusterDbData);
+  console.log(apiReducer.clusterQueryData);
 
-  //clusterMetric.allNamespaces
-  //clusterMetric.allServices
-  //clusterMetric.allNodes
-  //clusterMetric.totalDeployments
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
   const [nameSpaces, setNameSpaces] = useState<any[]>([]);
@@ -31,62 +30,36 @@ const Visualizer = (props: Modules) => {
   const [totalDeployments, setTotalDeployments] = useState<any[]>([]);
   const [nameList, setNameList] = useState<any[]>([]);
   const [style, setStyle] = useState({
-    color: "#FFFFFF",
+    color: "#00fff5",
   });
   const [offline, setOffline] = useState(false);
+  console.log(apiReducer.clusterQueryData[id].allNamespaces);
+  console.log(apiReducer.clusterQueryData[id].totalDeployments);
 
   useEffect(() => {
     if (!props.nested) {
       setStyle({ color: "black" });
     }
-    const fetchNamespaces = async () => {
-      let namespaces;
-      try {
-        namespaces = await clusterMetric.allNamespaces(id, "k8");
-      } catch (err) {
-        setOffline(true);
-      }
-      if (!offline) setNameSpaces(namespaces);
-    };
-    fetchNamespaces();
-    const fetchServices = async () => {
-      const services = await clusterMetric.allServices(id, "k8");
-      if (!offline) setServices(services);
-    };
-    fetchServices();
-    const fetchNodes = async () => {
-      const nodes = await clusterMetric.allNodes(id, "k8");
-      if (!offline) setNodes(nodes);
-    };
-    fetchNodes();
-    const fetchTotalDeployments = async () => {
-      const totalDeployments = await clusterMetric.totalDeployments(id, "k8");
-      if (!offline) setTotalDeployments(totalDeployments);
-    };
-    // updateColor();
-    fetchTotalDeployments();
-    // const fetchNameList= async () => {
-    //   const pods = await podMetric.namesList(id, 'k8', `${nodeName}`);
-    //   setNameList(pods);
-    //   };
-    // fetchNameList();
-  }, []);
-    console.log(`nameSpaces: ${typeof nameSpaces}, services:  ${typeof services}, allNodes ${typeof nodes}, totalDeployments:  ${typeof totalDeployments}`);
-    // console.log(nameSpaces);
-    // console.log(services);
-    // console.log(nodes);
-    // console.log(totalDeployments);
-  //podMetric.nameList  - takes a {node} template literal - so will need to call this podMetric render within
+    
+    if (!offline) {
+      setNameSpaces(apiReducer.clusterQueryData[id].allNamespaces);
+      setServices(apiReducer.clusterQueryData[id].allServices);
+      setNodes(apiReducer.clusterQueryData[id].allNodes);
+      setTotalDeployments(apiReducer.clusterQueryData[id].totalDeployments);
+    } 
+    
+  }, [nodes]);
 
-  //returns namespaces, nodes, deployments, services
-  // //but it doesnt live in state at the given moment bc state doesnt persist. we can store it in state
-  // //as long as we feel that refreshing isn't an issue -
-  // //that or we implement redux properly
+  useEffect(() => {
+    //if we have multiple master nodes - we would need to do a foreach to iterate through nodes
+    const nodeName = apiReducer.clusterQueryData[id].allNodes[0];
+    const fetchNameList= async () => {
+      const pods = await nodeMetric.nodePods(id, 'k8', nodeName);
+      setNameList(pods);
+      };
+      fetchNameList();
+  },[]);
 
-  // //for time being we can go ahead and make a call
-  // const { pods } = useAppSelector(state => state.node);
-  // //
-  // //(`http://localhost:30000/api/v1/query?query=kube_pod_info{node="${nodeName}"}`
   const graph: any = {
     nodes: [
       {
@@ -125,11 +98,7 @@ const Visualizer = (props: Modules) => {
 
     graph.edges.push(cpEdge);
 
-    // const fetchNameList= async () => {
-    //   const pods = await podMetric.namesList(id, 'k8', `${nodeName}`);
-    //   setNameList(pods);
-    //   };
-    // fetchNameList();
+
 
     // const fetchNameList= async () => {
     //   const pods = await podMetric.namesList(id, 'k8', `${nodeName}`);
@@ -267,14 +236,6 @@ const Visualizer = (props: Modules) => {
         height: "90vh",
       }}
     >
-      {/* <AppBar position='relative' sx={{
-      }}>
-        <Toolbar>
-          <Typography variant='h5' component='div' sx={{ flexGrow: 1 }}>
-          Visualizer
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
 
       <Graph
         graph={graph}

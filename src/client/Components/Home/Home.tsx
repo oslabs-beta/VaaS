@@ -76,7 +76,10 @@ const Home = () => {
         cpuLoad: 0,
         memoryLoad: 0,
         totalDeployments: '',
-        totalPods: ''
+        totalPods: '',
+        allNamespaces: '',
+        allServices: '',
+        allNameList: ''
       };
 
       const fetchNodes = async () => {
@@ -87,7 +90,6 @@ const Home = () => {
       const fetchCpuUsage = async () => {
         const res = await nodeMetric.cpuLoad(element._id, "k8");
         if (res) metrics.cpuLoad = res;
-
       };
       await fetchCpuUsage();
       const fetchMemoryUsage = async () => {
@@ -97,7 +99,7 @@ const Home = () => {
       await fetchMemoryUsage();
       const fetchTotalDeployments = async () => {
         const res = await clusterMetric.totalDeployments(element._id, "k8");
-        if (res) metrics.totalDeployments = res.length;
+        if (res) metrics.totalDeployments = res;
       };
       await fetchTotalDeployments();
       const fetchTotalPods = async () => {
@@ -105,6 +107,16 @@ const Home = () => {
         if (res) metrics.totalPods = res;
       };
       await fetchTotalPods();
+      const fetchNamespaces = async () => {
+        const res = await clusterMetric.allNamespaces(element._id, "k8");
+        if (res) metrics.allNamespaces = res;
+      };
+      await fetchNamespaces();
+      const fetchServices = async () => {
+        const res = await clusterMetric.allServices(element._id, "k8");
+        if (res) metrics.allServices = res;
+      };
+      await fetchServices();
 
       dispatch(storeClusterQueryData(element._id, metrics));
     });
