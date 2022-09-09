@@ -148,7 +148,7 @@ const Module = (props: Modules) => {
             {
               charts && 
               <div>
-                Metrics
+                Charts
               </div>
             }
           </div>

@@ -36,11 +36,9 @@ const Visualizer = (props: Modules) => {
   const [offline, setOffline] = useState(false);
 
   useEffect(() => {
-    const updateColor = () => {
-      if (state[2]) {
-        setStyle({ color: "black" });
-      }
-    };
+    if (!props.nested) {
+      setStyle({ color: "black" });
+    }
     const fetchNamespaces = async () => {
       let namespaces;
       try {
