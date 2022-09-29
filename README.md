@@ -20,7 +20,7 @@ Skip to appropriate section -
   a) Follow the guide to deploy and port forward properly - keep track of monitoring pod and which port you're forwarding it to on localhost <br />
 3) Deploy OpenFaaS to Kubernetes <br />
 
-If you want to set up and play with multiple clusters, make sure to have kind (reqiures Docker) and minikube up and running
+If you want to set up and play with multiple clusters, make sure to have kind (requires Docker) and minikube up and running
 1) Navigating and moving between clusters <br />
     i) To see all clusters - take note of the cluster names <br />
     ```kubectl config view``` <br />
