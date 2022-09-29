@@ -13,9 +13,9 @@ Skip to appropriate section -
 <b>Prerequisites</b>
 ( OPTIONAL ) Create a containerized image of your application
 1) Set up a Kubernetes cluster https://kubernetes.io/docs/tasks/tools/
-  a) Setting up Kind to run local cluster: https://kind.sigs.k8s.io/docs/user/quick-start/
-  b) Setting up minikube to run local cluster: https://minikube.sigs.k8s.io/docs/start/
-  c) Install kubectl
+  a) Setting up Kind to run local cluster: https://kind.sigs.k8s.io/docs/user/quick-start/ <br />
+  b) Setting up minikube to run local cluster: https://minikube.sigs.k8s.io/docs/start/ <br /> 
+  c) Install kubectl <br />
 2) Deploying Prometheus onto you clusters: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
   a) Follow the guide to deploy and port forward properly - keep track of monitoring pod and which port you're forwarding it to on localhost
 3) Deploy OpenFaaS to Kubernetes
