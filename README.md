@@ -19,6 +19,8 @@ Skip to appropriate section -
 2) Deploying Prometheus onto you clusters: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/<br />
   a) Follow the guide to deploy and port forward properly - keep track of the monitoring pods and which port you're forwarding it to on localhost <br />
 3) Deploy OpenFaaS to Kubernetes: https://goncalo-a-oliveira.medium.com/setting-up-openfaas-with-minikube-28ed2f78dd1b <br />
+  a) Again keep track of your password, take special note of the command and how to temporarily store it as a temporary environment variable
+  b) Note: If you close the terminal/command prompt you will have to refetch and reassign the PASSWORD before you can use the OpenFaaS CLI to sign in
 
 If you want to set up and play with multiple clusters, make sure to have kind (requires Docker) and minikube up and running
 1) Navigating and moving between clusters <br />
