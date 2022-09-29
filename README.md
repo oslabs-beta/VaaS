@@ -47,7 +47,25 @@ https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-mul
 npm install or npm install --legacy-peer-deps
 ```
 
-3.  Run the app with
+3. Set up .env file
+
+```sh
+JWT_ACCESS_SECRET=hello
+JWT_REFRESH_SECRET=hello
+JWT_EXP=400000000
+JWT_GRACE=4000000000
+
+MONGO_URL=
+MONGO_PORT=
+MONGO_USERNAME=
+MONGO_PASSWORD=
+MONGO_COLLECTION=
+
+EXPRESS_PORT=3000
+EXPRESS_CONSOLE_LOG=on
+```
+
+4.  Run the app with
 
 ```sh
 npm run dev
