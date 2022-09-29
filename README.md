@@ -17,8 +17,8 @@ Skip to appropriate section -
   b) Setting up minikube to run local cluster: https://minikube.sigs.k8s.io/docs/start/ <br /> 
   c) Install kubectl <br />
 2) Deploying Prometheus onto you clusters: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/<br />
-  a) Follow the guide to deploy and port forward properly - keep track of monitoring pod and which port you're forwarding it to on localhost <br />
-3) Deploy OpenFaaS to Kubernetes <br />
+  a) Follow the guide to deploy and port forward properly - keep track of the monitoring pods and which port you're forwarding it to on localhost <br />
+3) Deploy OpenFaaS to Kubernetes: https://goncalo-a-oliveira.medium.com/setting-up-openfaas-with-minikube-28ed2f78dd1b <br />
 
 If you want to set up and play with multiple clusters, make sure to have kind (requires Docker) and minikube up and running
 1) Navigating and moving between clusters <br />
@@ -32,6 +32,8 @@ If you want to set up and play with multiple clusters, make sure to have kind (r
 
 Documentation on best practice utilizing configuration files (recommended read): 
 https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+
+
 
 <b>Installation</b>
 
@@ -70,3 +72,4 @@ EXPRESS_CONSOLE_LOG=on
 ```sh
 npm run dev
 ```
+
