@@ -47,7 +47,7 @@ https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-mul
 npm install or npm install --legacy-peer-deps
 ```
 
-3. Set up .env file
+3. Set up .env file (create in root of VaaS folder)
 
 ```sh
 JWT_ACCESS_SECRET=hello
