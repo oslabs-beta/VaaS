@@ -17,6 +17,7 @@ import FunctionsIcon from '@mui/icons-material/Functions';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import "./styles.css";
 
+// needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
   const { state }: any = useLocation();
   const navigate = useNavigate();

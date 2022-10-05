@@ -14,6 +14,7 @@ const clusterMetric = {
   },
   memoryLoad: async (clusterId: string | undefined, ns: string) => {
     const query =
+    //%
       '(1-sum(kube_node_status_allocatable{resource="memory", unit="byte"})/sum(kube_node_status_capacity{resource="memory", unit="byte"}))*100';
     try {
       const metric = await Query(clusterId, ns, query);

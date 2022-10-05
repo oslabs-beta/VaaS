@@ -234,9 +234,25 @@ router.route('/faas/invoke')
       return res.status(error.status).json(error);
     }
     try {
-      const { clusterId, functionName } = req.body;
+      const { clusterId, functionName, data } = req.body;
       const cluster = await Cluster.findOne({ _id: clusterId });
-      if (cluster) {
+      if (cluster && data) {
+        const { url, faas_port, authorization } = cluster;
+        const body = data;
+        const func = await fetch(`${url}:${faas_port}/function/${functionName}`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': authorization
+          },
+          body: body
+        })
+          .then(res => res.text());
+        terminal(`Success: OpenFaaS function [${functionName}] invoked`);
+        return res.status(200).json(func);
+
+      } else if (cluster && !data) {
         const { url, faas_port, authorization } = cluster;
         const func = await fetch(`${url}:${faas_port}/function/${functionName}`, {
           method: 'POST',
@@ -246,11 +262,11 @@ router.route('/faas/invoke')
             'Authorization': authorization
           }
         })
-        .then(res => res.text());
+          .then(res => res.text());
         terminal(`Success: OpenFaaS function [${functionName}] invoked`);
         return res.status(200).json(func);
-      } else {
-        const error: IError = {
+
+      } else {const error: IError = {
           status: 401,
           message: `Fail: Cluster [${clusterId}] does not exist`,
           exists: false

@@ -6,6 +6,7 @@ import { apiRoute } from "../../utils";
 import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { IReducers } from "../../Interfaces/IReducers";
+import { customFuncBody } from "../../utils";
 import { 
   Container,
   Box,
@@ -27,7 +28,8 @@ const OpenFaaS = (props: Modules) => {
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState("");
   const [invokedOutput, setInvokedOutput] = useState("");
   const [renderFunctions, setRenderFunctions] = useState(false);
-  
+  const [reqBody, setRegBody] = useState(""); 
+
   const [dropdownStyle] = useState({
     background: 'white',
     borderRadius: '5px',
@@ -120,19 +122,37 @@ const OpenFaaS = (props: Modules) => {
 
   const handleInvoke = async () => {
     try {
-      const body = {
-        clusterId: id,
-        functionName: selectedDeployedFunction,
-      };
-      console.log(body);
-      const res = await Post(
-        apiRoute.getRoute("faas/invoke"), 
-        body, 
-        {
-          authorization: localStorage.getItem("token"),
-        }
-      );
-      setInvokedOutput(res);
+      const functionName = selectedDeployedFunction;
+      if (functionName in customFuncBody) {
+        const body = {
+          clusterId: id,
+          functionName: functionName,
+        };
+        const res = await Post(
+          apiRoute.getRoute("faas/invoke"),
+          body,
+          {
+            authorization: localStorage.getItem("token"),
+          }
+        );
+        setInvokedOutput(res);
+      }
+     else {
+        console.log('requestBody', reqBody);
+        const body = {
+          clusterId: id,
+          functionName: functionName,
+          data: reqBody
+        };
+        const res = await Post(
+          apiRoute.getRoute("faas/invoke"),
+          body,
+          {
+            authorization: localStorage.getItem("token"),
+          }
+        );
+        setInvokedOutput(res);
+      }
     } catch (error) {
       console.log("Error in handleInvoke", error);
     }
@@ -328,7 +348,7 @@ const OpenFaaS = (props: Modules) => {
           </Box>
         </Box>
       <div>
-      <TextField
+      <TextField onChange={(newReqBody) => setRegBody(newReqBody.target.value)}
           type="text"
           label="Request Body"
           variant="filled"
