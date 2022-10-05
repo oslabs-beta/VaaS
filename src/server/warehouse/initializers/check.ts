@@ -3,6 +3,7 @@ import { IError } from '../../interfaces/IError';
 import path from '../../route/path';
 import { terminal } from '../../services/terminal';
 
+// check if method is valid for the endpoint
 export default (req: Request, res: Response, next: (param?: unknown) => void): void | Response => {
   terminal(`${req.method} request routed to '${req.baseUrl}${req.url}' from ${req.socket.remoteAddress}`);
   let route = path(req.url);

@@ -6,6 +6,7 @@ import { jwtVerify, bcrypt, authUser } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
 router.route('/user::username')
+  // logging in 
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
@@ -31,6 +32,7 @@ router.route('/user::username')
     }
   });
 router.route('/user')
+  // get userData
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
@@ -55,9 +57,11 @@ router.route('/user')
       return res.status(error.status).json(error);
     }
   })
+  // update user settings 
   .put(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     const { username, firstName, lastName, darkMode, refreshRate } = req.body;
+    
     const { jwt: { id } } = res.locals;
     try {
       // Check to see if cluster exists
@@ -94,6 +98,7 @@ router.route('/user')
       return res.status(error.status).json(error);
     }
   })
+  // delete admin account
   .delete(authUser, bcrypt, jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
