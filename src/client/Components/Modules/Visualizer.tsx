@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../Store/hooks";
 import { useLocation } from "react-router-dom";
 import apiReducer from "../../Store/Reducers/apiReducer";
-import { nodeMetric } from "../../Queries";
+import { nodeMetric, podMetric } from "../../Queries";
 import Box from "@mui/material/Box";
 
 import { Modules } from "../../Interfaces/ICluster";
@@ -15,6 +15,7 @@ import nodeIcon from "./icons/node-icon.svg";
 import deplIcon from "./icons/deployment-icon.svg";
 import svcIcon from "./icons/service-icon.svg";
 import podIcon from "./icons/pod-icon.svg";
+import { promises } from "stream";
 
 const Visualizer = (props: Modules) => {
   
@@ -230,6 +231,31 @@ const Visualizer = (props: Modules) => {
     },
   };
 
+  const events = {
+    select: function(params: { nodes: any; edges: any;}) {
+      const { nodes } = params;
+      const clicked = nodes[0];
+      const slicedClick = clicked.substring(clicked.length - 4, 0);
+      // REMOVES THE '-POD' FROM LAST 4 CHARS
+
+      const getPodMemory = async () => {
+        //run the podInfo middleware to run a query to the prometheus server
+        const data = podMetric.podInfo(id,'k8',slicedClick);
+        const bytes = await data;
+        const bytesToMb = (bytes?.metric.data.result[0].value[1])/1048576;
+        //hard coded number is conversion of bytes to MB
+        window.alert(`This pod is using ${bytesToMb} MB of memory`);
+      };
+
+      getPodMemory();
+
+      //next steps, use some conditionals to check which node it is, have different formulas for pods, services, etc?
+
+    }
+  };
+  
+
+
   return (
     <Box
       sx={{
@@ -241,6 +267,7 @@ const Visualizer = (props: Modules) => {
       <Graph
         graph={graph}
         options={options}
+        events={events}
         getNetwork={(network) => {
           // ensure that the network eases in to fit the viewport
           setTimeout(
