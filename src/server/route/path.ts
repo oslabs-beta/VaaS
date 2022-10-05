@@ -19,6 +19,9 @@ function path(url: string): IPathRoute {
     },
     '/faas/invoke': {
       methods: ['POST']
+    },
+    '/gateway': {
+      methods: ['GET']
     }
   };
   return allRoutes[url];

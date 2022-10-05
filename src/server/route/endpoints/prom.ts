@@ -10,6 +10,7 @@ router.route('/prom')
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     terminal(req.query);
+    terminal(`URL IS ${req.url}`); 
     if (
       !req.query.id ||
       !req.query.ns ||
