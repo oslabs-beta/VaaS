@@ -252,12 +252,13 @@ const OpenFaaS = (props: Modules) => {
               sx={dropdownStyle}
             >
               <NativeSelect
+                placeholder="Select Function to Invoke"
                 inputProps={{
                   name: 'Deployed Functions',
                   id: 'uncontrolled-native',
                 }}
                 onChange={handleDeployedFunctionChange} 
-              >
+              ><option value=''>--Select Function to Invoke--</option>
                 {deployedFunctions.map((element, idx) => {
                   return (
                     <option 
@@ -277,6 +278,7 @@ const OpenFaaS = (props: Modules) => {
               }}
             >
               <Button 
+                  disabled={selectedDeployedFunction === ''}
                   variant="contained" 
                   className="btn" 
                   type="button" 

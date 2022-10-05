@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../Store/hooks";
 import { useLocation } from "react-router-dom";
-import apiReducer from "../../Store/Reducers/apiReducer";
 import { nodeMetric, podMetric } from "../../Queries";
 import Box from "@mui/material/Box";
 
@@ -15,7 +14,6 @@ import nodeIcon from "./icons/node-icon.svg";
 import deplIcon from "./icons/deployment-icon.svg";
 import svcIcon from "./icons/service-icon.svg";
 import podIcon from "./icons/pod-icon.svg";
-import { promises } from "stream";
 
 const Visualizer = (props: Modules) => {
   
@@ -50,7 +48,7 @@ const Visualizer = (props: Modules) => {
       setTotalDeployments(apiReducer.clusterQueryData[id].totalDeployments);
     } 
     
-  }, [nodes]);
+  }, []);
 
   useEffect(() => {
     //if we have multiple master nodes - we would need to do a foreach to iterate through nodes
@@ -60,7 +58,7 @@ const Visualizer = (props: Modules) => {
       setNameList(pods);
       };
       fetchNameList();
-  },[]);
+  },[nodes]);
 
   const graph: any = {
     nodes: [
@@ -219,10 +217,10 @@ const Visualizer = (props: Modules) => {
     },
     physics: {
       barnesHut: {
-        gravitationalConstant: -1000,
-        centralGravity: 0,
+        gravitationalConstant: -2500,
+        centralGravity: -.05,
         springLength: 150,
-        springConstant: 0.003,
+        springConstant: 0.002,
         damping: 0.09,
       },
     },
@@ -231,6 +229,7 @@ const Visualizer = (props: Modules) => {
     },
   };
 
+  //! Not sure where this entire constant went on the VaaS 1.0 
   const events = {
     select: function(params: { nodes: any; edges: any;}) {
       const { nodes } = params;
@@ -254,8 +253,6 @@ const Visualizer = (props: Modules) => {
     }
   };
   
-
-
   return (
     <Box
       sx={{
