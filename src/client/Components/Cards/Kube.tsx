@@ -23,7 +23,7 @@ const Kube = (props: ClusterTypes) => {
   const [module, setModule] = useState(true);
   const [settings, setSettings] = useState(false);
 
-  // accessing state ti 
+  // accessing state to find data of the specfic cluster
   const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props._id));
 
   useEffect(() => {

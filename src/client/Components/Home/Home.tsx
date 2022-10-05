@@ -73,7 +73,7 @@ const Home = () => {
   }, [clusterReducer.favRender]);
 
   useEffect(() => {
-    // grabbing metrics from each cluster object in array and sending each of them to 
+    // grabbing metrics from each cluster object in array and sending each of them to state/store
     clustersArray.forEach(async (element: ClusterTypes) => {
       const metrics: IClusterMetrics = {
         allNodes: '',

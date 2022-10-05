@@ -1,5 +1,6 @@
 import { Query } from "../Services";
 
+// store for all the cluster metric querys and request
 const clusterMetric = {
   cpuLoad: async (clusterId: string, ns: string) => {
     const query =

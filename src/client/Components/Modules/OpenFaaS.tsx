@@ -15,6 +15,7 @@ import {
   NativeSelect 
 } from '@mui/material';
 
+// need to convert to redux for selected/ deployed function
 const OpenFaaS = (props: Modules) => {
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));

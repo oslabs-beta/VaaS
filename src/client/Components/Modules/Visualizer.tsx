@@ -22,6 +22,7 @@ const Visualizer = (props: Modules) => {
   console.log(apiReducer.clusterDbData);
   console.log(apiReducer.clusterQueryData);
 
+  // need to convert to redux
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
   const [nameSpaces, setNameSpaces] = useState<any[]>([]);
