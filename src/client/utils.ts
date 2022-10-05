@@ -17,6 +17,14 @@ class Api implements IApi {
 
 const apiRoute: Api = Object.freeze(new Api("http://localhost:3000"));
 
+
+
+const customFuncBody: { [key: string]: null } = {
+  "cows": null,
+  
+};
 export {
   apiRoute,
+  customFuncBody
 };
+  
