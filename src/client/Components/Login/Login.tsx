@@ -27,6 +27,7 @@ const Login = () => {
         username: (document.getElementById('login-username-input') as HTMLInputElement).value,
         password: (document.getElementById('login-password-input') as HTMLInputElement).value
       };
+      // put request returns token and userId  
       const res = await Put(
         apiRoute.getRoute('auth'), 
         body
@@ -38,7 +39,7 @@ const Login = () => {
 
       if (!body.password) setPasswordErr(' please enter password');
       else setPasswordErr('Password');
-
+      
       if (res.token) {
         localStorage.setItem('username', body.username);
         localStorage.setItem('token', res.token);
@@ -51,10 +52,11 @@ const Login = () => {
         setPasswordErr('');
       }
     } catch (err) {
-      console.log('Get failed');
+      console.log('Get failed', err);
     }
   };
 
+  // when click on enter key, invoke login func
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleLogin();
   };

@@ -21,6 +21,7 @@ const Home = () => {
 
   useEffect(() => {
     const getClusterDbData = async () => {
+      // returns an array of cluster object
       const res = await Get(
         apiRoute.getRoute('cluster'),
         {
@@ -29,6 +30,7 @@ const Home = () => {
       );
 
       const user = await Get(
+        // get user settings info
         apiRoute.getRoute(`user:${localStorage.getItem('username')}`),
         {
           authorization: localStorage.getItem('token')
@@ -42,6 +44,7 @@ const Home = () => {
         console.log(res);
         setClustersArray(res);
       }
+      // regrab cluster data as refresh rate 
       setTimeout(() => getClusterDbData(), user.refreshRate);
     };
 
@@ -70,6 +73,7 @@ const Home = () => {
   }, [clusterReducer.favRender]);
 
   useEffect(() => {
+    // grabbing metrics from each cluster object in array and sending each of them to 
     clustersArray.forEach(async (element: ClusterTypes) => {
       const metrics: IClusterMetrics = {
         allNodes: '',

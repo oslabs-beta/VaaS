@@ -37,6 +37,7 @@ const App = () => {
             localStorage.removeItem("username");
             navigate("/");
           }
+          // if auth is not invalid and we are on login page or register => redirect to home page
           if (
             !res.invalid &&
             (location.pathname === "/" || location.pathname === "/register")

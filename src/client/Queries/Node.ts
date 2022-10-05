@@ -2,7 +2,7 @@ import { Query } from '../Services';
 
 const nodeMetric = {
   cpuLoad: async (clusterId: string | undefined, ns: string) => {
-    const query = '(1 - sum by (instance)(increase(node_cpu_seconds_total{mode="idle"}[5m])) / sum by (instance)(increase(node_cpu_seconds_total[5m])))*100';
+    const query = '(1 - sum by (instance)(increase(node_cpu_seconds_total{mode="idle"}[1m])) / sum by (instance)(increase(node_cpu_seconds_total[1m])))*100';
     try {
       const metric = await Query(clusterId, ns, query);
       return parseInt(metric.data.result[0].value[1]);

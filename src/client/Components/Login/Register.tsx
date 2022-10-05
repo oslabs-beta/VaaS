@@ -6,6 +6,7 @@ import { Post } from '../../Services/index';
 import { Container, Button, TextField } from '@mui/material';
 
 const Register = () => {
+  // potential redux? 
   const [registered, setRegistered] = useState('');
   const [firstNameErr, setFirstNameErr] = useState('First Name');
   const [lastNameErr, setLastNameErr] = useState('Last Name');

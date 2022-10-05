@@ -19,10 +19,11 @@ const Kube = (props: ClusterTypes) => {
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
-
+  // need to convert below to redux? 
   const [module, setModule] = useState(true);
   const [settings, setSettings] = useState(false);
 
+  // accessing state ti 
   const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props._id));
 
   useEffect(() => {
