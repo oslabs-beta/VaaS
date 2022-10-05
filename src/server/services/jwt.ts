@@ -7,6 +7,7 @@ import {
   IExpirationStatus
 } from '../interfaces/IToken';
 
+// encoding JWT
 export function encodeSession(accessSecret: any, partialSession: IPartialSession): IEncodeResult {
   const algo: TAlgorithm = "HS512";
   const iat = Date.now(), 
@@ -21,7 +22,7 @@ export function encodeSession(accessSecret: any, partialSession: IPartialSession
     token: encode(session, accessSecret, algo)
   };
 }
-
+// decoding JWT
 export function decodeSession(accessSecret: any, sessionToken: any): IDecodeResult {
   const algorithm: TAlgorithm = "HS512";
   let result: ITokenSession;
