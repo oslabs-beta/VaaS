@@ -30,15 +30,11 @@ const podMetric = {
     }
   },
   podInfo: async (clusterId: string, ns: string, pod: string) => {
-    const query = `kube_pod_info{pod="${pod}"}`;
+    const query = `container_memory_usage_bytes{pod="${pod}"}`;
     try {
       const metric = await Query(clusterId, ns, query);
       return {
-        podName: metric.data.result[0].metric.pod, 
-        podNamespace: metric.data.result[0].metric.namespace, 
-        podIp: metric.data.result[0].metric.pod_ip, 
-        createdByDeployment: metric.data.result[0].metric.created_by_name,
-        uid: metric.data.result[0].metric.uid
+        metric: metric,
       };
     } catch (err) {
       console.log(err);
