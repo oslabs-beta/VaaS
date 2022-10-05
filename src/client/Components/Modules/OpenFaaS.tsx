@@ -124,6 +124,7 @@ const OpenFaaS = (props: Modules) => {
         clusterId: id,
         functionName: selectedDeployedFunction,
       };
+      console.log(body);
       const res = await Post(
         apiRoute.getRoute("faas/invoke"), 
         body, 
