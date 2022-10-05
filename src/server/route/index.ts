@@ -3,11 +3,13 @@ import user from './endpoints/user';
 import cluster from './endpoints/cluster';
 import prom from './endpoints/prom';
 import faas from './endpoints/faas';
+import gateway from './endpoints/gateway';
 
-export default { 
+export default {
   auth,
   user,
   cluster,
   prom,
-  faas
+  faas,
+  gateway
 };
