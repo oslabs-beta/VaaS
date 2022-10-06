@@ -10,3 +10,13 @@ export default async function Query(
     `/prom?id=${clusterId}&ns=${ns}&q=${query}`
   ), { authorization: localStorage.getItem('token') });
 }
+
+export async function GateWayQuery(
+  clusterId: string | unknown,
+  query: string,
+  type: string
+): Promise<any> {
+  return await Get(apiRoute.getRoute(
+    `/gateway?id=${clusterId}&type=${type}q=${query}`
+  ), { authorization: localStorage.getItem('token') });
+}

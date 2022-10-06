@@ -317,35 +317,32 @@ const OpenFaaS = (props: Modules) => {
             background: textAreaStyle.color,
             color: 'black',
             width: '100%',
-            height: '40px',
+            height: '70px',
             overflow: 'scroll',
             borderRadius: '15px',
             textAlign: 'left',
-            fontSize: '13px'
+            fontSize: '16px'
           }}
         >
           <Box
             sx={{
               margin: '4px',
-              marginLeft: '10px'
+              marginLeft: '10px',
+              height: "30px"
             }}
           >
             <b>Function Information</b>
-            {selectedDeployedFunction && (
+          {selectedDeployedFunction && (
+            <div>
               <span>
                 {`
-                Replicas: ${
-                  displayFunctionData(selectedDeployedFunction)?.replicas
-                } 
-                Invocation count: ${
-                  displayFunctionData(selectedDeployedFunction)?.invocationCount
-                }
-                Image: ${displayFunctionData(selectedDeployedFunction)?.image}
-                URL: ${dbData?.url}:${
-                  dbData?.faas_port
-                }/function/${selectedDeployedFunction}
+                Function Name: ${selectedDeployedFunction}
+                Invocation count: ${displayFunctionData(selectedDeployedFunction)?.invocationCount || 0}
                 `}
-              </span>
+              
+              </span>  
+          
+            </div>
             )}
           </Box>
         </Box>
