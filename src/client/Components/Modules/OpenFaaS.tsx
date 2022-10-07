@@ -80,7 +80,7 @@ const OpenFaaS = (props: Modules) => {
       }
     };
     const fetchFunctions = async () => {
-      console.log(id)
+      console.log(id);
       try {
          
           console.log('id is', id);
@@ -94,14 +94,14 @@ const OpenFaaS = (props: Modules) => {
             // setDeployedFunctions([]);
             console.log('HITTING and setting state to empty array');
             console.log('ERROR IS ', funcs.message);
-            dispatch(GET_DeployedOFFunc(id, []));
+            dispatch(GET_DeployedOFFunc([]));
           } else {
             console.log('funcs is: ', funcs);
             //  setDeployedFunctions(funcs);
             // console.log('ID IS: ', id, ' ||', 'deployedFuncs is', deployedFunctions);
-            dispatch(GET_DeployedOFFunc(id, funcs));
+            dispatch(GET_DeployedOFFunc(funcs));
             // setDeployedFunctions(funcs); 
-            console.log('REDUX STATE' , OFReducer.clusterOpenFaaSData);
+            console.log('REDUX STATE' , OFReducer.deployedFunctions);
           }
         
       } catch (error) {
@@ -284,7 +284,7 @@ const OpenFaaS = (props: Modules) => {
                 }}
                 onChange={handleDeployedFunctionChange} 
               ><option value=''>--Select Function to Invoke--</option>
-              {deployedFunctions.map((element, idx) => {
+              {OFReducer.deployedFunctions.map((element, idx) => {
                   return (
                     <option 
                       key={idx} 

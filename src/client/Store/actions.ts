@@ -63,12 +63,9 @@ export const GET_OFFunc = (clusterId: string | undefined, openFaaSFunctions: Fun
   }
 });
 
-export const GET_DeployedOFFunc = (clusterId: string | undefined, deployedFunctions: DeployedFunctionTypes[]) => ({
+export const GET_DeployedOFFunc = ( deployedFunctions: DeployedFunctionTypes[]) => ({
   type: types.GET_DeployedOFFunc,
-  payload: {
-    clusterId,
-    deployedFunctions
-  }
+  payload: deployedFunctions
 });
 
 export const DEL_DeployedOFFunc = (clusterId: string | undefined, deployedFunctions: DeployedFunctionTypes[]) => ({

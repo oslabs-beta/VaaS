@@ -4,37 +4,30 @@ import { IOFReducer } from "../../Interfaces/IReducers";
 
 
 const initialState: IOFReducer = {
-  clusterOpenFaaSData: {}
+  selectedDeployedFunction: '',
+  selectedOpenFaaSFunction: '',
+  openFaaSFunctions: [],
+  deployedFunctions: []
 };
 
 const OFReducer = (state: IOFReducer = initialState, action: IOFAction) => {
   switch (action.type) {
     case types.GET_OFFunc: {
       return {
-        clusterOpenFaaSData: {
-          [action.payload.clusterId as string]: {
-            ...state.clusterOpenFaaSData[action.payload.clusterId as string],
-            openFaaSFunctions: action.payload.openFaaSFunctions
-          }
-        }
+        ...state,
+        openFaaSFunctions: action.payload
       };
     }
     case types.GET_DeployedOFFunc: {
-      console.log('ID is: ', action.payload.clusterId as string);
-      console.log('adding this to deployed func: ', action.payload.deployedFunctions);
+      console.log('adding this to deployed func: ', action.payload);
       console.log('THIS IS OG STATE: ', state);
       // if (state.clusterOpenFaaSData[action.payload.clusterId as string]) {
       return {
         ...state,
-        clusterOpenFaaSData: {
-          ...state.clusterOpenFaaSData,
-          [action.payload.clusterId as string]: {
-            ...state.clusterOpenFaaSData[action.payload.clusterId as string],
-            deployedFunctions: action.payload.deployedFunctions
-          },
-        }
+        deployedFunctions: action.payload
       };
     }
+
     case types.SET_DeployedOFFunc: {
       return {
         ...state,
@@ -49,13 +42,9 @@ const OFReducer = (state: IOFReducer = initialState, action: IOFAction) => {
     }
     case types.DEL_DeployedOFFunc: {
       return {
-        clusterOpenFaaSData: {
-          [action.payload.clusterId as string]: {
-            // ...state.clusterOpenFaaSData[action.payload.clusterId as string],
-            deployedFunctions: action.payload.deployedFunctions
-          }
-        }
-      };
+        ...state,
+        deployedFunctions: action.payload,
+      }
     }
     default: {
       return state;

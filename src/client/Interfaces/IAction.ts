@@ -43,10 +43,9 @@ export interface IClusterUIState {
 
 export interface IOFAction {
   type: string;
-  payload: IOFPayload;
+  payload: string | []
 }
 export interface IOFPayload {
-  clusterId: string | undefined,
   selectedDeployedFunction?: string,
   selectedOpenFaaSFunction?: string,
   openFaaSFunctions?: [],

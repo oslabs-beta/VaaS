@@ -21,15 +21,12 @@ export interface IUIReducer {
 }
 
 export interface IOFReducer {
-  clusterOpenFaaSData: {
-    [key: string]: {
+
       selectedDeployedFunction: string,
       selectedOpenFaaSFunction: string,
       openFaaSFunctions: FunctionTypes[],
       deployedFunctions: DeployedFunctionTypes[]
-    }
   }
-}
 
 export interface IReducers {
   clusterReducer: IClusterReducer;
