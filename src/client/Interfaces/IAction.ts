@@ -40,3 +40,16 @@ export interface IClusterUIState {
   fullscreen: boolean,
   modules: any
 }
+
+export interface IOFAction {
+  type: string;
+  payload: IOFPayload;
+}
+export interface IOFPayload {
+  clusterId: string | undefined,
+  selectedDeployedFunction?: string,
+  selectedOpenFaaSFunction?: string,
+  openFaaSFunctions?: [],
+  deployedFunctions?: []
+}
+

@@ -7,6 +7,8 @@ import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { IReducers } from "../../Interfaces/IReducers";
 import { customFuncBody } from "../../utils";
+import { SET_DeployedOFFunc, GET_OFFunc, GET_DeployedOFFunc, SET_OFFunc, DEL_DeployedOFFunc} from '../../Store/actions';
+
 import { 
   Container,
   Box,
@@ -18,14 +20,21 @@ import {
 
 // need to convert to redux for selected/ deployed function
 const OpenFaaS = (props: Modules) => {
-  const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
-  const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
+  const dispatch = useAppDispatch();
+  // const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
+  const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
+  // const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
   const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
+  // const openFaaSDeployed = OFReducer.clusterOpenFaaSData[id].deployedFunctions || null;
+  // const deployedFunctions = openFaaSDeployed || []; 
+  // OFReducer.clusterOpenFaaSData[id].deployedFunctions
   const [openFaaSFunctions, setOpenFaaSFunctions] = useState<FunctionTypes[]>([]);
-  const [selectedOpenFaaSFunction, setSelectedOpenFaaSFunction] = useState("");
-  const [selectedDeployedFunction, setSelectedDeployedFunction] = useState("");
+  // we might need to turn these into global state
+  
+  const [selectedOpenFaaSFunction, setSelectedOpenFaaSFunction] = useState('');
+  const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
   const [invokedOutput, setInvokedOutput] = useState("");
   const [renderFunctions, setRenderFunctions] = useState(false);
   const [reqBody, setRegBody] = useState(""); 
@@ -71,18 +80,30 @@ const OpenFaaS = (props: Modules) => {
       }
     };
     const fetchFunctions = async () => {
+      console.log(id)
       try {
-        const funcs = await Get(
-          apiRoute.getRoute(`faas`), 
-          {
-            authorization: localStorage.getItem("token"),
-            id: id,
-          });
-        if (funcs.message) {
-          setDeployedFunctions([]);
-        } else {
-          setDeployedFunctions(funcs);
-        }
+         
+          console.log('id is', id);
+          const funcs = await Get(
+            apiRoute.getRoute(`faas`),
+            {
+              authorization: localStorage.getItem("token"),
+              id: id,
+            });
+          if (funcs.message) {
+            // setDeployedFunctions([]);
+            console.log('HITTING and setting state to empty array');
+            console.log('ERROR IS ', funcs.message);
+            dispatch(GET_DeployedOFFunc(id, []));
+          } else {
+            console.log('funcs is: ', funcs);
+            //  setDeployedFunctions(funcs);
+            // console.log('ID IS: ', id, ' ||', 'deployedFuncs is', deployedFunctions);
+            dispatch(GET_DeployedOFFunc(id, funcs));
+            // setDeployedFunctions(funcs); 
+            console.log('REDUX STATE' , OFReducer.clusterOpenFaaSData);
+          }
+        
       } catch (error) {
         console.log("Error in fetching deployed OpenFaaS Functions", error);
       }
@@ -96,6 +117,7 @@ const OpenFaaS = (props: Modules) => {
       const getFunc = openFaaSFunctions.find(
         (element) => element.name === selectedOpenFaaSFunction
       );
+
       const body = {
         clusterId: id,
         service: selectedOpenFaaSFunction,
@@ -160,6 +182,8 @@ const OpenFaaS = (props: Modules) => {
 
   const handleDelete = async () => {
     try {
+      console.log("DeployedFunc is: ", deployedFunctions);
+
       const body = {
         clusterId: id,
         functionName: selectedDeployedFunction,
@@ -172,11 +196,12 @@ const OpenFaaS = (props: Modules) => {
         }
       );
       if (response.success) {
-        setDeployedFunctions(
-          deployedFunctions.filter(
-            (element) => element.name !== body.functionName
-          )
-        );
+        // setDeployedFunctions(
+        //   deployedFunctions.filter(
+        //     (element) => element.name !== body.functionName
+        //   )
+        // );
+        dispatch(DEL_DeployedOFFunc(id, deployedFunctions.filter(el => el.name !== body.functionName)));
         setInvokedOutput("Deployed function deleted");
       }
     } catch (error) {
@@ -259,7 +284,7 @@ const OpenFaaS = (props: Modules) => {
                 }}
                 onChange={handleDeployedFunctionChange} 
               ><option value=''>--Select Function to Invoke--</option>
-                {deployedFunctions.map((element, idx) => {
+              {deployedFunctions.map((element, idx) => {
                   return (
                     <option 
                       key={idx} 
