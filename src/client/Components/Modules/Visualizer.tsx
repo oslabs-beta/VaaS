@@ -15,7 +15,19 @@ import deplIcon from "./icons/deployment-icon.svg";
 import svcIcon from "./icons/service-icon.svg";
 import podIcon from "./icons/pod-icon.svg";
 
+import "./network.css";
+
+function htmlTitle(html : any) {
+  const container = document.createElement("div");
+  container.innerHTML = html;
+  return container;
+}
+
 const Visualizer = (props: Modules) => {
+
+  const [currMemUseOfHovered, setCurrMemUseOfHovered] = useState('');
+  const [currTimeSinceStart, setCurrTimeSinceStart] = useState('');
+  const [currTimeSinceDeploy, setCurrTimeSinceDeploy] = useState('');
   
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   console.log(apiReducer.clusterDbData);
@@ -132,6 +144,8 @@ const Visualizer = (props: Modules) => {
         .forEach((pod) => {
           const podNode = {
             id: `${pod.metric.pod}-pod`,
+            // title: ${currMemUseOfHovered}`,
+            title: htmlTitle(`<div><p>${currMemUseOfHovered}</p><p>${currTimeSinceDeploy}</p><p>${currTimeSinceStart}</p></div>`),
             label: pod.metric.pod,
             font: { color: style.color },
             image: podIcon,
@@ -229,7 +243,6 @@ const Visualizer = (props: Modules) => {
     },
   };
 
-  //! Not sure where this entire constant went on the VaaS 1.0 
   const events = {
     select: function(params: { nodes: any; edges: any;}) {
       const { nodes } = params;
@@ -243,9 +256,30 @@ const Visualizer = (props: Modules) => {
         const bytes = await data;
         const bytesToMb = (bytes?.metric.data.result[0].value[1])/1048576;
         //hard coded number is conversion of bytes to MB
-        window.alert(`This pod is using ${bytesToMb} MB of memory`);
+        //window.alert(`This pod is using ${bytesToMb} MB of memory`);
+        setCurrMemUseOfHovered(`This pod is using ${bytesToMb} MB of memory`);
       };
 
+      const getPodStart = async () => {
+        //run the podInfo middleware to run a query to the prometheus server
+        const data = podMetric.podStart(id,'k8',slicedClick);
+        const seconds = await data;
+        const unixTime = (seconds?.metric.data.result[0].value[1]);
+        const currTime = Date.now()/1000;
+        setCurrTimeSinceStart(`This pod was started ${Math.floor(((currTime-unixTime)/3600))} hours ago (${((currTime-unixTime)/60).toFixed(2)} minutes)`);
+      };
+
+      const getPodDeploy = async () => {
+        //run the podInfo middleware to run a query to the prometheus server
+        const data = podMetric.podDeployed(id,'k8',slicedClick);
+        const seconds = await data;
+        const unixTime = (seconds?.metric.data.result[0].value[1]);
+        const currTime = Date.now()/1000;
+        setCurrTimeSinceDeploy(`This pod was deployed ${Math.floor(((currTime-unixTime)/3600))} hours ago (${((currTime-unixTime)/60).toFixed(2)} minutes)`);
+      };
+
+      getPodDeploy();
+      getPodStart();
       getPodMemory();
 
       //next steps, use some conditionals to check which node it is, have different formulas for pods, services, etc?
