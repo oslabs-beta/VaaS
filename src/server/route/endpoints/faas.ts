@@ -85,7 +85,7 @@ router.route('/faas')
     }
     const { id } = req.headers;
     try {
-      const cluster = await Cluster.findOne({ _id: '633b57fe6c5aabdf55d37bab' });
+      const cluster = await Cluster.findOne({ _id: id });
       if (cluster) {
         const { url, faas_port, authorization } = cluster;
         const functionInfo = await fetch(`${url}:${faas_port}/system/functions`, {

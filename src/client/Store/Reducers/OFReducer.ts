@@ -44,7 +44,7 @@ const OFReducer = (state: IOFReducer = initialState, action: IOFAction) => {
       return {
         ...state,
         deployedFunctions: action.payload,
-      }
+      };
     }
     default: {
       return state;
