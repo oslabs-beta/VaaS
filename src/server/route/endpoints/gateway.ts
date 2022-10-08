@@ -19,7 +19,10 @@ router.route("/gateway")
       return res.status(error.status).json(error);
     }
     const { id, q, type } = req.query;
+    console.log('q', q);
+    
     try {
+      console.log('HEEERREEE')
       const cluster = await Cluster.findOne({ _id: id });
       if (cluster) {
         const { url, k8_port } = cluster;
@@ -32,7 +35,7 @@ router.route("/gateway")
           }
         })
           .then(res => res.json());
-       
+        console.log(type)
         terminal(`Success: PromQL query [${q}] executed`);
         // cleaning up the data send back to front end according to type of query it is
         if (type === "avg") {

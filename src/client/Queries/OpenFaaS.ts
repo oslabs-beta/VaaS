@@ -1,12 +1,14 @@
-import { GateWayQuery } from '../Services';
+import { GateWayQuery } from '../Services/Query';
 
 const openFaasMetric = {
-  avgTimePerInvoke: async (clusterId: string, function_name: string) => {
-    const query = `gateway_functions_seconds_sum{function_name="${function_name}"}/gateway_function_invocation_total{function_name="${function_name}"}`;
-    const type = 'avg';
+  avgTimePerInvoke: async (clusterId: string, type: string, query: string) => {
+
     try {
-      const metric = await GateWayQuery(clusterId, type, query);
-      console.log(metric);
+      console.log('TYPE IS', type);
+      console.log('query is:', query)
+      const metric = await GateWayQuery(clusterId, query, type);
+        // .then(res => console.log('DATA RETURNED IS', metric));
+   
       // need to adjust here depending on how we want to display data
       return metric;
     }
