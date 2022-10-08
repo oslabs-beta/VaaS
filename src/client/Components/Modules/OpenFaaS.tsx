@@ -26,9 +26,9 @@ const OpenFaaS = (props: Modules) => {
   // const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
-  const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
+  // const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
   // const openFaaSDeployed = OFReducer.clusterOpenFaaSData[id].deployedFunctions || null;
-  // const deployedFunctions = openFaaSDeployed || []; 
+  const deployedFunctions = OFReducer.deployedFunctions || []; 
   // OFReducer.clusterOpenFaaSData[id].deployedFunctions
   const [openFaaSFunctions, setOpenFaaSFunctions] = useState<FunctionTypes[]>([]);
   // we might need to turn these into global state
@@ -88,7 +88,7 @@ const OpenFaaS = (props: Modules) => {
             apiRoute.getRoute(`faas`),
             {
               authorization: localStorage.getItem("token"),
-              id: id,
+              id: "633b57fe6c5aabdf55d37bab",
             });
           if (funcs.message) {
             // setDeployedFunctions([]);
@@ -101,7 +101,7 @@ const OpenFaaS = (props: Modules) => {
             // console.log('ID IS: ', id, ' ||', 'deployedFuncs is', deployedFunctions);
             dispatch(GET_DeployedOFFunc(funcs));
             // setDeployedFunctions(funcs); 
-            console.log('REDUX STATE' , OFReducer.deployedFunctions);
+            console.log('UPDATED REDUX STATE');
           }
         
       } catch (error) {
