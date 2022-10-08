@@ -39,6 +39,29 @@ const podMetric = {
     } catch (err) {
       console.log(err);
     }
+  },
+  podStart: async (clusterId: string, ns: string, pod: string) => {
+    //const query = `kube_pod_start_time{pod="${pod}"}`;
+    const query = `kube_pod_container_state_started{pod="${pod}"}`;
+    try {
+      const metric = await Query(clusterId, ns, query);
+      return {
+        metric: metric,
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  podDeployed: async (clusterId: string, ns: string, pod: string) => {
+    const query = `kube_pod_start_time{pod="${pod}"}`;
+    try {
+      const metric = await Query(clusterId, ns, query);
+      return {
+        metric: metric,
+      };
+    } catch (err) {
+      console.log(err);
+    }
   }
 };
 
