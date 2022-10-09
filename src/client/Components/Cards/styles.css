@@ -2,8 +2,24 @@ h3 {
   text-align: center;
 }
 
+dt{
+  float: left;
+  clear: left;
+  width: 110px;
+  font-weight: bold;
+  color: rgb(58, 79, 118);
+}
+dt::after{
+  content: ":"
+}
+dd{
+  margin: 0 0 0 80px;
+  padding: 0 0 0.5em 0;
+  color: black;
+}
+
 #Kube {
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
   padding: 0 8px;
   text-align: left;
   flex-direction: column;
@@ -48,8 +64,8 @@ h3 {
 }
 
 .ov-box {
-  background-color: #fafafa;
-  border: 1px solid #3a4a5b1e;
+  /* background-color: #fafafa;
+  border: 1px solid #3a4a5b1e; */
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -132,7 +148,7 @@ h3 {
 }
 
 .cluster-id {
-  color: #ffffff;
+  /* color: #ffffff; */
   font-size: 10px;
   text-align: right;
   margin-top: -15px;
