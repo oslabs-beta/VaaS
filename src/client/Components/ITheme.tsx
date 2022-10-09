@@ -31,13 +31,17 @@ declare module '@mui/material/styles' {
     },
   });
 
-export const darkMode = createTheme({
+export const dark = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#313444',
+      main: '#e40606',
       light: '#66667e',
       dark: '#2f2f32',
-    }
+    },
+    background: {
+      default: '#000000',
+      paper: '#e8e8e8',
+    },
   }
 });

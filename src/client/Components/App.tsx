@@ -10,7 +10,7 @@ import Module from "./Cards/Module";
 import { Get } from "../Services";
 import { apiRoute } from "../utils";
 import { setTitle } from "../Store/actions";
-import {theme, darkMode} from './ITheme'; 
+import {theme, } from './ITheme'; 
 import { createTheme, ThemeProvider } from "@mui/material";
 const App = () => {
   const navigate = useNavigate();
