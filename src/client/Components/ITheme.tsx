@@ -30,3 +30,14 @@ declare module '@mui/material/styles' {
       },
     },
   });
+
+export const darkMode = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#313444',
+      light: '#66667e',
+      dark: '#2f2f32',
+    }
+  }
+});

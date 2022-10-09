@@ -30,15 +30,17 @@ export interface IClusterUIAction {
 }
 
 export interface IClusterUIPayload {
-  clusterId: string,
-  clusterUIState: IClusterUIState
+  clusterId?: string,
+  clusterUIState?: IClusterUIState
+  darkMode?: boolean
 }
 
 export interface IClusterUIState {
   clusterId?: string,
   currentModule: string,
   fullscreen: boolean,
-  modules: any
+  modules: any,
+  darkmode?: boolean,
 }
 
 export interface IOFAction {
