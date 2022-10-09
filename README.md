@@ -7,6 +7,8 @@ NOTE: The initial instructions below are meant to get you in and testing the dev
 Before firing up and installing VaaS, please make sure to have...
 1) your Kuberenetes clusters set up and ports open
 2) created a Prometheus deployment - with ports properly forwarded: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+3) Set up Kube State metrics: https://devopscube.com/setup-kube-state-metrics/
+4) Set up node exporter; https://devopscube.com/node-exporter-kubernetes/
 
 Skip to appropriate section - 
 
