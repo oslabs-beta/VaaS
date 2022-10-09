@@ -18,7 +18,8 @@ const FunctionCost = (props: Modules) => {
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
   const deployedFunctions = OFReducer.deployedFunctions || [];
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
-  const [data, setData] = useState({});
+  const [data, setData] = useState({value: 0});
+  const [retrived, setRetrived] = useState(false);
   const [responseStyle, setResponseStyle] = useState({
     color: 'white',
     height: '280px'
@@ -51,7 +52,7 @@ const FunctionCost = (props: Modules) => {
   }, []);
 
   useEffect(() => {
-    console.log('DATA IS: ',data)
+    console.log('DATA IS: ', data);
   }, [data]);
   
   // pick the function we want to see
@@ -66,15 +67,29 @@ const FunctionCost = (props: Modules) => {
       const type = 'avg';
       const query = `gateway_functions_seconds_sum{function_name="${selectedDeployedFunction}.openfaas-fn"}/gateway_function_invocation_total{function_name="${selectedDeployedFunction}.openfaas-fn"}`;
       const data = await openFaasMetric.avgTimePerInvoke(props.id as string, type, query);
-      console.log(data.value);
-      setData(data);
-      
+
+      if (!isNaN(Number(data.value))) {
+        data.value = `The average time needed to invoke function is ${ Number(data.value).toFixed(4)} seconds`; 
+        console.log(data.vlaue);
+        setData(data);
+        setRetrived(true); 
+      }
+      else {
+        data.value = 'Please invoke function first!'; 
+        console.log(data.vlaue);
+        setData(data);
+        setRetrived(true);
+      } 
     }
     catch (error) {
       console.log('ERROR IN handleFunctionData: ', error);
     }
   };
 
+  const displayFunctionData = (name: string) => {
+    return deployedFunctions.find((element) => element.name === name);
+  };
+  console.log(displayFunctionData('cows'));
   return (
     <Container
       sx={{
@@ -154,7 +169,15 @@ const FunctionCost = (props: Modules) => {
             <div>THIS IS THE VALUE { data. value}</div>
           }
            */}
-          <div>THIS IS THE VALUE  </div>
+          {
+            retrived &&
+            <div>
+              <div>{data.value} </div>
+              <div>This function has been invoked {displayFunctionData(selectedDeployedFunction)?.invocationCount || 0} times</div>
+              <div>Estimated Cost of deployment:</div>
+            </div>
+          }
+  
 
         </Box>
     </Box>
