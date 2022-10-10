@@ -19,3 +19,5 @@ export const GET_OFFunc = "GET_OFFunc";
 export const GET_DeployedOFFunc = "GET_DeployedOFFunc";
 
 export const DEL_DeployedOFFunc = "DEL_DeployedOFFunc";
+
+export const SET_DarkMode = "SET_DarkMode"; 
