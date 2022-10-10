@@ -11,14 +11,18 @@ import { IReducers } from '../../Interfaces/IReducers';
 import { IClusterMetrics } from "../../Interfaces/IAction";
 import './styles.css';
 import { ClusterTypes } from '../../Interfaces/ICluster';
-
+import { ThemeProvider } from '@emotion/react';
+import { dark } from '../ITheme';
+import { Button, CssBaseline } from '@mui/material';
+import { Palette } from '@mui/icons-material';
 const Home = () => {
   const dispatch = useAppDispatch();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
+  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState([]);
-
+  const darkMode = uiReducer.clusterUIState.darkmode;
   useEffect(() => {
     const getClusterDbData = async () => {
       // returns an array of cluster object
@@ -71,6 +75,7 @@ const Home = () => {
     };
     getClusterDbData();
   }, [clusterReducer.favRender]);
+
 
   useEffect(() => {
     // grabbing metrics from each cluster object in array and sending each of them to state/store
@@ -149,12 +154,29 @@ const Home = () => {
 
   return (
     <div className="Kube-port">
-      <div className="Kube-container">
-        {favClusters}
-        {nonFavClusters}
-      </div>
+      {
+        darkMode &&
+        <ThemeProvider theme={dark}>
+            <div background-color='background' className="Kube-container">
+            {favClusters}
+            {nonFavClusters}
+          </div>
       {noClusterError}
       <NavBar />
+        </ThemeProvider>
+      }
+      {
+        !darkMode && 
+        <ThemeProvider theme={dark}>
+        <div className="Kube-container">
+        {favClusters}
+        {nonFavClusters}
+         </div>
+        {noClusterError}
+            <NavBar />
+        </ThemeProvider>
+      }
+
     </div>
   );
 };

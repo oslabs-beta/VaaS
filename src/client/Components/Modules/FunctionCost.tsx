@@ -9,8 +9,6 @@ import { IReducers } from "../../Interfaces/IReducers";
 import { Container, TextField, Button , Box, FormControl, NativeSelect} from '@mui/material';
 import { stringify } from "querystring";
 import { flexbox } from "@mui/system";
-import { ConnectingAirportsOutlined } from "@mui/icons-material";
-
 
 const FunctionCost = (props: Modules) => {
   const { state }: any = useLocation();
@@ -89,7 +87,10 @@ const FunctionCost = (props: Modules) => {
   const displayFunctionData = (name: string) => {
     return deployedFunctions.find((element) => element.name === name);
   };
-  console.log(displayFunctionData('cows'));
+
+  const functionCostCalculator = () => {
+
+  };
   return (
     <Container
       sx={{
@@ -174,10 +175,60 @@ const FunctionCost = (props: Modules) => {
             <div>
               <div>{data.value} </div>
               <div>This function has been invoked {displayFunctionData(selectedDeployedFunction)?.invocationCount || 0} times</div>
-              <div>Estimated Cost of deployment:</div>
+             
             </div>
           }
   
+          <div>Estimated AWS Cost of deployment:
+
+          <form className="costCal">
+              <TextField size='small' id="filled-basic"
+                label="# of invokation" variant="filled">
+                
+              </TextField>
+              <TextField size='small' id="filled-basic"
+                label="Estimated Execution Time (ms)" variant="filled">
+                
+              </TextField>
+              <TextField size='small' id="filled-basic"
+                label="memory in mbs" variant="filled">
+              </TextField>
+              
+          </form> 
+          <table>
+				<tbody><tr>
+					<th>Vendor</th>
+					<th>Request Cost</th>
+					<th>Compute Cost</th>
+					<th>Total</th>
+				</tr>
+				<tr>
+					<td>AWS Lambda</td>
+					<td>$<span id="lambda-request-cost">0</span></td>
+					<td>$<span id="lambda-execution-cost">0</span></td>
+					<th>$<span id="lambda-total-cost">0</span>
+				</th></tr>
+				{/* <tr>
+					<td>Azure Functions</td>
+					<td>$<span id="azure-request-cost">-</span></td>
+					<td>$<span id="azure-execution-cost">-</span></td>
+					<th>$<span id="azure-total-cost">-</span>
+				</th></tr>
+				<tr>
+					<td>Google Cloud Functions</td>
+					<td>$<span id="google-request-cost">-</span></td>
+					<td>$<span id="google-execution-cost">-</span></td>
+					<th>$<span id="google-total-cost">-</span>
+				</th></tr>
+				<tr>
+					<td>IBM OpenWhisk</td>
+					<td>$<span id="ibm-request-cost">-</span></td>
+					<td>$<span id="ibm-execution-cost">-</span></td>
+					<th>$<span id="ibm-total-cost">-</span>
+				</th></tr> */}
+			</tbody></table>
+      
+          </div>
 
         </Box>
     </Box>

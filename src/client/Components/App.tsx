@@ -10,7 +10,8 @@ import Module from "./Cards/Module";
 import { Get } from "../Services";
 import { apiRoute } from "../utils";
 import { setTitle } from "../Store/actions";
-
+import {theme, } from './ITheme'; 
+import { createTheme, ThemeProvider } from "@mui/material";
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,13 +57,15 @@ const App = () => {
   }, [location]);
 
   return (
+    <ThemeProvider theme={theme}>
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/home" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/module" element={<Module />} />
-    </Routes>
+      </Routes>
+    </ThemeProvider>
   );
 };
 

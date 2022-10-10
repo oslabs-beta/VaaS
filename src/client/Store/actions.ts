@@ -39,6 +39,13 @@ export const setUI = (clusterId: string | undefined, clusterUIState: IClusterUIS
   }
 });
 
+export const setDarkMode = (darkMode: boolean) => ({
+  type: types.SET_DarkMode,
+  payload: {
+    darkMode
+  }
+});
+
 export const SET_OFFunc = (clusterId: string | undefined, selectedOpenFaaSFunction: string) => ({
   type: types.SET_OFFunc,
   payload: {
