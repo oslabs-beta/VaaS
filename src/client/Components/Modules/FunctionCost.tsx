@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, memo } from "react";
 import { Modules } from "../../Interfaces/ICluster";
 import { Get } from "../../Services";
 import openFaasMetric from "../../Queries/OpenFaaS";
@@ -9,6 +9,7 @@ import { IReducers } from "../../Interfaces/IReducers";
 import { Container, TextField, Button , Box, FormControl, NativeSelect} from '@mui/material';
 import { stringify } from "querystring";
 import { flexbox } from "@mui/system";
+import { functionCost } from "../../utils";
 
 const FunctionCost = (props: Modules) => {
   const { state }: any = useLocation();
@@ -18,6 +19,12 @@ const FunctionCost = (props: Modules) => {
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
   const [data, setData] = useState({value: 0});
   const [retrived, setRetrived] = useState(false);
+
+  // function calculation state
+  const [avgExecutionTime, setAvgExecutionTime] = useState<number | null>(0);
+  const [numOfInvokation, setNumOfInvokation] = useState<number | null>(0); 
+  const [memoryOfFunc, setMemoryOfFunc] = useState<number | null>(0); 
+
   const [responseStyle, setResponseStyle] = useState({
     color: 'white',
     height: '280px'
@@ -49,6 +56,10 @@ const FunctionCost = (props: Modules) => {
     console.log(localStorage.getItem('token'));
   }, []);
 
+  useEffect(() => {
+    console.log(typeof avgExecutionTime);
+
+  }, [avgExecutionTime]);
   useEffect(() => {
     console.log('DATA IS: ', data);
   }, [data]);
@@ -88,7 +99,61 @@ const FunctionCost = (props: Modules) => {
     return deployedFunctions.find((element) => element.name === name);
   };
 
-  const functionCostCalculator = () => {
+  const handleCalculatorInput = (e: React.ChangeEvent<HTMLInputElement>, dataType: string): void => {
+    switch (dataType) {
+      case "numInvoke": {
+        setNumOfInvokation(Number(e.target.value));
+        break;
+      }
+      case "timeInvoke": {
+        setAvgExecutionTime(Number(e.target.value));
+        break;
+      }
+      case "memory": {
+        setMemoryOfFunc(Number(e.target.value));
+        break;
+      }
+    }
+  };
+
+
+
+  const lambdaFuncCost = (invokeAmount: number, invokeTime: number, memory: number, resultType: string) => {
+    if (invokeAmount > functionCost.lambdaFreeRequests) {
+      const requestTimesTime = (invokeAmount - functionCost.lambdaFreeRequests) * (invokeTime / 1000);
+      const computeInsec = Math.max(requestTimesTime - functionCost.lambdaFreeTier, 0); 
+    // console.log(computeInsec);
+    const totalComputeGBSeconds = (computeInsec) * (memory / 1024);
+    // console.log('total seconds:', totalComputeGBSeconds);
+    const bill = totalComputeGBSeconds * functionCost.lambdaChargeGBSecond;
+    // console.log('BILL WITH SECONDS IS', bill)
+    // console.log('functionCost', functionCost.lambdaRequestCharge)
+      const requestCharge: number = (invokeAmount - functionCost.lambdaFreeRequests) * (functionCost.lambdaRequestCharge / 1000000);
+      // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
+      // console.log('REQ CHARGE TOT:' , requestCharge)
+      const totalCost: string = (requestCharge + bill).toFixed(2);
+      const result = {
+        requestCharge: requestCharge,
+        computeCost: bill,
+        total: totalCost
+      };
+      // console.log(totalCost);
+      // console.log('****************');
+      switch (resultType) {
+        case "reqCharge": {
+          return result.requestCharge.toFixed(2); 
+           
+        }
+        case "computeCost": {
+          return result.computeCost.toFixed(2); 
+        }
+        case 'total': {
+          return result.total; 
+        }
+      }
+    }
+    else return 0; 
+    
 
   };
   return (
@@ -183,30 +248,33 @@ const FunctionCost = (props: Modules) => {
 
           <form className="costCal">
               <TextField size='small' id="filled-basic"
-                label="# of invokation" variant="filled">
-                
+                label="# of invokation" variant="filled"
+                onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'numInvoke',)}>
               </TextField>
               <TextField size='small' id="filled-basic"
-                label="Estimated Execution Time (ms)" variant="filled">
-                
+                label="Estimated Execution Time (ms)" variant="filled"
+                onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'timeInvoke')}>
               </TextField>
+  
               <TextField size='small' id="filled-basic"
-                label="memory in mbs" variant="filled">
+                label="memory in mbs" variant="filled"
+                onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue , 'memory')}>
               </TextField>
               
           </form> 
           <table>
-				<tbody><tr>
-					<th>Vendor</th>
-					<th>Request Cost</th>
-					<th>Compute Cost</th>
-					<th>Total</th>
-				</tr>
-				<tr>
+            <tbody>
+              <tr>
+                <th>Vendor</th>
+                <th>Request Cost</th>
+                <th>Compute Cost</th>
+                <th>Total</th>
+                </tr>
+              <tr>
 					<td>AWS Lambda</td>
-					<td>$<span id="lambda-request-cost">0</span></td>
-					<td>$<span id="lambda-execution-cost">0</span></td>
-					<th>$<span id="lambda-total-cost">0</span>
+                  <td>$<span id="lambda-request-cost">{lambdaFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge') }</span></td>
+					<td>$<span id="lambda-execution-cost">{lambdaFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost') }</span></td>
+					<th>$<span id="lambda-total-cost">{lambdaFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total') }</span>
 				</th></tr>
 				{/* <tr>
 					<td>Azure Functions</td>
