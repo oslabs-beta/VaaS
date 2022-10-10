@@ -154,29 +154,12 @@ const Home = () => {
 
   return (
     <div className="Kube-port">
-      {
-        darkMode &&
-        <ThemeProvider theme={dark}>
-            <div background-color='background' className="Kube-container">
-            {favClusters}
-            {nonFavClusters}
-          </div>
-      {noClusterError}
-      <NavBar />
-        </ThemeProvider>
-      }
-      {
-        !darkMode && 
-        <ThemeProvider theme={dark}>
         <div className="Kube-container">
         {favClusters}
         {nonFavClusters}
          </div>
         {noClusterError}
             <NavBar />
-        </ThemeProvider>
-      }
-
     </div>
   );
 };
