@@ -13,7 +13,8 @@ import './styles.css';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import { ThemeProvider } from '@emotion/react';
 import { dark } from '../ITheme';
-import { Button } from '@mui/material';
+import { Button, CssBaseline } from '@mui/material';
+import { Palette } from '@mui/icons-material';
 const Home = () => {
   const dispatch = useAppDispatch();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
@@ -156,22 +157,26 @@ const Home = () => {
       {
         darkMode &&
         <ThemeProvider theme={dark}>
-          <div background-color="background">
-            <h1>DarkMODE ON</h1>
-            <Button variant="contained"
-              className="btn"
-              type="button" background-color="primary">
-              Hi
-            </Button>
+            <div background-color='background' className="Kube-container">
+            {favClusters}
+            {nonFavClusters}
           </div>
-        </ThemeProvider>
-      }
-      <div className="Kube-container">
-        {favClusters}
-        {nonFavClusters}
-      </div>
       {noClusterError}
       <NavBar />
+        </ThemeProvider>
+      }
+      {
+        !darkMode && 
+        <ThemeProvider theme={dark}>
+        <div className="Kube-container">
+        {favClusters}
+        {nonFavClusters}
+         </div>
+        {noClusterError}
+            <NavBar />
+        </ThemeProvider>
+      }
+
     </div>
   );
 };
