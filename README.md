@@ -87,3 +87,21 @@ https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
 https://devopscube.com/node-exporter-kubernetes/
 https://goncalo-a-oliveira.medium.com/setting-up-openfaas-with-minikube-28ed2f78dd1b
 https://grafana.com/docs/grafana/latest/
+
+
+how to install:
+1) curl -O https://dl.grafana.com/oss/release/grafana-7.1.5.darwin-amd64.tar.gz
+2) tar -xvf myfile.tar -C somedirectory
+3) add customs.ini (i just copied/pasted and changed embed)
+4) go to where untar then ./bin/grafana-server web
+5) CHANGE PORT TO 3001 IN CUSTOMS
+6) share panel embed
+
+Creating Clusters:
+Cluster URL: "http://localhost"
+Kubernetes Port: 30000
+FaaS Port: 30001
+FaaS Username: admin
+FaaS Password: From the guild
+Cluster Name: You choose
+Chuster Description: You choose
