@@ -53,9 +53,10 @@ const functionCost: { [kay: string]: number } = {
 };
 
 
+
 export {
   apiRoute,
   customFuncBody,
-  functionCost
+  functionCost,
 };
   

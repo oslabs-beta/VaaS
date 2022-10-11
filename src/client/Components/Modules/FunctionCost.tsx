@@ -37,6 +37,7 @@ const FunctionCost = (props: Modules) => {
     justifyContent: 'center'
 
   });
+	const googleGBGHzMap: { [key: string]: any }  = {128: 200, 256: 400, 512: 800, 1024: 1400, 2048: 2400};
 
   useEffect(() => {
     if (!props.nested) {
@@ -154,9 +155,9 @@ const FunctionCost = (props: Modules) => {
       }
       case 'azure': {
         if (invokeAmount > functionCost.azureFreeRequests) {
-          console.log('AZURE BILLIBLE: ', invokeAmount - functionCost.azureFreeRequests)
+          // console.log('AZURE BILLIBLE: ', invokeAmount - functionCost.azureFreeRequests)
           const requestTimesTime = (invokeAmount - functionCost.azureFreeRequests) * (invokeTime / 1000);
-          console.log('REQUEST TIMES TIME FOR AZURE: ', requestTimesTime)
+          // console.log('REQUEST TIMES TIME FOR AZURE: ', requestTimesTime)
           const computeInsec = Math.max(requestTimesTime , 0); 
         // console.log(computeInsec);
         console.log('Azure:', computeInsec);
@@ -197,17 +198,27 @@ const FunctionCost = (props: Modules) => {
       }
       case 'gCloud': {
         if (invokeAmount > functionCost.googleFreeRequests) {
-          console.log('BILLABLE: ', invokeAmount - functionCost.googleFreeRequests);
           const requestTimesTime = (invokeAmount) * (invokeTime / 1000);
-          console.log('REQUEST TIMES TIME = ', requestTimesTime); 
           const computeInsec = Math.max(requestTimesTime , 0); 
-        console.log('GOOG:', computeInsec);
           const totalComputeGBSeconds = (computeInsec) * (memory / 1024);
    
           const billableCompute = Math.max(totalComputeGBSeconds - functionCost.googleGBSecondFreeTier, 0); 
-        console.log('total seconds:', billableCompute);
-          const bill = billableCompute * functionCost.googleChargeGBSecond;
-          console.log(` BILL IS : ${billableCompute} + ${functionCost.googleChargeGBSecond} = ${bill}`);
+          const googCPU: number = googleGBGHzMap[memory]; 
+          console.log(googCPU, 'IT IS');
+          let bill = null; 
+          if (!googCPU) {
+            bill = billableCompute * functionCost.googleChargeGBSecond;
+            console.log('HELLO');
+          }
+          else {
+            const totalComputeGHzSeconds = totalComputeGBSeconds * (googCPU / 1000);
+            // console.log('CPU SECS', totalComputeGHzSeconds)
+            const billableCPU = Math.max(totalComputeGHzSeconds - functionCost.googleGHzSecondFreeTier, 0);
+            // console.log('BILLABLE CPU', billableCPU)
+            bill = billableCompute * functionCost.googleChargeGBSecond + billableCPU * functionCost.googleChargeGHzSecond;
+            // console.log(`old cost without CPU: ${billableCompute * functionCost.googleChargeGBSecond}, newCost = ${bill}`)
+          }
+          // console.log(` BILL IS : ${billableCompute} + ${functionCost.googleChargeGBSecond} = ${bill}`);
         // console.log('functionCost', functionCost.lambdaRequestCharge)
           const requestCharge: number = (invokeAmount - functionCost.googleFreeRequests) * (functionCost.googleRequestCharge / 1000000);
           // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
