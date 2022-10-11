@@ -82,14 +82,34 @@ Grafana will need to be changed to port 3001 in customs.ini, but that will be in
 
 https://www.docker.com/products/docker-desktop/
 https://minikube.sigs.k8s.io/docs/start/
-https://devopscube.com/setup-kube-state-metrics/
-https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
-https://devopscube.com/node-exporter-kubernetes/
-https://goncalo-a-oliveira.medium.com/setting-up-openfaas-with-minikube-28ed2f78dd1b
-https://grafana.com/docs/grafana/latest/
+https://goncalo-a-oliveira.medium.com/
+https://github.com/alexellis/arkade
+
+curl -sLS https://get.arkade.dev | sh --> WE TOOK OUT SUDO
 
 
-how to install:
+FaaS Deploying Own Function
+faas-cli template store pull node
+faas-cli new --lang node --prefix=DOCKERUSERNAME NAMEOFFILE
+"Manipulate up Handler.js"
+faas-cli up --skip-deploy -f NAMEOFFILE.yml 
+faas-cli deploy -f NAMEOFFILE
+
+How to deploy custom functions:
+kubectl port-forward -n openfaas svc/gateway 30001:8080
+export OPENFAAS_URL=http://127.0.0.1:30001/
+PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+echo -n $PASSWORD | faas-cli login --username admin --password-stdin
+echo $PASSWORD
+echo -n $PASSWORD | faas-cli login - username --password Ii4Rg1Gd1ONf976TJ65tts2m0
+faas-cli template store pull node
+faas-cli new --lang node --prefix=DOCKERUSERNAME NAMEOFFILE
+faas-cli up --skip-deploy -f NAMEOFFILE.yml 
+faas-cli deploy -f NAMEOFFILE
+
+
+
+how to install grafana:
 1) curl -O https://dl.grafana.com/oss/release/grafana-7.1.5.darwin-amd64.tar.gz
 2) tar -xvf myfile.tar -C somedirectory
 3) add customs.ini (i just copied/pasted and changed embed)
