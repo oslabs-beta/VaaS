@@ -13,10 +13,12 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import uiReducer from '../../Store/Reducers/uiReducer';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { IReducers } from '../../Interfaces/IReducers';
 import { setDarkMode } from '../../Store/actions';
+
+
+
 const Admin = () => {
   const dispatch = useAppDispatch();
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer); 
@@ -25,7 +27,6 @@ const Admin = () => {
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
   const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
-  // const [darkMode, setDarkMode] = useState(false);
   const darkMode = uiReducer.clusterUIState.darkmode; 
   const [refreshRate, setRefreshRate] = useState(0);
   const navigate = useNavigate();

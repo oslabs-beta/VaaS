@@ -31,7 +31,15 @@ const Module = (props: Modules) => {
   const [charts, setCharts] = useState(false);
   const [currentModule, setCurrentModule] = useState("module");
   const [id] = useState(props.id || state[0]);
-  const [style, setStyle] = useState({
+  const [style, setStyle] = useState((props.isDark) ? {
+    color: "#c0c0c0",
+    minHeight: "100%",
+    minWidth: "100%",
+    display: "flex",
+    textAlign: "left",
+    backgroundImage: "linear-gradient(#2f3136, #7f7f7f)",
+    overflow: "auto",
+  } : {
     color: "white",
     minHeight: "100%",
     minWidth: "100%",
@@ -40,8 +48,11 @@ const Module = (props: Modules) => {
     backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)",
     overflow: "auto",
   });
-  const [buttonStyle, setButtonStyle] = useState({
-    color: "white",
+  const [buttonStyle, setButtonStyle] = useState((props.isDark) ? {
+    color: "#c0c0c0",
+    width: "1px"
+  } : {
+    color: 'white',
     width: "1px"
   });
 
@@ -284,6 +295,7 @@ const Module = (props: Modules) => {
           {
             custom && 
             <CustomQuery 
+              isDark={props.isDark}
               id={id} 
               nested={props.nested} 
             />
@@ -291,6 +303,7 @@ const Module = (props: Modules) => {
           {
             faas && 
             <OpenFaaS 
+              isDark={props.isDark}
               id={id} 
               nested={props.nested} 
             />
@@ -305,6 +318,7 @@ const Module = (props: Modules) => {
           {
             functionCost &&
             <FunctionCost
+            isDark={props.isDark}
             id={id}
             nested={props.nested}
             />
