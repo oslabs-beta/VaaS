@@ -1,19 +1,12 @@
-import React, { useState, useEffect, ChangeEvent, memo } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import { Modules } from "../../Interfaces/ICluster";
-import { Get } from "../../Services";
 import openFaasMetric from "../../Queries/OpenFaaS";
-import { apiRoute } from "../../utils";
-import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { useLocation } from "react-router-dom";
+import { useAppSelector } from "../../Store/hooks";
 import { IReducers } from "../../Interfaces/IReducers";
 import { Container, TextField, Button , Box, FormControl, NativeSelect} from '@mui/material';
-import { stringify } from "querystring";
-import { flexbox } from "@mui/system";
 import { functionCost } from "../../utils";
 
 const FunctionCost = (props: Modules) => {
-  const { state }: any = useLocation();
-  const [id] = useState(props.id || state[0]);
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
   const deployedFunctions = OFReducer.deployedFunctions || [];
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
@@ -118,41 +111,172 @@ const FunctionCost = (props: Modules) => {
 
 
 
-  const lambdaFuncCost = (invokeAmount: number, invokeTime: number, memory: number, resultType: string) => {
-    if (invokeAmount > functionCost.lambdaFreeRequests) {
-      const requestTimesTime = (invokeAmount - functionCost.lambdaFreeRequests) * (invokeTime / 1000);
-      const computeInsec = Math.max(requestTimesTime - functionCost.lambdaFreeTier, 0); 
-    // console.log(computeInsec);
-    const totalComputeGBSeconds = (computeInsec) * (memory / 1024);
-    // console.log('total seconds:', totalComputeGBSeconds);
-    const bill = totalComputeGBSeconds * functionCost.lambdaChargeGBSecond;
-    // console.log('BILL WITH SECONDS IS', bill)
-    // console.log('functionCost', functionCost.lambdaRequestCharge)
-      const requestCharge: number = (invokeAmount - functionCost.lambdaFreeRequests) * (functionCost.lambdaRequestCharge / 1000000);
-      // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
-      // console.log('REQ CHARGE TOT:' , requestCharge)
-      const totalCost: string = (requestCharge + bill).toFixed(2);
-      const result = {
-        requestCharge: requestCharge,
-        computeCost: bill,
-        total: totalCost
-      };
-      // console.log(totalCost);
-      // console.log('****************');
-      switch (resultType) {
-        case "reqCharge": {
-          return result.requestCharge.toFixed(2); 
-           
+  const vendorFuncCost = (invokeAmount: number, invokeTime: number, memory: number, resultType: string, vendor: string) => {
+    switch (vendor) {
+      case 'aws': {
+        if (invokeAmount > functionCost.lambdaFreeRequests) {
+          const requestTimesTime = (invokeAmount - functionCost.lambdaFreeRequests) * (invokeTime / 1000);
+          const computeInsec = Math.max(requestTimesTime , 0); 
+        // console.log(computeInsec);
+        const totalComputeGBSeconds = (computeInsec) * (memory / 1024);
+        // console.log('total seconds:', totalComputeGBSeconds);
+        const billableCompute = Math.max(totalComputeGBSeconds - functionCost.lambdaFreeTier, 0); 
+
+        const bill = billableCompute * functionCost.lambdaChargeGBSecond;
+        // console.log('BILL WITH SECONDS IS', bill)
+        // console.log('functionCost', functionCost.lambdaRequestCharge)
+          const requestCharge: number = (invokeAmount - functionCost.lambdaFreeRequests) * (functionCost.lambdaRequestCharge / 1000000);
+          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
+          // console.log('REQ CHARGE TOT:' , requestCharge)
+          const totalCost: string = (requestCharge + bill).toFixed(2);
+          const result = {
+            requestCharge: requestCharge,
+            computeCost: bill,
+            total: totalCost
+          };
+          // console.log(totalCost);
+          // console.log('****************');
+          switch (resultType) {
+            case "reqCharge": {
+              return result.requestCharge.toFixed(2); 
+               
+            }
+            case "computeCost": {
+              return result.computeCost.toFixed(2); 
+            }
+            case 'total': {
+              return result.total; 
+            }
+          }
         }
-        case "computeCost": {
-          return result.computeCost.toFixed(2); 
+        else return 0;
+        break;
+      }
+      case 'azure': {
+        if (invokeAmount > functionCost.azureFreeRequests) {
+          console.log('AZURE BILLIBLE: ', invokeAmount - functionCost.azureFreeRequests)
+          const requestTimesTime = (invokeAmount - functionCost.azureFreeRequests) * (invokeTime / 1000);
+          console.log('REQUEST TIMES TIME FOR AZURE: ', requestTimesTime)
+          const computeInsec = Math.max(requestTimesTime , 0); 
+        // console.log(computeInsec);
+        console.log('Azure:', computeInsec);
+
+          const totalComputeGBSeconds = (computeInsec) * (memory / 1024);
+          const billableCompute = Math.max(totalComputeGBSeconds - functionCost.azureFreeTier, 0); 
+        // console.log('total seconds:', totalComputeGBSeconds);
+        const bill = billableCompute * functionCost.azureChargeGBSecond;
+        // console.log('BILL WITH SECONDS IS', bill)
+        // console.log('functionCost', functionCost.lambdaRequestCharge)
+          const requestCharge: number = (invokeAmount - functionCost.azureFreeRequests) * (functionCost.azureRequestCharge / 1000000);
+          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
+          // console.log('REQ CHARGE TOT:' , requestCharge)
+          console.log('*************')
+          const totalCost: string = (requestCharge + bill).toFixed(2);
+          const result = {
+            requestCharge: requestCharge,
+            computeCost: bill,
+            total: totalCost
+          };
+          // console.log(totalCost);
+          // console.log('****************');
+          switch (resultType) {
+            case "reqCharge": {
+              return result.requestCharge.toFixed(2); 
+               
+            }
+            case "computeCost": {
+              return result.computeCost.toFixed(2); 
+            }
+            case 'total': {
+              return result.total; 
+            }
+          }
         }
-        case 'total': {
-          return result.total; 
+        else return 0;
+        break;
+      }
+      case 'gCloud': {
+        if (invokeAmount > functionCost.googleFreeRequests) {
+          console.log('BILLABLE: ', invokeAmount - functionCost.googleFreeRequests);
+          const requestTimesTime = (invokeAmount) * (invokeTime / 1000);
+          console.log('REQUEST TIMES TIME = ', requestTimesTime); 
+          const computeInsec = Math.max(requestTimesTime , 0); 
+        console.log('GOOG:', computeInsec);
+          const totalComputeGBSeconds = (computeInsec) * (memory / 1024);
+   
+          const billableCompute = Math.max(totalComputeGBSeconds - functionCost.googleGBSecondFreeTier, 0); 
+        console.log('total seconds:', billableCompute);
+          const bill = billableCompute * functionCost.googleChargeGBSecond;
+          console.log(` BILL IS : ${billableCompute} + ${functionCost.googleChargeGBSecond} = ${bill}`);
+        // console.log('functionCost', functionCost.lambdaRequestCharge)
+          const requestCharge: number = (invokeAmount - functionCost.googleFreeRequests) * (functionCost.googleRequestCharge / 1000000);
+          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
+          // console.log('REQ CHARGE TOT:' , requestCharge)
+          const totalCost: string = (requestCharge + bill).toFixed(2);
+          const result = {
+            requestCharge: requestCharge,
+            computeCost: bill,
+            total: totalCost
+          };
+          // console.log(totalCost);
+          // console.log('****************');
+          switch (resultType) {
+            case "reqCharge": {
+              return result.requestCharge.toFixed(2); 
+               
+            }
+            case "computeCost": {
+              return result.computeCost.toFixed(2); 
+            }
+            case 'total': {
+              return result.total; 
+            }
+          }
         }
+        else return 0;
+        break;
+      }
+      case 'ibm': {
+        if (invokeAmount > functionCost.ibmFreeRequests) {
+          const requestTimesTime = (invokeAmount - functionCost.ibmFreeRequests) * (invokeTime / 1000);
+          const computeInsec = Math.max(requestTimesTime , 0); 
+        // console.log(computeInsec);
+        const totalComputeGBSeconds = (computeInsec) * (memory / 1024);
+        // console.log('total seconds:', totalComputeGBSeconds);
+        const billableCompute = Math.max(totalComputeGBSeconds - functionCost.ibmFreeTier, 0); 
+
+        const bill = billableCompute * functionCost.ibmChargeGBSecond;
+        // console.log('BILL WITH SECONDS IS', bill)
+        // console.log('functionCost', functionCost.lambdaRequestCharge)
+          const requestCharge: number = (invokeAmount - functionCost.ibmFreeRequests) * (functionCost.ibmRequestCharge / 1000000);
+          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
+          // console.log('REQ CHARGE TOT:' , requestCharge)
+          const totalCost: string = (requestCharge + bill).toFixed(2);
+          const result = {
+            requestCharge: requestCharge,
+            computeCost: bill,
+            total: totalCost
+          };
+          // console.log(totalCost);
+          // console.log('****************');
+          switch (resultType) {
+            case "reqCharge": {
+              return result.requestCharge.toFixed(2); 
+               
+            }
+            case "computeCost": {
+              return result.computeCost.toFixed(2); 
+            }
+            case 'total': {
+              return result.total; 
+            }
+          }
+        }
+        else return 0;
+        break;
       }
     }
-    else return 0; 
+    
     
 
   };
@@ -261,8 +385,9 @@ const FunctionCost = (props: Modules) => {
                 onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue , 'memory')}>
               </TextField>
               
-          </form> 
-          <table>
+            </form> 
+            <div> PLESSE NOTE BELOW COST DOES NOT INCLUDE CPU COMPUTEING COST YET. SYAT TUNE FOR MORE</div>
+            <table>
             <tbody>
               <tr>
                 <th>Vendor</th>
@@ -272,28 +397,28 @@ const FunctionCost = (props: Modules) => {
                 </tr>
               <tr>
 					<td>AWS Lambda</td>
-                  <td>$<span id="lambda-request-cost">{lambdaFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge') }</span></td>
-					<td>$<span id="lambda-execution-cost">{lambdaFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost') }</span></td>
-					<th>$<span id="lambda-total-cost">{lambdaFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total') }</span>
+                  <td>$<span id="lambda-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'aws') }</span></td>
+					<td>$<span id="lambda-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'aws') }</span></td>
+					<th>$<span id="lambda-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'aws') }</span>
 				</th></tr>
-				{/* <tr>
+				<tr>
 					<td>Azure Functions</td>
-					<td>$<span id="azure-request-cost">-</span></td>
-					<td>$<span id="azure-execution-cost">-</span></td>
-					<th>$<span id="azure-total-cost">-</span>
+					<td>$<span id="azure-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'azure') }</span></td>
+					<td>$<span id="azure-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'azure') }</span></td>
+					<th>$<span id="azure-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'azure') }</span>
 				</th></tr>
 				<tr>
 					<td>Google Cloud Functions</td>
-					<td>$<span id="google-request-cost">-</span></td>
-					<td>$<span id="google-execution-cost">-</span></td>
-					<th>$<span id="google-total-cost">-</span>
+					<td>$<span id="google-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'gCloud') }</span></td>
+					<td>$<span id="google-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'gCloud') }</span></td>
+					<th>$<span id="google-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'gCloud') }</span>
 				</th></tr>
 				<tr>
 					<td>IBM OpenWhisk</td>
-					<td>$<span id="ibm-request-cost">-</span></td>
-					<td>$<span id="ibm-execution-cost">-</span></td>
-					<th>$<span id="ibm-total-cost">-</span>
-				</th></tr> */}
+					<td>$<span id="ibm-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'ibm') }</span></td>
+					<td>$<span id="ibm-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'ibm') }</span></td>
+					<th>$<span id="ibm-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'ibm') }</span>
+				</th></tr>
 			</tbody></table>
       
           </div>
