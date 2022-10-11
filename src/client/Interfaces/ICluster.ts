@@ -8,6 +8,7 @@ export interface ClusterTypes {
   favorite?: string[],
   __v?: number,
   favoriteStatus?: boolean,
+  isDark?: boolean, //*adding for darkmode
 }
 
 export interface Modules {
@@ -19,4 +20,5 @@ export interface Modules {
   k8_port?: number | undefined,
   faas_port?: number | undefined,
   description?: string,
+  isDark?: boolean //*adding for darkmode
 }

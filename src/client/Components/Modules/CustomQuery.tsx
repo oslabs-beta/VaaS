@@ -67,7 +67,15 @@ const CustomQuery = (props: Modules) => {
           className="btn" 
           type="button" 
           onClick = {handleCustom}
-          sx={{
+          sx={(props.isDark) ? {
+            background: '#c0c0c0',
+            color:'#1f2022',
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '20px',
+            width: '100%',
+            fontSize: '10px'
+          } : {
             background: '#3a4a5b',
             borderRadius: '5px',
             marginRight: '3px',

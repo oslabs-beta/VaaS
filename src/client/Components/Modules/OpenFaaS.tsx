@@ -273,7 +273,15 @@ const OpenFaaS = (props: Modules) => {
               className="btn" 
               type="button" 
               onClick = {handleDeployOpenFaaS}
-              sx={{
+              sx={(props.isDark) ? {
+                background: '#c0c0c0',
+                color:'#1f2022',
+                borderRadius: '5px',
+                marginBottom: '20px',
+                width: '100%',
+                fontSize: '10px',
+                marginLeft: '0.5rem'
+              } : {
                 background: '#3a4a5b',
                 borderRadius: '5px',
                 marginBottom: '20px',
@@ -323,7 +331,14 @@ const OpenFaaS = (props: Modules) => {
                   className="btn" 
                   type="button" 
                   onClick = {handleInvoke}
-                  sx={{
+                  sx={(props.isDark) ? {
+                    background: '#c0c0c0',
+                    color:'#1f2022',
+                    borderRadius: '5px',
+                    marginBottom: '20px',
+                    width: '49%',
+                    fontSize: '10px'
+                  } : {
                     background: '#3a4a5b',
                     borderRadius: '5px',
                     marginBottom: '20px',
@@ -338,13 +353,19 @@ const OpenFaaS = (props: Modules) => {
                   className="btn" 
                   type="button" 
                   onClick = {handleDelete}
-                  sx={{
+                  sx={(props.isDark) ? {
+                    background: '#c0c0c0',
+                    color:'#1f2022',
+                    borderRadius: '5px',
+                    marginBottom: '20px',
+                    width: '49%',
+                    fontSize: '10px'
+                  } : {
                     background: '#3a4a5b',
                     borderRadius: '5px',
                     marginBottom: '20px',
                     width: '49%',
-                    fontSize: '10px',
-                    marginLeft: '1px'
+                    fontSize: '10px'
                   }}
                 >
                   Delete

@@ -19,7 +19,6 @@ dd{
 }
 
 #Kube {
-  background-color: #ffffff;
   padding: 0 8px;
   text-align: left;
   flex-direction: column;
@@ -64,7 +63,7 @@ dd{
 }
 
 .ov-box {
-  background-color: #fafafa;
+  /* background-color: #fafafa; */
   border: 1px solid #3a4a5b1e;
   display: flex;
   flex-direction: column;
@@ -153,3 +152,4 @@ dd{
   text-align: right;
   margin-top: -15px;
 }
+

@@ -14,6 +14,8 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
 import GaugeChart from 'react-gauge-chart';
 import "./styles.css";
 
+
+
 const Kube = (props: ClusterTypes) => {
   const dispatch = useAppDispatch();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
@@ -25,7 +27,7 @@ const Kube = (props: ClusterTypes) => {
 
   // accessing state to find data of the specfic cluster
   const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props._id));
-
+  
   useEffect(() => {
     dispatch(
       setUI(
@@ -83,18 +85,30 @@ const Kube = (props: ClusterTypes) => {
 
   return (
     <Container
-      sx={{
+      sx={
+        (props.isDark) ?
+        {
         minWidth: "100%",
         justifyContent: "left",
         display: "flex",
         direction: "column",
         textAlign: "left",
         backgroundSize: "contain",
-        bgColor: "#3a4a5b",
+        backgroundColor: "#181A1D",
+      }: {
+        minWidth: "100%",
+        justifyContent: "left",
+        display: "flex",
+        direction: "column",
+        textAlign: "left",
+        backgroundSize: "contain",
+        backgroundColor: "#fafafa", 
       }}
       id="Kube"
     >
-      <div className="Kube-top-row">
+      <div className="Kube-top-row"
+        style={(props.isDark) ? { color: "#c0c0c0" } : { color: "black"}}
+      >
         <div className="cluster-title">
           {
             props.favoriteStatus &&
@@ -121,9 +135,7 @@ const Kube = (props: ClusterTypes) => {
           {"" + dbData?.description}
         </div>
         <Button
-          sx={{
-            color: "#3a4a5b",
-          }}
+          sx={(props.isDark) ? { color: "#c0c0c0" } : { color: "#3a4a5b" }}
           variant="text"
           id="basic-button"
           onClick={handleSettings}
@@ -133,7 +145,15 @@ const Kube = (props: ClusterTypes) => {
         </Button>
       </div>
       <div id="overview">
-        <div className="ov-box">
+        <div className="ov-box"
+          style={(props.isDark) ? {           
+              backgroundColor: "#34363b",
+              color: "#c0c0c0"
+              } :
+              {
+                backgroundColor: "#fafafa"
+          }}
+        >
           <div className="ov-title noselect">
             <h3>Nodes</h3>
           </div>
@@ -142,7 +162,15 @@ const Kube = (props: ClusterTypes) => {
             <div><b>{(apiReducer.clusterQueryData[props._id]?.allNodes[0] || '🔴')}</b></div>
           </div>
         </div>
-        <div className="ov-box">
+        <div className="ov-box"
+          style={(props.isDark) ? {           
+              backgroundColor: "#34363b",
+              color: "#c0c0c0"
+              } :
+              {
+                backgroundColor: "#fafafa"
+          }}
+        >
           <div className="ov-title noselect">
             <h3>Deployments</h3>
           </div>
@@ -150,7 +178,15 @@ const Kube = (props: ClusterTypes) => {
             <div>{(apiReducer.clusterQueryData[props._id]?.totalDeployments.length || 0)}</div>
           </div>
         </div>
-        <div className="ov-box">
+        <div className="ov-box"
+          style={(props.isDark) ? {           
+              backgroundColor: "#34363b",
+              color: "#c0c0c0"
+              } :
+              {
+                backgroundColor: "#fafafa"
+          }}
+        >
           <div className="ov-title noselect">
             <h3>Pods</h3>
           </div>
@@ -158,7 +194,15 @@ const Kube = (props: ClusterTypes) => {
             <div>{(apiReducer.clusterQueryData[props._id]?.totalPods || 0)}</div>
           </div>
         </div>
-        <div className="ov-box">
+        <div className="ov-box"
+          style={(props.isDark) ? {           
+              backgroundColor: "#34363b",
+              color: "#c0c0c0"
+              } :
+              {
+                backgroundColor: "#fafafa"
+          }}
+        >
           <div className="ov-title noselect">
             <h3>CPU Usage</h3>
           </div>
@@ -170,13 +214,21 @@ const Kube = (props: ClusterTypes) => {
               percent={(apiReducer.clusterQueryData[props._id]?.cpuLoad || 0)/100}
               style={{
                 width: '90px',
-                height: '2px'
+                height: '2px',
               }}
-              textColor='black'
+              needleColor={(props.isDark)? "#c0c0c0" : "#464A4F"}
             />
           </div>
         </div>
-        <div className="ov-box">
+        <div className="ov-box"
+          style={(props.isDark) ? {           
+              backgroundColor: "#34363b",
+              color: "#c0c0c0"
+              } :
+              {
+                backgroundColor: "#fafafa"
+          }}
+        >
           <div className="ov-title noselect">
             <h3>Memory Usage</h3>
           </div>
@@ -188,9 +240,9 @@ const Kube = (props: ClusterTypes) => {
               percent={(apiReducer.clusterQueryData[props._id]?.memoryLoad || 0)/2048}
               style={{
                 width: '90px',
-                height: '2px'
+                height: '2px',
               }}
-              textColor='black'
+              needleColor={(props.isDark)? "#c0c0c0" : "#464A4F"}
             />
           </div>
           <div className="ov-metric">
@@ -203,6 +255,7 @@ const Kube = (props: ClusterTypes) => {
           <Module
             id={dbData?._id}
             nested={true}
+            isDark={props.isDark}
           />
         )}
         {settings && (
