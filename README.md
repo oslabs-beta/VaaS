@@ -76,4 +76,14 @@ EXPRESS_CONSOLE_LOG=on
 ```sh
 npm run dev
 ```
+Set up order:
+You will need to port-forward Promethesus and openFaaS
+Grafana will need to be changed to port 3001 in customs.ini, but that will be in the documentation as well.
 
+https://www.docker.com/products/docker-desktop/
+https://minikube.sigs.k8s.io/docs/start/
+https://devopscube.com/setup-kube-state-metrics/
+https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+https://devopscube.com/node-exporter-kubernetes/
+https://goncalo-a-oliveira.medium.com/setting-up-openfaas-with-minikube-28ed2f78dd1b
+https://grafana.com/docs/grafana/latest/

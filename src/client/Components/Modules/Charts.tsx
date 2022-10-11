@@ -7,14 +7,31 @@ import { useLocation } from "react-router-dom";
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
+  const [grafanaCharts, setGrafanaCharts] = useState([])
 
   useEffect(() => {
     console.log('placeholder');
   }, []);
 
+  const renderInformation = () => {
+    const grafanaCharts = []
+    for (let i = 0; i < 10; i++) {
+      // grafanaCharts.push(
+      // <iframe src='http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665438067436&to=1665448867436&panelId=1' width = "450" height = "200" frameBorder = "0" ></iframe >
+      // const currentURL = 'http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665438067436&to=1665448867436&panelId=' + ${ i }
+      // grafanaCharts.push(
+      //   < iframe
+      //     src= currentURL
+      //     width="450"
+      //     height="200"
+      //     frameBorder="0"
+      //   ></iframe >
+      // )
+    }
+  }
   return (
     <div>
-      <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665438085393&to=1665448885393&panelId=9" width="450" height="200" frameBorder="0"></iframe>
+      <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=15s&from=1665438085393&to=1665448885393&panelId=9" width="450" height="200" frameBorder="0"></iframe>
       <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665438067436&to=1665448867436&panelId=8" width="450" height="200" frameBorder="0"></iframe>
       <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665408311835&to=1665419111835&panelId=2" width="450" height="200" frameBorder="0"></iframe>
       <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665438107076&to=1665448907076&panelId=11" width="450" height="200" frameBorder="0"></iframe>
@@ -40,9 +57,12 @@ const Charts = (props: Modules) => {
 
       <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363986855&to=1665450386855&panelId=18" width="450" height="200" frameBorder="0"></iframe>
 
+      {/* {for(let i = 0; i<10; i++) {
+
+      }} */}
       <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363996561&to=1665450396561&panelId=15" width="450" height="200" frameBorder="0"></iframe>
 
-
+      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665420978439&to=1665507378439&panelId=20" width="450" height="200" frameBorder="0"></iframe>
 
     </div>
   );
