@@ -236,6 +236,45 @@ const FunctionCost = (props: Modules) => {
         else return 0;
         break;
       }
+      case 'ibm': {
+        if (invokeAmount > functionCost.ibmFreeRequests) {
+          const requestTimesTime = (invokeAmount - functionCost.ibmFreeRequests) * (invokeTime / 1000);
+          const computeInsec = Math.max(requestTimesTime , 0); 
+        // console.log(computeInsec);
+        const totalComputeGBSeconds = (computeInsec) * (memory / 1024);
+        // console.log('total seconds:', totalComputeGBSeconds);
+        const billableCompute = Math.max(totalComputeGBSeconds - functionCost.ibmFreeTier, 0); 
+
+        const bill = billableCompute * functionCost.ibmChargeGBSecond;
+        // console.log('BILL WITH SECONDS IS', bill)
+        // console.log('functionCost', functionCost.lambdaRequestCharge)
+          const requestCharge: number = (invokeAmount - functionCost.ibmFreeRequests) * (functionCost.ibmRequestCharge / 1000000);
+          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
+          // console.log('REQ CHARGE TOT:' , requestCharge)
+          const totalCost: string = (requestCharge + bill).toFixed(2);
+          const result = {
+            requestCharge: requestCharge,
+            computeCost: bill,
+            total: totalCost
+          };
+          // console.log(totalCost);
+          // console.log('****************');
+          switch (resultType) {
+            case "reqCharge": {
+              return result.requestCharge.toFixed(2); 
+               
+            }
+            case "computeCost": {
+              return result.computeCost.toFixed(2); 
+            }
+            case 'total': {
+              return result.total; 
+            }
+          }
+        }
+        else return 0;
+        break;
+      }
     }
     
     
@@ -376,9 +415,9 @@ const FunctionCost = (props: Modules) => {
 				</th></tr>
 				<tr>
 					<td>IBM OpenWhisk</td>
-					<td>$<span id="ibm-request-cost">-</span></td>
-					<td>$<span id="ibm-execution-cost">-</span></td>
-					<th>$<span id="ibm-total-cost">-</span>
+					<td>$<span id="ibm-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'ibm') }</span></td>
+					<td>$<span id="ibm-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'ibm') }</span></td>
+					<th>$<span id="ibm-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'ibm') }</span>
 				</th></tr>
 			</tbody></table>
       
