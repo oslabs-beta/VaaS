@@ -76,4 +76,52 @@ EXPRESS_CONSOLE_LOG=on
 ```sh
 npm run dev
 ```
+Set up order:
+You will need to port-forward Promethesus and openFaaS
+Grafana will need to be changed to port 3001 in customs.ini, but that will be in the documentation as well.
 
+https://www.docker.com/products/docker-desktop/
+https://minikube.sigs.k8s.io/docs/start/
+https://goncalo-a-oliveira.medium.com/
+https://github.com/alexellis/arkade
+
+curl -sLS https://get.arkade.dev | sh --> WE TOOK OUT SUDO
+
+
+FaaS Deploying Own Function
+faas-cli template store pull node
+faas-cli new --lang node --prefix=DOCKERUSERNAME NAMEOFFILE
+"Manipulate up Handler.js"
+faas-cli up --skip-deploy -f NAMEOFFILE.yml 
+faas-cli deploy -f NAMEOFFILE
+
+How to deploy custom functions:
+kubectl port-forward -n openfaas svc/gateway 30001:8080
+export OPENFAAS_URL=http://127.0.0.1:30001/
+PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+echo -n $PASSWORD | faas-cli login --username admin --password-stdin
+echo $PASSWORD
+echo -n $PASSWORD | faas-cli login - username --password Ii4Rg1Gd1ONf976TJ65tts2m0
+faas-cli template store pull node
+faas-cli new --lang node --prefix=DOCKERUSERNAME NAMEOFFILE
+faas-cli up --skip-deploy -f NAMEOFFILE.yml 
+faas-cli deploy -f NAMEOFFILE
+
+
+
+how to install grafana:
+1) curl -O https://dl.grafana.com/oss/release/grafana-7.1.5.darwin-amd64.tar.gz
+2) tar -xvf myfile.tar -C somedirectory
+3) add customs.ini (i just copied/pasted and changed embed)
+4) go to where untar then ./bin/grafana-server web
+5) CHANGE PORT TO 3001 IN CUSTOMS
+6) share panel embed
+
+Creating Clusters:
+Cluster URL: "http://localhost"
+Kubernetes Port: 30000
+FaaS Port: 30001
+FaaS Username: admin
+FaaS Password: From the guild
+Cluster Name: You choose
+Chuster Description: You choose
