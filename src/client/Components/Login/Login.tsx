@@ -7,6 +7,8 @@ import { Put } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
 import { Container, Box, Button, TextField } from '@mui/material';
 import './styles.css';
+import { GoogleLogin } from 'react-google-login';
+import { gapi } from 'gapi-script';
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
@@ -20,6 +22,16 @@ const Login = () => {
     //might be that we use redux-persist in conjunction with local.storage as oppose to actually touching local storage
     console.log('render state from clusterReducer: ', clusterReducer.render);
   }, [clusterReducer]);
+
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: '286287333964-pe8reemoflbc4ko1nlkuq40ull0r4hlg.apps.googleusercontent.com',
+        scope: 'email',
+      });
+    }
+    gapi.load('client:auth2', start);
+  }, []);
 
   const handleLogin = async (): Promise<void> => {
     try {
@@ -59,6 +71,14 @@ const Login = () => {
   // when click on enter key, invoke login func
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleLogin();
+  };
+
+  const googleSuccess = async (res: any)=>{
+    console.log('Google Sign In Success', res);
+  };
+
+  const googleFailure = (error: any)=>{
+    console.log('Google Login failure', error);
   };
 
   return (
@@ -141,6 +161,7 @@ const Login = () => {
             >
               Login
             </Button>
+            
             <Button 
               className="btn" 
               type="button" 
@@ -154,7 +175,31 @@ const Login = () => {
             >
               Register
             </Button>
+            
           </Container>
+          <GoogleLogin
+              clientId='286287333964-pe8reemoflbc4ko1nlkuq40ull0r4hlg.apps.googleusercontent.com'
+              render={(renderProps) => (
+                <Button
+                  className='gBtn'
+                  color='primary'
+                  onClick={renderProps.onClick}
+                  disabled={renderProps.disabled}
+                  variant="contained"
+                  
+                  sx={{
+                    color: 'white', 
+                    backgroundColor: '#3a4a5b', 
+                    borderColor: 'white',
+                  }}
+                >
+                  Google Sign In
+                </Button>
+              )}
+              onSuccess={googleSuccess}
+              onFailure={googleFailure}
+              cookiePolicy="single_host_origin"
+            />
         </Box>
       </Container>
     </div>

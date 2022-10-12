@@ -52,7 +52,7 @@ const Home = () => {
       setTimeout(() => getClusterDbData(), user.refreshRate);
     };
 
-    if (apiReducer.initialLoad || (apiReducer.lastFetch + 3000 < new Date().getTime())) {
+    if (apiReducer.initialLoad || (apiReducer.lastFetch + 3020 < new Date().getTime())) {
       console.log(apiReducer.initialLoad);
       getClusterDbData();
     }
