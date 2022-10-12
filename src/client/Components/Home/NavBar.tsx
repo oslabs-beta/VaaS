@@ -35,7 +35,7 @@ export default function NavBar() {
       <div className="title noselect">
         VaaS
       </div>
-      <Toolbar>
+      {/* <Toolbar>
         {user ? (
           <div className='profile'>
             <Avatar alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
@@ -45,7 +45,7 @@ export default function NavBar() {
         ) : (
           <Button variant='contained' className='gLogout' color='secondary'>Sign In with Google</Button>
         )}
-      </Toolbar>
+      </Toolbar> */}
       <Button
         id="basic-button"
         onClick={handleLogOut}

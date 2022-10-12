@@ -9,6 +9,7 @@ import { Container, Box, Button, TextField } from '@mui/material';
 import './styles.css';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
@@ -16,6 +17,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const navigate = useNavigate();
+  const gDispatch = useDispatch();
 
   useEffect(() => {
     //sign in state might need to be removed - because we are working with persistent state 
@@ -73,11 +75,19 @@ const Login = () => {
     if (e.key === 'Enter') handleLogin();
   };
 
-  const googleSuccess = async (res: any)=>{
+  const googleSuccess = async (res: any) => {
+    const result = res?.profileObj;
+    const token = res?.tokenId;
     console.log('Google Sign In Success', res);
+
+    try {
+      gDispatch({ type: 'AUTH', data: { result, token }});
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const googleFailure = (error: any)=>{
+  const googleFailure = (error: any) => {
     console.log('Google Login failure', error);
   };
 
