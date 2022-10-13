@@ -383,7 +383,7 @@ const FunctionCost = (props: Modules) => {
 
           <form className="costCal">
               <TextField size='small' id="filled-basic"
-                label="# of invokation" variant="filled"
+                label="# of invocations" variant="filled"
                 onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'numInvoke',)}>
               </TextField>
               <TextField size='small' id="filled-basic"
@@ -392,12 +392,12 @@ const FunctionCost = (props: Modules) => {
               </TextField>
   
               <TextField size='small' id="filled-basic"
-                label="memory in mbs" variant="filled"
+                label="Memory in mbs" variant="filled"
                 onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue , 'memory')}>
               </TextField>
               
             </form> 
-            <div> PLESSE NOTE BELOW COST DOES NOT INCLUDE CPU COMPUTEING COST YET. SYAT TUNE FOR MORE</div>
+            <div> PLEASE NOTE BELOW COST DOES NOT INCLUDE CPU COMPUTING COST YET. STAY TUNED FOR MORE</div>
             <table>
             <tbody>
               <tr>

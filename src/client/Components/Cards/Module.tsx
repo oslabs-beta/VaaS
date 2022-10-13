@@ -117,6 +117,7 @@ const Module = (props: Modules) => {
             setCharts(false);
             break;
           case "functionCost":
+            setAlert(false);
             setFaaS(false);
             setVisualizer(false);
             setCustom(false);
@@ -186,6 +187,7 @@ const Module = (props: Modules) => {
     setCustom(false);
     setCharts(false);
     setFunctionCost(true);
+    setAlert(false);
     setCurrentModule("functionCost");
   };
   return (
@@ -384,7 +386,6 @@ const Module = (props: Modules) => {
           color: style.color
         }}
       >
-        {id}
       </Container>
       {
         !props.nested && 

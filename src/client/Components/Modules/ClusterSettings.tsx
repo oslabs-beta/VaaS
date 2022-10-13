@@ -156,15 +156,6 @@ const ClusterSettings = (props: Modules) => {
           >
             Update
           </Button>
-          <Button
-            className='full-screen-button'
-            variant="text"
-            id="basic-button"
-            onClick={alertrules}
-            sx={buttonColor}
-          >
-           Trying for Alert Rules!
-          </Button>
         </div>
         <div id='module-content'>
           <Container 
