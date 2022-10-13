@@ -27,14 +27,14 @@ const FunctionCost = (props: Modules) => {
     borderRadius: '5px',
     padding: '0.5rem',
     marginBottom: '0px',
-    width: '100%',
+    width: '75%',
     fontSize: '10px'
   });
   const [inputStyle] = useState({
-    width: '45%',
+    width: '100%',
     display: "flex",
     flexDirection: 'column',
-    justifyContent: 'center'
+    alignItems: 'center'
 
   });
 	const googleGBGHzMap: { [key: string]: any }  = {128: 200, 256: 400, 512: 800, 1024: 1400, 2048: 2400};
@@ -171,7 +171,7 @@ const FunctionCost = (props: Modules) => {
           const requestCharge: number = (invokeAmount - functionCost.azureFreeRequests) * (functionCost.azureRequestCharge / 1000000);
           // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
           // console.log('REQ CHARGE TOT:' , requestCharge)
-          console.log('*************')
+          console.log('*************');
           const totalCost: string = (requestCharge + bill).toFixed(2);
           const result = {
             requestCharge: requestCharge,
@@ -295,18 +295,22 @@ const FunctionCost = (props: Modules) => {
     <Container
       sx={{
         width: '100%',
-        textAlign: 'center'
+        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
       }}
     >
 
     <Box
       sx={{
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        gap: '1.5rem',
+        //gap: '1.5rem',
         marginLeft: '-1rem',
         marginTop: '8px',
-        justifyContent: 'center'
+        alignItems: 'center'
         }}
     >
         <Box
@@ -341,13 +345,23 @@ const FunctionCost = (props: Modules) => {
           className="btn" 
           type="button"
           onClick={hadleFunctionData}
-          sx={{
+          sx={(props.isDark) ? {
+            color: 'black',
+            background: '#c0c0c0',
+            borderRadius: '5px',
+            marginBottom: '20px',
+            width: '25%',
+            height: '2.5vh',
+            fontSize: '12px',
+            marginLeft: '0.5rem'
+          } : {
+            color: 'white',
             background: '#3a4a5b',
             borderRadius: '5px',
             marginBottom: '20px',
             width: '25%',
             height: '2.5vh',
-            fontSize: '10px',
+            fontSize: '12px',
             marginLeft: '0.5rem'
           }}
         >
@@ -355,16 +369,37 @@ const FunctionCost = (props: Modules) => {
         </Button>
         </Box>
         <Box
-           sx={{
+           sx={(props.isDark) ? {
+            width: '100%',
             display: 'flex',
+            fontSize: '16px',
             flexDirection: 'column',
             gap: '1.5rem',
             marginLeft: '-1rem',
             marginTop: '8px',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            backgroundColor: '#F0F0F0',
+            color: '#5B5B5B',
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+          } : {
+            width: '100%',
+            display: 'flex',
+            fontSize: '16px',
+            flexDirection: 'column',
+            gap: '1.5rem',
+            marginLeft: '-1rem',
+            marginTop: '8px',
+            justifyContent: 'center',
+            backgroundColor: '#F0F0F0',
+            color: '#5B5B5B',
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
           }}
         >
-          <div>THIS IS SELECTED {selectedDeployedFunction}</div>
+          {/* <div>THIS IS SELECTED {selectedDeployedFunction}</div> */}
           {/* {
             data.value &&
             <div>THIS IS THE VALUE { data. value}</div>
@@ -379,58 +414,60 @@ const FunctionCost = (props: Modules) => {
             </div>
           }
   
-          <div>Estimated AWS Cost of deployment:
+        <div><h4>Estimated AWS Cost of deployment:</h4>
 
           <form className="costCal">
-              <TextField size='small' id="filled-basic"
-                label="# of invocations" variant="filled"
-                onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'numInvoke',)}>
-              </TextField>
-              <TextField size='small' id="filled-basic"
-                label="Estimated Execution Time (ms)" variant="filled"
-                onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'timeInvoke')}>
-              </TextField>
+            <TextField size='small' id="filled-basic"
+              label="# of invocation" variant="filled"
+              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'numInvoke',)}>
+            </TextField>
+            <TextField size='small' id="filled-basic"
+              label="Estimated Execution Time (ms)" variant="filled"
+              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'timeInvoke')}>
+            </TextField>
   
-              <TextField size='small' id="filled-basic"
-                label="Memory in mbs" variant="filled"
-                onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue , 'memory')}>
-              </TextField>
+            <TextField size='small' id="filled-basic"
+              label="memory in mbs" variant="filled"
+              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue , 'memory')}>
+            </TextField>
               
-            </form> 
-            <div> PLEASE NOTE BELOW COST DOES NOT INCLUDE CPU COMPUTING COST YET. STAY TUNED FOR MORE</div>
-            <table>
-            <tbody>
-              <tr>
-                <th>Vendor</th>
-                <th>Request Cost</th>
-                <th>Compute Cost</th>
-                <th>Total</th>
+          </form> 
+          <br/>
+          <div> PLEASE NOTE BELOW COST DOES NOT INCLUDE CPU COMPUTING COST YET. STAY TUNED FOR MORE</div>
+            <table style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <tbody>
+                <tr>
+                  <th>Vendor</th>
+                  <th>Request Cost</th>
+                  <th>Compute Cost</th>
+                  <th>Total</th>
                 </tr>
-              <tr>
-					<td>AWS Lambda</td>
+                <tr>
+                  <td>AWS Lambda</td>
                   <td>$<span id="lambda-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'aws') }</span></td>
-					<td>$<span id="lambda-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'aws') }</span></td>
-					<th>$<span id="lambda-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'aws') }</span>
-				</th></tr>
-				<tr>
-					<td>Azure Functions</td>
-					<td>$<span id="azure-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'azure') }</span></td>
-					<td>$<span id="azure-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'azure') }</span></td>
-					<th>$<span id="azure-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'azure') }</span>
-				</th></tr>
-				<tr>
-					<td>Google Cloud Functions</td>
-					<td>$<span id="google-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'gCloud') }</span></td>
-					<td>$<span id="google-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'gCloud') }</span></td>
-					<th>$<span id="google-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'gCloud') }</span>
-				</th></tr>
-				<tr>
-					<td>IBM OpenWhisk</td>
-					<td>$<span id="ibm-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'ibm') }</span></td>
-					<td>$<span id="ibm-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'ibm') }</span></td>
-					<th>$<span id="ibm-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'ibm') }</span>
-				</th></tr>
-			</tbody></table>
+                  <td>$<span id="lambda-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'aws') }</span></td>
+                  <th>$<span id="lambda-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'aws') }</span></th>
+                </tr>
+                <tr>
+                  <td>Azure Functions</td>
+                  <td>$<span id="azure-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'azure') }</span></td>
+                  <td>$<span id="azure-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'azure') }</span></td>
+                  <th>$<span id="azure-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'azure') }</span></th>
+                </tr>
+                <tr>
+                  <td>Google Cloud Functions</td>
+                  <td>$<span id="google-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'gCloud') }</span></td>
+                  <td>$<span id="google-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'gCloud') }</span></td>
+                  <th>$<span id="google-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'gCloud') }</span></th>
+                </tr>
+                <tr>
+                  <td>IBM OpenWhisk</td>
+                  <td>$<span id="ibm-request-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'reqCharge', 'ibm') }</span></td>
+                  <td>$<span id="ibm-execution-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'computeCost', 'ibm') }</span></td>
+                  <th>$<span id="ibm-total-cost">{vendorFuncCost(numOfInvokation as number,avgExecutionTime as number ,memoryOfFunc as number, 'total', 'ibm') }</span></th>
+                </tr>
+              </tbody>
+            </table>
       
           </div>
 
