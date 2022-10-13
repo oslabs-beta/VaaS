@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Toolbar, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
@@ -25,10 +25,18 @@ export default function NavBar() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
+    setUser(null);
     navigate('/');
   };
 
-  const user: any = null;
+  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('profile') as any));
+
+    console.log(user);
+  // useEffect(() => {
+  //   const token = user?.token;
+
+  //   setUser(JSON.parse(localStorage.getItem('profile') as any));
+  // }, []);
 
   return (
     <div id='navbar'>
