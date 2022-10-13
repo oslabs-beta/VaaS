@@ -22,6 +22,9 @@ function path(url: string): IPathRoute {
     },
     '/gateway': {
       methods: ['GET']
+    },
+    '/alert': {
+      methods: ['GET']
     }
   };
   return allRoutes[url];

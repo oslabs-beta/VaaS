@@ -3,6 +3,7 @@ import Post from './Post';
 import Put from './Put';
 import Delete from './Delete';
 import Query from './Query';
+import Alert from './Alert';
 import GateWayQuery from './Query';
 
 export {
@@ -11,5 +12,6 @@ export {
     Put,
     Delete,
     Query,
+    Alert,
     GateWayQuery,
 };

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import OpenFaaS from "../Modules/OpenFaaS";
 import Visualizer from "../Modules/Visualizer";
 import CustomQuery from "../Modules/CustomQuery";
+import Alert from "../Modules/Alert";
 import Charts from "../Modules/Charts";
 import FunctionCost from "../Modules/FunctionCost";
 import NavBar from "../Home/NavBar";
@@ -18,7 +19,9 @@ import FunctionsIcon from '@mui/icons-material/Functions';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
+import AddAlertIcon from '@mui/icons-material/AddAlert';
 import "./styles.css";
+import { setDefaultResultOrder } from "node:dns";
 
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
@@ -27,6 +30,7 @@ const Module = (props: Modules) => {
   const [faas, setFaaS] = useState(true);
   const [visualizer, setVisualizer] = useState(false);
   const [functionCost, setFunctionCost] = useState(false);
+  const [alert, setAlert] = useState(false);
   const [custom, setCustom] = useState(false);
   const [charts, setCharts] = useState(false);
   const [currentModule, setCurrentModule] = useState("module");
@@ -79,6 +83,7 @@ const Module = (props: Modules) => {
             setCustom(false);
             setFunctionCost(false);
             setCharts(false);
+            setAlert(false);
             break;
           case "visualizer":
             setFaaS(false);
@@ -86,6 +91,7 @@ const Module = (props: Modules) => {
             setCustom(false);
             setFunctionCost(false);
             setCharts(false);
+            setAlert(false);
             break;
           case "custom":
             setFaaS(false);
@@ -93,6 +99,7 @@ const Module = (props: Modules) => {
             setFunctionCost(false);
             setCustom(true);
             setCharts(false);
+            setAlert(false);
             break;
           case "charts":
             setFaaS(false);
@@ -100,6 +107,14 @@ const Module = (props: Modules) => {
             setCustom(false);
             setFunctionCost(false);
             setCharts(true);
+            setAlert(false);
+            break;
+            case "alert":
+            setAlert(true);
+            setFaaS(false);
+            setVisualizer(false);
+            setCustom(false);
+            setCharts(false);
             break;
           case "functionCost":
             setFaaS(false);
@@ -108,6 +123,7 @@ const Module = (props: Modules) => {
             setFunctionCost(true);
             setCharts(false);
             break;
+
         }
       }
     }
@@ -120,6 +136,7 @@ const Module = (props: Modules) => {
     setFunctionCost(false);
     setCustom(false);
     setCharts(false);
+    setAlert(false);
   };
 
   const handleVisualizerButton = () => {
@@ -129,6 +146,7 @@ const Module = (props: Modules) => {
     setCustom(false);
     setFunctionCost(false);
     setCharts(false);
+    setAlert(false);
   };
 
   const handleCustomButton = () => {
@@ -138,6 +156,7 @@ const Module = (props: Modules) => {
     setCurrentModule("custom");
     setFunctionCost(false);
     setCharts(false);
+    setAlert(false);
   };
 
   const handleChartsButton = () => {
@@ -147,7 +166,18 @@ const Module = (props: Modules) => {
     setCharts(true);
     setFunctionCost(false);
     setCurrentModule("charts");
+    setAlert(false);
   };
+
+  const handleAlertButton = () => {
+    setFaaS(false);
+    setCurrentModule("alert");
+    setVisualizer(false);
+    setCustom(false);
+    setCharts(false);
+    setAlert(true);
+  };
+
 
   const handleFunctionCostButton = () => {
     console.log('CLICKED');
@@ -270,6 +300,15 @@ const Module = (props: Modules) => {
               <FullscreenIcon />
             </Button>
           }
+          <Button
+            sx={buttonStyle}
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={handleAlertButton}
+          >
+            <AddAlertIcon /> 
+          </Button>
           {
             !props.nested && 
             <Button
@@ -330,7 +369,13 @@ const Module = (props: Modules) => {
               nested={props.nested} 
             />
           }
-    
+          {
+            alert && 
+            <Alert               
+              id={id} 
+              nested={props.nested} 
+            />
+          }
         </div>
       </Container>
       <Container 

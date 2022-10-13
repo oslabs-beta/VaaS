@@ -108,6 +108,10 @@ const ClusterSettings = (props: Modules) => {
     }
   };
 
+  const alertrules = async () => {
+    console.log('this function works for alert rules');
+  }
+
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleUpdateCluster();
   };
@@ -151,6 +155,15 @@ const ClusterSettings = (props: Modules) => {
             sx={buttonColor}
           >
             Update
+          </Button>
+          <Button
+            className='full-screen-button'
+            variant="text"
+            id="basic-button"
+            onClick={alertrules}
+            sx={buttonColor}
+          >
+           Trying for Alert Rules!
           </Button>
         </div>
         <div id='module-content'>
