@@ -3,6 +3,7 @@ import { useAppSelector } from "../../Store/hooks";
 import { useLocation } from "react-router-dom";
 import { nodeMetric, podMetric } from "../../Queries";
 import Box from "@mui/material/Box";
+import { Modal } from "@mui/material";
 
 import { Modules } from "../../Interfaces/ICluster";
 import { IReducers } from "../../Interfaces/IReducers";
@@ -15,7 +16,29 @@ import deplIcon from "./icons/deployment-icon.svg";
 import svcIcon from "./icons/service-icon.svg";
 import podIcon from "./icons/pod-icon.svg";
 
+import "./network.css";
+  
+
 const Visualizer = (props: Modules) => {
+  //Modal information and styling
+  const [currPod, setCurrPod] = useState('');
+  const [currJob, setCurrJob] = useState('');  
+  const [currMemUseOfHovered, setCurrMemUseOfHovered] = useState('');
+  const [currTimeSinceStart, setCurrTimeSinceStart] = useState('');
+  const [currTimeSinceDeploy, setCurrTimeSinceDeploy] = useState('');
+  const [showPopover, setShowPopover] = useState(false);
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
   
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   console.log(apiReducer.clusterDbData);
@@ -132,6 +155,21 @@ const Visualizer = (props: Modules) => {
         .forEach((pod) => {
           const podNode = {
             id: `${pod.metric.pod}-pod`,
+            // title: htmlTitle(`
+            // <div>
+            //   <dl>
+            //     <dt>Pod Name:</dt>
+            //     <dd>${currPod}</dd>
+            //     <dt>Job:</dt>
+            //     <dd>${currJob}</dd>
+            //     <dt>Memory Use:</dt>
+            //     <dd>${currMemUseOfHovered}</dd>
+            //     <dt>Time Since Deploy</dt>
+            //     <dd>${currTimeSinceDeploy}</dd>
+            //     <dt>Time Since Start</dt>
+            //     <dd>${currTimeSinceStart}</dd>
+            //   </dl>
+            // </div>`),
             label: pod.metric.pod,
             font: { color: style.color },
             image: podIcon,
@@ -218,10 +256,11 @@ const Visualizer = (props: Modules) => {
     physics: {
       barnesHut: {
         gravitationalConstant: -2500,
-        centralGravity: -.05,
-        springLength: 150,
-        springConstant: 0.002,
+        centralGravity: .05,
+        springLength: 95,
+        springConstant: 0.005,
         damping: 0.09,
+        avoidOverlap: .75,
       },
     },
     edges: {
@@ -229,7 +268,6 @@ const Visualizer = (props: Modules) => {
     },
   };
 
-  //! Not sure where this entire constant went on the VaaS 1.0 
   const events = {
     select: function(params: { nodes: any; edges: any;}) {
       const { nodes } = params;
@@ -237,16 +275,50 @@ const Visualizer = (props: Modules) => {
       const slicedClick = clicked.substring(clicked.length - 4, 0);
       // REMOVES THE '-POD' FROM LAST 4 CHARS
 
+      const getPodInfo = async () => {
+        //run the podInfo middleware to run a query to the prometheus server
+        const data = podMetric.podInfoList(id,'k8',slicedClick);
+        const resData = await data;
+        const podInfo = resData?.metric.data.result[0];
+        console.log('pod info', podInfo);
+        console.log(podInfo.metric.job);
+        setCurrPod(slicedClick);
+        setCurrJob(podInfo.metric.job);
+      };
+
       const getPodMemory = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podInfo(id,'k8',slicedClick);
+        const data = podMetric.podMem(id,'k8',slicedClick);
         const bytes = await data;
         const bytesToMb = (bytes?.metric.data.result[0].value[1])/1048576;
         //hard coded number is conversion of bytes to MB
-        window.alert(`This pod is using ${bytesToMb} MB of memory`);
+        //window.alert(`This pod is using ${bytesToMb} MB of memory`);
+        setCurrMemUseOfHovered(`${bytesToMb.toFixed(2)} MB`);
       };
 
+      const getPodStart = async () => {
+        //run the podInfo middleware to run a query to the prometheus server
+        const data = podMetric.podStart(id,'k8',slicedClick);
+        const seconds = await data;
+        const unixTime = (seconds?.metric.data.result[0].value[1]);
+        const currTime = Date.now()/1000;
+        setCurrTimeSinceStart(`${Math.floor(((currTime-unixTime)/3600))} hours (${((currTime-unixTime)/60).toFixed(2)} minutes)`);
+      };
+
+      const getPodDeploy = async () => {
+        //run the podInfo middleware to run a query to the prometheus server
+        const data = podMetric.podDeployed(id,'k8',slicedClick);
+        const seconds = await data;
+        const unixTime = (seconds?.metric.data.result[0].value[1]);
+        const currTime = Date.now()/1000;
+        setCurrTimeSinceDeploy(`${Math.floor(((currTime-unixTime)/3600))} hours (${((currTime-unixTime)/60).toFixed(2)} minutes)`);
+      };
+
+      getPodInfo();
       getPodMemory();
+      getPodDeploy();
+      getPodStart();
+      setShowPopover(true);
 
       //next steps, use some conditionals to check which node it is, have different formulas for pods, services, etc?
 
@@ -270,13 +342,40 @@ const Visualizer = (props: Modules) => {
           setTimeout(
             () => network.fit({
               animation: {
-                duration: 2000,
+                duration: 1500,
                 easingFunction: "linear",
               },
             }), 1000
           );
         }}
       />
+      <Modal
+        open={showPopover}
+        onClose={()=>setShowPopover(false)}
+        
+        // anchorReference={'none'}
+        // anchorPosition={
+        // }
+        // classes = {{
+        //   root: classes.popOverRoot,
+        // }}
+      >
+        <Box sx={modalStyle}>
+          <dl>
+            <dt>Pod Name:</dt>
+            <dd>{currPod}</dd>
+            <dt>Job:</dt>
+            <dd>{currJob}</dd>
+            <dt>Memory Use:</dt>
+            <dd>{currMemUseOfHovered}</dd>
+            <dt>Time Since Deploy</dt>
+            <dd>{currTimeSinceDeploy}</dd>
+            <dt>Time Since Start</dt>
+            <dd>{currTimeSinceStart}</dd>
+          </dl>        
+        </Box>
+
+      </Modal>
     </Box>
   );
 };

@@ -5,6 +5,7 @@ import Visualizer from "../Modules/Visualizer";
 import CustomQuery from "../Modules/CustomQuery";
 import Alert from "../Modules/Alert";
 import Charts from "../Modules/Charts";
+import FunctionCost from "../Modules/FunctionCost";
 import NavBar from "../Home/NavBar";
 import { Modules } from "../../Interfaces/ICluster";
 import Container from "@mui/system/Container";
@@ -16,6 +17,8 @@ import GrainIcon from "@mui/icons-material/Grain";
 import DataObjectIcon from '@mui/icons-material/DataObject';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import "./styles.css";
 import { setDefaultResultOrder } from "node:dns";
@@ -26,12 +29,21 @@ const Module = (props: Modules) => {
   const navigate = useNavigate();
   const [faas, setFaaS] = useState(true);
   const [visualizer, setVisualizer] = useState(false);
+  const [functionCost, setFunctionCost] = useState(false);
   const [alert, setAlert] = useState(false);
   const [custom, setCustom] = useState(false);
   const [charts, setCharts] = useState(false);
   const [currentModule, setCurrentModule] = useState("module");
   const [id] = useState(props.id || state[0]);
-  const [style, setStyle] = useState({
+  const [style, setStyle] = useState((props.isDark) ? {
+    color: "#c0c0c0",
+    minHeight: "100%",
+    minWidth: "100%",
+    display: "flex",
+    textAlign: "left",
+    backgroundImage: "linear-gradient(#2f3136, #7f7f7f)",
+    overflow: "auto",
+  } : {
     color: "white",
     minHeight: "100%",
     minWidth: "100%",
@@ -40,8 +52,11 @@ const Module = (props: Modules) => {
     backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)",
     overflow: "auto",
   });
-  const [buttonStyle, setButtonStyle] = useState({
-    color: "white",
+  const [buttonStyle, setButtonStyle] = useState((props.isDark) ? {
+    color: "#c0c0c0",
+    width: "1px"
+  } : {
+    color: 'white',
     width: "1px"
   });
 
@@ -66,6 +81,7 @@ const Module = (props: Modules) => {
             setFaaS(true);
             setVisualizer(false);
             setCustom(false);
+            setFunctionCost(false);
             setCharts(false);
             setAlert(false);
             break;
@@ -73,12 +89,14 @@ const Module = (props: Modules) => {
             setFaaS(false);
             setVisualizer(true);
             setCustom(false);
+            setFunctionCost(false);
             setCharts(false);
             setAlert(false);
             break;
           case "custom":
             setFaaS(false);
             setVisualizer(false);
+            setFunctionCost(false);
             setCustom(true);
             setCharts(false);
             setAlert(false);
@@ -87,6 +105,7 @@ const Module = (props: Modules) => {
             setFaaS(false);
             setVisualizer(false);
             setCustom(false);
+            setFunctionCost(false);
             setCharts(true);
             setAlert(false);
             break;
@@ -97,6 +116,14 @@ const Module = (props: Modules) => {
             setCustom(false);
             setCharts(false);
             break;
+          case "functionCost":
+            setFaaS(false);
+            setVisualizer(false);
+            setCustom(false);
+            setFunctionCost(true);
+            setCharts(false);
+            break;
+
         }
       }
     }
@@ -106,6 +133,7 @@ const Module = (props: Modules) => {
     setFaaS(true);
     setCurrentModule("faas");
     setVisualizer(false);
+    setFunctionCost(false);
     setCustom(false);
     setCharts(false);
     setAlert(false);
@@ -116,6 +144,7 @@ const Module = (props: Modules) => {
     setVisualizer(true);
     setCurrentModule("visualizer");
     setCustom(false);
+    setFunctionCost(false);
     setCharts(false);
     setAlert(false);
   };
@@ -125,6 +154,7 @@ const Module = (props: Modules) => {
     setVisualizer(false);
     setCustom(true);
     setCurrentModule("custom");
+    setFunctionCost(false);
     setCharts(false);
     setAlert(false);
   };
@@ -134,6 +164,7 @@ const Module = (props: Modules) => {
     setVisualizer(false);
     setCustom(false);
     setCharts(true);
+    setFunctionCost(false);
     setCurrentModule("charts");
     setAlert(false);
   };
@@ -148,6 +179,15 @@ const Module = (props: Modules) => {
   };
 
 
+  const handleFunctionCostButton = () => {
+    console.log('CLICKED');
+    setFaaS(false);
+    setVisualizer(false);
+    setCustom(false);
+    setCharts(false);
+    setFunctionCost(true);
+    setCurrentModule("functionCost");
+  };
   return (
     <div>
       <Container 
@@ -181,6 +221,12 @@ const Module = (props: Modules) => {
                 Charts
               </div>
             }
+            {
+              functionCost &&
+              <div>
+                OpenFaaS Function Cost Calculator
+              </div>
+            }
           </div>
           <Button
             sx={buttonStyle}
@@ -207,7 +253,18 @@ const Module = (props: Modules) => {
             className="module-button"
             onClick={handleFaaSButton}
           >
-            <FunctionsIcon />
+          <FunctionsIcon />
+
+          </Button>
+          <Button
+            sx={buttonStyle}
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={handleFunctionCostButton}
+          >
+          <AttachMoneyIcon />
+
           </Button>
           <Button
             sx={buttonStyle}
@@ -277,6 +334,7 @@ const Module = (props: Modules) => {
           {
             custom && 
             <CustomQuery 
+              isDark={props.isDark}
               id={id} 
               nested={props.nested} 
             />
@@ -284,6 +342,7 @@ const Module = (props: Modules) => {
           {
             faas && 
             <OpenFaaS 
+              isDark={props.isDark}
               id={id} 
               nested={props.nested} 
             />
@@ -293,6 +352,14 @@ const Module = (props: Modules) => {
             <Charts              
               id={id} 
               nested={props.nested} 
+            />
+          }
+          {
+            functionCost &&
+            <FunctionCost
+            isDark={props.isDark}
+            id={id}
+            nested={props.nested}
             />
           }
           {

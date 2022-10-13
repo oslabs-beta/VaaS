@@ -1,5 +1,6 @@
 import { IClusterMetrics, IClusterUIState } from '../Interfaces/IAction';
 import { ClusterTypes } from '../Interfaces/ICluster';
+import { DeployedFunctionTypes, FunctionTypes } from "../Interfaces/IFunction";
 import * as types from './actionTypes';
 
 export const setRender = (renderState: boolean) => ({
@@ -35,5 +36,49 @@ export const setUI = (clusterId: string | undefined, clusterUIState: IClusterUIS
   payload: {
     clusterId,
     clusterUIState
+  }
+});
+
+export const setDarkMode = (darkMode: boolean) => ({
+  type: types.SET_DarkMode,
+  payload: {
+    darkMode
+  }
+});
+
+export const SET_OFFunc = (clusterId: string | undefined, selectedOpenFaaSFunction: string) => ({
+  type: types.SET_OFFunc,
+  payload: {
+    clusterId,
+    selectedOpenFaaSFunction
+  }
+});
+
+export const SET_DeployedOFFunc = (clusterId: string | undefined, selectedDeployedFunction: string) => ({
+  type: types.SET_DeployedOFFunc,
+  payload: {
+    clusterId,
+    selectedDeployedFunction
+  }
+});
+
+export const GET_OFFunc = (clusterId: string | undefined, openFaaSFunctions: FunctionTypes[]) => ({
+  type: types.GET_OFFunc,
+  payload: {
+    clusterId,
+    openFaaSFunctions
+  }
+});
+
+export const GET_DeployedOFFunc = ( deployedFunctions: DeployedFunctionTypes[]) => ({
+  type: types.GET_DeployedOFFunc,
+  payload: deployedFunctions
+});
+
+export const DEL_DeployedOFFunc = (clusterId: string | undefined, deployedFunctions: DeployedFunctionTypes[]) => ({
+  type: types.DEL_DeployedOFFunc,
+  payload: {
+    clusterId,
+    deployedFunctions
   }
 });

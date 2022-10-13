@@ -34,7 +34,7 @@ router.route('/faas::functionName')
           'Authorization': authorization
         },
       })
-      .then(res => res.json());
+        .then(res => res.json());
       terminal(`Success: OpenFaaS function [${functionName} @ ${url}:${faas_port}] retrieved`);
       return res.status(200).json(functionInfo);
     } else {

@@ -17,7 +17,8 @@ const initialState: IUIReducer = {
         inputField: '',
         responseObject: ''
       }
-    }
+    },
+    darkmode: false,
   }
 };
 
@@ -28,7 +29,17 @@ const uiReducer = (state: IUIReducer = initialState, action: IClusterUIAction) =
         ...state,
         clusterUIState: {
           ...state.clusterUIState,
-          [action.payload.clusterId]: action.payload.clusterUIState
+          [action.payload.clusterId as string]: action.payload.clusterUIState
+        }
+      };
+    }
+    case types.SET_DarkMode: {
+      console.log('darkMode currently:', state.clusterUIState.darkmode)
+      return {
+        ...state,
+        clusterUIState: {
+          ...state.clusterUIState,
+          darkmode: action.payload.darkMode
         }
       };
     }
@@ -37,5 +48,6 @@ const uiReducer = (state: IUIReducer = initialState, action: IClusterUIAction) =
     }
   }
 };
+
 
 export default uiReducer;

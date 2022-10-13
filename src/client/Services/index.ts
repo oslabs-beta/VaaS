@@ -4,6 +4,7 @@ import Put from './Put';
 import Delete from './Delete';
 import Query from './Query';
 import Alert from './Alert';
+import GateWayQuery from './Query';
 
 export {
     Get,
@@ -12,4 +13,5 @@ export {
     Delete,
     Query,
     Alert,
+    GateWayQuery,
 };

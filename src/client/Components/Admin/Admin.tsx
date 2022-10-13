@@ -13,13 +13,21 @@ import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
+import { IReducers } from '../../Interfaces/IReducers';
+import { setDarkMode } from '../../Store/actions';
+
+
 
 const Admin = () => {
+  const dispatch = useAppDispatch();
+  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer); 
+
   const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
   const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
-  const [darkMode, setDarkMode] = useState(false);
+  const darkMode = uiReducer.clusterUIState.darkmode; 
   const [refreshRate, setRefreshRate] = useState(0);
   const navigate = useNavigate();
   const [containerStyle] = useState({
@@ -49,7 +57,8 @@ const Admin = () => {
           authorization: localStorage.getItem('token') 
         }
       );
-      setDarkMode(user.darkMode);
+      console.log('USER: ',user.darkMode);
+      dispatch(setDarkMode(user.darkMode)); 
       setRefreshRate(user.refreshRate/1000);
     };
     getUserInfo();
@@ -203,6 +212,7 @@ const Admin = () => {
   };
 
   const handleDarkMode = async (): Promise<void> => {
+    console.log('CLICKED');
     try {
       const body = {
         darkMode: !darkMode,
@@ -216,7 +226,7 @@ const Admin = () => {
         }
       );      
       if (updateStatus.success) {
-        setDarkMode(!darkMode);
+        dispatch(setDarkMode(!darkMode));
         console.log('Dark mode enabled');
       } else {
         console.log('Dark mode could not be enabled');

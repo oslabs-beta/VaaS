@@ -16,20 +16,43 @@ const podMetric = {
     const query = `kube_pod_info{node="${node}"}`;
     try {
       const metric = await Query(clusterId, ns, query);
-      return metric.data.result.map((result: { metric: { pod: any; namespace: any; pod_ip: any; created_by_name: any; uid: any; }; }) => {
+      return metric.data.result.map((result: { metric: { pod: any; namespace: any; pod_ip: any; created_by_name: any; uid: any; job: any;}; }) => {
         return {
           podName: result.metric.pod, 
           podNamespace: result.metric.namespace, 
           podIp: result.metric.pod_ip, 
           createdByDeployment: result.metric.created_by_name,
-          uid: result.metric.uid
+          uid: result.metric.uid,
+          job: result.metric.job
         };
       });
     } catch (err) {
       console.log(err);
     }
   },
-  podInfo: async (clusterId: string, ns: string, pod: string) => {
+  podInfoList: async (clusterId: string, ns: string, pod: string) => {
+    const query = `kube_pod_info{pod="${pod}"}`;
+    try {
+      const metric = await Query(clusterId, ns, query);
+      return {
+        metric: metric,
+      };
+      
+      // return metric.data.result.map((result: { metric: { pod: any; namespace: any; pod_ip: any; created_by_name: any; uid: any; job: any;}; }) => {
+      //   return {
+      //     podName: result.metric.pod, 
+      //     podNamespace: result.metric.namespace, 
+      //     podIp: result.metric.pod_ip, 
+      //     createdByDeployment: result.metric.created_by_name,
+      //     uid: result.metric.uid,
+      //     job: result.metric.job
+      //   };
+      // });
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  podMem: async (clusterId: string, ns: string, pod: string) => {
     const query = `container_memory_usage_bytes{pod="${pod}"}`;
     try {
       const metric = await Query(clusterId, ns, query);
@@ -40,10 +63,9 @@ const podMetric = {
       console.log(err);
     }
   },
-
-  podChart: async (clusterId: string, ns: string, pod: string) => {
-   //this is for testing to get the chart going
-    const query = `(1 - sum by (instance)(increase(node_cpu_seconds_total{mode="idle"}[5m])) / sum by (instance)(increase(node_cpu_seconds_total[5m])))*100`;
+  podStart: async (clusterId: string, ns: string, pod: string) => {
+    //const query = `kube_pod_start_time{pod="${pod}"}`;
+    const query = `kube_pod_container_state_started{pod="${pod}"}`;
     try {
       const metric = await Query(clusterId, ns, query);
       return {
@@ -53,6 +75,17 @@ const podMetric = {
       console.log(err);
     }
   },
+  podDeployed: async (clusterId: string, ns: string, pod: string) => {
+    const query = `kube_pod_start_time{pod="${pod}"}`;
+    try {
+      const metric = await Query(clusterId, ns, query);
+      return {
+        metric: metric,
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  }
 };
 
 export default podMetric;
