@@ -54,7 +54,10 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json']
+    extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json'],
+    fallback: {
+      "fs": false
+    }
   },
   devServer: {
     port: 9000,

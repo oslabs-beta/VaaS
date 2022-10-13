@@ -6,6 +6,7 @@ import { IError } from '../../interfaces/IError';
 import { jwtVerify } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
+
 router.route('/prom')
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);

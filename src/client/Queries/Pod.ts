@@ -39,7 +39,20 @@ const podMetric = {
     } catch (err) {
       console.log(err);
     }
-  }
+  },
+
+  podChart: async (clusterId: string, ns: string, pod: string) => {
+   //this is for testing to get the chart going
+    const query = `(1 - sum by (instance)(increase(node_cpu_seconds_total{mode="idle"}[5m])) / sum by (instance)(increase(node_cpu_seconds_total[5m])))*100`;
+    try {
+      const metric = await Query(clusterId, ns, query);
+      return {
+        metric: metric,
+      };
+    } catch (err) {
+      console.log(err);
+    }
+  },
 };
 
 export default podMetric;

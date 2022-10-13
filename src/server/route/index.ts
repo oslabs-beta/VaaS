@@ -4,6 +4,8 @@ import cluster from './endpoints/cluster';
 import prom from './endpoints/prom';
 import faas from './endpoints/faas';
 import gateway from './endpoints/gateway';
+import alert from './endpoints/alert';
+
 
 export default {
   auth,
@@ -11,5 +13,6 @@ export default {
   cluster,
   prom,
   faas,
-  gateway
+  gateway,
+  alert
 };
