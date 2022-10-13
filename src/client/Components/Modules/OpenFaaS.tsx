@@ -65,7 +65,7 @@ const OpenFaaS = (props: Modules) => {
           apiRoute.getRoute(`faas`),
           {
             authorization: localStorage.getItem("token"),
-            id: "633b57fe6c5aabdf55d37bab",
+            id: "633b810b447fc03abc44fc3c",
           });
         if (funcs.message) {
           // setDeployedFunctions([]);

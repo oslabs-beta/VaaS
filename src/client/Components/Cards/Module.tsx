@@ -38,6 +38,7 @@ const Module = (props: Modules) => {
     display: "flex",
     textAlign: "left",
     backgroundImage: "linear-gradient(#2f3136, #7f7f7f)",
+    backgroundColor: '',
     overflow: "auto",
   } : {
     color: "white",
@@ -46,6 +47,7 @@ const Module = (props: Modules) => {
     display: "flex",
     textAlign: "left",
     backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)",
+    backgroundColor: '',
     overflow: "auto",
   });
   const [buttonStyle, setButtonStyle] = useState((props.isDark) ? {
@@ -58,13 +60,23 @@ const Module = (props: Modules) => {
 
   useEffect(() => {
     if (!props.nested) {
-      setStyle({
+      setStyle((props.isDark) ? {
+        color: "white",
+        minHeight: "92vh",
+        minWidth: "100%",
+        display: "flex",
+        textAlign: "left",
+        backgroundImage: "",
+        backgroundColor: '',
+        overflow: "auto",
+      } : {
         color: "black",
         minHeight: "92vh",
         minWidth: "100%",
         display: "flex",
         textAlign: "left",
         backgroundImage: "",
+        backgroundColor: 'white',
         overflow: "auto",
       });
       setButtonStyle({
@@ -161,8 +173,7 @@ const Module = (props: Modules) => {
   return (
     <div>
       <Container 
-        component={Card} 
-        sx={style} 
+        sx={style}
         className="module-container"
       >
         <div className="Module-top-row">
@@ -276,6 +287,7 @@ const Module = (props: Modules) => {
               sx={{
                 ...buttonStyle,
                 marginRight: "-9px",
+                
               }}
               variant="text"
               id="basic-button"
@@ -310,7 +322,8 @@ const Module = (props: Modules) => {
           }
           {
             charts && 
-            <Charts              
+            <Charts
+              isDark={props.isDark}              
               id={id} 
               nested={props.nested} 
             />
@@ -325,7 +338,8 @@ const Module = (props: Modules) => {
           }
           {
             visualizer && 
-            <Visualizer               
+            <Visualizer  
+            isDark={props.isDark}             
               id={id} 
               nested={props.nested} 
             />

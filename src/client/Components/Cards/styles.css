@@ -18,6 +18,11 @@ dd{
   color: black;
 }
 
+th{
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 #Kube {
   padding: 0 8px;
   text-align: left;
