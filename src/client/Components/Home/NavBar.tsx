@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Avatar, Button, Toolbar, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -25,14 +25,35 @@ export default function NavBar() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('userId');
+    setUser(null);
     navigate('/');
   };
+
+  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('profile') as any));
+
+    console.log(user);
+  // useEffect(() => {
+  //   const token = user?.token;
+
+  //   setUser(JSON.parse(localStorage.getItem('profile') as any));
+  // }, []);
 
   return (
     <div id='navbar'>
       <div className="title noselect">
         VaaS
       </div>
+      {/* <Toolbar>
+        {user ? (
+          <div className='profile'>
+            <Avatar alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
+            <Typography className='userName' variant='h6'>{user.result.name}</Typography>
+            <Button variant='contained' className='gLogout' color='secondary'>Logout</Button>
+          </div>
+        ) : (
+          <Button variant='contained' className='gLogout' color='secondary'>Sign In with Google</Button>
+        )}
+      </Toolbar> */}
       <Button
         id="basic-button"
         onClick={handleLogOut}

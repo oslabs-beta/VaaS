@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }) as RequestHandler);
 app.use(express.json() as RequestHandler);
 
-const port: number = Number(process.env.EXPRESS_PORT) || 3000;
+const port: number = Number(process.env.EXPRESS_PORT) || 3020;
 
 app.use(express.static(path.join(__dirname, '../dist')));
 
