@@ -13,7 +13,7 @@ export const setFavRender = (favRenderState: boolean) => ({
   payload: favRenderState
 });
 
-export const setTitle = (title : string) => ({
+export const setTitle = (title: string) => ({
   type: types.SET_TITLE,
   payload: title
 });
@@ -70,7 +70,7 @@ export const GET_OFFunc = (clusterId: string | undefined, openFaaSFunctions: Fun
   }
 });
 
-export const GET_DeployedOFFunc = ( deployedFunctions: DeployedFunctionTypes[]) => ({
+export const GET_DeployedOFFunc = (deployedFunctions: DeployedFunctionTypes[]) => ({
   type: types.GET_DeployedOFFunc,
   payload: deployedFunctions
 });

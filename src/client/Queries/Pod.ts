@@ -16,11 +16,11 @@ const podMetric = {
     const query = `kube_pod_info{node="${node}"}`;
     try {
       const metric = await Query(clusterId, ns, query);
-      return metric.data.result.map((result: { metric: { pod: any; namespace: any; pod_ip: any; created_by_name: any; uid: any; job: any;}; }) => {
+      return metric.data.result.map((result: { metric: { pod: any; namespace: any; pod_ip: any; created_by_name: any; uid: any; job: any; }; }) => {
         return {
-          podName: result.metric.pod, 
-          podNamespace: result.metric.namespace, 
-          podIp: result.metric.pod_ip, 
+          podName: result.metric.pod,
+          podNamespace: result.metric.namespace,
+          podIp: result.metric.pod_ip,
           createdByDeployment: result.metric.created_by_name,
           uid: result.metric.uid,
           job: result.metric.job
@@ -37,7 +37,7 @@ const podMetric = {
       return {
         metric: metric,
       };
-      
+
       // return metric.data.result.map((result: { metric: { pod: any; namespace: any; pod_ip: any; created_by_name: any; uid: any; job: any;}; }) => {
       //   return {
       //     podName: result.metric.pod, 

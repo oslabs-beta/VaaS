@@ -21,7 +21,6 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import "./styles.css";
-import { setDefaultResultOrder } from "node:dns";
 
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
