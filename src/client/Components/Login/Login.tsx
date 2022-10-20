@@ -93,7 +93,7 @@ const Login = () => {
       username: gRes.profileObj.email,
       password: gRes.profileObj.googleId
       };
-      const res = await Put(
+      const res = await Post(
         apiRoute.getRoute('auth'),
         body
       ).catch(err => console.log(err));
