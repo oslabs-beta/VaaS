@@ -1,17 +1,17 @@
 import { encode, decode, TAlgorithm } from "jwt-simple";
-import { 
-  IPartialSession, 
-  IEncodeResult, 
-  IDecodeResult, 
-  ITokenSession, 
+import {
+  IPartialSession,
+  IEncodeResult,
+  IDecodeResult,
+  ITokenSession,
   IExpirationStatus
 } from '../interfaces/IToken';
 
 // encoding JWT
 export function encodeSession(accessSecret: any, partialSession: IPartialSession): IEncodeResult {
   const algo: TAlgorithm = "HS512";
-  const iat = Date.now(), 
-    timeToExp = Number(process.env.JWT_EXP), 
+  const iat = Date.now(),
+    timeToExp = Number(process.env.JWT_EXP),
     eat = iat + timeToExp;
   const session: ITokenSession = {
     ...partialSession,
@@ -30,7 +30,7 @@ export function decodeSession(accessSecret: any, sessionToken: any): IDecodeResu
     result = decode(sessionToken, accessSecret, false, algorithm);
   } catch (err: any) {
     if (
-      err.message === "No token supplied" || 
+      err.message === "No token supplied" ||
       err.message === "Not enough or too many segments" ||
       err.message.indexOf("Unexpected token") === 0
     ) {

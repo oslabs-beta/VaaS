@@ -1,4 +1,3 @@
-import { Terminal } from '@mui/icons-material';
 import { Get } from '../Services';
 import { apiRoute } from '../utils';
 
