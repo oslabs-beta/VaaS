@@ -13,6 +13,5 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   refreshRate: Number
 });
 
-
 // THIRD PARAMETER DEFINES DEFAULT COLLECTION NAME
 export default model<IUser>('User', userSchema, 'users');

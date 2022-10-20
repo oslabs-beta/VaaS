@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { apiRoute } from '../../utils';
 import { setTitle } from '../../Store/actions';
-import { Put, Post, Get } from '../../Services/index';
+import { Put, Post } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
 import { Container, Box, Button, TextField } from '@mui/material';
 import './styles.css';
@@ -102,18 +102,15 @@ const Login = () => {
         localStorage.setItem('username', body.username);
         localStorage.setItem('token', res.token);
         localStorage.setItem('userId', res.userId);
+        // dispatch(setTitle('Home'));
         navigate('/home');
       }
-      else {
-        localStorage.setItem('username', body.username);
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('userId', res.userId);
-        navigate('/home');
-      }
-      
+      navigate('/home');
     } catch (error) {
       console.log(error);
     }
+
+    
 
   };
 
