@@ -1,7 +1,7 @@
 export default async function Get(
   url: string,
   headers: Record<string, unknown> = {}
-): Promise<any>{
+): Promise<any> {
   try {
     const response: Response = await fetch(url, {
       method: 'GET',

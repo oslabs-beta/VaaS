@@ -10,7 +10,7 @@ const nodeMetric = {
       console.log(err);
     }
   },
-  memoryLoad: async(clusterId: string | undefined, ns: string, node: string) => {
+  memoryLoad: async (clusterId: string | undefined, ns: string, node: string) => {
     const query = `(1-sum(kube_node_status_allocatable{resource="memory",unit="byte",node="${node}"})) / sum(kube_node_status_capacity{resource="memory",unit="byte",node="${node}"}))*100`;
     try {
       const metric = await Query(clusterId, ns, query);
@@ -19,7 +19,7 @@ const nodeMetric = {
       console.log(err);
     }
   },
-  nodePods: async(clusterId: string, ns: string, node : string) => {
+  nodePods: async (clusterId: string, ns: string, node: string) => {
     const query = `(kube_pod_info{node="${node}"})`;
     try {
       const metric = await Query(clusterId, ns, query);
@@ -28,7 +28,7 @@ const nodeMetric = {
       console.log(err);
     }
   },
-  podCapacity: async(clusterId: string, ns: string) => {
+  podCapacity: async (clusterId: string, ns: string) => {
     const query = '(kube_node_status_capacity{resource="pods"})';
     try {
       const metric = await Query(clusterId, ns, query);
@@ -37,7 +37,7 @@ const nodeMetric = {
       console.log(err);
     }
   },
-  networkUtilization: async(clusterId: string, ns: string) => {
+  networkUtilization: async (clusterId: string, ns: string) => {
     const query1 = 'sum(rate(container_network_receive_bytes_total[5m])';
     const query2 = 'sum(rate(container_network_transmit_bytes_total[5m]))';
     try {
@@ -48,7 +48,7 @@ const nodeMetric = {
       console.log(err);
     }
   },
-  networkErrors: async(clusterId: string, ns: string) => {
+  networkErrors: async (clusterId: string, ns: string) => {
     const query1 = 'query=sum(node_network_receive_errs_total)';
     const query2 = 'query=sum(node_network_transmit_errs_total)';
     try {
