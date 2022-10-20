@@ -14,9 +14,10 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
-    const { username } = req.body;
+    const { username, password } = req.body;
     terminal(`Searching for user [${username}] in MongoDB`);
-    const user = await User.find({ username: username });
+    const user = await User.find({ username: username, password: password });
+    if (user) req.method = 'POST';
     terminal(`Success: MongoDB query executed [${username}]`);
     /* REGISTER USER */
     if (req.method === 'POST') {
