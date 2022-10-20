@@ -9,13 +9,9 @@
     "sourceMap": true,
     "outDir": "./dist/",
     "skipLibCheck": true,
-    "lib": [
-      "DOM"
-    ]
+    "lib": ["DOM"]
   },
-  "exclude": [
-    "./src/server "
-  ],
+  "exclude": ["./src/server", "node_modules"],
   "include": [
     "./src/client/*",
     "./src/client/Interfaces/**/*.d.ts",

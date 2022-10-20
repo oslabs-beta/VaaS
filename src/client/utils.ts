@@ -21,7 +21,7 @@ const apiRoute: Api = Object.freeze(new Api("http://localhost:3020"));
 
 const customFuncBody: { [key: string]: null } = {
   "cows": null,
-  
+
 };
 
 const functionCost: { [kay: string]: number } = {
@@ -59,4 +59,4 @@ export {
   customFuncBody,
   functionCost,
 };
-  
+
