@@ -6,6 +6,7 @@ import db from "./mongoDb";
 import 'dotenv';
 import { RequestHandler } from 'express-serve-static-core';
 import { terminal } from './services/terminal';
+import { User } from './models';
 
 const app: Express = express();
 
@@ -24,8 +25,20 @@ app.get('/', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
+app.post('/api/check', (req, res) => {
+  const { username } = req.body;
+  User.find({ username: username})
+  .then(response => {
+    console.log(response);
+    if (response[0]) res.status(200).json(true);
+    else res.status(200).json(false);
+  });
+});
+
 const routes: Router[] = Object.values(router);
 app.use('/api', routes);
+
+
 
 app.listen(port);
 console.log(`VaaS is awake on port: ${port}`);

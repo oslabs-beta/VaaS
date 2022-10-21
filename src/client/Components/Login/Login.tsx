@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { apiRoute } from '../../utils';
 import { setTitle } from '../../Store/actions';
-import { Put, Post } from '../../Services/index';
+import { Put, Post, Get } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
 import { Container, Box, Button, TextField } from '@mui/material';
 import './styles.css';
@@ -93,17 +93,35 @@ const Login = () => {
       username: gRes.profileObj.email,
       password: gRes.profileObj.googleId
       };
-      const res = await Post(
-        apiRoute.getRoute('auth'),
+      const check: boolean = await Post(
+        apiRoute.getRoute('check'),
         body
-      ).catch(err => console.log(err));
-
-      if (res.token) {
-        localStorage.setItem('username', body.username);
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('userId', res.userId);
-        // dispatch(setTitle('Home'));
-        navigate('/home');
+      );
+      console.log('this is check', check);
+      if (check === true) {
+        const res = await Put(
+          apiRoute.getRoute('auth'),
+          body
+        ).catch(err => console.log(err));
+        if (res.token) {
+          localStorage.setItem('username', body.username);
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('userId', res.userId);
+          // dispatch(setTitle('Home'));
+          navigate('/home');
+        }
+      } else {
+        const res = await Post(
+          apiRoute.getRoute('auth'),
+          body
+        ).catch(err => console.log(err));
+        if (res.token) {
+          localStorage.setItem('username', body.username);
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('userId', res.userId);
+          // dispatch(setTitle('Home'));
+          navigate('/home');
+        }
       }
       navigate('/home');
     } catch (error) {
