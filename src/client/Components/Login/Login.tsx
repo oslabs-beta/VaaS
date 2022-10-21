@@ -254,7 +254,17 @@ const Login = () => {
               onSuccess={googleSuccess}
               onFailure={googleFailure}
               cookiePolicy="single_host_origin"
-            />
+          />
+          <Button
+              variant="contained"   
+              sx={{
+                color: 'white', 
+                backgroundColor: '#3a4a5b', 
+                borderColor: 'white',
+              }}
+          >
+            Github Signin
+          </Button>
         </Box>
       </Container>
     </div>
