@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { apiRoute } from '../../utils';
+import { apiRoute, GITHUB_CLIENT_ID, GITHUB_REDIRECT } from '../../utils';
 import { setTitle } from '../../Store/actions';
 import { Put, Post, Get } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
@@ -10,7 +10,6 @@ import './styles.css';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useDispatch } from 'react-redux';
-import { GradeSharp } from '@mui/icons-material';
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
@@ -38,7 +37,33 @@ const Login = () => {
     }
     gapi.load('client:auth2', start);
   }, []);
+  useEffect(() => {
+    const code = window.location.href.match(/\?code=(.*)/);
+    if (code) {
+      console.log('CODE FROM GITHUB IS: ', code[1]);
+      const gitCode = { code: code[1] }; 
+      gitSignin(gitCode);
+      console.log('BACKEND REQUEST SENT');
+      }
+      // make backend post request and attach code;
 
+      // if response is okay, navigate to home 
+    });
+ 
+  async function gitSignin(body: any) {
+    const res = await Post(
+      apiRoute.getRoute('/github'),
+      body
+    ).catch(err => console.log(err));
+    
+    if (res.token) {
+      localStorage.setItem('username', body.username);
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('userId', res.userId);
+      dispatch(setTitle('Home'));
+      navigate('/home');
+    }
+  }
   const handleLogin = async (): Promise<void> => {
     try {
       const body = {
@@ -127,15 +152,15 @@ const Login = () => {
     } catch (error) {
       console.log(error);
     }
-
-    
-
   };
 
   const googleFailure = (error: any) => {
     console.log('Google Login failure', error);
   };
 
+  const handleGit = () => {
+    window.location.replace(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT}&scope=user`);
+  };
   return (
     <div>
       <Container 
@@ -262,6 +287,7 @@ const Login = () => {
                 backgroundColor: '#3a4a5b', 
                 borderColor: 'white',
               }}
+            onClick={handleGit}
           >
             Github Signin
           </Button>

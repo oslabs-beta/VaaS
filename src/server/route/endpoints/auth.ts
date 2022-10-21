@@ -26,9 +26,9 @@ router.route('/auth')
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
       const { username, firstName, lastName } = req.body, { userId, hashedPassword, jwt } = res.locals;
-      const attempt = new User({ 
-        _id: userId, 
-        username, 
+      const attempt = new User({
+        _id: userId,
+        username,
         password: hashedPassword,
         firstName,
         lastName,
