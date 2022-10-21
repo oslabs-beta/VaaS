@@ -6,6 +6,8 @@ import { gitAccessToken } from '../../warehouse/middlewares';
 router.route('/github')
   .post(gitAccessToken, (req: Request, res: Response) => {
     res.status(200).json("HEREEE");
+
+    // redirect to auth user to set header and create account
   });
 export default router;
 

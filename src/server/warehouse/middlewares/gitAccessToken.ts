@@ -25,5 +25,19 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
   res.locals.accessToken = accessToken;
   terminal(`Success: GithubToken received: ${res.locals.accessToken.access_token}`);
 
+  // using token to request for userInfo
+  const { access_token, token_type } = res.locals.accessToken;
+  const authHeader = `${token_type} ${access_token}`;
+  const gitHubData = await fetch(`https://api.github.com/user`,
+    {
+      method: 'GET',
+      headers: {
+        "Authorization": authHeader,
+      }
+    }).then((res => res.json()));
+  console.log(`USER DATA IS : `, gitHubData);
+
+  // set up acct info and return next 
+
   return next();
 };
