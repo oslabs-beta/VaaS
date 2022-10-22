@@ -7,7 +7,13 @@ import { terminal } from '../../services/terminal';
 
 export default async (req: Request, res: Response, next: (param?: unknown) => void): Promise<void | Response> => {
   terminal(`Received ${req.method} request at 'bcrypt' middleware`);
-  const { password } = req.body;
+  console.log(res.locals.newAcctInfo);
+
+  let { password } = req.body;
+  if (res.locals.newAcctInfo) {
+    password = res.locals.newAcctInfo.password;
+  }
+  console.log('PASSWORD: ', password);
   const saltRounds = 10;
   /* REGISTER USER */
   if (!res.locals.hashedPassword) {
@@ -17,7 +23,11 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
   }
   /* LOGIN USER OR VERIFY PASSWORD FOR DELETE USER */
   else {
-    const { username } = req.body;
+    let { username } = req.body;
+
+    if (res.locals.newAcctInfo) {
+      username = res.locals.newAcctInfo.username;
+    }
     terminal(`Searching for user [${username}] in MongoDB`);
     const user = await User.find({ username: username });
     terminal(`Success: MongoDB query executed [${username}]`);
@@ -32,7 +42,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
-    }   
+    }
   }
   terminal(`Success: Forwarding ${req.method} request to next middleware`);
   return next();
