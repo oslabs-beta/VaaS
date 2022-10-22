@@ -28,6 +28,9 @@ function path(url: string): IPathRoute {
     },
     '/github': {
       methods: ['GET', 'POST']
+    },
+    '/gcheck': {
+      methods: ['POST']
     }
   };
   return allRoutes[url];
