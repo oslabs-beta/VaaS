@@ -22,7 +22,7 @@ const CustomQuery = (props: Modules) => {
   }, []);
 
   const localStore = () => {
-    sessionStorage.setItem('customQueryInput', JSON.stringify((document.getElementById('query-input') as HTMLInputElement).value));
+    sessionStorage.setItem('customQueryInput', (document.getElementById('query-input') as HTMLInputElement).value);
   };
 
   const handleCustom = async (): Promise<void> => {

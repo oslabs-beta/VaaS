@@ -65,7 +65,9 @@ const OpenFaaS = (props: Modules) => {
           apiRoute.getRoute(`faas`),
           {
             authorization: localStorage.getItem("token"),
-            id: "633b810b447fc03abc44fc3c",
+            // id: "633b810b447fc03abc44fc3c" old one, revert back
+            // id: "634b68edeb51df829e3787e0" what mongo says, below is a new one per console
+            id: "633b573add4fd4b11ece0b09"
           });
         if (funcs.message) {
           // setDeployedFunctions([]);
@@ -168,6 +170,7 @@ const OpenFaaS = (props: Modules) => {
           }
         );
         setInvokedOutput(res);
+        sessionStorage.setItem('openFaasResBody', res);
         setInvoked(false);
       }
      else {
@@ -185,6 +188,7 @@ const OpenFaaS = (props: Modules) => {
           }
         );
         setInvokedOutput(res);
+        sessionStorage.setItem('openFaasResBody', res);
       }
     } catch (error) {
       console.log("Error in handleInvoke", error);
@@ -229,7 +233,12 @@ const OpenFaaS = (props: Modules) => {
   };
 
   const localStore = () => {
-    sessionStorage.setItem('openFaasReqBody', JSON.stringify((document.getElementById('func-req-body') as HTMLInputElement).value));
+    sessionStorage.setItem('openFaasReqBody', (document.getElementById('func-req-body') as HTMLInputElement).value);
+  };
+
+  //remove previous session storage on first page load
+  window.onbeforeunload = function () {
+    sessionStorage.clear();
   };
 
   const findFuncFromRedux = (name: string) => {
@@ -436,7 +445,7 @@ const OpenFaaS = (props: Modules) => {
           }}
         />
         <TextField
-          value={invokedOutput}
+          value={invokedOutput || sessionStorage.getItem('openFaasResBody')}
           type="text"
           label="Response Body"
           variant="filled"

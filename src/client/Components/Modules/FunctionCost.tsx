@@ -13,6 +13,18 @@ const FunctionCost = (props: Modules) => {
   const [data, setData] = useState({value: 0});
   const [retrived, setRetrived] = useState(false);
 
+  const localStore = () => {
+    sessionStorage.setItem('invocationamount', (document.getElementById('invocation-input') as HTMLInputElement).value);
+    sessionStorage.setItem('estExecTime', (document.getElementById('estimated-exec-time') as HTMLInputElement).value);
+    sessionStorage.setItem('memoryMbs', (document.getElementById('memory-mbs') as HTMLInputElement).value);
+  };
+
+//remove previous session storage on first page load
+  window.onbeforeunload = function () {
+    sessionStorage.clear();
+  };
+
+
   // function calculation state
   const [avgExecutionTime, setAvgExecutionTime] = useState<number | null>(0);
   const [numOfInvokation, setNumOfInvokation] = useState<number | null>(0); 
@@ -417,18 +429,30 @@ const FunctionCost = (props: Modules) => {
         <div><h4>Estimated AWS Cost of deployment:</h4>
 
           <form className="costCal">
-            <TextField size='small' id="filled-basic"
+            <TextField size='small' id="invocation-input"
               label="# of invocation" variant="filled"
-              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'numInvoke',)}>
+              defaultValue={(sessionStorage.getItem('invocationamount'))}
+              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => {
+                handleCalculatorInput(newValue, 'numInvoke');
+                localStore();
+                }}>
             </TextField>
-            <TextField size='small' id="filled-basic"
+            <TextField size='small' id="estimated-exec-time"
               label="Estimated Execution Time (ms)" variant="filled"
-              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue, 'timeInvoke')}>
+              defaultValue={(sessionStorage.getItem('estExecTime'))}
+              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => {
+                handleCalculatorInput(newValue, 'timeInvoke');
+                localStore();
+              }}>
             </TextField>
   
-            <TextField size='small' id="filled-basic"
+            <TextField size='small' id="memory-mbs"
               label="memory in mbs" variant="filled"
-              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => handleCalculatorInput(newValue , 'memory')}>
+              defaultValue={(sessionStorage.getItem('memoryMbs'))}
+              onChange={(newValue: React.ChangeEvent<HTMLInputElement> ):void => {
+                handleCalculatorInput(newValue , 'memory');
+                localStore();
+                }}>
             </TextField>
               
           </form> 
