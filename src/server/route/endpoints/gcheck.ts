@@ -14,6 +14,13 @@ router.route('/gcheck')
       console.log(response);
       if (response[0]) res.status(200).json(true);
       else res.status(200).json(false);
+    })
+    .catch(err => {
+      const error: IError = {
+        status: 500,
+        message: `Failed at gcheck: ${err}`
+      };
+      terminal(`fail: ${error}`);
     });
   });
 
