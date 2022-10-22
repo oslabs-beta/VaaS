@@ -184,7 +184,7 @@ const Login = () => {
     window.location.replace(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT}&scope=user`);
   };
   return (
-    <div className='login'>
+    <div>
       <Container 
         sx={{
           height: '100vh',
