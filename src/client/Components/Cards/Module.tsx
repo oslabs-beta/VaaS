@@ -21,9 +21,11 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import "./styles.css";
+import { Terminal } from "@mui/icons-material";
 
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
+
   const { state }: any = useLocation();
   const navigate = useNavigate();
   const [faas, setFaaS] = useState(true);
@@ -287,6 +289,7 @@ const Module = (props: Modules) => {
               id="basic-button"
               className="module-button"
               onClick={() =>
+                // console.log('testing full screen')
                 navigate(
                   "/module", 
                   { state: [
@@ -323,7 +326,7 @@ const Module = (props: Modules) => {
               onClick={() => 
                 navigate(
                   "/home", 
-                  { state: [id] }
+                  { state: [id, currentModule] }
                 )
               }
             >
