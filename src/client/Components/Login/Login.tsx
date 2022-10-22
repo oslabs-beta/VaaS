@@ -10,6 +10,7 @@ import './styles.css';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useDispatch } from 'react-redux';
+import { dark } from '@mui/material/styles/createPalette';
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
@@ -54,15 +55,33 @@ const Login = () => {
     const res = await Post(
       apiRoute.getRoute('/github'),
       body
-    ).catch(err => console.log(err));
-    
-    if (res.token) {
-      localStorage.setItem('username', body.username);
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('userId', res.userId);
-      dispatch(setTitle('Home'));
-      navigate('/home');
+    )
+      .catch(err => console.log(err));
+    console.log('DONE? ');
+    console.log(res); 
+    if (res.status === 200) {
+      const { firstName,
+        lastName,
+        username,
+        password,
+      } = res.body;
+      
+      return {
+        firstName,
+        lastName,
+        username,
+        password
+      };
+      // console.log(firstName, lastName, username, password, darkMode);
     }
+    else {throw new Error('Request unsuccessful');}
+    // if (res.token) {
+    //   localStorage.setItem('username', body.username);
+    //   localStorage.setItem('token', res.token);
+    //   localStorage.setItem('userId', res.userId);
+    //   dispatch(setTitle('Home'));
+    //   navigate('/home');
+    // }
   }
   const handleLogin = async (): Promise<void> => {
     try {
