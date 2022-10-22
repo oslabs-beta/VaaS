@@ -3,21 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { apiRoute, GITHUB_CLIENT_ID, GITHUB_REDIRECT } from '../../utils';
 import { setTitle } from '../../Store/actions';
-import { Put, Post, Get } from '../../Services/index';
+import { Put, Post } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
 import { Container, Box, Button, TextField } from '@mui/material';
 import './styles.css';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useDispatch } from 'react-redux';
-import { dark } from '@mui/material/styles/createPalette';
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
   const [passwordErr, setPasswordErr] = useState('Password');
-  const [registered, setRegistered] = useState('');
-  const [firstNameErr, setFirstNameErr] = useState('First Name');
-  const [lastNameErr, setLastNameErr] = useState('Last Name');
   const dispatch = useAppDispatch();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const navigate = useNavigate();

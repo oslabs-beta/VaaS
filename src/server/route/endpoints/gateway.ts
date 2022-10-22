@@ -20,9 +20,8 @@ router.route("/gateway")
     }
     const { id, q, type } = req.query;
     console.log('q', q);
-    
+
     try {
-      console.log('HEEERREEE')
       const cluster = await Cluster.findOne({ _id: id });
       if (cluster) {
         const { url, k8_port } = cluster;
@@ -35,7 +34,6 @@ router.route("/gateway")
           }
         })
           .then(res => res.json());
-        console.log(type)
         terminal(`Success: PromQL query [${q}] executed`);
         // cleaning up the data send back to front end according to type of query it is
         if (type === "avg") {
@@ -45,24 +43,24 @@ router.route("/gateway")
           };
           return res.status(200).json(dataCleaned);
         }
-    }
+      }
       else {
+        const error: IError = {
+          status: 401,
+          message: `Fail: Cluster [${id}] does not exist`,
+          exists: false
+        };
+        terminal(`Fail: ${error.message}`);
+        return res.status(error.status).json(error);
+      }
+    } catch (err) {
       const error: IError = {
-        status: 401,
-        message: `Fail: Cluster [${id}] does not exist`,
-        exists: false
+        status: 500,
+        message: `Unable to fulfill ${req.method} request: ${err}`
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
-  } catch (err) {
-    const error: IError = {
-      status: 500,
-      message: `Unable to fulfill ${req.method} request: ${err}`
-    };
-    terminal(`Fail: ${error.message}`);
-    return res.status(error.status).json(error);
-  }
   });
 
 export default router; 
