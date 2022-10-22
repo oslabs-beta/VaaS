@@ -228,6 +228,10 @@ const OpenFaaS = (props: Modules) => {
     return deployedFunctions.find((element) => element.name === name);
   };
 
+  const localStore = () => {
+    sessionStorage.setItem('openFaasReqBody', JSON.stringify((document.getElementById('func-req-body') as HTMLInputElement).value));
+  };
+
   const findFuncFromRedux = (name: string) => {
     const funcObj = deployedFunctions.find(el => el.name === name);
     return funcObj;
@@ -408,10 +412,16 @@ const OpenFaaS = (props: Modules) => {
           </Box>
         </Box>
       <div>
-      <TextField onChange={(newReqBody) => setRegBody(newReqBody.target.value)}
+      <TextField onChange={(newReqBody) => {
+        setRegBody(newReqBody.target.value);
+        localStore();
+      }
+    }
           type="text"
+          id="func-req-body"
           label="Request Body"
           variant="filled"
+          defaultValue={(sessionStorage.getItem('openFaasReqBody'))}
           size='small'
           margin="dense"
           multiline
