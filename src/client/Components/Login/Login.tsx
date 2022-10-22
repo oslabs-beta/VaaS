@@ -10,6 +10,10 @@ import './styles.css';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useDispatch } from 'react-redux';
+import githubIcon from '../Modules/icons/github-icon.png';
+import googleIcon from '../Modules/icons/google-icon.png';
+import { display } from '@mui/system';
+
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
@@ -122,8 +126,8 @@ const Login = () => {
   const googleSuccess = async (gRes: any) => {
     const result = gRes?.profileObj;
     const token = gRes?.tokenId;
-    console.log('Google Sign In Success', gRes);
-    console.log('email', gRes.profileObj.email);
+    // console.log('Google Sign In Success', gRes);
+    // console.log('email', gRes.profileObj.email);
     
     try {
       gDispatch({ type: 'AUTH', data: { result, token }});
@@ -134,10 +138,10 @@ const Login = () => {
       password: gRes.profileObj.googleId
       };
       const check: boolean = await Post(
-        apiRoute.getRoute('check'),
+        apiRoute.getRoute('gcheck'),
         body
       );
-      console.log('this is check', check);
+      // console.log('this is check', check);
       if (check === true) {
         const res = await Put(
           apiRoute.getRoute('auth'),
@@ -147,8 +151,6 @@ const Login = () => {
           localStorage.setItem('username', body.username);
           localStorage.setItem('token', res.token);
           localStorage.setItem('userId', res.userId);
-          // dispatch(setTitle('Home'));
-          navigate('/home');
         }
       } else {
         const res = await Post(
@@ -159,8 +161,6 @@ const Login = () => {
           localStorage.setItem('username', body.username);
           localStorage.setItem('token', res.token);
           localStorage.setItem('userId', res.userId);
-          // dispatch(setTitle('Home'));
-          navigate('/home');
         }
       }
       navigate('/home');
@@ -287,8 +287,8 @@ const Login = () => {
                     backgroundColor: '#3a4a5b', 
                     borderColor: 'white',
                   }}
-                >
-                  Google Sign In
+                ><img src={googleIcon} height='18px'></img>
+                  &nbsp;&nbsp;Google Sign In
                 </Button>
               )}
               onSuccess={googleSuccess}
@@ -301,10 +301,13 @@ const Login = () => {
                 color: 'white', 
                 backgroundColor: '#3a4a5b', 
                 borderColor: 'white',
+                marginTop: '8px',
+                display: 'flex',
+                alignItems: 'center'
               }}
             onClick={handleGit}
-          >
-            Github Signin
+          ><img src={githubIcon} height="18px"></img> 
+            &nbsp;&nbsp;Github Sign in
           </Button>
         </Box>
       </Container>

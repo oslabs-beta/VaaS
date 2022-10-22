@@ -21,6 +21,10 @@ const CustomQuery = (props: Modules) => {
     }
   }, []);
 
+  const localStore = () => {
+    sessionStorage.setItem('customQueryInput', JSON.stringify((document.getElementById('query-input') as HTMLInputElement).value));
+  };
+
   const handleCustom = async (): Promise<void> => {
     try {
       const query = (document.getElementById('query-input') as HTMLInputElement).value;
@@ -45,8 +49,10 @@ const CustomQuery = (props: Modules) => {
       <div>
         <TextField
           onKeyDown={handleEnterKeyDown}
+          onChange={localStore}
           id='query-input'
           type="text"
+          defaultValue={(sessionStorage.getItem('customQueryInput')) || "Input Custom Query"}
           label="Input Custom Query"
           variant="filled"
           size='small'
