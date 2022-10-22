@@ -5,7 +5,7 @@ import { apiRoute, GITHUB_CLIENT_ID, GITHUB_REDIRECT } from '../../utils';
 import { setTitle } from '../../Store/actions';
 import { Put, Post } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
-import { Container, Box, Button, TextField } from '@mui/material';
+import { Container, Box, Button, TextField, CssBaseline } from '@mui/material';
 import './styles.css';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import githubIcon from '../Modules/icons/github-icon.png';
 import googleIcon from '../Modules/icons/google-icon.png';
 import { display } from '@mui/system';
-
+import LoginBackGround from '../../../../public/Images/LoginBackGround.png'; 
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
@@ -184,7 +184,7 @@ const Login = () => {
     window.location.replace(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT}&scope=user`);
   };
   return (
-    <div>
+    <div className='login'>
       <Container 
         sx={{
           height: '100vh',
@@ -194,12 +194,16 @@ const Login = () => {
           direction: 'column',
           textAlign: 'center',
           alignItems: 'center',
-          backgroundSize: 'contain',
-          color: '#3a4a5b',
-          bgcolor: '#3a4a5b',
+          // backgroundSize: 'contain',
+          backgroundImage: `url(${LoginBackGround})` ,
+          backgroundSize: "cover",                   
+          backgroundRepeat: "no-repeat"
+  // background-position: center center;
+  // z-index: 2;  */
         }} 
         className="backdrop"
       >
+        <CssBaseline/>
         <Box
           maxWidth="sm" 
           className="login-container"
