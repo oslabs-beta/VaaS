@@ -65,9 +65,7 @@ const OpenFaaS = (props: Modules) => {
           apiRoute.getRoute(`faas`),
           {
             authorization: localStorage.getItem("token"),
-            // id: "633b810b447fc03abc44fc3c" old one, revert back
-            // id: "634b68edeb51df829e3787e0" what mongo says, below is a new one per console
-            id: "633b573add4fd4b11ece0b09"
+            id: "633b810b447fc03abc44fc3c"
           });
         if (funcs.message) {
           // setDeployedFunctions([]);

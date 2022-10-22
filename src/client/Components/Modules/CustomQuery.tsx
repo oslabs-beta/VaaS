@@ -21,6 +21,11 @@ const CustomQuery = (props: Modules) => {
     }
   }, []);
 
+    //remove previous session storage on first page load
+  window.onbeforeunload = function () {
+   sessionStorage.clear();
+  };
+
   const localStore = () => {
     sessionStorage.setItem('customQueryInput', (document.getElementById('query-input') as HTMLInputElement).value);
   };
