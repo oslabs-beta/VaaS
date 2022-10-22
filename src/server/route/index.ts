@@ -6,6 +6,7 @@ import faas from './endpoints/faas';
 import gateway from './endpoints/gateway';
 import alert from './endpoints/alert';
 import github from './endpoints/github'; 
+import gcheck from './endpoints/gcheck';
 
 export default {
   auth,
@@ -15,5 +16,6 @@ export default {
   faas,
   gateway,
   alert,
-  github
+  github, 
+  gcheck
 };

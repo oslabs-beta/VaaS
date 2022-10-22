@@ -5,11 +5,15 @@ import { apiRoute, GITHUB_CLIENT_ID, GITHUB_REDIRECT } from '../../utils';
 import { setTitle } from '../../Store/actions';
 import { Put, Post } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
-import { Container, Box, Button, TextField } from '@mui/material';
+import { Container, Box, Button, TextField, CssBaseline } from '@mui/material';
 import './styles.css';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useDispatch } from 'react-redux';
+import githubIcon from '../Modules/icons/github-icon.png';
+import googleIcon from '../Modules/icons/google-icon.png';
+import { display } from '@mui/system';
+import LoginBackGround from '../../../../public/Images/LoginBackGround.png'; 
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
@@ -55,21 +59,28 @@ const Login = () => {
       .catch(err => console.log(err));
     console.log('DONE? ');
     console.log(res); 
-    if (res.status === 200) {
-      const { firstName,
-        lastName,
-        username,
-        password,
-      } = res.body;
+    // if (res.status === 201) {
+    //   const { firstName,
+    //     lastName,
+    //     username,
+    //     password,
+    //   } = res.body;
       
-      return {
-        firstName,
-        lastName,
-        username,
-        password
-      };
-      // console.log(firstName, lastName, username, password, darkMode);
+    //   return {
+    //     firstName,
+    //     lastName,
+    //     username,
+    //     password
+    //   };
+    if (res.token) {
+      localStorage.setItem('username', res.name);
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('userId', res.userId);
+      dispatch(setTitle('Home'));
+      navigate('/home');
     }
+      // console.log(firstName, lastName, username, password, darkMode);
+    
     else {throw new Error('Request unsuccessful');}
     // if (res.token) {
     //   localStorage.setItem('username', body.username);
@@ -122,8 +133,8 @@ const Login = () => {
   const googleSuccess = async (gRes: any) => {
     const result = gRes?.profileObj;
     const token = gRes?.tokenId;
-    console.log('Google Sign In Success', gRes);
-    console.log('email', gRes.profileObj.email);
+    // console.log('Google Sign In Success', gRes);
+    // console.log('email', gRes.profileObj.email);
     
     try {
       gDispatch({ type: 'AUTH', data: { result, token }});
@@ -134,10 +145,10 @@ const Login = () => {
       password: gRes.profileObj.googleId
       };
       const check: boolean = await Post(
-        apiRoute.getRoute('check'),
+        apiRoute.getRoute('gcheck'),
         body
       );
-      console.log('this is check', check);
+      // console.log('this is check', check);
       if (check === true) {
         const res = await Put(
           apiRoute.getRoute('auth'),
@@ -147,8 +158,6 @@ const Login = () => {
           localStorage.setItem('username', body.username);
           localStorage.setItem('token', res.token);
           localStorage.setItem('userId', res.userId);
-          // dispatch(setTitle('Home'));
-          navigate('/home');
         }
       } else {
         const res = await Post(
@@ -159,8 +168,6 @@ const Login = () => {
           localStorage.setItem('username', body.username);
           localStorage.setItem('token', res.token);
           localStorage.setItem('userId', res.userId);
-          // dispatch(setTitle('Home'));
-          navigate('/home');
         }
       }
       navigate('/home');
@@ -187,12 +194,16 @@ const Login = () => {
           direction: 'column',
           textAlign: 'center',
           alignItems: 'center',
-          backgroundSize: 'contain',
-          color: '#3a4a5b',
-          bgcolor: '#3a4a5b',
+          // backgroundSize: 'contain',
+          backgroundImage: `url(${LoginBackGround})` ,
+          backgroundSize: "cover",                   
+          backgroundRepeat: "no-repeat"
+  // background-position: center center;
+  // z-index: 2;  */
         }} 
         className="backdrop"
       >
+        <CssBaseline/>
         <Box
           maxWidth="sm" 
           className="login-container"
@@ -287,8 +298,8 @@ const Login = () => {
                     backgroundColor: '#3a4a5b', 
                     borderColor: 'white',
                   }}
-                >
-                  Google Sign In
+                ><img src={googleIcon} height='18px'></img>
+                  &nbsp;&nbsp;Google Sign In
                 </Button>
               )}
               onSuccess={googleSuccess}
@@ -301,10 +312,13 @@ const Login = () => {
                 color: 'white', 
                 backgroundColor: '#3a4a5b', 
                 borderColor: 'white',
+                marginTop: '8px',
+                display: 'flex',
+                alignItems: 'center'
               }}
             onClick={handleGit}
-          >
-            Github Signin
+          ><img src={githubIcon} height="18px"></img> 
+            &nbsp;&nbsp;Github Sign in
           </Button>
         </Box>
       </Container>

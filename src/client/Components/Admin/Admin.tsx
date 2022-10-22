@@ -57,7 +57,9 @@ const Admin = () => {
           authorization: localStorage.getItem('token') 
         }
       );
-      console.log('USER: ',user.darkMode);
+      console.log(localStorage.username); 
+      console.log('USER: ', user.darkMode);
+      console.log('USER: ', user.refreshRate / 1000); 
       dispatch(setDarkMode(user.darkMode)); 
       setRefreshRate(user.refreshRate/1000);
     };

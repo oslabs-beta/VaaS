@@ -25,15 +25,6 @@ app.get('/', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
-app.post('/api/check', (req, res) => {
-  const { username } = req.body;
-  User.find({ username: username})
-  .then(response => {
-    console.log(response);
-    if (response[0]) res.status(200).json(true);
-    else res.status(200).json(false);
-  });
-});
 
 const routes: Router[] = Object.values(router);
 app.use('/api', routes);

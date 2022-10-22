@@ -6,11 +6,14 @@ import { terminal } from '../../services/terminal';
 export default (req: Request, res: Response, next: (param?: unknown) => void): void | Response => {
   terminal(`Received ${req.method} request at 'jwtVerify' middleware`);
   const authorized = decodeSession(process.env.JWT_ACCESS_SECRET, req.headers.authorization);
+  console.log(authorized);
   if (authorized.type === 'valid') {
     res.locals.jwt = authorized.session;
     const tokenStatus = checkExpStatus(authorized.session);
+    console.log(tokenStatus); 
     if (tokenStatus === 'active') {
       terminal(`Success: JWT is ${tokenStatus}: [${req.headers.authorization}]`);
+      console.log(`Success: JWT is ${tokenStatus}: [${req.headers.authorization}]`);
       return next();
     } else {
       const error: IError = {

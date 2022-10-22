@@ -4,7 +4,6 @@ import { IError } from '../../interfaces/IError';
 import { terminal } from '../../services/terminal';
 import fetch from "node-fetch";
 import 'dotenv';
-import { IUser } from '../../interfaces/IUser';
 
 export default async (req: Request, res: Response, next: (param?: unknown) => void): Promise<void | Response<any, Record<string, any>>> => {
   terminal(`Received ${req.method} request at 'gitAccessToken' middleware`);
@@ -40,10 +39,11 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     console.log(`USER DATA IS : `, gitHubData);
 
     // set up acct info and return next 
-    const { name, login, id } = gitHubData;
+    // eslint-disable-next-line prefer-const
+    let { name, login, id } = gitHubData;
     const firstName = name.split(' ')[0];
     const lastName = name.split(' ')[1];
-
+    id = id.toString(); 
     const newAcctInfo = {
       firstName,
       lastName,
@@ -53,7 +53,28 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     };
 
     res.locals.newAcctInfo = newAcctInfo;
-    return next();
+    const { username } = newAcctInfo;
+    // checking if acct exist in db 
+    terminal(`Searching for user [${username}] in MongoDB`);
+    const user = await User.find({ username: username });
+    terminal(`Success: MongoDB query executed [${username}]`);
+    console.log(user);
+    if (user[0]) {
+      terminal(`Success: User [${username}] found in DB`);
+      res.locals.hasAcct = true;
+      res.locals.user = user[0];
+      return next();
+    }
+    else {
+      const error: IError = {
+        status: 401,
+        message: 'Invalid credentials',
+        invalid: true
+      };
+      terminal(`Fail: ${error.message}`);
+      res.locals.hasAcct = false;
+      return next();
+    }
   }
   catch (err) {
     const error: IError = {
