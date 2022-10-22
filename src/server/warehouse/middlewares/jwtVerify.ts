@@ -10,6 +10,7 @@ export default (req: Request, res: Response, next: (param?: unknown) => void): v
   if (authorized.type === 'valid') {
     res.locals.jwt = authorized.session;
     const tokenStatus = checkExpStatus(authorized.session);
+    console.log(tokenStatus); 
     if (tokenStatus === 'active') {
       terminal(`Success: JWT is ${tokenStatus}: [${req.headers.authorization}]`);
       console.log(`Success: JWT is ${tokenStatus}: [${req.headers.authorization}]`);
