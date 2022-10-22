@@ -59,21 +59,28 @@ const Login = () => {
       .catch(err => console.log(err));
     console.log('DONE? ');
     console.log(res); 
-    if (res.status === 200) {
-      const { firstName,
-        lastName,
-        username,
-        password,
-      } = res.body;
+    // if (res.status === 201) {
+    //   const { firstName,
+    //     lastName,
+    //     username,
+    //     password,
+    //   } = res.body;
       
-      return {
-        firstName,
-        lastName,
-        username,
-        password
-      };
-      // console.log(firstName, lastName, username, password, darkMode);
+    //   return {
+    //     firstName,
+    //     lastName,
+    //     username,
+    //     password
+    //   };
+    if (res.token) {
+      localStorage.setItem('username', res.name);
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('userId', res.userId);
+      dispatch(setTitle('Home'));
+      navigate('/home');
     }
+      // console.log(firstName, lastName, username, password, darkMode);
+    
     else {throw new Error('Request unsuccessful');}
     // if (res.token) {
     //   localStorage.setItem('username', body.username);
