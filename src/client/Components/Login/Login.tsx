@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { apiRoute } from '../../utils';
+import { apiRoute, GITHUB_CLIENT_ID, GITHUB_REDIRECT } from '../../utils';
 import { setTitle } from '../../Store/actions';
 import { Put, Post } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
@@ -10,14 +10,10 @@ import './styles.css';
 import { GoogleLogin } from 'react-google-login';
 import { gapi } from 'gapi-script';
 import { useDispatch } from 'react-redux';
-import { GradeSharp } from '@mui/icons-material';
 
 const Login = () => {
   const [usernameErr, setUsernameErr] = useState('Username');
   const [passwordErr, setPasswordErr] = useState('Password');
-  const [registered, setRegistered] = useState('');
-  const [firstNameErr, setFirstNameErr] = useState('First Name');
-  const [lastNameErr, setLastNameErr] = useState('Last Name');
   const dispatch = useAppDispatch();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const navigate = useNavigate();
@@ -38,7 +34,51 @@ const Login = () => {
     }
     gapi.load('client:auth2', start);
   }, []);
+  useEffect(() => {
+    const code = window.location.href.match(/\?code=(.*)/);
+    if (code) {
+      console.log('CODE FROM GITHUB IS: ', code[1]);
+      const gitCode = { code: code[1] }; 
+      gitSignin(gitCode);
+      console.log('BACKEND REQUEST SENT');
+      }
+      // make backend post request and attach code;
 
+      // if response is okay, navigate to home 
+    });
+ 
+  async function gitSignin(body: any) {
+    const res = await Post(
+      apiRoute.getRoute('/github'),
+      body
+    )
+      .catch(err => console.log(err));
+    console.log('DONE? ');
+    console.log(res); 
+    if (res.status === 200) {
+      const { firstName,
+        lastName,
+        username,
+        password,
+      } = res.body;
+      
+      return {
+        firstName,
+        lastName,
+        username,
+        password
+      };
+      // console.log(firstName, lastName, username, password, darkMode);
+    }
+    else {throw new Error('Request unsuccessful');}
+    // if (res.token) {
+    //   localStorage.setItem('username', body.username);
+    //   localStorage.setItem('token', res.token);
+    //   localStorage.setItem('userId', res.userId);
+    //   dispatch(setTitle('Home'));
+    //   navigate('/home');
+    // }
+  }
   const handleLogin = async (): Promise<void> => {
     try {
       const body = {
@@ -93,31 +133,49 @@ const Login = () => {
       username: gRes.profileObj.email,
       password: gRes.profileObj.googleId
       };
-      const res = await Put(
-        apiRoute.getRoute('auth'),
+      const check: boolean = await Post(
+        apiRoute.getRoute('check'),
         body
-      ).catch(err => console.log(err));
-
-      if (res.token) {
-        localStorage.setItem('username', body.username);
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('userId', res.userId);
-        // dispatch(setTitle('Home'));
-        navigate('/home');
+      );
+      console.log('this is check', check);
+      if (check === true) {
+        const res = await Put(
+          apiRoute.getRoute('auth'),
+          body
+        ).catch(err => console.log(err));
+        if (res.token) {
+          localStorage.setItem('username', body.username);
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('userId', res.userId);
+          // dispatch(setTitle('Home'));
+          navigate('/home');
+        }
+      } else {
+        const res = await Post(
+          apiRoute.getRoute('auth'),
+          body
+        ).catch(err => console.log(err));
+        if (res.token) {
+          localStorage.setItem('username', body.username);
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('userId', res.userId);
+          // dispatch(setTitle('Home'));
+          navigate('/home');
+        }
       }
       navigate('/home');
     } catch (error) {
       console.log(error);
     }
-
-    
-
   };
 
   const googleFailure = (error: any) => {
     console.log('Google Login failure', error);
   };
 
+  const handleGit = () => {
+    window.location.replace(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT}&scope=user`);
+  };
   return (
     <div>
       <Container 
@@ -236,7 +294,18 @@ const Login = () => {
               onSuccess={googleSuccess}
               onFailure={googleFailure}
               cookiePolicy="single_host_origin"
-            />
+          />
+          <Button
+              variant="contained"   
+              sx={{
+                color: 'white', 
+                backgroundColor: '#3a4a5b', 
+                borderColor: 'white',
+              }}
+            onClick={handleGit}
+          >
+            Github Signin
+          </Button>
         </Box>
       </Container>
     </div>

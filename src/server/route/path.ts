@@ -25,6 +25,9 @@ function path(url: string): IPathRoute {
     },
     '/alert': {
       methods: ['GET']
+    },
+    '/github': {
+      methods: ['GET', 'POST']
     }
   };
   return allRoutes[url];

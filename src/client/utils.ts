@@ -52,11 +52,16 @@ const functionCost: { [kay: string]: number } = {
   ibmHTTPCharge: 0,
 };
 
+const GITHUB_CLIENT_ID = '669e570028ef9cf48e21';
+const GITHUB_REDIRECT = 'http://localhost:9000';
+
 
 
 export {
   apiRoute,
   customFuncBody,
   functionCost,
+  GITHUB_CLIENT_ID,
+  GITHUB_REDIRECT
 };
 
