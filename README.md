@@ -37,6 +37,15 @@ If you want to set up and play with multiple clusters, make sure to have kind (r
 Documentation on best practice utilizing configuration files (recommended read): 
 https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
 
+Optional - Setting up Ability to change alerts through VaaS
+
+
+1) Use Helm to install Prometheus package which includes Alert Manager: https://www.containiq.com/post/prometheus-alertmanager
+2) Create port forwards as instructed in article
+3) Create account on Mailtrap or similar site for email testing purposes
+4) Be sure to create alertmanager-config.yaml and alert-rules.yaml in an accessible directory, root is recommended
+5) After testing, run VaaS normally and modify alerts as needed. Do not exit server while Helm is upgrading or errors will result
+
 
 
 <b>Installation</b> 
