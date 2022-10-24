@@ -55,7 +55,7 @@ const functionCost: { [kay: string]: number } = {
 const GITHUB_CLIENT_ID = 'e225eb7433f4997a29a4';
 const GITHUB_REDIRECT = 'http://localhost:9000';
 
-
+export const GClientId = '286287333964-pe8reemoflbc4ko1nlkuq40ull0r4hlg.apps.googleusercontent.com';
 
 export {
   apiRoute,

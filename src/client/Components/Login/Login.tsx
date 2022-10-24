@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { apiRoute, GITHUB_CLIENT_ID, GITHUB_REDIRECT } from '../../utils';
+import { apiRoute, GITHUB_CLIENT_ID, GITHUB_REDIRECT, GClientId } from '../../utils';
 import { setTitle } from '../../Store/actions';
 import { Put, Post } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
@@ -12,7 +12,6 @@ import { gapi } from 'gapi-script';
 import { useDispatch } from 'react-redux';
 import githubIcon from '../Modules/icons/github-icon.png';
 import googleIcon from '../Modules/icons/google-icon.png';
-import { display } from '@mui/system';
 import LoginBackGround from '../../../../public/Images/LoginBackGround.png'; 
 
 const Login = () => {
@@ -32,12 +31,13 @@ const Login = () => {
   useEffect(() => {
     function start() {
       gapi.client.init({
-        clientId: '286287333964-pe8reemoflbc4ko1nlkuq40ull0r4hlg.apps.googleusercontent.com',
+        clientId: GClientId,
         scope: 'email',
       });
     }
     gapi.load('client:auth2', start);
   }, []);
+
   useEffect(() => {
     const code = window.location.href.match(/\?code=(.*)/);
     if (code) {
@@ -59,19 +59,7 @@ const Login = () => {
       .catch(err => console.log(err));
     console.log('DONE? ');
     console.log(res); 
-    // if (res.status === 201) {
-    //   const { firstName,
-    //     lastName,
-    //     username,
-    //     password,
-    //   } = res.body;
-      
-    //   return {
-    //     firstName,
-    //     lastName,
-    //     username,
-    //     password
-    //   };
+
     if (res.token) {
       localStorage.setItem('username', res.name);
       localStorage.setItem('token', res.token);
@@ -79,16 +67,8 @@ const Login = () => {
       dispatch(setTitle('Home'));
       navigate('/home');
     }
-      // console.log(firstName, lastName, username, password, darkMode);
-    
+
     else {throw new Error('Request unsuccessful');}
-    // if (res.token) {
-    //   localStorage.setItem('username', body.username);
-    //   localStorage.setItem('token', res.token);
-    //   localStorage.setItem('userId', res.userId);
-    //   dispatch(setTitle('Home'));
-    //   navigate('/home');
-    // }
   }
   const handleLogin = async (): Promise<void> => {
     try {
@@ -133,8 +113,6 @@ const Login = () => {
   const googleSuccess = async (gRes: any) => {
     const result = gRes?.profileObj;
     const token = gRes?.tokenId;
-    // console.log('Google Sign In Success', gRes);
-    // console.log('email', gRes.profileObj.email);
     
     try {
       gDispatch({ type: 'AUTH', data: { result, token }});
@@ -148,7 +126,6 @@ const Login = () => {
         apiRoute.getRoute('gcheck'),
         body
       );
-      // console.log('this is check', check);
       if (check === true) {
         const res = await Put(
           apiRoute.getRoute('auth'),
@@ -194,12 +171,9 @@ const Login = () => {
           direction: 'column',
           textAlign: 'center',
           alignItems: 'center',
-          // backgroundSize: 'contain',
           backgroundImage: `url(${LoginBackGround})` ,
           backgroundSize: "cover",                   
           backgroundRepeat: "no-repeat"
-  // background-position: center center;
-  // z-index: 2;  */
         }} 
         className="backdrop"
       >
@@ -284,7 +258,7 @@ const Login = () => {
             
           </Container>
           <GoogleLogin
-              clientId='286287333964-pe8reemoflbc4ko1nlkuq40ull0r4hlg.apps.googleusercontent.com'
+              clientId={GClientId}
               render={(renderProps) => (
                 <Button
                   className='gBtn'
