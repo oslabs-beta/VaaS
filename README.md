@@ -1,14 +1,34 @@
-# VaaS
-VaaS
+# [VaaS](https://vaas.dev/) 
+VaaS <br>
 Visualization tool for OpenFaas
 
-NOTE: The initial instructions below are meant to get you in and testing the development version of VaaS as quickly as possible - RZ
+NOTE: The initial instructions below are meant to get you in and testing the development version of VaaS on your local machine as quickly as possible
 
 Before firing up and installing VaaS, please make sure to have...
 1) your Kuberenetes clusters set up and ports open
-2) created a Prometheus deployment - with ports properly forwarded: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+2) create a Prometheus deployment - with ports properly forwarded: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+<br> a) ```Terminal: kubectl get pods --namespace=monitoring```
+<br> b) ```kubectl port-forward <prometheus-deployment name> 30000:9090 -n monitoring```
 3) Set up Kube State metrics: https://devopscube.com/setup-kube-state-metrics/
+ <br> a) ```kubectl port-forward svc/kube-state-metrics 30135:8080 -n kube-system```
 4) Set up node exporter; https://devopscube.com/node-exporter-kubernetes/
+5) Install Grafana through standalone macOS binaries; https://grafana.com/docs/grafana/latest/setup-grafana/installation/mac/ <br />
+  a) if on macOS, enable view hidden files and navigate to /usr/local/etc/grafana/; https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/<br />
+  b) make a copy of grafana.ini and rename the copy to custom.ini
+  c) in both custom.ini AND grafana.ini, modify the following settings:
+    DISCLAIMER: remember to remove the semicolon in front of the setting to enable it
+    1. ```allow_embedding = true``` <br>
+    2. [auth.anonymous]
+       ```sh
+       enabled = true
+       org_name = Main Org.
+       org_role = Viewer 
+          ```
+    3. ```http_port = 3001``` <br />
+
+6) Download CLI tools with arkade; https://github.com/alexellis/arkade
+<br>a) ```curl -sLS https://get.arkade.dev | sh ```
+<br>b) complete section, "Download CLI tools with arkade" in github link
 
 Skip to appropriate section - 
 
@@ -50,7 +70,7 @@ https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-mul
 2.  Install dependencies
 
 ```sh
-npm install or npm install --legacy-peer-deps
+npm install or npm install --legacy-peer-deps 
 ```
 
 3. Set up .env file (create in root of VaaS folder)
@@ -67,7 +87,7 @@ MONGO_USERNAME=
 MONGO_PASSWORD=
 MONGO_COLLECTION=
 
-EXPRESS_PORT=3000
+EXPRESS_PORT=3020
 EXPRESS_CONSOLE_LOG=on
 ```
 
@@ -83,45 +103,23 @@ Grafana will need to be changed to port 3001 in customs.ini, but that will be in
 https://www.docker.com/products/docker-desktop/
 https://minikube.sigs.k8s.io/docs/start/
 https://goncalo-a-oliveira.medium.com/
-https://github.com/alexellis/arkade
-
-curl -sLS https://get.arkade.dev | sh --> WE TOOK OUT SUDO
-
-
-FaaS Deploying Own Function
-faas-cli template store pull node
-faas-cli new --lang node --prefix=DOCKERUSERNAME NAMEOFFILE
-"Manipulate up Handler.js"
-faas-cli up --skip-deploy -f NAMEOFFILE.yml 
-faas-cli deploy -f NAMEOFFILE
-
-How to deploy custom functions:
-kubectl port-forward -n openfaas svc/gateway 30001:8080
-export OPENFAAS_URL=http://127.0.0.1:30001/
-PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
-echo -n $PASSWORD | faas-cli login --username admin --password-stdin
-echo $PASSWORD
-echo -n $PASSWORD | faas-cli login - username --password Ii4Rg1Gd1ONf976TJ65tts2m0
-faas-cli template store pull node
-faas-cli new --lang node --prefix=DOCKERUSERNAME NAMEOFFILE
-faas-cli up --skip-deploy -f NAMEOFFILE.yml 
-faas-cli deploy -f NAMEOFFILE
 
 
 
-how to install grafana:
-1) curl -O https://dl.grafana.com/oss/release/grafana-7.1.5.darwin-amd64.tar.gz
-2) tar -xvf myfile.tar -C somedirectory
-3) add customs.ini (i just copied/pasted and changed embed)
-4) go to where untar then ./bin/grafana-server web
-5) CHANGE PORT TO 3001 IN CUSTOMS
-6) share panel embed
 
-Creating Clusters:
-Cluster URL: "http://localhost"
-Kubernetes Port: 30000
-FaaS Port: 30001
-FaaS Username: admin
-FaaS Password: From the guild
-Cluster Name: You choose
-Chuster Description: You choose
+
+
+
+<b>Authors <b>
+- Jimmy Lim [@Radizorit](https://github.com/Radizorit) | [Linkedin](https://www.linkedin.com/in/jimmy-l-625ba98b/)
+- Alex Kaneps [@AlexKaneps](https://github.com/AlexKaneps) | [Linkedin](https://www.linkedin.com/in/alex-kaneps/)
+- James Chan [@j-chany](https://github.com/j-chany) | [Linkedin](https://www.linkedin.com/in/james-c-694018b5/)
+- Vu Duong [@vduong021](https://github.com/vduong021) | [Linkedin](https://www.linkedin.com/in/vu-duong/)
+- Matthew McGowan [@mcmcgowan](https://github.com/mcmcgowan) | [Linkedin](https://www.linkedin.com/in/matthewcharlesmcgowan/)
+- Murad Alqadi [@murad-alqadi](https://github.com/murad-alqadi) | [Linkedin](https://www.linkedin.com/in/muradmd/)
+- Kevin Le [@xkevinle](https://github.com/xkevinle) | [Linkedin](https://www.linkedin.com/in/xkevinle/)
+- Richard Zhang [@rich9029](https://github.com/rich9029) | [Linkedin](https://www.linkedin.com/in/dickzhang/)
+- Irvin Le [@irvinie](https://github.com/irvinie) | [Linkedin](https://www.linkedin.com/in/irvinie/)
+
+<b>Show your support  <br>
+Give a ⭐️ if this project helped you!
