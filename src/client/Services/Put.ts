@@ -2,7 +2,7 @@ export default async function Put(
   url: string,
   body: Record<string, unknown>,
   headers: Record<string, unknown> = {}
-): Promise<any>{
+): Promise<any> {
   try {
     const response: Response = await fetch(url, {
       method: 'PUT',

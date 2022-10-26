@@ -21,6 +21,15 @@ const CustomQuery = (props: Modules) => {
     }
   }, []);
 
+    //remove previous session storage on first page load
+  window.onbeforeunload = function () {
+   sessionStorage.clear();
+  };
+
+  const localStore = () => {
+    sessionStorage.setItem('customQueryInput', (document.getElementById('query-input') as HTMLInputElement).value);
+  };
+
   const handleCustom = async (): Promise<void> => {
     try {
       const query = (document.getElementById('query-input') as HTMLInputElement).value;
@@ -45,8 +54,10 @@ const CustomQuery = (props: Modules) => {
       <div>
         <TextField
           onKeyDown={handleEnterKeyDown}
+          onChange={localStore}
           id='query-input'
           type="text"
+          defaultValue={(sessionStorage.getItem('customQueryInput')) || "Input Custom Query"}
           label="Input Custom Query"
           variant="filled"
           size='small'
@@ -67,7 +78,15 @@ const CustomQuery = (props: Modules) => {
           className="btn" 
           type="button" 
           onClick = {handleCustom}
-          sx={{
+          sx={(props.isDark) ? {
+            background: '#c0c0c0',
+            color:'#1f2022',
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '20px',
+            width: '100%',
+            fontSize: '10px'
+          } : {
             background: '#3a4a5b',
             borderRadius: '5px',
             marginRight: '3px',

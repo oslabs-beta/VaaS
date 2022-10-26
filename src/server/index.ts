@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }) as RequestHandler);
 app.use(express.json() as RequestHandler);
 
-const port: number = Number(process.env.EXPRESS_PORT) || 3000;
+const port: number = Number(process.env.EXPRESS_PORT) || 3020;
 
 app.use(express.static(path.join(__dirname, '../dist')));
 
@@ -24,8 +24,11 @@ app.get('/', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
+
 const routes: Router[] = Object.values(router);
 app.use('/api', routes);
+
+
 
 app.listen(port);
 console.log(`VaaS is awake on port: ${port}`);

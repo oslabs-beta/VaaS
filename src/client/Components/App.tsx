@@ -37,6 +37,7 @@ const App = () => {
             localStorage.removeItem("username");
             navigate("/");
           }
+          // if auth is not invalid and we are on login page or register => redirect to home page
           if (
             !res.invalid &&
             (location.pathname === "/" || location.pathname === "/register")
@@ -61,7 +62,7 @@ const App = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/module" element={<Module />} />
-    </Routes>
+      </Routes>
   );
 };
 

@@ -6,6 +6,7 @@ import { bcrypt, authUser, jwtCreator, jwtVerify } from '../../warehouse/middlew
 import { terminal } from '../../services/terminal';
 
 router.route('/auth')
+  // check if you are logged in? 
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
@@ -20,13 +21,14 @@ router.route('/auth')
       return res.status(error.status).json(error);
     }
   })
+  // create account
   .post(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
       const { username, firstName, lastName } = req.body, { userId, hashedPassword, jwt } = res.locals;
-      const attempt = new User({ 
-        _id: userId, 
-        username, 
+      const attempt = new User({
+        _id: userId,
+        username,
         password: hashedPassword,
         firstName,
         lastName,
@@ -45,6 +47,7 @@ router.route('/auth')
       return res.status(error.status).json(error);
     }
   })
+  // assign token when logging in
   .put(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {

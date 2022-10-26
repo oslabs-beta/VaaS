@@ -16,7 +16,7 @@ declare module "react-graph-vis" {
   export interface NetworkGraphProps {
     graph: graphData;
     options?: Options;
-    // events?: graphEvents;
+    events?: graphEvents;
     getNetwork?: (network: Network) => void;
     identifier?: string;
     style?: React.CSSProperties;

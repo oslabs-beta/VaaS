@@ -54,7 +54,10 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json']
+    extensions: ['*', '.ts', '.tsx', '.js', '.jsx', '.json'],
+    fallback: {
+      "fs": false
+    }
   },
   devServer: {
     port: 9000,
@@ -63,7 +66,7 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       '/api/**/*': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3020',
         secure: false,
         changeOrigin: true
       }

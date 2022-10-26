@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '../../Store/hooks';
 import { storeClusterDbData } from '../../Store/actions';
 import { clusterMetric, nodeMetric } from "../../Queries";
@@ -11,16 +11,21 @@ import { IReducers } from '../../Interfaces/IReducers';
 import { IClusterMetrics } from "../../Interfaces/IAction";
 import './styles.css';
 import { ClusterTypes } from '../../Interfaces/ICluster';
+import { setDarkMode } from '../../Store/actions';
+
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
+  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState([]);
+  const darkMode = uiReducer.clusterUIState.darkmode;
 
   useEffect(() => {
     const getClusterDbData = async () => {
+      // returns an array of cluster object
       const res = await Get(
         apiRoute.getRoute('cluster'),
         {
@@ -29,6 +34,7 @@ const Home = () => {
       );
 
       const user = await Get(
+        // get user settings info
         apiRoute.getRoute(`user:${localStorage.getItem('username')}`),
         {
           authorization: localStorage.getItem('token')
@@ -42,10 +48,11 @@ const Home = () => {
         console.log(res);
         setClustersArray(res);
       }
+      // regrab cluster data as refresh rate 
       setTimeout(() => getClusterDbData(), user.refreshRate);
     };
 
-    if (apiReducer.initialLoad || (apiReducer.lastFetch + 3000 < new Date().getTime())) {
+    if (apiReducer.initialLoad || (apiReducer.lastFetch + 3020 < new Date().getTime())) {
       console.log(apiReducer.initialLoad);
       getClusterDbData();
     }
@@ -69,7 +76,9 @@ const Home = () => {
     getClusterDbData();
   }, [clusterReducer.favRender]);
 
+
   useEffect(() => {
+    // grabbing metrics from each cluster object in array and sending each of them to state/store
     clustersArray.forEach(async (element: ClusterTypes) => {
       const metrics: IClusterMetrics = {
         allNodes: '',
@@ -128,6 +137,7 @@ const Home = () => {
   apiReducer.clusterDbData.forEach((element, idx) => {
     if (element.favorite?.includes(localStorage.getItem('userId') as string)) {
       favClusters.push(<Kube
+        isDark = {darkMode} //*adding for darkmode
         key={'fav' + idx}
         _id={element._id}
         favorite={element.favorite}
@@ -135,6 +145,7 @@ const Home = () => {
       />);
     } else {
       nonFavClusters.push(<Kube
+        isDark = {darkMode} //*adding for darkmode
         key={'nonFav' + idx}
         _id={element._id}
         favorite={element.favorite}
@@ -143,14 +154,30 @@ const Home = () => {
     }
   });
 
+  //* Added to load darkmode state when navigating to home, (was just at admin load) -mcm
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const user = await Get(
+        apiRoute.getRoute(`user:${localStorage.username}`), 
+        { 
+          authorization: localStorage.getItem('token') 
+        }
+      );
+      console.log('USER: ',user.darkMode);
+      dispatch(setDarkMode(user.darkMode)); 
+      (user.darkMode) ? document.body.style.backgroundColor = "#34363b" : document.body.style.backgroundColor = "#3a4a5b";
+    };
+    getUserInfo();
+  }, [darkMode,]);
+
   return (
     <div className="Kube-port">
-      <div className="Kube-container">
+        <div className="Kube-container">
         {favClusters}
         {nonFavClusters}
-      </div>
-      {noClusterError}
-      <NavBar />
+         </div>
+        {noClusterError}
+            <NavBar />
     </div>
   );
 };

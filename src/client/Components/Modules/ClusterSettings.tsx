@@ -108,6 +108,10 @@ const ClusterSettings = (props: Modules) => {
     }
   };
 
+  const alertrules = async () => {
+    console.log('this function works for alert rules');
+  }
+
   const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') handleUpdateCluster();
   };

@@ -1,10 +1,18 @@
-body {
-  background-color: #3a4a5b;
-}
+/* body {
+  /* background-image: url("../../../../public/Images/LoginBackGround.png");
+  background-size: cover;                      
+  background-repeat: no-repeat;
+  background-position: center center;
+  z-index: 2;  */
+  /* background-color: '#3a4a5b'; */
 
+.login {
+  background-image: #3a4a5b;
+}
 .login-container {
   background-color: white;
   border: 0.5px solid black;
+  z-index: 3;
 }
 
 .input-error-text {
