@@ -627,6 +627,21 @@ const Admin = () => {
                 Developed by:
               </h3>
               <p>
+                James Chan
+              </p>
+              <p>
+                Jimmy Lim
+              </p>
+              <p>
+                Alex Kaneps
+              </p>
+              <p>
+                Matthew McGowan
+              </p>
+               <p>
+                Vu Duong
+              </p>
+              <p>
                 Murad Alqadi
               </p>
               <p>
