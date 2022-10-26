@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useAppSelector } from "../../Store/hooks";
 import { useLocation } from "react-router-dom";
 import { nodeMetric, podMetric } from "../../Queries";
+
 import Box from "@mui/material/Box";
 import { Modal } from "@mui/material";
 
@@ -259,6 +260,7 @@ const Visualizer = (props: Modules) => {
         centralGravity: .05,
         springLength: 95,
         springConstant: 0.005,
+
         damping: 0.09,
         avoidOverlap: .75,
       },
