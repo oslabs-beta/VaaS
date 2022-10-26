@@ -22,8 +22,8 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     if (req.method === 'POST') {
       // Validate request body
       if (
-        !req.body.password || 
-        !req.body.firstName || 
+        !req.body.password ||
+        !req.body.firstName ||
         !req.body.lastName
       ) {
         const error: IError = {
@@ -46,7 +46,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     }
     /* LOGIN USER */
     if (
-      (req.url === '/auth' && req.method === 'PUT') || 
+      (req.url === '/auth' && req.method === 'PUT') ||
       (req.url === '/user' && req.method === 'DELETE')
     ) {
       // Validate request body

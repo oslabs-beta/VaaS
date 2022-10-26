@@ -7,61 +7,61 @@ import { jwtVerify } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
 router.route('/faas::functionName')
-.get(jwtVerify, async (req: Request, res: Response) => {
-  terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-  if (
-    !req.headers.clusterid ||
-    !req.params.functionName
-  ) {
-    const error: IError = {
-      status: 500,
-      message: 'Unable to fulfill request without all parameters (id, functionName) passed'
-    };
-    terminal(`Fail: ${error.message}`);
-    return res.status(error.status).json(error);
-  }
-  const { clusterid } = req.headers;
-  const { functionName } = req.params;
-  try {
-    const cluster = await Cluster.findOne({ _id: clusterid });
-    if (cluster) {
-      const { url, faas_port, authorization } = cluster;
-      const functionInfo = await fetch(`${url}:${faas_port}/system/function/${functionName}`, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': authorization
-        },
-      })
-        .then(res => res.json());
-      terminal(`Success: OpenFaaS function [${functionName} @ ${url}:${faas_port}] retrieved`);
-      return res.status(200).json(functionInfo);
-    } else {
+  .get(jwtVerify, async (req: Request, res: Response) => {
+    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    if (
+      !req.headers.clusterid ||
+      !req.params.functionName
+    ) {
       const error: IError = {
-        status: 401,
-        message: `Fail: Cluster [${clusterid}] does not exist`,
-        exists: false
+        status: 500,
+        message: 'Unable to fulfill request without all parameters (id, functionName) passed'
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
-  } catch (err) {
-    const error: IError = {
-      status: 500,
-      message: `Unable to fulfill ${req.method} request: ${err}`
-    };
-    terminal(`Fail: ${error.message}`);
-    return res.status(error.status).json(error);
-  }
-});
+    const { clusterid } = req.headers;
+    const { functionName } = req.params;
+    try {
+      const cluster = await Cluster.findOne({ _id: clusterid });
+      if (cluster) {
+        const { url, faas_port, authorization } = cluster;
+        const functionInfo = await fetch(`${url}:${faas_port}/system/function/${functionName}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': authorization
+          },
+        })
+          .then(res => res.json());
+        terminal(`Success: OpenFaaS function [${functionName} @ ${url}:${faas_port}] retrieved`);
+        return res.status(200).json(functionInfo);
+      } else {
+        const error: IError = {
+          status: 401,
+          message: `Fail: Cluster [${clusterid}] does not exist`,
+          exists: false
+        };
+        terminal(`Fail: ${error.message}`);
+        return res.status(error.status).json(error);
+      }
+    } catch (err) {
+      const error: IError = {
+        status: 500,
+        message: `Unable to fulfill ${req.method} request: ${err}`
+      };
+      terminal(`Fail: ${error.message}`);
+      return res.status(error.status).json(error);
+    }
+  });
 router.route('/faas')
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     if (req.query.OpenFaaSStore) {
       try {
         const functions = await fetch('https://raw.githubusercontent.com/openfaas/store/master/functions.json')
-        .then(res => res.json());
+          .then(res => res.json());
         terminal(`Success: OpenFaaS Store functions retrieved`);
         return res.status(200).json(functions);
       } catch (err) {
@@ -96,7 +96,7 @@ router.route('/faas')
             'Authorization': authorization
           },
         })
-        .then(res => res.json());
+          .then(res => res.json());
         terminal(`Success: Deployed OpenFaaS functions retrieved`);
         return res.status(200).json(functionInfo);
       } else {
@@ -120,8 +120,8 @@ router.route('/faas')
   .post(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     // Validate request body
-    if(
-      !req.body.clusterId || 
+    if (
+      !req.body.clusterId ||
       !req.body.service ||
       !req.body.image
     ) {
@@ -171,8 +171,8 @@ router.route('/faas')
   })
   .delete(async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-    if(
-      !req.body.clusterId || 
+    if (
+      !req.body.clusterId ||
       !req.body.functionName
     ) {
       const error: IError = {
@@ -198,7 +198,7 @@ router.route('/faas')
             functionName
           })
         })
-        .then(res => res.text());
+          .then(res => res.text());
         terminal(`Success: OpenFaaS function [${functionName}] deleted`);
         return res.status(200).json({ success: true });
       } else {
@@ -222,8 +222,8 @@ router.route('/faas')
 router.route('/faas/invoke')
   .post(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-    if(
-      !req.body.clusterId || 
+    if (
+      !req.body.clusterId ||
       !req.body.functionName
     ) {
       const error: IError = {
@@ -266,7 +266,8 @@ router.route('/faas/invoke')
         terminal(`Success: OpenFaaS function [${functionName}] invoked`);
         return res.status(200).json(func);
 
-      } else {const error: IError = {
+      } else {
+        const error: IError = {
           status: 401,
           message: `Fail: Cluster [${clusterId}] does not exist`,
           exists: false

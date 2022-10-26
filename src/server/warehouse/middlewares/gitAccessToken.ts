@@ -43,7 +43,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     let { name, login, id } = gitHubData;
     const firstName = name.split(' ')[0];
     const lastName = name.split(' ')[1];
-    id = id.toString(); 
+    id = id.toString();
     const newAcctInfo = {
       firstName,
       lastName,

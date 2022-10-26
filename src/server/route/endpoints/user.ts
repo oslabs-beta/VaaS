@@ -39,7 +39,7 @@ router.route('/user')
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
-      const users = await User.find({ });
+      const users = await User.find({});
       if (users.length === 0) {
         const error: IError = {
           status: 401,
@@ -64,7 +64,7 @@ router.route('/user')
   .put(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     const { username, firstName, lastName, darkMode, refreshRate } = req.body;
-    
+
     const { jwt: { id } } = res.locals;
     try {
       // Check to see if cluster exists
@@ -112,7 +112,7 @@ router.route('/user')
           message: `Fail: User [${req.body.username}] either does not exist or could not be deleted`
         };
         terminal(`Fail: ${error.message}`);
-        return res.status(error.status).json({error});
+        return res.status(error.status).json({ error });
       }
       terminal(`Success: User [${req.body.username}] deleted from MongoDB collection`);
       return res.status(200).json({ deleted: true });

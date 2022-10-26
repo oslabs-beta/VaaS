@@ -6,7 +6,6 @@ import db from "./mongoDb";
 import 'dotenv';
 import { RequestHandler } from 'express-serve-static-core';
 import { terminal } from './services/terminal';
-import { User } from './models';
 
 const app: Express = express();
 

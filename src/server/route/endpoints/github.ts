@@ -26,7 +26,7 @@ router.route('/github')
         return res.status(201).header("x-auth-token", jwt).json({ ...jwt, userId: userId, name: username });
       }
       else {
-        const { jwt, userId } = res.locals, { username, firstName } = res.locals.newAcctInfo;
+        const { jwt, userId } = res.locals, { username } = res.locals.newAcctInfo;
         terminal('Success: User login information authenticated');
         return res.status(201).header("x-auth-token", jwt).json({ ...jwt, userId, name: username });
       }

@@ -1,13 +1,13 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { Modules } from "../../Interfaces/ICluster";
 import { Delete, Get, Post } from "../../Services";
-import { DeployedFunctionTypes, FunctionTypes } from "../../Interfaces/IFunction";
+import {FunctionTypes } from "../../Interfaces/IFunction";
 import { apiRoute } from "../../utils";
 import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/hooks";
 import { IReducers } from "../../Interfaces/IReducers";
 import { customFuncBody } from "../../utils";
-import { SET_DeployedOFFunc, GET_OFFunc, GET_DeployedOFFunc, SET_OFFunc, DEL_DeployedOFFunc} from '../../Store/actions';
+import { GET_DeployedOFFunc, DEL_DeployedOFFunc} from '../../Store/actions';
 
 import { 
   Container,
@@ -224,10 +224,6 @@ const OpenFaaS = (props: Modules) => {
 
   const handleDeployedFunctionChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedDeployedFunction(e.target.value);
-  };
-
-  const displayFunctionData = (name: string) => {
-    return deployedFunctions.find((element) => element.name === name);
   };
 
   const localStore = () => {
