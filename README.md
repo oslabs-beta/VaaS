@@ -1,134 +1,582 @@
-# [VaaS](https://vaas.dev/) 
-VaaS <br>
-Visualization tool for OpenFaas
+# Installation / Setup Instructions:
 
-NOTE: The initial instructions below are meant to get you in and testing the development version of VaaS on your local machine as quickly as possible
+*Note: The creators of this ReadMe file utilized MacOS machines to complete this project. Though the instructions below do make an effort to be as platform agnostic as possible, there may be some differences in the setup process, depending on your operating system, that you will need to troubleshoot through.*
 
-Before firing up and installing VaaS, please make sure to have...
-1) your Kuberenetes clusters set up and ports open
-2) create a Prometheus deployment - with ports properly forwarded: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
-<br> a) ```Terminal: kubectl get pods --namespace=monitoring```
-<br> b) ```kubectl port-forward <prometheus-deployment name> 30000:9090 -n monitoring```
-3) Set up Kube State metrics: https://devopscube.com/setup-kube-state-metrics/
- <br> a) ```kubectl port-forward svc/kube-state-metrics 30135:8080 -n kube-system```
-4) Set up node exporter; https://devopscube.com/node-exporter-kubernetes/
-5) Install Grafana through standalone macOS binaries; https://grafana.com/docs/grafana/latest/setup-grafana/installation/mac/ <br />
-  a) if on macOS, enable view hidden files and navigate to /usr/local/etc/grafana/; https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/<br />
-  b) make a copy of grafana.ini and rename the copy to custom.ini
-  c) in both custom.ini AND grafana.ini, modify the following settings:
-    DISCLAIMER: remember to remove the semicolon in front of the setting to enable it
-    1. ```allow_embedding = true``` <br>
-    2. [auth.anonymous]
-       ```sh
-       enabled = true
-       org_name = Main Org.
-       org_role = Viewer 
-          ```
-    3. ```http_port = 3001``` <br />
+&nbsp;
 
-6) Download CLI tools with arkade; https://github.com/alexellis/arkade
-<br>a) ```curl -sLS https://get.arkade.dev | sh ```
-<br>b) complete section, "Download CLI tools with arkade" in github link
-
-Skip to appropriate section - 
-
-<b>Prerequisites</b>
-( OPTIONAL ) Create a containerized image of your application
-1) Set up a Kubernetes cluster https://kubernetes.io/docs/tasks/tools/ <br />
-  a) Setting up Kind to run local cluster: https://kind.sigs.k8s.io/docs/user/quick-start/ <br />
-  b) Setting up minikube to run local cluster: https://minikube.sigs.k8s.io/docs/start/ <br /> 
-  c) Install kubectl <br />
-2) Deploying Prometheus onto you clusters: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/<br />
-  a) Follow the guide to deploy and port forward properly - keep track of the monitoring pods and which port you're forwarding it to on localhost <br />
-3) Deploy OpenFaaS to Kubernetes: https://goncalo-a-oliveira.medium.com/setting-up-openfaas-with-minikube-28ed2f78dd1b <br />
-  a) Again keep track of your password, take special note of the command and how to temporarily store it as a temporary environment variable
-  b) Note: If you close the terminal/command prompt you will have to refetch and reassign the PASSWORD before you can use the OpenFaaS CLI to sign in
-
-If you want to set up and play with multiple clusters, make sure to have kind (requires Docker) and minikube up and running
-1) Navigating and moving between clusters <br />
-    i) To see all clusters - take note of the cluster names <br />
-    ```kubectl config view``` <br />
-    ii) To see current cluster <br />
-    ```kubectl config current-context``` <br />
-    iii) To switch into the cluster you want to configure/port forward <br />
-    ```kubectl config use-context [clusterName]``` <br />
-    iv) From here follow the steps under the "Using Kubectl port forwarding" - in link found in Step 2 of the pre-requisites <br />
-
-Documentation on best practice utilizing configuration files (recommended read): 
-https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
-
-Optional - Setting up Ability to change alerts through VaaS
+&nbsp;
 
 
-1) Use Helm to install Prometheus package which includes Alert Manager: https://www.containiq.com/post/prometheus-alertmanager
-2) Create port forwards as instructed in article
-3) Create account on Mailtrap or similar site for email testing purposes
-4) Be sure to create alertmanager-config.yaml and alert-rules.yaml in an accessible directory, root is recommended
-5) After testing, run VaaS normally and modify alerts as needed. Do not exit server while Helm is upgrading or errors will result
+## Installation of required packages
+*NOTE: At times you will be asked to port forward applications in this guide. Follow along exactly as shown in the guides/this ReadMe to avoid issues. You may also benefit from writing down the ports and port forwards associated with each tool.*
+&nbsp;
+
+&nbsp;
+
+### Kubernetes
+*For the purposes of VaaS, we will be setting up a Kubernetes cluster using minikube, which will help set up a single-node Kubernetes cluster on your local machine.*
 
 
+1. Install minikube first by following the instructions at this [link](https://minikube.sigs.k8s.io/docs/start/).
 
-<b>Installation</b> 
+   - **Make sure that you choose the correct installation instructions for your operating system, accounting for the correct architecture, as well.** (For example, M1 or M2 Macs will need to install the arm64 version of minikube, whereas Intel Macs will need to install the x86_64 version.)
+   - You can verify that minikube is installed correctly by running the following command:
+    
+     ```
+     minikube version
+     ```
 
-1.  Clone this repository onto your local machine
+2. Start your minikube cluster by running the following command:
 
-```sh
- git clone https://github.com/oslabs-beta/VaaS.git
-```
+   ```
+     minikube start
+     ```
+    *Note: minikube will continue to run until you stop it with `minikube stop`. This should not be too great a concern as minikube is very lightweight and will not take up too much of your computer's resources, though it is something to be aware of.*
 
-2.  Install dependencies
+3. Verify that your minikube cluster is running by running the following command:
 
-```sh
-npm install or npm install --legacy-peer-deps 
-```
+    - 
+      ```
+      minikube kubectl -- get po -A
+      ```
+    - This command should not only start your local Kubernetes cluster, but it will also install kubectl, which is the command line tool for Kubernetes. You can verify that kubectl is installed correctly by running the following command:
+     
+      ```
+      kubectl version --client
+      ```
+    - Now, you can make your life easier by setting up an alias for kubectl, so that you don't have to type out the entire command every time you want to run a kubectl command. You can do this by running the following command:
+     
+      ```
+      alias kubectl="minikube kubectl --"
+      ```
+       *Now, you can run kubectl commands by simply typing `kubectl` instead of `minikube kubectl --`.*
+ 
+4. <font size='2'>Let's take a look at the minikube dashboard: </font>
 
-3. Set up .env file (create in root of VaaS folder)
+   - The dashboard is a web-based UI that allows you to see the status of your minikube Kubernetes cluster. You can access the dashboard by running the following command:
+     
+      ```
+      minikube dashboard
+      ```
+    - This should open up a new tab in your browser where you can see the dashboard.
+    - If you close out of this tab and need to access the dashboard again, simply rerun the command above.
 
-```sh
-JWT_ACCESS_SECRET=hello
-JWT_REFRESH_SECRET=hello
-JWT_EXP=400000000
-JWT_GRACE=4000000000
+&nbsp;
+### Prometheus
+*Prometheus is an open-source monitoring system that is used to monitor and alert on various metrics. We will be using Prometheus to monitor the health of our Kubernetes cluster.*
 
-MONGO_URL=@
-MONGO_PORT=
-MONGO_USERNAME=
-MONGO_PASSWORD=
-MONGO_COLLECTION=
+1. For clarity, we will be setting up Prometheus in a separate namespace called `monitoring`. To create this namespace, run the following command:
+   
+    ```
+    kubectl create namespace monitoring
+    ```
 
-EXPRESS_PORT=3020
-EXPRESS_CONSOLE_LOG=on
-```
+2. Create a specific folder to house all the monitoring-related tools we will be setting up. This folder can be housed anywhere; however, for the purposes of this guide, we will be creating it in the home directory. To create this folder, run the following command:
+   
+    ```
+    mkdir ~/monitoring
+    ```
 
-4.  Run the app with
+3. Next, inside of this folder, we will create a `clusterRole.yaml` file in the root directory and copy the following code into it:
 
-```sh
-npm run dev
-```
-Set up order:
-You will need to port-forward Promethesus and openFaaS
-Grafana will need to be changed to port 3001 in customs.ini, but that will be in the documentation as well.
+    ```
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+      name: prometheus
+    rules:
+    - apiGroups: [""]
+      resources:
+      - nodes
+      - nodes/proxy
+      - services
+      - endpoints
+      - pods
+      verbs: ["get", "list", "watch"]
+    - apiGroups:
+      - extensions
+      resources:
+      - ingresses
+      verbs: ["get", "list", "watch"]
+    - nonResourceURLs: ["/metrics"]
+      verbs: ["get"]
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRoleBinding
+    metadata:
+      name: prometheus
+    roleRef:
+      apiGroup: rbac.authorization.k8s.io
+      kind: ClusterRole
+      name: prometheus
+    subjects:
+    - kind: ServiceAccount
+      name: default
+      namespace: monitoring
+    ```
 
-https://www.docker.com/products/docker-desktop/
-https://minikube.sigs.k8s.io/docs/start/
-https://goncalo-a-oliveira.medium.com/
+4.  Create the cluster role by running the following command:
+
+    ```
+    kubectl create -f clusterRole.yaml
+    ```
+    *This creates a cluster role that allows Prometheus to access the Kubernetes API server.*
+
+5.  Next, we will create a config-map.yaml file in the root directory. Copy the following code into it: 
+
+    ```
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: prometheus-server-conf
+      labels:
+        name: prometheus-server-conf
+      namespace: monitoring
+    data:
+      prometheus.rules: |-
+        groups:
+        - name: devopscube demo alert
+          rules:
+          - alert: High Pod Memory
+            expr: sum(container_memory_usage_bytes) > 1
+            for: 1m
+            labels:
+              severity: slack
+            annotations:
+              summary: High Memory Usage
+      prometheus.yml: |-
+        global:
+          scrape_interval: 5s
+          evaluation_interval: 5s
+        rule_files:
+          - /etc/prometheus/prometheus.rules
+        alerting:
+          alertmanagers:
+          - scheme: http
+            static_configs:
+            - targets:
+              - "alertmanager.monitoring.svc:9093"
+
+        scrape_configs:
+          - job_name: 'node-exporter'
+            kubernetes_sd_configs:
+              - role: endpoints
+            relabel_configs:
+            - source_labels: [__meta_kubernetes_endpoints_name]
+              regex: 'node-exporter'
+              action: keep
+          
+          - job_name: 'kubernetes-apiservers'
+
+            kubernetes_sd_configs:
+            - role: endpoints
+            scheme: https
+
+            tls_config:
+              ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+            relabel_configs:
+            - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+              action: keep
+              regex: default;kubernetes;https
+
+          - job_name: 'kubernetes-nodes'
+
+            scheme: https
+
+            tls_config:
+              ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+            kubernetes_sd_configs:
+            - role: node
+
+            relabel_configs:
+            - action: labelmap
+              regex: __meta_kubernetes_node_label_(.+)
+            - target_label: __address__
+              replacement: kubernetes.default.svc:443
+            - source_labels: [__meta_kubernetes_node_name]
+              regex: (.+)
+              target_label: __metrics_path__
+              replacement: /api/v1/nodes/${1}/proxy/metrics     
+          
+          - job_name: 'kubernetes-pods'
+
+            kubernetes_sd_configs:
+            - role: pod
+
+            relabel_configs:
+            - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+              action: keep
+              regex: true
+            - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+              action: replace
+              target_label: __metrics_path__
+              regex: (.+)
+            - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+              action: replace
+              regex: ([^:]+)(?::\d+)?;(\d+)
+              replacement: $1:$2
+              target_label: __address__
+            - action: labelmap
+              regex: __meta_kubernetes_pod_label_(.+)
+            - source_labels: [__meta_kubernetes_namespace]
+              action: replace
+              target_label: kubernetes_namespace
+            - source_labels: [__meta_kubernetes_pod_name]
+              action: replace
+              target_label: kubernetes_pod_name
+          
+          - job_name: 'kube-state-metrics'
+            static_configs:
+              - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']
+
+          - job_name: 'kubernetes-cadvisor'
+
+            scheme: https
+
+            tls_config:
+              ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+            bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+
+            kubernetes_sd_configs:
+            - role: node
+
+            relabel_configs:
+            - action: labelmap
+              regex: __meta_kubernetes_node_label_(.+)
+            - target_label: __address__
+              replacement: kubernetes.default.svc:443
+            - source_labels: [__meta_kubernetes_node_name]
+              regex: (.+)
+              target_label: __metrics_path__
+              replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+          
+          - job_name: 'kubernetes-service-endpoints'
+
+            kubernetes_sd_configs:
+            - role: endpoints
+
+            relabel_configs:
+            - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+              action: keep
+              regex: true
+            - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+              action: replace
+              target_label: __scheme__
+              regex: (https?)
+            - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+              action: replace
+              target_label: __metrics_path__
+              regex: (.+)
+            - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+              action: replace
+              target_label: __address__
+              regex: ([^:]+)(?::\d+)?;(\d+)
+              replacement: $1:$2
+            - action: labelmap
+              regex: __meta_kubernetes_service_label_(.+)
+            - source_labels: [__meta_kubernetes_namespace]
+              action: replace
+              target_label: kubernetes_namespace
+            - source_labels: [__meta_kubernetes_service_name]
+              action: replace
+              target_label: kubernetes_name
+    ```
+
+6. Create the config map by running the following command:
+
+    ```
+    kubectl create -f config-map.yaml
+    ```
+    *This command creates 2 files within your monitoring directory:  
+    `prometheus.yaml` contains a scrape configuration for scraping the Kubernetes API server, kubelets, kube-state-metrics, and cAdvisor.
+      - The following scrape jobs are present in the configuration:
+        - kubernetes-apiservers: Scrapes all the metrics from the API servers.
+        - kubernetes-nodes: Scrapes all the metrics from the nodes.
+        - kubernetes-pods: Scrapes all the metrics from the pods. This only works if the pod metadata is annotated with 'prometheus.io/scrape' and 'prometheus.io/port'.
+        - kubernetes-cadvisor: Scrapes all the metrics from the cAdvisor.
+          - cAdvisor is a daemon that collects resource usage and performance metrics from running containers.
+        - kubernetes-service-endpoints: Scrapes all the metrics from the service endpoints.
+
+    `prometheus.rules` contains the rule configuration for alerting.*
+
+7. Next, we will create a `prometheus-deployment.yaml` file in the root directory and copy the following into it:
+
+    ```
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: prometheus-deployment
+      namespace: monitoring
+      labels:
+        app: prometheus-server
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: prometheus-server
+      template:
+        metadata:
+          labels:
+            app: prometheus-server
+        spec:
+          containers:
+            - name: prometheus
+              image: prom/prometheus
+              args:
+                - "--storage.tsdb.retention.time=12h"
+                - "--config.file=/etc/prometheus/prometheus.yml"
+                - "--storage.tsdb.path=/prometheus/"
+              ports:
+                - containerPort: 9090
+              resources:
+                requests:
+                  cpu: 500m
+                  memory: 500M
+                limits:
+                  cpu: '1'
+                  memory: 1Gi
+              volumeMounts:
+                - name: prometheus-config-volume
+                  mountPath: /etc/prometheus/
+                - name: prometheus-storage-volume
+                  mountPath: /prometheus/
+          volumes:
+            - name: prometheus-config-volume
+              configMap:
+                defaultMode: 420
+                name: prometheus-server-conf
+      
+            - name: prometheus-storage-volume
+              emptyDir: {}
+    ```
+
+8. Create the deployment by running the following command:
+  
+      ```
+      kubectl create -f prometheus-deployment.yaml
+      ```
+      *This command creates a deployment for Prometheus. The deployment creates a pod with a Prometheus container. The container mounts the config map as a volume and uses the configuration file to scrape the metrics from the pods.*
+
+      *You can check the created deployment using:* `kubectl get deployments --namespace=monitoring`
+      *This should show the 'prometheus-deployment' with a READY status of '0/1'*
 
 
+9. Next, we will connect to the Prometheus dashboard via port forwarding. First, we will need to get the Prometheus pod's name by running the following command:
+
+    ```
+    kubectl get pods --namespace=monitoring
+    ```
+    *This command lists all the pods in the monitoring namespace in the following format:*
+      
+      ```
+      ->  kubectl get pods --namespace=monitoring
+      NAME                                   READY   STATUS    RESTARTS   AGE
+      prometheus-deployment-5f4b8b7b-5x7xg   1/1     Running   0          2m
+      ```
+      *Copy the entire Prometheus pod name*
+
+10. Next, we will port forward the Prometheus pod to the local machine by running the following command:
+
+    ```
+    kubectl port-forward prometheus-deployment-5f4b8b7b-5x7xg 8080:9090 --namespace=monitoring
+    ```
+    *This command forwards the Prometheus pod to the local machine on port 8080.*
+
+11. Open a browser and navigate to `http://localhost:8080`. You should see the Prometheus dashboard.
+
+### Kube State Metrics
+*The kube-state-metrics component is a service that listens to the Kubernetes API server and generates metrics about the state of the objects.*
+
+1. For this part, we will be following along with this [guide](https://devopscube.com/setup-kube-state-metrics/). **Please follow the guide through 'Step 3'.**
+
+    *The author recommends cloning the github repo. Clone this into the 'monitoring' directory we performed the Prometheus setup in to help keep everything in one place.*
+
+    *Open a terminal in the root 'Monitoring' directory to execute the commands in the guide.*
+
+### Alertmanager
+*Alertmanager handles alerts sent by client applications such as the Prometheus server. It takes care of deduplicating, grouping, and routing them to the correct receiver integration such as email.*
+
+1. As with Kube State Metrics, we will again be following along with this [guide](https://devopscube.com/alert-manager-kubernetes-guide/). **Please follow the guide through the creation of the service using kubectl.**
+
+    *Again, clone the github repo they provide into the 'monitoring' directory.*
+
+    *For this part, you will need to open a terminal in the actual 'alertmanager' directory.*
+
+    *Given that they have already provided the .yaml files in the repo, you can simply skip to the step using "kubectl create -f <file-name>" for each file.*
+
+### Grafana
+*Grafana is an open source visualization and analytics software. It allows you to query, visualize, alert on and understand your metrics no matter where they are stored. In our case, we take data from Prometheus and visualize it in Grafana.*
+
+1. As with the above 2 tools, we will be following along with this [guide](https://devopscube.com/setup-grafana-kubernetes/). 
+
+    *Again, clone the github repo they provide into the 'monitoring' directory.*
+
+    **Please note: When logging into Grafana while following along with the guide, you will be prompted to enter a new password. YOU MUST SAVE THIS PASSWORD TO LATER BE ABLE TO ACCESS GRAFANA.**
+
+    **Please make sure to port forward Grafana towards the end of the 'Deploy Grafana on Kubernetes' section. You will need to get the Grafana pod's name by running the following command:**
+      
+      ```
+        kubectl get pods --all-namespaces
+      ```
+
+### Node Exporter
+*The Node Exporter is a Prometheus exporter that collects hardware and OS metrics.*
+
+1. For this part, we will be following along with this [guide](https://devopscube.com/node-exporter-kubernetes/). 
+
+    *Again, clone the github repo they provide into the 'monitoring' directory.*
+
+    *Given that they have already provided the .yaml files in the repo, you can simply skip to the step using "kubectl create -f <file-name>" for each file.*
+
+### OpenFaaS
+*OpenFaaS is a serverless framework for Kubernetes. It allows you to deploy functions to Kubernetes without having to worry about the underlying infrastructure.*
+
+1. First, we will install Arkade, a CLI tool that allows us to install OpenFaaS with a single command. To install Arkade, run the following command:
+
+    ```
+    arkade get arkade
+    ```
+
+2. Next, we will install OpenFaaS using Arkade. Run the following command:
+
+    ```
+    arkade install openfaas
+    ```
+
+3. Next, we will install the OpenFaaS CLI. Run the following command:
+
+    ```
+    arkade get faas-cli
+    ```
+
+4. Next, we will port forward the gateway to the local machine. *Run the following 2 commands:*
+
+    ```
+    kubectl rollout status -n openfaas deploy/gateway
+    ```
+    *Followed by:*
+    ```
+    kubectl port-forward -n openfaas svc/gateway 8080:8080 &
+    ```
+5. Now, we log into the OpenFaaS dashboard. Run the following commands in a new Terminal window/tab *(copy and paste the entire block)*:
+
+    ```
+    PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+    echo -n $PASSWORD | faas-cli login --username admin --password-stdin
+    ```
+
+    Now our OpenFaaS cluster should be ready to use!
+
+    *To check, navigate to http://localhost:8080*
+
+    *You will be prompted to input a username and password. You will not have the username at this time because the CLI automatically generated a random password with a secret and stored it away.*
+
+      - *To access this password, go to the terminal and enter `echo $PASSWORD`*
+      - *This will print your password on the next line.*
+
+### Finishing Tools Setup
+*For the port forwarding portions, make sure to forward ports to/from the exact ones shown.*
+
+1. Now we need to port forward the Prometheus deployment with the following command:
+    
+    *You may need to get the Prometheus pod's name via `kubectl get pods --namespace=monitoring`*
+
+    ```
+    kubectl port-forward prometheus-deployment-5f4b8b7b-5x7xg 30000:9090 --namespace=monitoring
+    ```
+    *This command forwards the Prometheus pod to the local machine on port 30000.*
+
+2. Next, we port forward Kube State Metrics:
+
+    *You may need to get the Kube State Metrics pod's name via `kubectl get pods --namespace=monitoring`*
+
+    ```
+    kubectl port-forward kube-state-metrics-5f4b8b7b-5x7xg 30135:8080 --namespace=monitoring
+    ```
+    *This command forwards the Kube State Metrics pod to the local machine on port 30135.*
+
+3. Next, we will download a standalone package of Grafana and install this. Download the package from [here](https://grafana.com/grafana/download). **Make sure to download the version that matches your OS.**
+
+    *If you're on MacOS, you can simply click the curl link and it will start the download.*
+    *If you're on Linux, you can simply click the wget link and it will start the download.*
+
+4. Once downloaded, make sure to unzip the package.
+
+5. Next, we will take the Grafana binary and move its contents to the Grafana folder in your user's root directory (the directory containing your 'Monitoring' folder)
+
+6. Navigate to ~/grafana/conf and create a copy of the default.ini file. Rename this copy to custom.ini.
+
+7. Open the custom.ini file and change the following lines:
+
+    ```
+    allow_embedding = true
+    ```
+    *You can CMD+F or CTRL+F to search for 'allow_embedding'.*
+    ```
+    [auth.anonymous]
+    enabled = true
+    ```
+    *You can CMD+F or CTRL+F to search for 'auth.anonymous'.*
+    ```
+    http_port = 3001
+    ```
+    *You can CMD+F or CTRL+F to search for 'http_port'.*
+
+&nbsp;
+
+**Congratulations! You have now finished setting up the tools needed for this project!**
+
+&nbsp;
+
+## Part 2: Setting up VaaS
+
+1. Clone down the VaaS repo onto your machine. You can locate this clone wherever you like. 
+
+    ```
+     git clone https://github.com/oslabs-beta/VaaS.git
+    ```
+
+2. Now, go into the VaaS project folder and install the dependencies. *At this time, you will need to use the specific command below due to issues with some packages being deprecated.*
+
+    ```
+    npm install --legacy-peer-deps
+    ```
+
+3. Create a .env file in the root of VaaS. You can literally name this file '.env'
+
+4. Within the .env file, paste the following:
+  
+      ```
+      JWT_ACCESS_SECRET=hello
+      JWT_REFRESH_SECRET=hello
+      JWT_EXP=400000000
+      JWT_GRACE=4000000000
+
+      MONGO_URL=@
+      MONGO_PORT=
+      MONGO_USERNAME=
+      MONGO_PASSWORD=
+      MONGO_COLLECTION=
+
+      EXPRESS_PORT=3020
+      EXPRESS_CONSOLE_LOG=on
+      ```
+
+5. You should now get your mongoDB set up. You can either use a cloud DB or localhost; however, make sure to add the DB URI to the 'URL' field in the .env file. Fill out the rest of the DB fields with the appropriate information.
+
+    **Do note that you should only paste whatever comes after the '@' symbol in the URI.**
+  
+      *If you're using a cloud DB, you can simply copy the connection string and paste it into the .env file.*
+  
+      *If you're using localhost, you will need to install MongoDB and create a database.*
 
 
+6. You should now be able to run the project. Run the following command:
 
-
-
-<b>Authors <b>
-- Jimmy Lim [@Radizorit](https://github.com/Radizorit) | [Linkedin](https://www.linkedin.com/in/jimmy-l-625ba98b/)
-- Alex Kaneps [@AlexKaneps](https://github.com/AlexKaneps) | [Linkedin](https://www.linkedin.com/in/alex-kaneps/)
-- James Chan [@j-chany](https://github.com/j-chany) | [Linkedin](https://www.linkedin.com/in/james-c-694018b5/)
-- Vu Duong [@vduong021](https://github.com/vduong021) | [Linkedin](https://www.linkedin.com/in/vu-duong/)
-- Matthew McGowan [@mcmcgowan](https://github.com/mcmcgowan) | [Linkedin](https://www.linkedin.com/in/matthewcharlesmcgowan/)
-- Murad Alqadi [@murad-alqadi](https://github.com/murad-alqadi) | [Linkedin](https://www.linkedin.com/in/muradmd/)
-- Kevin Le [@xkevinle](https://github.com/xkevinle) | [Linkedin](https://www.linkedin.com/in/xkevinle/)
-- Richard Zhang [@rich9029](https://github.com/rich9029) | [Linkedin](https://www.linkedin.com/in/dickzhang/)
-- Irvin Le [@irvinie](https://github.com/irvinie) | [Linkedin](https://www.linkedin.com/in/irvinie/)
-
-<b>Show your support  <br>
-Give a ⭐️ if this project helped you!
+    ```
+    npm run dev
+    ```
