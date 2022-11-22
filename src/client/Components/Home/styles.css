@@ -1,0 +1,72 @@
+body {
+  padding: 0;
+  font-family: 'Cabin', sans-serif;
+  padding-bottom: 43px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+.Kube-port {
+  -webkit-scroll-snap-type: y mandatory;
+  scroll-snap-type: y mandatory;
+}
+
+.Kube-container {
+  -webkit-scroll-snap-align: start;
+  scroll-snap-align: start;
+}
+
+#logout-btn {
+  float: right
+}
+
+#navbar {
+  background: white;
+  padding: 8px;
+  margin: 0;
+  width: 100vw;
+  height: 25px;
+  max-height: 25px;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  margin-left: -1.4rem;
+  border-top: 1px solid #717982;
+}
+
+#dropdown {
+  float: right;
+  margin-right: 1rem;
+}
+
+#username-navbar {
+  float: right;
+  margin-right: 1rem;
+}
+
+#welcome-banner {
+  font-size: 0.75rem;
+  color: #3a4a5b;
+  margin-left: 1.5rem;
+  cursor: default;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+
+.title {
+  font-weight: 700;
+  margin-right: auto;
+  margin-left: 1.5rem;
+  font-size: 1.3em;
+  color: #3a4a5b;
+  cursor: default;
+}
