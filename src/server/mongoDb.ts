@@ -1,6 +1,6 @@
 import mongoose, { Connection, Mongoose } from 'mongoose';
 import { config } from './config';
-import { IConfig } from "./interfaces/IConfig";
+import { IConfig } from './interfaces/IConfig';
 
 class Database {
   private readonly _config: IConfig;
@@ -12,18 +12,23 @@ class Database {
   }
 
   connect(): Mongoose {
-    console.log("Attempting to connect to MongoDB cluster");
-    const { mongodb: { url, port, collection, password, username } } = this._config;
+    console.log('Attempting to connect to MongoDB cluster');
+    const {
+      mongodb: { url, port, collection, password, username },
+    } = this._config;
     let protocol: string;
     // IF ADMIN INPUTS LOCALHOST, CHANGE PROTOCOL DEFINITION
-    url === 'localhost' || url === '127.0.0.1' ? protocol = 'mongodb://' : protocol = 'mongodb+srv://';
-    const uri = (username && password)
-      // MODIFY URI SYNTAX BASED ON ADMIN INPUT
-      ? `${protocol}${username}:${password}${url}/${collection}`
-      : `${protocol}${url}:${port}/${collection}`;
+    url === 'localhost' || url === '127.0.0.1'
+      ? (protocol = 'mongodb://')
+      : (protocol = 'mongodb+srv://');
+    const uri =
+      username && password
+        ? // MODIFY URI SYNTAX BASED ON ADMIN INPUT
+          // Removed: /${collection} from ${url}/${collection}
+          `${protocol}${username}:${password}${url}`
+        : `${protocol}${url}:${port}/${collection}`;
     // INITIATE CONNECTION TO MONGODB
-    this._mongo
-      .connect(uri);
+    this._mongo.connect(uri);
     const db: Connection = this._mongo.connection;
     db.on('error', console.error.bind(console, 'Connection error:'));
     db.once('open', () => {

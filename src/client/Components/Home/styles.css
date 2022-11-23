@@ -22,10 +22,13 @@ body {
 .Kube-container {
   -webkit-scroll-snap-align: start;
   scroll-snap-align: start;
+  resize: vertical;
+  overflow: auto;
+  height: fit-content;
 }
 
 #logout-btn {
-  float: right
+  float: right;
 }
 
 #navbar {
