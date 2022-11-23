@@ -62,7 +62,7 @@ const App = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/module" element={<Module />} />
-      </Routes>
+    </Routes>
   );
 };
 
