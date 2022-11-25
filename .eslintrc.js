@@ -1,25 +1,38 @@
 module.exports = {
+  root: true,
+  parser: '@typescript-eslint/parser',
   env: {
     browser: true,
+    es6: true,
     node: true,
-    es2021: true,
   },
-  extends: ["plugin:react/recommended", "prettier", "eslint:recommended"],
-  parser: "@typescript-eslint/parser",
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'prettier'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'prettier',
+  ],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
+  },
   parserOptions: {
+    ecmaVersion: 2022,
+    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 12,
-    sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint", "react-hooks"],
   rules: {
-    // note you must disable the base rule as it can report incorrect errors
-    "no-use-before-define": "off",
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    'no-console': 'off',
+    'comma-dangle': 'off',
+    'react/jsx-filename-extension': 'off',
+    '@typescript-eslint/no-use-before-define': ['error'],
+    '@typescript-eslint/no-var-requires': 0,
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+    'prettier/prettier': 'error',
+    semi: [2, 'always'],
   },
 };

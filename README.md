@@ -57,14 +57,6 @@ _For the purposes of VaaS, we will be setting up a Kubernetes cluster using mini
    kubectl version --client
    ```
 
-   - Now, you can make your life easier by setting up an alias for kubectl, so that you don't have to type out the entire command every time you want to run a kubectl command. You can do this by running the following command:
-
-   ```
-   alias kubectl="minikube kubectl --"
-   ```
-
-   _Now, you can run kubectl commands by simply typing `kubectl` instead of `minikube kubectl --`._
-
 4. <font size='2'>Let's take a look at the minikube dashboard: </font>
 
    - The dashboard is a web-based UI that allows you to see the status of your minikube Kubernetes cluster. You can access the dashboard by running the following command:
@@ -110,7 +102,7 @@ _Prometheus is an open-source monitoring system that is used to monitor and aler
       _This command will create a config map and a deployment for Prometheus. The config map will be used to configure Prometheus, and the deployment will be used to deploy Prometheus to your Kubernetes cluster. The deployment creates a pod with a Prometheus container. The container mounts the config map as a volume and uses the configuration file to scrape the metrics from the pods._
 
       _You can check the created deployment using:_ `kubectl get deployments --namespace=monitoring`
-      _This should show the 'prometheus-deployment' with a READY status of '0/1'_
+      _This should print the 'prometheus-deployment' in a new line_
 
 5. Next, we will connect to the Prometheus dashboard via port forwarding. First, we will need to get the Prometheus pod's name by running the following command:
 
@@ -297,24 +289,27 @@ _OpenFaaS is a serverless framework for Kubernetes. It allows you to deploy func
    _Followed by:_
 
    ```
-   kubectl port-forward -n openfaas svc/gateway 8080:8080 &
+   kubectl port-forward -n openfaas svc/gateway 30001:8080
+   export OPENFAAS_URL=http://127.0.0.1:30001/
    ```
 
 5. Now, we log into the OpenFaaS dashboard. Run the following commands in a new Terminal window/tab _(copy and paste the entire block)_:
 
    ```
    PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
-   echo -n $PASSWORD | faas-cli login --username admin --password-stdin
+   echo $PASSWORD
+   echo -n $PASSWORD | faas-cli login --username admin --password-stdin 
    ```
 
    Now our OpenFaaS cluster should be ready to use!
 
    _To check, navigate to http://localhost:8080_
 
-   _You will be prompted to input a username and password. You will not have the username at this time because the CLI automatically generated a random password with a secret and stored it away._
+   _You may be prompted to input a username and password. You will not have the password at this time because the CLI automatically generated a random password with a secret and stored it away._
 
    - _To access this password, go to the terminal and enter `echo $PASSWORD`_
    - _This will print your password on the next line._
+   - _That being said, the 3 commands in the codeblock above should automatically pull and enter your login credentials for you._
 
 &nbsp;
 
@@ -376,6 +371,19 @@ _OpenFaaS is a serverless framework for Kubernetes. It allows you to deploy func
    yarn dev:server
    ```
 
+
+# Troubleshooting:
+
+**I am getting errors when running Grafana's grafana-server script**
+   - Kill any processes running on Port 3001 and retry the script.
+
+**No scripts are executing on the VaaS login page**
+   - Ensure that you do not have any AdBlock/UBlock extensions running in your browser. These can interfere with Vite's script execution.
+
+**Attempting to load visualizations on the dashboard page results in an error**
+   - Ensure that you do not have any duplicate services, deployments, or pods running. If you do, delete them and try again.
+  
+ 
 
 # Credits:
 

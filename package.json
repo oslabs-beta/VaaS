@@ -14,21 +14,17 @@
     "test": "vitest",
     "test:watch": "vitest --watch",
     "coverage": "vitest --coverage",
-    "typecheck": "tsc --noEmit",
     "serve": "yarn build && cross-env NODE_ENV=production yarn ts-node ./server",
     "serve:local": "vite serve",
     "clean": "rimraf dist/",
-    "copy-files": "copyfiles images/* dist/assets && copyfiles index.html dist && copyfiles -f dist/client/assets/* dist/assets",
-    "format": "prettier --write ."
+    "copy-files": "copyfiles images/* dist/assets && copyfiles index.html dist && copyfiles -f dist/client/assets/* dist/assets"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
-    "@loadable/component": "^5.15.2",
     "@mui/icons-material": "^5.10.2",
     "@mui/material": "^5.10.2",
     "@reduxjs/toolkit": "^1.8.4",
-    "@types/loadable__component": "^5.13.4",
     "autoprefixer": "^10.4.8",
     "compression": "1.7.4",
     "cross-env": "^7.0.3",
@@ -37,6 +33,7 @@
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
+    "@loadable/component": "^5.15.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/bcrypt": "^5.0.0",
@@ -48,6 +45,7 @@
     "@types/findup-sync": "^4.0.2",
     "@types/js-yaml": "^4.0.5",
     "@types/jwt-simple": "^0.5.33",
+    "@types/loadable__component": "^5.13.4",
     "@types/node": "18.7.14",
     "@types/node-fetch": "^2.6.2",
     "@types/react": "^18.0.18",
@@ -69,8 +67,10 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "eslint": "^8.23.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.6",
     "eslint-plugin-react-hooks": "^4.6.0",
     "express": "^4.18.2",
@@ -78,12 +78,14 @@
     "findup-sync": "^5.0.0",
     "fs": "^0.0.1-security",
     "gapi-script": "^1.2.0",
+    "husky": "^8.0.2",
     "install": "^0.13.0",
     "js-yaml": "^4.1.0",
     "jsdom": "^20.0.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.1.2",
     "jwt-simple": "^0.5.6",
+    "lint-staged": "^13.0.4",
     "mongoose": "^6.7.2",
     "path": "^0.12.7",
     "prettier": "^2.7.1",
@@ -102,5 +104,14 @@
     "uuid": "^9.0.0",
     "vite": "3.0.9",
     "vitest": "^0.23.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --config ./.prettierrc.js --write"
+    ],
+    "src/**/*.{css,scss,md,html,json}": [
+      "prettier --config ./.prettierrc.js --write"
+    ]
   }
 }
