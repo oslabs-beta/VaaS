@@ -3,7 +3,7 @@ import initializers from '../warehouse/initializers';
 
 const router: Router = express.Router();
 
-// FUNNEL REQUEST DATA THROUGH INITIALIZING MIDDLEWARES
+// CHANNEL REQUEST DATA THROUGH INITIALIZING MIDDLEWARES
 router.use(Object.values(initializers));
 
 // ALL INITIALIZERS RUN BEFORE REACHING ENDPOINTS

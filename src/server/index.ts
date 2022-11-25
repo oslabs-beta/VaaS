@@ -10,26 +10,10 @@ import db from "./mongoDb";
 import "dotenv";
 import { createServer as createViteServer } from "vite";
 import { RequestHandler } from "express-serve-static-core";
-import { terminal } from "./services/terminal";
-import { appendFile } from "fs";
-import { configureStore } from "@reduxjs/toolkit";
-import { Provider } from "react-redux";
 
 const isTest = process.env.NODE_ENV === "test" || !!process.env.VITE_TEST_BUILD;
 
 const resolve = (p: string) => path.resolve(__dirname, p);
-
-const getStyleSheets = async () => {
-  const assetpath = resolve("../../dist/client/assets");
-  const files = await fs.readdir(assetpath);
-  const cssAssets = files.filter(l => l.endsWith(".css"));
-  const allContent = [];
-  for (const asset of cssAssets) {
-    const content = await fs.readFile(path.join(assetpath, asset), "utf-8");
-    allContent.push(`<style type="text/css">${content}</style>`);
-  }
-  return allContent.join("\n");
-};
 
 async function createServer(isProd = process.env.NODE_ENV === "production") {
   const app = express();
@@ -115,14 +99,3 @@ async function createServer(isProd = process.env.NODE_ENV === "production") {
 }
 
 createServer();
-
-// app.get("/", (req: Request, res: Response) => {
-//   terminal("sending index.html");
-//   res.sendFile(path.join(__dirname, "../dist/index.html"));
-// });
-
-// const routes: Router[] = Object.values(router);
-// app.use("/api", routes);
-
-// app.listen(port);
-// console.log(`VaaS is awake on port: ${port}`);
