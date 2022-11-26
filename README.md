@@ -161,7 +161,7 @@ _The kube-state-metrics component is a service that listens to the Kubernetes AP
     kubectl port-forward svc/kube-state-metrics 30135:8080 -n kube-system
     ```
 
-### Alertmanager
+### Alertmanager **Tenatively may not be used OR may require tweaking**
 
 _Alertmanager handles alerts sent by client applications such as the Prometheus server. It takes care of deduplicating, grouping, and routing them to the correct receiver integration such as email._
 
@@ -188,7 +188,7 @@ _Alertmanager handles alerts sent by client applications such as the Prometheus 
     kubectl port-forward alertmanager-6ffb68c68d-8xczb 31000:9093 --namespace=monitoring
     ```
 
-2. To access the alertmanager dashboard, navigate to `http://localhost:31000` in your browser.
+4. To access the alertmanager dashboard, navigate to `http://localhost:31000` in your browser.
 
 
 ### Grafana

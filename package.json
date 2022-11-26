@@ -6,7 +6,7 @@
     "url": "https://github.com/OpenYARRS/VaaS"
   },
   "scripts": {
-    "dev:server": "nodemon --watch src/server/index.ts --watch src/server --exec 'ts-node src/server/index.ts'",
+    "dev:server": "nodemon --watch src/server/ --watch src/server --exec 'ts-node src/server/index.ts'",
     "dev:client": "yarn build:client && vite --config vite.config.ts dev --open",
     "build": "rimraf dist && tsc -p tsconfig.prod.json && yarn build:client && yarn build:server && yarn copy-files",
     "build:client": "vite build --outDir dist/client --ssrManifest",
