@@ -1,15 +1,22 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import { Modules } from "../../Interfaces/ICluster";
-import { Delete, Get, Post } from "../../Services";
-import { FunctionTypes } from "../../Interfaces/IFunction";
-import { apiRoute } from "../../utils";
-import { useLocation } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { IReducers } from "../../Interfaces/IReducers";
-import { customFuncBody } from "../../utils";
-import { GET_DeployedOFFunc, DEL_DeployedOFFunc } from "../../Store/actions";
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { Modules } from '../../Interfaces/ICluster';
+import { Delete, Get, Post } from '../../Services';
+import { FunctionTypes } from '../../Interfaces/IFunction';
+import { apiRoute } from '../../utils';
+import { useLocation } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
+import { IReducers } from '../../Interfaces/IReducers';
+import { customFuncBody } from '../../utils';
+import { GET_DeployedOFFunc, DEL_DeployedOFFunc } from '../../Store/actions';
 
-import { Container, Box, TextField, Button, FormControl, NativeSelect } from "@mui/material";
+import {
+  Container,
+  Box,
+  TextField,
+  Button,
+  FormControl,
+  NativeSelect,
+} from '@mui/material';
 
 // need to convert to redux for selected/ deployed function
 const OpenFaaS = (props: Modules) => {
@@ -23,56 +30,58 @@ const OpenFaaS = (props: Modules) => {
   // const openFaaSDeployed = OFReducer.clusterOpenFaaSData[id].deployedFunctions || null;
   const deployedFunctions = OFReducer.deployedFunctions || [];
   // OFReducer.clusterOpenFaaSData[id].deployedFunctions
-  const [openFaaSFunctions, setOpenFaaSFunctions] = useState<FunctionTypes[]>([]);
+  const [openFaaSFunctions, setOpenFaaSFunctions] = useState<FunctionTypes[]>(
+    []
+  );
   // we might need to turn these into global state
 
-  const [selectedOpenFaaSFunction, setSelectedOpenFaaSFunction] = useState("");
-  const [selectedDeployedFunction, setSelectedDeployedFunction] = useState("");
-  const [invokedOutput, setInvokedOutput] = useState("");
+  const [selectedOpenFaaSFunction, setSelectedOpenFaaSFunction] = useState('');
+  const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
+  const [invokedOutput, setInvokedOutput] = useState('');
   const [renderFunctions, setRenderFunctions] = useState(false);
-  const [reqBody, setRegBody] = useState("");
+  const [reqBody, setRegBody] = useState('');
   const [invoked, setInvoked] = useState(false);
   const [dropdownStyle] = useState({
-    background: "white",
-    borderRadius: "5px",
-    padding: "0.5rem",
-    marginBottom: "0px",
-    width: "100%",
-    fontSize: "10px",
+    background: 'white',
+    borderRadius: '5px',
+    padding: '0.5rem',
+    marginBottom: '0px',
+    width: '100%',
+    fontSize: '10px',
   });
   const [inputStyle] = useState({
-    width: "45%",
+    width: '45%',
   });
 
   const [textAreaRows, setTextAreaRows] = useState(4);
   const [textAreaStyle, setTextAreaStyle] = useState({
-    color: "#F0F0F0",
-    height: "140px",
+    color: '#F0F0F0',
+    height: '140px',
   });
   const fetchFunctions = async () => {
     console.log(id);
     try {
-      console.log("id is", id);
+      console.log('id is', id);
       const funcs = await Get(apiRoute.getRoute(`faas`), {
-        authorization: localStorage.getItem("token"),
-        id: "637574fa94e8554718fbaa7b",
+        authorization: localStorage.getItem('token'),
+        id: '637574fa94e8554718fbaa7b',
         // id: "633b57fe6c5aabdf55d37bab"
       });
       if (funcs.message) {
         // setDeployedFunctions([]);
-        console.log("HITTING and setting state to empty array");
-        console.log("ERROR IS ", funcs.message);
+        console.log('HITTING and setting state to empty array');
+        console.log('ERROR IS ', funcs.message);
         dispatch(GET_DeployedOFFunc([]));
       } else {
-        console.log("funcs is: ", funcs);
+        console.log('funcs is: ', funcs);
         //  setDeployedFunctions(funcs);
         // console.log('ID IS: ', id, ' ||', 'deployedFuncs is', deployedFunctions);
         dispatch(GET_DeployedOFFunc(funcs));
         // setDeployedFunctions(funcs);
-        console.log("UPDATED REDUX STATE");
+        console.log('UPDATED REDUX STATE');
       }
     } catch (error) {
-      console.log("Error in fetching deployed OpenFaaS Functions", error);
+      console.log('Error in fetching deployed OpenFaaS Functions', error);
     }
   };
 
@@ -80,19 +89,19 @@ const OpenFaaS = (props: Modules) => {
     if (!props.nested) {
       setTextAreaStyle({
         ...textAreaStyle,
-        color: "#F0F0F0",
-        height: "42.5vw",
+        color: '#F0F0F0',
+        height: '42.5vw',
       });
       setTextAreaRows(8);
     }
     const openFaaSFunctions = async () => {
       try {
-        const funcs = await Get(apiRoute.getRoute("faas?OpenFaaSStore=true"), {
-          authorization: localStorage.getItem("token"),
+        const funcs = await Get(apiRoute.getRoute('faas?OpenFaaSStore=true'), {
+          authorization: localStorage.getItem('token'),
         });
         setOpenFaaSFunctions(funcs.functions);
       } catch (error) {
-        console.log("Error in fetching OpenFaaS Functions", error);
+        console.log('Error in fetching OpenFaaS Functions', error);
       }
     };
 
@@ -110,21 +119,23 @@ const OpenFaaS = (props: Modules) => {
 
   const handleDeployOpenFaaS = async () => {
     try {
-      const getFunc = openFaaSFunctions.find(element => element.name === selectedOpenFaaSFunction);
+      const getFunc = openFaaSFunctions.find(
+        (element) => element.name === selectedOpenFaaSFunction
+      );
 
       const body = {
         clusterId: id,
         service: selectedOpenFaaSFunction,
         image: getFunc?.images.x86_64,
       };
-      const response = await Post(apiRoute.getRoute("faas"), body, {
-        authorization: localStorage.getItem("token"),
+      const response = await Post(apiRoute.getRoute('faas'), body, {
+        authorization: localStorage.getItem('token'),
       });
       if (response.success) {
         setRenderFunctions(!renderFunctions);
       }
     } catch (error) {
-      console.log("Error in handleDeployOpenFaaS", error);
+      console.log('Error in handleDeployOpenFaaS', error);
     }
   };
 
@@ -141,40 +152,40 @@ const OpenFaaS = (props: Modules) => {
           clusterId: id,
           functionName: functionName,
         };
-        const res = await Post(apiRoute.getRoute("faas/invoke"), body, {
-          authorization: localStorage.getItem("token"),
+        const res = await Post(apiRoute.getRoute('faas/invoke'), body, {
+          authorization: localStorage.getItem('token'),
         });
         setInvokedOutput(res);
-        sessionStorage.setItem("openFaasResBody", res);
+        sessionStorage.setItem('openFaasResBody', res);
         setInvoked(false);
       } else {
-        console.log("requestBody", reqBody);
+        console.log('requestBody', reqBody);
         const body = {
           clusterId: id,
           functionName: functionName,
           data: reqBody,
         };
-        const res = await Post(apiRoute.getRoute("faas/invoke"), body, {
-          authorization: localStorage.getItem("token"),
+        const res = await Post(apiRoute.getRoute('faas/invoke'), body, {
+          authorization: localStorage.getItem('token'),
         });
         setInvokedOutput(res);
-        sessionStorage.setItem("openFaasResBody", res);
+        sessionStorage.setItem('openFaasResBody', res);
       }
     } catch (error) {
-      console.log("Error in handleInvoke", error);
+      console.log('Error in handleInvoke', error);
     }
   };
 
   const handleDelete = async () => {
     try {
-      console.log("DeployedFunc is: ", deployedFunctions);
+      console.log('DeployedFunc is: ', deployedFunctions);
 
       const body = {
         clusterId: id,
         functionName: selectedDeployedFunction,
       };
-      const response = await Delete(apiRoute.getRoute("faas"), body, {
-        authorization: localStorage.getItem("token"),
+      const response = await Delete(apiRoute.getRoute('faas'), body, {
+        authorization: localStorage.getItem('token'),
       });
       if (response.success) {
         // setDeployedFunctions(
@@ -185,13 +196,13 @@ const OpenFaaS = (props: Modules) => {
         dispatch(
           DEL_DeployedOFFunc(
             id,
-            deployedFunctions.filter(el => el.name !== body.functionName),
-          ),
+            deployedFunctions.filter((el) => el.name !== body.functionName)
+          )
         );
-        setInvokedOutput("Deployed function deleted");
+        setInvokedOutput('Deployed function deleted');
       }
     } catch (error) {
-      console.log("Error in handleInvoke", error);
+      console.log('Error in handleInvoke', error);
     }
   };
 
@@ -200,7 +211,10 @@ const OpenFaaS = (props: Modules) => {
   };
 
   const localStore = () => {
-    sessionStorage.setItem("openFaasReqBody", (document.getElementById("func-req-body") as HTMLInputElement).value);
+    sessionStorage.setItem(
+      'openFaasReqBody',
+      (document.getElementById('func-req-body') as HTMLInputElement).value
+    );
   };
 
   //remove previous session storage on first page load
@@ -209,18 +223,18 @@ const OpenFaaS = (props: Modules) => {
   };
 
   const findFuncFromRedux = (name: string) => {
-    const funcObj = deployedFunctions.find(el => el.name === name);
+    const funcObj = deployedFunctions.find((el) => el.name === name);
     return funcObj;
   };
   return (
     <Container>
       <Box
         sx={{
-          display: "flex",
-          gap: "1.5rem",
-          marginLeft: "-1rem",
-          marginTop: "8px",
-          justifyContent: "center",
+          display: 'flex',
+          gap: '1.5rem',
+          marginLeft: '-1rem',
+          marginTop: '8px',
+          justifyContent: 'center',
         }}
       >
         <Box sx={inputStyle}>
@@ -228,8 +242,8 @@ const OpenFaaS = (props: Modules) => {
             <NativeSelect
               onChange={handleOpenFaaSFunctionsChange}
               inputProps={{
-                name: "OpenFaaS Functions Store",
-                id: "uncontrolled-native",
+                name: 'OpenFaaS Functions Store',
+                id: 'uncontrolled-native',
               }}
             >
               {openFaaSFunctions.map((element, idx) => {
@@ -249,21 +263,21 @@ const OpenFaaS = (props: Modules) => {
             sx={
               props.isDark
                 ? {
-                    background: "#c0c0c0",
-                    color: "#1f2022",
-                    borderRadius: "5px",
-                    marginBottom: "20px",
-                    width: "100%",
-                    fontSize: "10px",
-                    marginLeft: "0.5rem",
+                    background: '#c0c0c0',
+                    color: '#1f2022',
+                    borderRadius: '5px',
+                    marginBottom: '20px',
+                    width: '100%',
+                    fontSize: '10px',
+                    marginLeft: '0.5rem',
                   }
                 : {
-                    background: "#3a4a5b",
-                    borderRadius: "5px",
-                    marginBottom: "20px",
-                    width: "100%",
-                    fontSize: "10px",
-                    marginLeft: "0.5rem",
+                    background: '#3a4a5b',
+                    borderRadius: '5px',
+                    marginBottom: '20px',
+                    width: '100%',
+                    fontSize: '10px',
+                    marginLeft: '0.5rem',
                   }
             }
           >
@@ -275,8 +289,8 @@ const OpenFaaS = (props: Modules) => {
             <NativeSelect
               placeholder="Select Function to Invoke"
               inputProps={{
-                name: "Deployed Functions",
-                id: "uncontrolled-native",
+                name: 'Deployed Functions',
+                id: 'uncontrolled-native',
               }}
               onChange={handleDeployedFunctionChange}
             >
@@ -294,12 +308,12 @@ const OpenFaaS = (props: Modules) => {
           </FormControl>
           <Box
             sx={{
-              width: "100%",
-              marginLeft: "0.6rem",
+              width: '100%',
+              marginLeft: '0.6rem',
             }}
           >
             <Button
-              disabled={selectedDeployedFunction === ""}
+              disabled={selectedDeployedFunction === ''}
               variant="contained"
               className="btn"
               type="button"
@@ -307,19 +321,19 @@ const OpenFaaS = (props: Modules) => {
               sx={
                 props.isDark
                   ? {
-                      background: "#c0c0c0",
-                      color: "#1f2022",
-                      borderRadius: "5px",
-                      marginBottom: "20px",
-                      width: "49%",
-                      fontSize: "10px",
+                      background: '#c0c0c0',
+                      color: '#1f2022',
+                      borderRadius: '5px',
+                      marginBottom: '20px',
+                      width: '49%',
+                      fontSize: '10px',
                     }
                   : {
-                      background: "#3a4a5b",
-                      borderRadius: "5px",
-                      marginBottom: "20px",
-                      width: "49%",
-                      fontSize: "10px",
+                      background: '#3a4a5b',
+                      borderRadius: '5px',
+                      marginBottom: '20px',
+                      width: '49%',
+                      fontSize: '10px',
                     }
               }
             >
@@ -333,19 +347,19 @@ const OpenFaaS = (props: Modules) => {
               sx={
                 props.isDark
                   ? {
-                      background: "#c0c0c0",
-                      color: "#1f2022",
-                      borderRadius: "5px",
-                      marginBottom: "20px",
-                      width: "49%",
-                      fontSize: "10px",
+                      background: '#c0c0c0',
+                      color: '#1f2022',
+                      borderRadius: '5px',
+                      marginBottom: '20px',
+                      width: '49%',
+                      fontSize: '10px',
                     }
                   : {
-                      background: "#3a4a5b",
-                      borderRadius: "5px",
-                      marginBottom: "20px",
-                      width: "49%",
-                      fontSize: "10px",
+                      background: '#3a4a5b',
+                      borderRadius: '5px',
+                      marginBottom: '20px',
+                      width: '49%',
+                      fontSize: '10px',
                     }
               }
             >
@@ -357,20 +371,20 @@ const OpenFaaS = (props: Modules) => {
       <Box
         sx={{
           background: textAreaStyle.color,
-          color: "black",
-          width: "100%",
-          height: "70px",
-          overflow: "scroll",
-          borderRadius: "15px",
-          textAlign: "left",
-          fontSize: "16px",
+          color: 'black',
+          width: '100%',
+          height: '70px',
+          overflow: 'scroll',
+          borderRadius: '15px',
+          textAlign: 'left',
+          fontSize: '16px',
         }}
       >
         <Box
           sx={{
-            margin: "4px",
-            marginLeft: "10px",
-            height: "30px",
+            margin: '4px',
+            marginLeft: '10px',
+            height: '30px',
           }}
         >
           <b>Function Information</b>
@@ -379,7 +393,10 @@ const OpenFaaS = (props: Modules) => {
               <span>
                 {`
                 Function Name: ${selectedDeployedFunction}
-                Invocation count: ${findFuncFromRedux(selectedDeployedFunction)?.invocationCount || 0}
+                Invocation count: ${
+                  findFuncFromRedux(selectedDeployedFunction)
+                    ?.invocationCount || 0
+                }
                 `}
               </span>
             </div>
@@ -388,7 +405,7 @@ const OpenFaaS = (props: Modules) => {
       </Box>
       <div>
         <TextField
-          onChange={newReqBody => {
+          onChange={(newReqBody) => {
             setRegBody(newReqBody.target.value);
             localStore();
           }}
@@ -396,22 +413,22 @@ const OpenFaaS = (props: Modules) => {
           id="func-req-body"
           label="Request Body"
           variant="filled"
-          defaultValue={sessionStorage.getItem("openFaasReqBody")}
+          defaultValue={sessionStorage.getItem('openFaasReqBody')}
           size="small"
           margin="dense"
           multiline
           rows={textAreaRows}
           sx={{
             background: textAreaStyle.color,
-            borderRadius: "5px",
-            marginRight: "3px",
-            marginBottom: "0px",
-            width: "100%",
-            fontSize: "10px",
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+            width: '100%',
+            fontSize: '10px',
           }}
         />
         <TextField
-          value={invokedOutput || sessionStorage.getItem("openFaasResBody")}
+          value={invokedOutput || sessionStorage.getItem('openFaasResBody')}
           type="text"
           label="Response Body"
           variant="filled"
@@ -421,11 +438,11 @@ const OpenFaaS = (props: Modules) => {
           rows={textAreaRows}
           sx={{
             background: textAreaStyle.color,
-            borderRadius: "5px",
-            marginRight: "3px",
-            marginBottom: "0px",
-            width: "100%",
-            fontSize: "10px",
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+            width: '100%',
+            fontSize: '10px',
           }}
         />
       </div>
