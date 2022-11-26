@@ -1,37 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Avatar, Button, Toolbar, Typography } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { IReducers } from '../../Interfaces/IReducers';
-import { setRender } from '../../Store/actions';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Avatar, Button, Toolbar, Typography } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import { useAppDispatch, useAppSelector } from "../../Store/hooks";
+import { IReducers } from "../../Interfaces/IReducers";
+import { setRender } from "../../Store/actions";
 
 export default function NavBar() {
   const navigate = useNavigate();
   const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const dispatch = useAppDispatch();
   const routeHome = () => {
-    navigate('/home');
+    navigate("/home");
   };
 
   const routeAdmin = () => {
-    navigate('/admin');
+    navigate("/admin");
   };
 
   const handleLogOut = (): void => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    localStorage.removeItem('userId');
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("userId");
     setUser(null);
-    navigate('/');
+    navigate("/");
   };
 
-  const [ user, setUser ] = useState(JSON.parse(localStorage.getItem('profile') as any));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile") as any));
 
-    console.log(user);
+  console.log(user);
   // useEffect(() => {
   //   const token = user?.token;
 
@@ -39,10 +39,8 @@ export default function NavBar() {
   // }, []);
 
   return (
-    <div id='navbar'>
-      <div className="title noselect">
-        VaaS
-      </div>
+    <div id="navbar">
+      <div className="title noselect">VaaS</div>
       {/* <Toolbar>
         {user ? (
           <div className='profile'>
@@ -59,7 +57,7 @@ export default function NavBar() {
         onClick={handleLogOut}
         variant="text"
         sx={{
-          color: "#3a4a5b"
+          color: "#3a4a5b",
         }}
       >
         <LogoutIcon />
@@ -69,7 +67,7 @@ export default function NavBar() {
         onClick={routeHome}
         variant="text"
         sx={{
-          color: "#3a4a5b"
+          color: "#3a4a5b",
         }}
       >
         <HomeIcon />
@@ -79,7 +77,7 @@ export default function NavBar() {
         onClick={() => dispatch(setRender(!clusterReducer.render))}
         variant="text"
         sx={{
-          color: "#3a4a5b"
+          color: "#3a4a5b",
         }}
       >
         <RefreshIcon />
@@ -89,7 +87,7 @@ export default function NavBar() {
         onClick={routeAdmin}
         variant="text"
         sx={{
-          color: "#3a4a5b"
+          color: "#3a4a5b",
         }}
       >
         <SettingsIcon />

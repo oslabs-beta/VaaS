@@ -1,19 +1,39 @@
-.vscode
-node_modules
-logs
+lib-cov
+*.seed
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-yarn.lock
-package-lock.json
-lerna-debug.log*
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-node_modules/
-*.tsbuildinfo
-.npm
-.eslintcache
-.yarn-integrity
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+results
+tmp
+
+# Build
+public/css/main.css
+
+# Coverage reports
+coverage
+
+# API keys and secrets
 .env
-dist
-server/**
+
+# Dependency directory
+node_modules
+bower_components
+
+# Editors
+.idea
+*.iml
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Ignore built ts files
+dist/**/*
+

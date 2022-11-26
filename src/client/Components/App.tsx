@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-
 import Login from "./Login/Login";
 import Home from "./Home/Home";
 import Register from "./Login/Register";
@@ -17,31 +16,22 @@ const App = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (
-      !localStorage.getItem("token") &&
-      location.pathname !== "/" &&
-      location.pathname !== "/register"
-    ) {
+    if (!localStorage.getItem("token") && location.pathname !== "/" && location.pathname !== "/register") {
       navigate("/");
     }
     if (localStorage.getItem("token")) {
       const verified = async () => {
         try {
-          const res = await Get(
-            apiRoute.getRoute("auth"), 
-            {
-              authorization: localStorage.getItem("token"),
-            });
+          const res = await Get(apiRoute.getRoute("auth"), {
+            authorization: localStorage.getItem("token"),
+          });
           if (res.invalid) {
             localStorage.removeItem("token");
             localStorage.removeItem("username");
             navigate("/");
           }
           // if auth is not invalid and we are on login page or register => redirect to home page
-          if (
-            !res.invalid &&
-            (location.pathname === "/" || location.pathname === "/register")
-          ) {
+          if (!res.invalid && (location.pathname === "/" || location.pathname === "/register")) {
             navigate("/home");
           }
         } catch (err) {
@@ -50,9 +40,7 @@ const App = () => {
       };
       verified();
     }
-    dispatch(
-      setTitle(location.pathname.replace("/", "").toUpperCase())
-    );
+    dispatch(setTitle(location.pathname.replace("/", "").toUpperCase()));
   }, [location]);
 
   return (

@@ -2,17 +2,17 @@ h3 {
   text-align: center;
 }
 
-dt{
+dt {
   float: left;
   clear: left;
   width: 110px;
   font-weight: bold;
   color: rgb(58, 79, 118);
 }
-dt::after{
-  content: ":"
+dt::after {
+  content: ":";
 }
-dd{
+dd {
   margin: 0 0 0 80px;
   padding: 0 0 0.5em 0;
   color: black;
@@ -22,7 +22,7 @@ dd{
   padding: 0 8px;
   text-align: left;
   flex-direction: column;
-  margin-top: 10px;  
+  margin-top: 10px;
   border-radius: 10px;
   height: 637px;
 }
@@ -37,7 +37,6 @@ dd{
   margin-right: auto;
   margin-left: 0;
   margin-top: 5px;
-
 }
 
 .set-favorite {
@@ -49,8 +48,8 @@ dd{
   width: 100%;
   display: flex;
   justify-content: center;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
   overflow-y: hidden;
   overflow-x: auto;
   margin-bottom: 8px;
@@ -98,7 +97,7 @@ dd{
 
 .ov-metric {
   margin: 0;
-  padding:0;
+  padding: 0;
 }
 
 #module {
@@ -152,4 +151,3 @@ dd{
   text-align: right;
   margin-top: -15px;
 }
-

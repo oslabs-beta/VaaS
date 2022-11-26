@@ -1,20 +1,30 @@
 {
-  "extends": "@tsconfig/node12/tsconfig.json",
-  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "allowJs": true,
+    "alwaysStrict": true,
     "allowSyntheticDefaultImports": true,
-    "module": "commonjs",
-    "target": "es2019",
-    "jsx": "react-jsx",
-    "sourceMap": true,
-    "outDir": "./dist/",
+    "baseUrl": ".",
+    "checkJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "jsx": "react-jsxdev",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "strict": true,
+    "outDir": "dist",
+    "module": "ES2020",
+    "moduleResolution": "Node",
     "skipLibCheck": true,
-    "lib": ["DOM"]
+    "sourceMap": true,
+    "target": "ES2017"
   },
-  "exclude": ["./src/server", "node_modules"],
-  "include": [
-    "./src/client/*",
-    "./src/client/Interfaces/**/*.d.ts",
-    "./src/client/Interfaces/custom.d.ts"
-  ]
+  "include": ["src/**/*", "types/*", "src/server/index.ts", "node_modules/vite/types/*"],
+  "ts-node": {
+    "transpileOnly": true,
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }
