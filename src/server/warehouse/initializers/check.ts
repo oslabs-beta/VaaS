@@ -1,12 +1,13 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { IError } from '../../interfaces/IError';
 import path from '../../route/path';
 import { terminal } from '../../services/terminal';
 
-// check if method is valid for the endpoint
-export default (req: Request, res: Response, next: (param?: unknown) => void): void | Response => {
+// CHECK IF REQUEST METHOD IS AVAILABLE FOR THE ENDPOINT
+export default (req: Request, res: Response, next: NextFunction): void | Response => {
   terminal(`${req.method} request routed to '${req.baseUrl}${req.url}' from ${req.socket.remoteAddress}`);
   let route = path(req.url);
+  // SANITIZE REQUEST URL IF IT HAS QUERY STRINGS
   if (Object.keys(req.query).length > 0) {
     route = path(req.url.substring(0, req.url.indexOf('?')));
   }
@@ -19,7 +20,7 @@ export default (req: Request, res: Response, next: (param?: unknown) => void): v
   } else {
     const error: IError = {
       status: 405,
-      message: 'This type of method is not supported by this endpoint'
+      message: 'This type of method is not available on this endpoint'
     };
     res.setHeader('allow', route.methods);
     return res.status(405).json(error);

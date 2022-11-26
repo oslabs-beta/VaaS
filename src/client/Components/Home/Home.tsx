@@ -44,7 +44,7 @@ const Home = () => {
         console.log(res);
         setClustersArray(res);
       }
-      // regrab cluster data as refresh rate
+      // REFETCH CLUSTER DATA IN refreshRate's TIME
       setTimeout(() => getClusterDbData(), user.refreshRate);
     };
 

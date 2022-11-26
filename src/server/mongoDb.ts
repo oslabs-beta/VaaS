@@ -8,15 +8,16 @@ import { config } from "./config";
 import { IConfig } from "./interfaces/IConfig";
 >>>>>>> 8813c88c98a0bb13e61f36dc9526739a4013958e
 
+// Database IS CONFIGURED TO INCLUDE JWT AND MONGODB CONNECTION LINK VARIABLES
+// VARIABLES DIFFER BASED ON ADMIN INPUT
 class Database {
   private readonly _config: IConfig;
   private readonly _mongo: Mongoose;
-
   constructor(config: IConfig, mongo: Mongoose) {
     this._config = config;
     this._mongo = mongo;
   }
-
+  //connect function RETURNS INSTANCE OF MONGOOSE
   connect(): Mongoose {
 <<<<<<< HEAD
     console.log('Attempting to connect to MongoDB cluster!');
@@ -46,6 +47,7 @@ class Database {
         : `${protocol}${url}:${port}/${collection}`;
     // INITIATE CONNECTION TO MONGODB
     this._mongo.connect(uri);
+    // ASSIGN MONGOOSE CONNECTION TO db
     const db: Connection = this._mongo.connection;
     db.on("error", console.error.bind(console, "Connection error:"));
     db.once("open", () => {
@@ -54,6 +56,7 @@ class Database {
     return mongoose;
   }
 
+  // DECLARING GETTERS TO MAKE PRIVATE PROPERTIES ACCESSIBLE OUTSIDE THE Database CLASS
   get mongo() {
     return this._mongo;
   }
