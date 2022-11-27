@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 import mongoose, { Connection, Mongoose } from 'mongoose';
 import { config } from './config';
 import { IConfig } from './interfaces/IConfig';
-=======
-import mongoose, { Connection, Mongoose } from "mongoose";
-import { config } from "./config";
-import { IConfig } from "./interfaces/IConfig";
->>>>>>> 8813c88c98a0bb13e61f36dc9526739a4013958e
 
 // Database IS CONFIGURED TO INCLUDE JWT AND MONGODB CONNECTION LINK VARIABLES
 // VARIABLES DIFFER BASED ON ADMIN INPUT
@@ -19,31 +13,19 @@ class Database {
   }
   //connect function RETURNS INSTANCE OF MONGOOSE
   connect(): Mongoose {
-<<<<<<< HEAD
     console.log('Attempting to connect to MongoDB cluster!');
-=======
-    console.log("Attempting to connect to MongoDB cluster");
->>>>>>> 8813c88c98a0bb13e61f36dc9526739a4013958e
     const {
       mongodb: { url, port, collection, password, username },
     } = this._config;
     let protocol: string;
     // IF ADMIN INPUTS LOCALHOST, CHANGE PROTOCOL DEFINITION
-<<<<<<< HEAD
     url === 'localhost' || url === '127.0.0.1'
       ? (protocol = 'mongodb://')
       : (protocol = 'mongodb+srv://');
     const uri =
       username && password
         ? // MODIFY URI SYNTAX BASED ON ADMIN INPUT
-          `${protocol}${username}:${password}${url}/${collection}`
-=======
-    url === "localhost" || url === "127.0.0.1" ? (protocol = "mongodb://") : (protocol = "mongodb+srv://");
-    const uri =
-      username && password
-        ? // MODIFY URI SYNTAX BASED ON ADMIN INPUT
           `${protocol}${username}:${password}${url}`
->>>>>>> 8813c88c98a0bb13e61f36dc9526739a4013958e
         : `${protocol}${url}:${port}/${collection}`;
     // INITIATE CONNECTION TO MONGODB
     this._mongo.connect(uri);
