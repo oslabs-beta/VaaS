@@ -1,11 +1,15 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
 import { terminal } from '../../services/terminal';
 import fetch from "node-fetch";
 import 'dotenv';
 
-export default async (req: Request, res: Response, next: (param?: unknown) => void): Promise<void | Response<any, Record<string, any>>> => {
+export default async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void | Response<any, Record<string, any>>> => {
   terminal(`Received ${req.method} request at 'gitAccessToken' middleware`);
   // grab code from body
   const { code } = req.body;
@@ -22,7 +26,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
         }
       }
     ).then((res) => res.json());
-    // store token and return next
+    // store access token sent from github
     res.locals.accessToken = accessToken;
     terminal(`Success: GithubToken received: ${res.locals.accessToken.access_token}`);
 
@@ -41,24 +45,30 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
     // set up acct info and return next 
     // eslint-disable-next-line prefer-const
     let { name, login, id } = gitHubData;
+    // COIN FIRSTNAME AND LASTNAME FIELDS FROM GITHUB DATA /name 
     const firstName = name.split(' ')[0];
     const lastName = name.split(' ')[1];
     id = id.toString();
+    // DECLARING newAcctInfo TO STORE USER's INFO
     const newAcctInfo = {
       firstName,
       lastName,
+      // USERNAME = GITHUB login
       username: login,
+      // PASSWORD = GITHUB id
       password: id,
       darkMode: false,
     };
-
+    // STORE USER INFO
     res.locals.newAcctInfo = newAcctInfo;
     const { username } = newAcctInfo;
-    // checking if acct exist in db 
     terminal(`Searching for user [${username}] in MongoDB`);
-    const user = await User.find({ username: username });
+    // CHECK IF USER EXISTS IN DATABASE
+    // { username } is Javascript property value shorthand for { username: username }
+    const user = await User.find({ username });
     terminal(`Success: MongoDB query executed [${username}]`);
     console.log(user);
+    // IF USER EXISTS, STORE hasAcct AND user FOR NEXT MIDDLEWARE
     if (user[0]) {
       terminal(`Success: User [${username}] found in DB`);
       res.locals.hasAcct = true;
@@ -71,6 +81,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
         message: 'Invalid credentials',
         invalid: true
       };
+      // IF USER DOESN'T EXIST, SET hasAcct TO FALSE
       terminal(`Fail: ${error.message}`);
       res.locals.hasAcct = false;
       return next();

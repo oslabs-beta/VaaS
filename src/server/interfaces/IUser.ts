@@ -4,7 +4,7 @@ export interface IUser extends Document{
   _id: Types.ObjectId,
   firstName: string,
   lastName: string,
-  username: string,
+  username: {type: string, unique: boolean},
   password: string,
   darkMode: boolean,
   refreshRate: number

@@ -1,19 +1,19 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { IError } from '../../interfaces/IError';
 import { terminal } from '../../services/terminal';
 
 
-export default async (req: Request, res: Response, next: (param?: unknown) => void): Promise<void | Response<any, Record<string, any>>> => {
+export default async (req: Request, res: Response, next: NextFunction): Promise<void | Response<any, Record<string, any>>> => {
   terminal(`Received ${req.method} request at 'gitAuthUser' middleware`);
   const { firstName, lastName, username, password } = res.locals.newAcctInfo;
   console.log('PASSWORD IS : ', password);
   try {
-    // if user has account
+    // if user has an account
     if (res.locals.hasAcct === true) {
       if (!username || !password) {
         const error: IError = {
           status: 500,
-          message: 'Unable to fulfull request without all fields completed',
+          message: 'Unable to fulfill request without all fields completed',
         };
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
@@ -25,8 +25,9 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
       terminal(`Success: Forwarding ${req.method} request to next middleware`);
       return next();
     }
-    // if user not yet have acct
+    // if user does not yet have an account
     else {
+      // VALIDATE FIELDS
       if (
         !password ||
         !firstName ||
@@ -34,7 +35,7 @@ export default async (req: Request, res: Response, next: (param?: unknown) => vo
       ) {
         const error: IError = {
           status: 500,
-          message: 'Unable to fulfull request without all fields completed'
+          message: 'Unable to fulfill request without all fields completed'
         };
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
