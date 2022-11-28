@@ -6,7 +6,7 @@ import { bcrypt, authUser, jwtCreator, jwtVerify } from '../../warehouse/middlew
 import { terminal } from '../../services/terminal';
 
 router.route('/auth')
-  // check if you are logged in? 
+  // VERIFIES IF USER's TOKEN IS ACTIVE AND VALID
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
@@ -26,6 +26,7 @@ router.route('/auth')
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {
       const { username, firstName, lastName } = req.body, { userId, hashedPassword, jwt } = res.locals;
+      // CREATE AND SAVE A NEW USER WITH PROPERTIES DESTRUCTURED FROM req.body AND res.locals
       const attempt = new User({
         _id: userId,
         username,
@@ -37,6 +38,7 @@ router.route('/auth')
       });
       await attempt.save();
       terminal(`Success: New user [${userId}] stored in MongoDB collection`);
+      // SET x-auth-token IN RESPONSE HEADER TO BE JWT token  
       return res.status(201).header("x-auth-token", jwt).json({ ...jwt, userId: userId });
     } catch (err) {
       const error: IError = {

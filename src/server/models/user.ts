@@ -7,7 +7,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   _id: {type: Schema.Types.ObjectId, required: true},
   firstName: String,
   lastName: String,
-  username: String,
+  username: { type: String, unique: true },
   password: String,
   darkMode: Boolean,
   refreshRate: Number
