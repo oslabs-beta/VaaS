@@ -6,9 +6,13 @@ import { IError } from '../../interfaces/IError';
 import { jwtVerify } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
+
 router.route('/faas::functionName')
+// Getting specific OpenFaaS function using functionName param:
+// Verifies user's token
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    // validate clusterid and functionName
     if (
       !req.headers.clusterid ||
       !req.params.functionName
@@ -23,8 +27,10 @@ router.route('/faas::functionName')
     const { clusterid } = req.headers;
     const { functionName } = req.params;
     try {
-      const cluster = await Cluster.findOne({ _id: clusterid });
+      // find cluster in DB using clusterId
+      const cluster = await Cluster.findOne({ _id: clusterid }).exec();
       if (cluster) {
+        // destructure properties from fetched cluster and make a request to OpenFaaS to fetch OpenFaaS function
         const { url, faas_port, authorization } = cluster;
         const functionInfo = await fetch(`${url}:${faas_port}/system/function/${functionName}`, {
           method: 'GET',
@@ -36,6 +42,7 @@ router.route('/faas::functionName')
         })
           .then(res => res.json());
         terminal(`Success: OpenFaaS function [${functionName} @ ${url}:${faas_port}] retrieved`);
+        // return functionInfo to the client
         return res.status(200).json(functionInfo);
       } else {
         const error: IError = {
@@ -56,13 +63,18 @@ router.route('/faas::functionName')
     }
   });
 router.route('/faas')
+// Fetching all OpenFaas functions:
+// Verifies user's token
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    // if OpenFaaSStore exists
     if (req.query.OpenFaaSStore) {
+      // make request to get all OpenFaaS functions
       try {
         const functions = await fetch('https://raw.githubusercontent.com/openfaas/store/master/functions.json')
           .then(res => res.json());
         terminal(`Success: OpenFaaS Store functions retrieved`);
+        // return functions to the client
         return res.status(200).json(functions);
       } catch (err) {
         const error: IError = {
@@ -73,6 +85,7 @@ router.route('/faas')
         return res.status(error.status).json(error);
       }
     }
+    // if OpenFaaSStore doesn't exist, check headers for cluster id, find cluster in DB using the id and make a request to the custom OpenFaaS url
     if (
       !req.headers.id
     ) {
@@ -85,8 +98,10 @@ router.route('/faas')
     }
     const { id } = req.headers;
     try {
-      const cluster = await Cluster.findOne({ _id: id });
+      // get single cluster using id
+      const cluster = await Cluster.findOne({ _id: id }).exec();
       if (cluster) {
+        // destructure cluster info and fetch all OpenFaaS functions from OpenFaaS custom url
         const { url, faas_port, authorization } = cluster;
         const functionInfo = await fetch(`${url}:${faas_port}/system/functions`, {
           method: 'GET',
@@ -117,6 +132,8 @@ router.route('/faas')
       return res.status(error.status).json(error);
     }
   })
+  // Deploy a new OpenFaas function:
+  // Verify user's token
   .post(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     // Validate request body
@@ -137,6 +154,7 @@ router.route('/faas')
       const cluster = await Cluster.findOne({ _id: clusterId });
       if (cluster) {
         const { url, faas_port, authorization } = cluster;
+        // deploy new OpenFaaS function with service and image, where service is the function
         await fetch(`${url}:${faas_port}/system/functions`, {
           method: 'POST',
           headers: {
@@ -169,6 +187,7 @@ router.route('/faas')
       return res.status(error.status).json(error);
     }
   })
+  // Delete a function:
   .delete(async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     if (
@@ -184,9 +203,10 @@ router.route('/faas')
     }
     try {
       const { clusterId, functionName } = req.body;
-      const cluster = await Cluster.findOne({ _id: clusterId });
+      const cluster = await Cluster.findOne({ _id: clusterId }).exec();
       if (cluster) {
         const { url, faas_port, authorization } = cluster;
+        // delete functionName from custom OpenFaaS function store
         await fetch(`${url}:${faas_port}/system/functions`, {
           method: 'DELETE',
           headers: {
@@ -219,6 +239,7 @@ router.route('/faas')
       return res.status(error.status).json(error);
     }
   });
+  // Invokes selected OpenFaaS function on a cluster
 router.route('/faas/invoke')
   .post(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
@@ -235,7 +256,7 @@ router.route('/faas/invoke')
     }
     try {
       const { clusterId, functionName, data } = req.body;
-      const cluster = await Cluster.findOne({ _id: clusterId });
+      const cluster = await Cluster.findOne({ _id: clusterId }).exec();
       if (cluster && data) {
         const { url, faas_port, authorization } = cluster;
         const body = data;

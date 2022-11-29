@@ -49,7 +49,7 @@ router.route('/auth')
       return res.status(error.status).json(error);
     }
   })
-  // assign token when logging in
+  // logging user in
   .put(authUser, bcrypt, jwtCreator, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     try {

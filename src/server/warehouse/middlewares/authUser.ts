@@ -10,6 +10,7 @@ export default async (
 ): Promise<void | Response> => {
   terminal(`Received ${req.method} request at 'authUser' middleware`);
   try {
+    // CHECK THAT USERNAME IS SENT IN REQUEST BODY
     if (!req.body.username) {
       const error: IError = {
         status: 500,

@@ -6,6 +6,7 @@ import { IError } from "../../interfaces/IError";
 import { jwtVerify } from "../../warehouse/middlewares";
 import { terminal } from "../../services/terminal";
 
+// to calculate OpenFaaS function cost e.g. avgTimePerInvoke
 router.route("/gateway")
   .get(jwtVerify, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
@@ -18,11 +19,12 @@ router.route("/gateway")
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
+    // id = cluster id, q = query string, type = type of query/function cost to calculate
     const { id, q, type } = req.query;
     console.log('q', q);
 
     try {
-      const cluster = await Cluster.findOne({ _id: id });
+      const cluster = await Cluster.findOne({ _id: id }).exec();
       if (cluster) {
         const { url, k8_port } = cluster;
 
