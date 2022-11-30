@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch';
+
 export default async function Get(
   url: string,
   headers: Record<string, unknown> = {}
@@ -7,8 +9,8 @@ export default async function Get(
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        ...headers
+        Accept: 'application/json',
+        ...headers,
       },
     });
     return response.json();

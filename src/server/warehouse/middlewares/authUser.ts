@@ -22,7 +22,7 @@ export default async (
     const { username } = req.body;
     terminal(`Searching for user [${username}] in MongoDB`);
     // QUERY DATABASE WITH username
-    const user = await User.find({ username });
+    const user = await User.find({ username }).exec();
     terminal(`Success: MongoDB query executed [${username}]`);
     /* REGISTER USER */
     if (req.method === 'POST') {

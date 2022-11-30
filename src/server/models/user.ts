@@ -1,16 +1,19 @@
 import { Schema } from 'mongoose';
 import Database from '../mongoDb';
 import { IUser } from '../interfaces/IUser';
-const { mongo: { model } } = Database;
+const {
+  mongo: { model },
+} = Database;
 
 const userSchema: Schema<IUser> = new Schema<IUser>({
-  _id: {type: Schema.Types.ObjectId, required: true},
+  _id: { type: Schema.Types.ObjectId, required: true },
   firstName: String,
   lastName: String,
-  username: { type: String, unique: true },
+  username: String,
   password: String,
   darkMode: Boolean,
-  refreshRate: Number
+  refreshRate: Number,
+  cookieId: { type: String, unique: true },
 });
 
 // THIRD PARAMETER DEFINES DEFAULT COLLECTION NAME

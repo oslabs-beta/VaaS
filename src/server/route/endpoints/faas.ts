@@ -3,14 +3,15 @@ import { Request, Response } from "express";
 import fetch from "node-fetch";
 import { Cluster } from '../../models';
 import { IError } from '../../interfaces/IError';
-import { jwtVerify } from '../../warehouse/middlewares';
+// import { jwtVerify } from '../../warehouse/middlewares';
+import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
 
 router.route('/faas::functionName')
 // Getting specific OpenFaaS function using functionName param:
 // Verifies user's token
-  .get(jwtVerify, async (req: Request, res: Response) => {
+  .get(verifyCookie, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     // validate clusterid and functionName
     if (
@@ -65,7 +66,7 @@ router.route('/faas::functionName')
 router.route('/faas')
 // Fetching all OpenFaas functions:
 // Verifies user's token
-  .get(jwtVerify, async (req: Request, res: Response) => {
+  .get(verifyCookie, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     // if OpenFaaSStore exists
     if (req.query.OpenFaaSStore) {
@@ -134,7 +135,7 @@ router.route('/faas')
   })
   // Deploy a new OpenFaas function:
   // Verify user's token
-  .post(jwtVerify, async (req: Request, res: Response) => {
+  .post(verifyCookie, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     // Validate request body
     if (
@@ -241,7 +242,7 @@ router.route('/faas')
   });
   // Invokes selected OpenFaaS function on a cluster
 router.route('/faas/invoke')
-  .post(jwtVerify, async (req: Request, res: Response) => {
+  .post(verifyCookie, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     if (
       !req.body.clusterId ||

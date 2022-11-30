@@ -1,7 +1,8 @@
 import router from '../router';
 import { Request, Response } from "express";
 import { IError } from '../../interfaces/IError';
-import { jwtVerify } from '../../warehouse/middlewares';
+// import { jwtVerify } from '../../warehouse/middlewares';
+import { verifyCookie } from '../../warehouse/middlewares'
 import { terminal } from '../../services/terminal';
 import { execSync } from 'child_process';
 
@@ -10,7 +11,7 @@ import fs from 'fs';
 import findup from 'findup-sync';
 
 router.route('/alert')
-  .get(jwtVerify, async (req: Request, res: Response) => {
+  .get(verifyCookie, async (req: Request, res: Response) => {
     terminal({ req });
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     terminal(`URL IS ${req.url}`);
