@@ -2,7 +2,6 @@ import { GateWayQuery } from '../Services/Query';
 
 const openFaasMetric = {
   avgTimePerInvoke: async (clusterId: string, type: string, query: string) => {
-
     try {
       console.log('TYPE IS', type);
       console.log('query is:', query);
@@ -11,13 +10,11 @@ const openFaasMetric = {
 
       // need to adjust here depending on how we want to display data
       return metric;
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
-  }
-  // 
+  },
+  //
 };
-
 
 export default openFaasMetric;

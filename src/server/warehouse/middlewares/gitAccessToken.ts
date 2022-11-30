@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
 import { terminal } from '../../services/terminal';
-import fetch from "node-fetch";
+import fetch from 'node-fetch';
 import 'dotenv';
 
 export default async (
@@ -18,34 +18,36 @@ export default async (
     const gitClientID = process.env.GITHUB_CLIENT_ID;
     const gitSecret = process.env.GITHUB_SECRET;
 
-    const accessToken = await fetch(`https://github.com/login/oauth/access_token?client_id=${gitClientID}&client_secret=${gitSecret}&code=${code}`,
+    const accessToken = await fetch(
+      `https://github.com/login/oauth/access_token?client_id=${gitClientID}&client_secret=${gitSecret}&code=${code}`,
       {
-        method: "POST",
+        method: 'POST',
         headers: {
-          'Accept': 'application/json',
-        }
+          Accept: 'application/json',
+        },
       }
     ).then((res) => res.json());
     // store access token sent from github
     res.locals.accessToken = accessToken;
-    terminal(`Success: GithubToken received: ${res.locals.accessToken.access_token}`);
+    terminal(
+      `Success: GithubToken received: ${res.locals.accessToken.access_token}`
+    );
 
     // using token to request for userInfo
     const { access_token, token_type } = res.locals.accessToken;
     const authHeader = `${token_type} ${access_token}`;
-    const gitHubData = await fetch(`https://api.github.com/user`,
-      {
-        method: 'GET',
-        headers: {
-          "Authorization": authHeader,
-        }
-      }).then((res => res.json()));
+    const gitHubData = await fetch(`https://api.github.com/user`, {
+      method: 'GET',
+      headers: {
+        Authorization: authHeader,
+      },
+    }).then((res) => res.json());
     console.log(`USER DATA IS : `, gitHubData);
 
-    // set up acct info and return next 
+    // set up acct info and return next
     // eslint-disable-next-line prefer-const
     let { name, login, id } = gitHubData;
-    // COIN FIRSTNAME AND LASTNAME FIELDS FROM GITHUB DATA /name 
+    // COIN FIRSTNAME AND LASTNAME FIELDS FROM GITHUB DATA /name
     const firstName = name.split(' ')[0];
     const lastName = name.split(' ')[1];
     id = id.toString();
@@ -74,23 +76,21 @@ export default async (
       res.locals.hasAcct = true;
       res.locals.user = user[0];
       return next();
-    }
-    else {
+    } else {
       const error: IError = {
         status: 401,
         message: 'Invalid credentials',
-        invalid: true
+        invalid: true,
       };
       // IF USER DOESN'T EXIST, SET hasAcct TO FALSE
       terminal(`Fail: ${error.message}`);
       res.locals.hasAcct = false;
       return next();
     }
-  }
-  catch (err) {
+  } catch (err) {
     const error: IError = {
       status: 500,
-      message: `Unable to fulfill ${req.method} request: ${err}`
+      message: `Unable to fulfill ${req.method} request: ${err}`,
     };
     terminal(`Fail: ${error.message}`);
     return res.status(error.status).json(error);

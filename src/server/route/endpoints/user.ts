@@ -1,14 +1,17 @@
 import router from '../router';
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
 import { jwtVerify, bcrypt, authUser } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
-router.route('/user::username')
-  // logging in 
+router
+  .route('/user::username')
+  // logging in
   .get(jwtVerify, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    terminal(
+      `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+    );
     console.log('HERE ', req.params);
     try {
       const user = await User.find({ username: req.params['username'] });
@@ -16,35 +19,40 @@ router.route('/user::username')
         const error: IError = {
           status: 401,
           message: `Fail: User [${req.params['username']}] does not exist`,
-          exists: false
+          exists: false,
         };
         terminal(`Fail: ${error.message}`);
         console.log('FAILED');
         return res.status(error.status).json(error);
       }
-      terminal(`Success: User [${req.params['username']}] document retrieved from MongoDB collection`);
+      terminal(
+        `Success: User [${req.params['username']}] document retrieved from MongoDB collection`
+      );
       console.log(user);
       return res.status(200).json(user[0]);
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfill ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
-router.route('/user')
+router
+  .route('/user')
   // get userData
   .get(jwtVerify, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    terminal(
+      `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+    );
     try {
       const users = await User.find({});
       if (users.length === 0) {
         const error: IError = {
           status: 401,
           message: `Fail: No user data exists`,
-          exists: false
+          exists: false,
         };
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
@@ -54,18 +62,22 @@ router.route('/user')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfill ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
-  // update user settings 
+  // update user settings
   .put(jwtVerify, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    terminal(
+      `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+    );
     const { username, firstName, lastName, darkMode, refreshRate } = req.body;
 
-    const { jwt: { id } } = res.locals;
+    const {
+      jwt: { id },
+    } = res.locals;
     try {
       // Check to see if cluster exists
       terminal(`Searching for user [${username}] in MongoDB`);
@@ -75,7 +87,7 @@ router.route('/user')
         const error: IError = {
           status: 401,
           message: `Fail: User [${username}] does not exist`,
-          exists: false
+          exists: false,
         };
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
@@ -87,7 +99,7 @@ router.route('/user')
           firstName: firstName,
           lastName: lastName,
           darkMode: darkMode,
-          refreshRate: refreshRate
+          refreshRate: refreshRate,
         }
       );
       terminal(`Success: User [${req.body.username}] document updated`);
@@ -95,7 +107,7 @@ router.route('/user')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfill ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
@@ -103,28 +115,31 @@ router.route('/user')
   })
   // delete admin account
   .delete(authUser, bcrypt, jwtVerify, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    terminal(
+      `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+    );
     try {
       const response = await User.deleteOne({ username: req.body.username });
       if (response.deletedCount === 0) {
         const error: IError = {
           status: 401,
-          message: `Fail: User [${req.body.username}] either does not exist or could not be deleted`
+          message: `Fail: User [${req.body.username}] either does not exist or could not be deleted`,
         };
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json({ error });
       }
-      terminal(`Success: User [${req.body.username}] deleted from MongoDB collection`);
+      terminal(
+        `Success: User [${req.body.username}] deleted from MongoDB collection`
+      );
       return res.status(200).json({ deleted: true });
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfill ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   });
-
 
 export default router;

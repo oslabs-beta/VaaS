@@ -31,8 +31,8 @@ class Database {
     this._mongo.connect(uri);
     // ASSIGN MONGOOSE CONNECTION TO db
     const db: Connection = this._mongo.connection;
-    db.on("error", console.error.bind(console, "Connection error:"));
-    db.once("open", () => {
+    db.on('error', console.error.bind(console, 'Connection error:'));
+    db.once('open', () => {
       console.log(`Successfully connected to MongoDB cluster: ${uri}`);
     });
     return mongoose;

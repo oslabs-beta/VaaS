@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import customMetric from "../../Queries/Custom";
-import { Container, TextField, Button } from "@mui/material";
-import { Modules } from "../../Interfaces/ICluster";
-import loadable from "@loadable/component";
+import React, { useEffect, useState } from 'react';
+import customMetric from '../../Queries/Custom';
+import { Container, TextField, Button } from '@mui/material';
+import { Modules } from '../../Interfaces/ICluster';
+import loadable from '@loadable/component';
 // import ReactJson from "react-json-view";
 
-const ReactJson = loadable(() => import("react-json-view"));
+const ReactJson = loadable(() => import('react-json-view'));
 
 const CustomQuery = (props: Modules) => {
   const [data, setData] = useState<any[]>();
   const [responseStyle, setResponseStyle] = useState({
-    color: "white",
-    height: "280px",
+    color: 'white',
+    height: '280px',
   });
 
   useEffect(() => {
     if (!props.nested) {
       setResponseStyle({
         ...responseStyle,
-        color: "#F0F0F0",
-        height: "65vh",
+        color: '#F0F0F0',
+        height: '65vh',
       });
     }
   }, []);
@@ -30,28 +30,34 @@ const CustomQuery = (props: Modules) => {
   };
 
   const localStore = () => {
-    sessionStorage.setItem("customQueryInput", (document.getElementById("query-input") as HTMLInputElement).value);
+    sessionStorage.setItem(
+      'customQueryInput',
+      (document.getElementById('query-input') as HTMLInputElement).value
+    );
   };
 
   const handleCustom = async (): Promise<void> => {
     try {
-      const query = (document.getElementById("query-input") as HTMLInputElement).value;
-      const outputQuery = await customMetric(props.id as string, "k8", query);
+      const query = (document.getElementById('query-input') as HTMLInputElement)
+        .value;
+      const outputQuery = await customMetric(props.id as string, 'k8', query);
       setData(outputQuery);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === "Enter") handleCustom();
+  const handleEnterKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (e.key === 'Enter') handleCustom();
   };
 
   return (
     <Container
       sx={{
-        width: "100%",
-        textAlign: "center",
+        width: '100%',
+        textAlign: 'center',
       }}
     >
       <div>
@@ -60,18 +66,20 @@ const CustomQuery = (props: Modules) => {
           onChange={localStore}
           id="query-input"
           type="text"
-          defaultValue={sessionStorage.getItem("customQueryInput") || "Input Custom Query"}
+          defaultValue={
+            sessionStorage.getItem('customQueryInput') || 'Input Custom Query'
+          }
           label="Input Custom Query"
           variant="filled"
           size="small"
           margin="dense"
           sx={{
-            background: "white",
-            borderRadius: "5px",
-            marginRight: "3px",
-            marginBottom: "0px",
-            width: "100%",
-            fontSize: "10px",
+            background: 'white',
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+            width: '100%',
+            fontSize: '10px',
           }}
         />
       </div>
@@ -84,21 +92,21 @@ const CustomQuery = (props: Modules) => {
           sx={
             props.isDark
               ? {
-                  background: "#c0c0c0",
-                  color: "#1f2022",
-                  borderRadius: "5px",
-                  marginRight: "3px",
-                  marginBottom: "20px",
-                  width: "100%",
-                  fontSize: "10px",
+                  background: '#c0c0c0',
+                  color: '#1f2022',
+                  borderRadius: '5px',
+                  marginRight: '3px',
+                  marginBottom: '20px',
+                  width: '100%',
+                  fontSize: '10px',
                 }
               : {
-                  background: "#3a4a5b",
-                  borderRadius: "5px",
-                  marginRight: "3px",
-                  marginBottom: "20px",
-                  width: "100%",
-                  fontSize: "10px",
+                  background: '#3a4a5b',
+                  borderRadius: '5px',
+                  marginRight: '3px',
+                  marginBottom: '20px',
+                  width: '100%',
+                  fontSize: '10px',
                 }
           }
         >
@@ -108,15 +116,15 @@ const CustomQuery = (props: Modules) => {
           sx={{
             backgroundColor: responseStyle.color,
             height: responseStyle.height,
-            width: "100%",
-            overflow: "scroll",
-            padding: "1rem",
-            borderRadius: "15px",
-            textAlign: "left",
-            fontSize: "13px",
+            width: '100%',
+            overflow: 'scroll',
+            padding: '1rem',
+            borderRadius: '15px',
+            textAlign: 'left',
+            fontSize: '13px',
           }}
         >
-          <ReactJson src={data || { input: "query" }} />
+          <ReactJson src={data || { input: 'query' }} />
         </Container>
       </div>
     </Container>

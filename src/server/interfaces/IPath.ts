@@ -3,5 +3,5 @@ export interface IPathRoute {
 }
 
 export interface IPath {
-  [route: string]: IPathRoute
+  [route: string]: IPathRoute;
 }

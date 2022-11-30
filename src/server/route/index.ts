@@ -5,7 +5,7 @@ import prom from './endpoints/prom';
 import faas from './endpoints/faas';
 import gateway from './endpoints/gateway';
 import alert from './endpoints/alert';
-import github from './endpoints/github'; 
+import github from './endpoints/github';
 import gcheck from './endpoints/gcheck';
 
 export default {
@@ -16,6 +16,6 @@ export default {
   faas,
   gateway,
   alert,
-  github, 
-  gcheck
+  github,
+  gcheck,
 };

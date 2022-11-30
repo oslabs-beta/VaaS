@@ -10,7 +10,7 @@ dt {
   color: rgb(58, 79, 118);
 }
 dt::after {
-  content: ":";
+  content: ':';
 }
 dd {
   margin: 0 0 0 80px;
@@ -105,7 +105,7 @@ dd {
 }
 
 .module-container {
-  height: 470px;
+  height: 100%;
   width: 100%;
   flex-direction: column;
 }

@@ -26,7 +26,7 @@ export default async (
     res.locals.hashedPassword = await bcrypt.hash(password, saltRounds);
     terminal(`Success: Password hashed`);
   } else {
-  /* IF USER's hashedPassword (from previous github middleware) does exist, change username to be client input 
+    /* IF USER's hashedPassword (from previous github middleware) does exist, change username to be client input 
       query database for user, compare inputed password and password in database and move on to the next middleware if password is correct,
       else throw 'Invalid credentials' error'
   */
@@ -41,12 +41,15 @@ export default async (
     terminal(`Success: MongoDB query executed [${username}]`);
     res.locals.userId = user[0]._id;
 
-    const result: boolean = await bcrypt.compare(password, res.locals.hashedPassword);
+    const result: boolean = await bcrypt.compare(
+      password,
+      res.locals.hashedPassword
+    );
     if (!result) {
       const error: IError = {
         status: 401,
         message: 'Invalid credentials',
-        invalid: true
+        invalid: true,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);

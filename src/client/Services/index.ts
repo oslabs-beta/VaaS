@@ -6,12 +6,4 @@ import Query from './Query';
 import Alert from './Alert';
 import GateWayQuery from './Query';
 
-export {
-    Get,
-    Post,
-    Put,
-    Delete,
-    Query,
-    Alert,
-    GateWayQuery,
-};
+export { Get, Post, Put, Delete, Query, Alert, GateWayQuery };

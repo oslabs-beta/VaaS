@@ -4,8 +4,14 @@ import path from '../../route/path';
 import { terminal } from '../../services/terminal';
 
 // CHECK IF REQUEST METHOD IS AVAILABLE FOR THE ENDPOINT
-export default (req: Request, res: Response, next: NextFunction): void | Response => {
-  terminal(`${req.method} request routed to '${req.baseUrl}${req.url}' from ${req.socket.remoteAddress}`);
+export default (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void | Response => {
+  terminal(
+    `${req.method} request routed to '${req.baseUrl}${req.url}' from ${req.socket.remoteAddress}`
+  );
   let route = path(req.url);
   // SANITIZE REQUEST URL IF IT HAS QUERY STRINGS
   if (Object.keys(req.query).length > 0) {
@@ -20,7 +26,7 @@ export default (req: Request, res: Response, next: NextFunction): void | Respons
   } else {
     const error: IError = {
       status: 405,
-      message: 'This type of method is not available on this endpoint'
+      message: 'This type of method is not available on this endpoint',
     };
     res.setHeader('allow', route.methods);
     return res.status(405).json(error);

@@ -50,21 +50,24 @@ export function decodeSession(
   } catch (err: any) {
     // SPECIFIES ERROR OBJECT TO RETURN
     if (
-      err.message === "No token supplied" ||
-      err.message === "Not enough or too many segments" ||
-      err.message.indexOf("Unexpected token") === 0
+      err.message === 'No token supplied' ||
+      err.message === 'Not enough or too many segments' ||
+      err.message.indexOf('Unexpected token') === 0
     ) {
-      return { type: "invalid-token" };
+      return { type: 'invalid-token' };
     }
-    if (err.message === "Signature verification failed" || err.message === "Algorithm not supported") {
-      return { type: "integrity-error" };
+    if (
+      err.message === 'Signature verification failed' ||
+      err.message === 'Algorithm not supported'
+    ) {
+      return { type: 'integrity-error' };
     }
     throw err;
   }
   // SUCCESS OBJECT RETURNED CONTAINING DECODED TOKEN IF NO ERROR IS THROWN
   return {
-    type: "valid",
-    session: result
+    type: 'valid',
+    session: result,
   };
 }
 
@@ -72,8 +75,8 @@ export function decodeSession(
 export function checkExpStatus(token: ITokenSession): IExpirationStatus {
   const now = Date.now();
   // eat = EXPIRED AT
-  if (token.eat > now) return "active";
+  if (token.eat > now) return 'active';
   const gracePeriod = token.eat + Number(process.env.JWT_grace);
-  if (gracePeriod > now) return "grace";
-  return "expired";
+  if (gracePeriod > now) return 'grace';
+  return 'expired';
 }
