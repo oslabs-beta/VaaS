@@ -1,3 +1,5 @@
+import fetch from 'isomorphic-fetch';
+
 export default async function Get(
   url: string,
   headers: Record<string, unknown> = {}

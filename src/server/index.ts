@@ -8,34 +8,13 @@ import cors from 'cors';
 import router from './route';
 import db from './mongoDb';
 import 'dotenv';
-import { createServer as createViteServer, FSWatcher } from 'vite';
+import cookieParser from 'cookie-parser';
+import { createServer as createViteServer } from 'vite';
 import { RequestHandler } from 'express-serve-static-core';
-import { execSync } from 'child_process';
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD;
 
 const resolve = (p: string) => path.resolve(__dirname, p);
-
-// Will get grafana's address in the event that it is not on a static address
-// async function getGrafanaAddress() {
-//   // Will obtain grafana IP via kubectl command
-//   // Currently set up to detect grafana as a load balancer
-//   const grafIP = execSync(
-//     `kubectl -n ${process.env.GRAFANA_NAMESPACE} get svc ${process.env.GRAFANA_SVC_NAME} -o jsonpath="{.status.loadBalancer.ingress[0].ip}"`
-//   );
-
-//   // grafIP is going to be a Buffer, so we need to convert it to a string
-//   const grafanaIP = grafIP.toString();
-
-//   // Will read .env file and replace the IP with the new one
-//   const envFile = await fs.readFile(resolve('../../.env'), 'utf8');
-//   // Create a variable housing our target string for more clarity
-//   const newEnvVar = 'VITE_GRAFANA_IP=' + grafanaIP;
-//   // Replace the old IP with the new one
-//   const newEnvFile = envFile.replace(/VITE_GRAFANA_IP=.*$/m, `${newEnvVar}`);
-//   // Write the new file
-//   await fs.writeFile(resolve('../../.env'), newEnvFile, 'utf8');
-// }
 
 async function createServer(isProd = process.env.NODE_ENV === 'production') {
   const app = express();
@@ -56,6 +35,7 @@ async function createServer(isProd = process.env.NODE_ENV === 'production') {
   app.use(cors(true));
   app.use(express.urlencoded({ extended: true }) as RequestHandler);
   app.use(express.json() as RequestHandler);
+  app.use(cookieParser());
   const routes: Router[] = Object.values(router);
   app.use('/api', routes);
 

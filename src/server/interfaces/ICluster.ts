@@ -6,7 +6,7 @@ export interface ICluster extends Document {
   k8_port: number;
   faas_port: number;
   authorization: string;
-  name: string;
+  name: { type: string; unique: boolean };
   description: string;
   favorite: string[];
 }

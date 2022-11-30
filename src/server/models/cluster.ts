@@ -11,7 +11,7 @@ const clusterSchema: Schema<ICluster> = new Schema<ICluster>({
   k8_port: Number,
   faas_port: Number,
   authorization: String,
-  name: String,
+  name: { type: String, unique: true },
   description: String,
   favorite: [Schema.Types.ObjectId],
 });

@@ -96,12 +96,12 @@ const Login = () => {
 
       if (!body.password) setPasswordErr(' please enter password');
       else setPasswordErr('Password');
-
-      if (res.token) {
-        localStorage.setItem('username', body.username);
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('userId', res.userId);
+      console.log(res, 'res on login');
+      if (res.userId) {
         dispatch(setTitle('Home'));
+        console.log(
+          "I got here but for some reason it doesn't want to render Home"
+        );
         navigate('/home');
       }
       if (res.invalid) {

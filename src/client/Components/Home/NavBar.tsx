@@ -14,6 +14,7 @@ export default function NavBar() {
   const clusterReducer = useAppSelector(
     (state: IReducers) => state.clusterReducer
   );
+  const [user, setUser] = useState(null);
   const dispatch = useAppDispatch();
   const routeHome = () => {
     navigate('/home');
@@ -23,18 +24,12 @@ export default function NavBar() {
     navigate('/admin');
   };
 
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem('profile') as any)
-  );
-
   const handleLogOut = (): void => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    localStorage.removeItem('userId');
     setUser(null);
     navigate('/');
   };
 
+  // console.log(user);
   // useEffect(() => {
   //   const token = user?.token;
 

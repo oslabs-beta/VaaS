@@ -3,17 +3,21 @@ import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import { Cluster } from '../../models';
 import { IError } from '../../interfaces/IError';
-import { jwtVerify } from '../../warehouse/middlewares';
+// import { jwtVerify } from '../../warehouse/middlewares';
+import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
+/* GETTING SPECIFIC CLUSTER USING CLUSTERNAME:
+  VERIFIES USER's TOKEN, FINDS CLUSTER IN DB. IF CLUSTER EXISTS, SEND CLUSTER DETAILS TO THE CLIENT. ELSE THROW ERROR
+*/
 router
   .route('/cluster::name')
-  .get(jwtVerify, async (req: Request, res: Response) => {
+  .get(verifyCookie, async (req: Request, res: Response) => {
     terminal(
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
     try {
-      const response = await Cluster.find({ name: req.params['name'] });
+      const response = await Cluster.find({ name: req.params['name'] }).exec();
       if (response.length === 0) {
         const error: IError = {
           status: 401,
@@ -37,12 +41,17 @@ router
   });
 router
   .route('/cluster')
-  .get(jwtVerify, async (req: Request, res: Response) => {
+  /* GETTING ALL CLUSTERS:
+    VERIFIES USER's TOKEN, FETCHES ALL CLUSTERS IN DB. IF CLUSTERS EXISTS, SEND CLUSTERS TO THE CLIENT. ELSE THROW ERROR
+  */
+  .get(verifyCookie, async (req: Request, res: Response) => {
     terminal(
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
     try {
-      const clusters = await Cluster.find({});
+      if (res.locals.error)
+        return res.status(res.locals.error.status).json(res.locals.error);
+      const clusters = await Cluster.find({}).exec();
       if (clusters.length === 0) {
         const error: IError = {
           status: 401,
@@ -53,6 +62,7 @@ router
       terminal(
         `Success: All cluster documents retrieved from MongoDB collection`
       );
+      console.log(clusters, 'clusters');
       return res.status(200).json(clusters);
     } catch (err) {
       const error: IError = {
@@ -63,7 +73,11 @@ router
       return res.status(error.status).json(error);
     }
   })
-  .post(jwtVerify, async (req: Request, res: Response) => {
+  /* CREATING A NEW CLUSTER:
+    VERIFIES USER's TOKEN, VALIDATES USER INPUTS, ENCODES FAAS CREDENTIALS AS AUTHORIZATION, 
+    SAVES CLUSTER DETAILS TO DB AND SENDS SUCCESS TO USER
+  */
+  .post(verifyCookie, async (req: Request, res: Response) => {
     terminal(
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
@@ -95,7 +109,7 @@ router
         description,
       } = req.body;
       terminal(`Searching for cluster [${name}] in MongoDB`);
-      const cluster = await Cluster.find({ name: name });
+      const cluster = await Cluster.find({ name: name }).exec();
       terminal(`Success: MongoDB query executed [${name}]`);
       if (cluster[0]) {
         const error: IError = {
@@ -135,7 +149,11 @@ router
       return res.status(error.status).json(error);
     }
   })
-  .put(jwtVerify, async (req: Request, res: Response) => {
+  /* UPDATING A CLUSTER:
+  VERIFIES USER's TOKEN, VALIDATES CLUSTER ID AND FAAS DETAILS, ENCODES FAAS CREDENTIALS AS AUTHORIZATION, 
+  CHECKS AND THROWS ERROR IF CLUSTER DOES NOT EXIST IN DB. OTHERWISE, UPDATES THE CLUSTER WITH DETAILS FROM REQUEST BODY
+  */
+  .put(verifyCookie, async (req: Request, res: Response) => {
     terminal(
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
@@ -176,7 +194,7 @@ router
       } = res.locals;
       // Check to see if cluster exists
       terminal(`Searching for cluster [${name}] in MongoDB`);
-      const cluster = await Cluster.find({ _id: clusterId });
+      const cluster = await Cluster.find({ _id: clusterId }).exec();
       terminal(`Success: MongoDB query executed [${name}]`);
       if (cluster.length === 0) {
         const error: IError = {
@@ -256,7 +274,11 @@ router
       return res.status(error.status).json(error);
     }
   })
-  .delete(jwtVerify, async (req: Request, res: Response) => {
+  /* DELETING A CLUSTER:
+  VERIFIES USER's TOKEN, VALIDATES CLUSTER ID, DELETES CLUSTER FROM DB USING CLUSTER ID AND SENDS DELETED STATUS TO THE CLIENT. 
+  THROWS ERROR IF NO CLUSTER IS DELETED.
+  */
+  .delete(verifyCookie, async (req: Request, res: Response) => {
     terminal(
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );

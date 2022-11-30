@@ -6,6 +6,8 @@ import {
   ITokenSession,
   IExpirationStatus,
 } from '../interfaces/IToken';
+import { IUser } from '../interfaces/IUser';
+import User from '../models/user';
 
 // ENCODING USER INFO WITH JWT
 // FIRST PARAMETER: jwt secret.
@@ -79,4 +81,21 @@ export function checkExpStatus(token: ITokenSession): IExpirationStatus {
   const gracePeriod = token.eat + Number(process.env.JWT_grace);
   if (gracePeriod > now) return 'grace';
   return 'expired';
+}
+
+export async function editSession(
+  user: IUser,
+  accessSecret: string | undefined
+) {
+  // this function is to renew token so session time can start all over
+  const { id, username } = user;
+  const tokenObj = encodeSession(accessSecret, { id, username });
+  // updates user with the new token
+  await User.findOneAndUpdate(
+    { id },
+    { cookieId: tokenObj.token },
+    { new: true }
+  ).exec();
+  // returns the new token
+  return tokenObj.token;
 }

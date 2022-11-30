@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './Components/App';
 import { Provider } from 'react-redux';
 import { store } from './Store/store';
+import fetch from 'isomorphic-fetch';
+// globalThis.fetch = fetch
 
 const container = document.getElementById('root')!;
 
