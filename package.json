@@ -19,7 +19,8 @@
     "clean": "rimraf dist/",
     "copy-files": "copyfiles images/* dist/assets && copyfiles index.html dist && copyfiles -f dist/client/assets/* dist/assets",
     "prepare": "husky install",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx, src"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",

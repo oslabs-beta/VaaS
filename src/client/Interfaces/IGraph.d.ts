@@ -1,6 +1,6 @@
-declare module "react-graph-vis" {
-  import { Network, NetworkEvents, Options, Node, Edge, DataSet } from "vis";
-  import { Component } from "react";
+declare module 'react-graph-vis' {
+  import { Network, NetworkEvents, Options, Node, Edge, DataSet } from 'vis';
+  import { Component } from 'react';
 
   // export { Network, NetworkEvents, Options, Node, Edge, DataSet } from "vis";
 

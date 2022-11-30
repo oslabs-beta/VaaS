@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { IConfig } from "./interfaces/IConfig";
+import { IConfig } from './interfaces/IConfig';
 
 export const config: IConfig = {
   mongodb: {
@@ -11,6 +11,6 @@ export const config: IConfig = {
   },
   jwt: {
     access: process.env.JWT_ACCESS_SECRET,
-    refresh: process.env.JWT_REFRESH_SECRET
-  }
+    refresh: process.env.JWT_REFRESH_SECRET,
+  },
 };

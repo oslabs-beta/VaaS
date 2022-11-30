@@ -1,31 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import OpenFaaS from "../Modules/OpenFaaS";
-import Visualizer from "../Modules/Visualizer";
-import CustomQuery from "../Modules/CustomQuery";
-import Alert from "../Modules/Alert";
-import Charts from "../Modules/Charts";
-import FunctionCost from "../Modules/FunctionCost";
-import NavBar from "../Home/NavBar";
-import { Modules } from "../../Interfaces/ICluster";
-import Container from "@mui/system/Container";
-import Card from "@mui/material/Card";
-import Button from "@mui/material/Button";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
-import GrainIcon from "@mui/icons-material/Grain";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import OpenFaaS from '../Modules/OpenFaaS';
+import Visualizer from '../Modules/Visualizer';
+import CustomQuery from '../Modules/CustomQuery';
+import Alert from '../Modules/Alert';
+import Charts from '../Modules/Charts';
+import FunctionCost from '../Modules/FunctionCost';
+import NavBar from '../Home/NavBar';
+import { Modules } from '../../Interfaces/ICluster';
+import Container from '@mui/system/Container';
+import Card from '@mui/material/Card';
+import Button from '@mui/material/Button';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import GrainIcon from '@mui/icons-material/Grain';
 import DataObjectIcon from '@mui/icons-material/DataObject';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 import AddAlertIcon from '@mui/icons-material/AddAlert';
-import "./styles.css";
-import { Terminal } from "@mui/icons-material";
+import './styles.css';
+import { Terminal } from '@mui/icons-material';
 
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
-
   const { state }: any = useLocation();
   const navigate = useNavigate();
   const [faas, setFaaS] = useState(true);
@@ -34,51 +33,59 @@ const Module = (props: Modules) => {
   const [alert, setAlert] = useState(false);
   const [custom, setCustom] = useState(false);
   const [charts, setCharts] = useState(false);
-  const [currentModule, setCurrentModule] = useState("module");
+  const [currentModule, setCurrentModule] = useState('module');
   const [id] = useState(props.id || state[0]);
-  const [style, setStyle] = useState((props.isDark) ? {
-    color: "#c0c0c0",
-    minHeight: "100%",
-    minWidth: "100%",
-    display: "flex",
-    textAlign: "left",
-    backgroundImage: "linear-gradient(#2f3136, #7f7f7f)",
-    overflow: "auto",
-  } : {
-    color: "white",
-    minHeight: "100%",
-    minWidth: "100%",
-    display: "flex",
-    textAlign: "left",
-    backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)",
-    overflow: "auto",
-  });
-  const [buttonStyle, setButtonStyle] = useState((props.isDark) ? {
-    color: "#c0c0c0",
-    width: "1px"
-  } : {
-    color: 'white',
-    width: "1px"
-  });
+  const [style, setStyle] = useState(
+    props.isDark
+      ? {
+          color: '#c0c0c0',
+          minHeight: '100%',
+          minWidth: '100%',
+          display: 'flex',
+          textAlign: 'left',
+          backgroundImage: 'linear-gradient(#2f3136, #7f7f7f)',
+          overflow: 'auto',
+        }
+      : {
+          color: 'white',
+          minHeight: '100%',
+          minWidth: '100%',
+          display: 'flex',
+          textAlign: 'left',
+          backgroundImage: 'linear-gradient(#1f3a4b, #AFAFAF)',
+          overflow: 'auto',
+        }
+  );
+  const [buttonStyle, setButtonStyle] = useState(
+    props.isDark
+      ? {
+          color: '#c0c0c0',
+          width: '1px',
+        }
+      : {
+          color: 'white',
+          width: '1px',
+        }
+  );
 
   useEffect(() => {
     if (!props.nested) {
       setStyle({
-        color: "black",
-        minHeight: "92vh",
-        minWidth: "100%",
-        display: "flex",
-        textAlign: "left",
-        backgroundImage: "",
-        overflow: "auto",
+        color: 'black',
+        minHeight: '92vh',
+        minWidth: '100%',
+        display: 'flex',
+        textAlign: 'left',
+        backgroundImage: '',
+        overflow: 'auto',
       });
       setButtonStyle({
         ...buttonStyle,
-        color: "#3a4a5b",
+        color: '#3a4a5b',
       });
       if (state) {
         switch (state[1]) {
-          case "faas":
+          case 'faas':
             setFaaS(true);
             setVisualizer(false);
             setCustom(false);
@@ -86,7 +93,7 @@ const Module = (props: Modules) => {
             setCharts(false);
             setAlert(false);
             break;
-          case "visualizer":
+          case 'visualizer':
             setFaaS(false);
             setVisualizer(true);
             setCustom(false);
@@ -94,7 +101,7 @@ const Module = (props: Modules) => {
             setCharts(false);
             setAlert(false);
             break;
-          case "custom":
+          case 'custom':
             setFaaS(false);
             setVisualizer(false);
             setFunctionCost(false);
@@ -102,7 +109,7 @@ const Module = (props: Modules) => {
             setCharts(false);
             setAlert(false);
             break;
-          case "charts":
+          case 'charts':
             setFaaS(false);
             setVisualizer(false);
             setCustom(false);
@@ -110,14 +117,14 @@ const Module = (props: Modules) => {
             setCharts(true);
             setAlert(false);
             break;
-            case "alert":
+          case 'alert':
             setAlert(true);
             setFaaS(false);
             setVisualizer(false);
             setCustom(false);
             setCharts(false);
             break;
-          case "functionCost":
+          case 'functionCost':
             setAlert(false);
             setFaaS(false);
             setVisualizer(false);
@@ -125,7 +132,6 @@ const Module = (props: Modules) => {
             setFunctionCost(true);
             setCharts(false);
             break;
-
         }
       }
     }
@@ -133,7 +139,7 @@ const Module = (props: Modules) => {
 
   const handleFaaSButton = () => {
     setFaaS(true);
-    setCurrentModule("faas");
+    setCurrentModule('faas');
     setVisualizer(false);
     setFunctionCost(false);
     setCustom(false);
@@ -144,7 +150,7 @@ const Module = (props: Modules) => {
   const handleVisualizerButton = () => {
     setFaaS(false);
     setVisualizer(true);
-    setCurrentModule("visualizer");
+    setCurrentModule('visualizer');
     setCustom(false);
     setFunctionCost(false);
     setCharts(false);
@@ -155,7 +161,7 @@ const Module = (props: Modules) => {
     setFaaS(false);
     setVisualizer(false);
     setCustom(true);
-    setCurrentModule("custom");
+    setCurrentModule('custom');
     setFunctionCost(false);
     setCharts(false);
     setAlert(false);
@@ -167,19 +173,18 @@ const Module = (props: Modules) => {
     setCustom(false);
     setCharts(true);
     setFunctionCost(false);
-    setCurrentModule("charts");
+    setCurrentModule('charts');
     setAlert(false);
   };
 
   const handleAlertButton = () => {
     setFaaS(false);
-    setCurrentModule("alert");
+    setCurrentModule('alert');
     setVisualizer(false);
     setCustom(false);
     setCharts(false);
     setAlert(true);
   };
-
 
   const handleFunctionCostButton = () => {
     console.log('CLICKED');
@@ -189,47 +194,18 @@ const Module = (props: Modules) => {
     setCharts(false);
     setFunctionCost(true);
     setAlert(false);
-    setCurrentModule("functionCost");
+    setCurrentModule('functionCost');
   };
   return (
     <div>
-      <Container 
-        component={Card} 
-        sx={style} 
-        className="module-container"
-      >
+      <Container component={Card} sx={style} className="module-container">
         <div className="Module-top-row">
           <div className="module-title noselect">
-            {
-              faas && 
-              <div>
-                OpenFaaS
-              </div>
-            }
-            {
-              visualizer && 
-              <div>
-                Visualizer
-              </div>
-            }
-            {
-              custom && 
-              <div>
-                Prom Query
-              </div>
-            }
-            {
-              charts && 
-              <div>
-                Charts
-              </div>
-            }
-            {
-              functionCost &&
-              <div>
-                OpenFaaS Function Cost Calculator
-              </div>
-            }
+            {faas && <div>OpenFaaS</div>}
+            {visualizer && <div>Visualizer</div>}
+            {custom && <div>Prom Query</div>}
+            {charts && <div>Charts</div>}
+            {functionCost && <div>OpenFaaS Function Cost Calculator</div>}
           </div>
           <Button
             sx={buttonStyle}
@@ -256,8 +232,7 @@ const Module = (props: Modules) => {
             className="module-button"
             onClick={handleFaaSButton}
           >
-          <FunctionsIcon />
-
+            <FunctionsIcon />
           </Button>
           <Button
             sx={buttonStyle}
@@ -266,8 +241,7 @@ const Module = (props: Modules) => {
             className="module-button"
             onClick={handleFunctionCostButton}
           >
-          <AttachMoneyIcon />
-
+            <AttachMoneyIcon />
           </Button>
           <Button
             sx={buttonStyle}
@@ -278,32 +252,23 @@ const Module = (props: Modules) => {
           >
             <GrainIcon />
           </Button>
-          {
-            props.nested && 
+          {props.nested && (
             <Button
               sx={{
                 ...buttonStyle,
-                marginRight: "-9px",
+                marginRight: '-9px',
               }}
               variant="text"
               id="basic-button"
               className="module-button"
               onClick={() =>
                 // console.log('testing full screen')
-                navigate(
-                  "/module", 
-                  { state: [
-                      id, 
-                      currentModule, 
-                      true
-                    ] 
-                  }
-                )
+                navigate('/module', { state: [id, currentModule, true] })
               }
             >
               <FullscreenIcon />
             </Button>
-          }
+          )}
           <Button
             sx={buttonStyle}
             variant="text"
@@ -311,88 +276,45 @@ const Module = (props: Modules) => {
             className="module-button"
             onClick={handleAlertButton}
           >
-            <AddAlertIcon /> 
+            <AddAlertIcon />
           </Button>
-          {
-            !props.nested && 
+          {!props.nested && (
             <Button
               sx={{
                 ...buttonStyle,
-                marginRight: "-9px",
+                marginRight: '-9px',
               }}
               variant="text"
               id="basic-button"
               className="module-button"
-              onClick={() => 
-                navigate(
-                  "/home", 
-                  { state: [id, currentModule] }
-                )
-              }
+              onClick={() => navigate('/home', { state: [id, currentModule] })}
             >
               <FullscreenExitIcon />
             </Button>
-          }
+          )}
         </div>
         <div id="module-content">
-          {
-            custom && 
-            <CustomQuery 
-              isDark={props.isDark}
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-          {
-            faas && 
-            <OpenFaaS 
-              isDark={props.isDark}
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-          {
-            charts && 
-            <Charts              
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-          {
-            functionCost &&
-            <FunctionCost
-            isDark={props.isDark}
-            id={id}
-            nested={props.nested}
-            />
-          }
-          {
-            visualizer && 
-            <Visualizer               
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-          {
-            alert && 
-            <Alert               
-              id={id} 
-              nested={props.nested} 
-            />
-          }
+          {custom && (
+            <CustomQuery isDark={props.isDark} id={id} nested={props.nested} />
+          )}
+          {faas && (
+            <OpenFaaS isDark={props.isDark} id={id} nested={props.nested} />
+          )}
+          {charts && <Charts id={id} nested={props.nested} />}
+          {functionCost && (
+            <FunctionCost isDark={props.isDark} id={id} nested={props.nested} />
+          )}
+          {visualizer && <Visualizer id={id} nested={props.nested} />}
+          {alert && <Alert id={id} nested={props.nested} />}
         </div>
       </Container>
-      <Container 
+      <Container
         className="cluster-id"
         sx={{
-          color: style.color
+          color: style.color,
         }}
-      >
-      </Container>
-      {
-        !props.nested && 
-        <NavBar />
-      }
+      ></Container>
+      {!props.nested && <NavBar />}
     </div>
   );
 };

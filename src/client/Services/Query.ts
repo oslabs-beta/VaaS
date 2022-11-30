@@ -6,9 +6,10 @@ export async function GateWayQuery(
   query: string,
   type: string
 ): Promise<any> {
-  return await Get(apiRoute.getRoute(
-    `/gateway?id=${clusterId}&q=${query}&type=${type}`
-  ), { authorization: localStorage.getItem('token') });
+  return await Get(
+    apiRoute.getRoute(`/gateway?id=${clusterId}&q=${query}&type=${type}`),
+    { authorization: localStorage.getItem('token') }
+  );
 }
 
 export default async function Query(
@@ -16,8 +17,8 @@ export default async function Query(
   ns: string,
   query: string
 ): Promise<any> {
-  return await Get(apiRoute.getRoute(
-    `/prom?id=${clusterId}&ns=${ns}&q=${query}`
-  ), { authorization: localStorage.getItem('token') });
+  return await Get(
+    apiRoute.getRoute(`/prom?id=${clusterId}&ns=${ns}&q=${query}`),
+    { authorization: localStorage.getItem('token') }
+  );
 }
-

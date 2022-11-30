@@ -1,42 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { useAppSelector } from "../../Store/hooks";
-import { useLocation } from "react-router-dom";
-import { nodeMetric, podMetric } from "../../Queries";
+import React, { useEffect, useState } from 'react';
+import { useAppSelector } from '../../Store/hooks';
+import { useLocation } from 'react-router-dom';
+import { nodeMetric, podMetric } from '../../Queries';
 
-import Box from "@mui/material/Box";
-import { Modal } from "@mui/material";
+import Box from '@mui/material/Box';
+import { Modal } from '@mui/material';
 
-import { Modules } from "../../Interfaces/ICluster";
-import { IReducers } from "../../Interfaces/IReducers";
+import { Modules } from '../../Interfaces/ICluster';
+import { IReducers } from '../../Interfaces/IReducers';
 
-import Graph from "react-graph-vis";
-import cpIcon from "./icons/control-plane-icon.svg";
-import nsIcon from "./icons/namespace-icon.svg";
-import nodeIcon from "./icons/node-icon.svg";
-import deplIcon from "./icons/deployment-icon.svg";
-import svcIcon from "./icons/service-icon.svg";
-import podIcon from "./icons/pod-icon.svg";
+import Graph from 'react-graph-vis';
+import cpIcon from './icons/control-plane-icon.svg';
+import nsIcon from './icons/namespace-icon.svg';
+import nodeIcon from './icons/node-icon.svg';
+import deplIcon from './icons/deployment-icon.svg';
+import svcIcon from './icons/service-icon.svg';
+import podIcon from './icons/pod-icon.svg';
 
-import { v4 as uuidv4 } from "uuid";
-
-import "./network.css";
+import './network.css';
 
 const Visualizer = (props: Modules) => {
   //Modal information and styling
-  const [currPod, setCurrPod] = useState("");
-  const [currJob, setCurrJob] = useState("");
-  const [currMemUseOfHovered, setCurrMemUseOfHovered] = useState("");
-  const [currTimeSinceStart, setCurrTimeSinceStart] = useState("");
-  const [currTimeSinceDeploy, setCurrTimeSinceDeploy] = useState("");
+  const [currPod, setCurrPod] = useState('');
+  const [currJob, setCurrJob] = useState('');
+  const [currMemUseOfHovered, setCurrMemUseOfHovered] = useState('');
+  const [currTimeSinceStart, setCurrTimeSinceStart] = useState('');
+  const [currTimeSinceDeploy, setCurrTimeSinceDeploy] = useState('');
   const [showPopover, setShowPopover] = useState(false);
   const modalStyle = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
   };
@@ -54,7 +52,7 @@ const Visualizer = (props: Modules) => {
   const [totalDeployments, setTotalDeployments] = useState<any[]>([]);
   const [nameList, setNameList] = useState<any[]>([]);
   const [style, setStyle] = useState({
-    color: "#00fff5",
+    color: '#00fff5',
   });
   const [offline, setOffline] = useState(false);
   console.log(apiReducer.clusterQueryData[id].allNamespaces);
@@ -62,7 +60,7 @@ const Visualizer = (props: Modules) => {
 
   useEffect(() => {
     if (!props.nested) {
-      setStyle({ color: "black" });
+      setStyle({ color: 'black' });
     }
 
     if (!offline) {
@@ -77,7 +75,7 @@ const Visualizer = (props: Modules) => {
     //if we have multiple master nodes - we would need to do a foreach to iterate through nodes
     const nodeName = apiReducer.clusterQueryData[id].allNodes[0];
     const fetchNameList = async () => {
-      const pods = await nodeMetric.nodePods(id, "k8", nodeName);
+      const pods = await nodeMetric.nodePods(id, 'k8', nodeName);
       setNameList(pods);
     };
     fetchNameList();
@@ -87,11 +85,11 @@ const Visualizer = (props: Modules) => {
     nodes: [
       {
         id: `control-plane`,
-        label: "Control Plane",
+        label: 'Control Plane',
         size: 45,
         font: { color: style.color },
         image: cpIcon,
-        shape: "image",
+        shape: 'image',
         x: 200,
         y: 160,
       },
@@ -101,19 +99,19 @@ const Visualizer = (props: Modules) => {
 
   // add a network node for each k8s node and point control plane node to each
 
-  nodes.forEach(nodeName => {
+  nodes.forEach((nodeName) => {
     const nodeNode = {
       id: `${nodeName}-node`,
       label: `${nodeName}`,
       size: 37.5,
       font: { color: style.color },
       image: nodeIcon,
-      shape: "image",
+      shape: 'image',
     };
     graph.nodes.push(nodeNode);
 
     const cpEdge = {
-      from: "control-plane",
+      from: 'control-plane',
       to: nodeNode.id,
       width: 3,
       length: 500,
@@ -128,14 +126,14 @@ const Visualizer = (props: Modules) => {
     // fetchNameList();
 
     // add a node for each namespace and point k8s node to each
-    nameSpaces.forEach(ns => {
+    nameSpaces.forEach((ns) => {
       const nsNode = {
         id: `${ns.metric.namespace}-ns`,
         label: ns.metric.namespace,
         size: 30,
         font: { color: style.color },
         image: nsIcon,
-        shape: "image",
+        shape: 'image',
       };
       graph.nodes.push(nsNode);
 
@@ -149,8 +147,8 @@ const Visualizer = (props: Modules) => {
       // add a node for each pod in the namespace
       // and point the namespace to each
       nameList
-        .filter(nameList => nameList.metric.namespace === ns.metric.namespace)
-        .forEach(pod => {
+        .filter((nameList) => nameList.metric.namespace === ns.metric.namespace)
+        .forEach((pod) => {
           const podNode = {
             id: `${pod.metric.pod}-pod`,
             // title: htmlTitle(`
@@ -171,7 +169,7 @@ const Visualizer = (props: Modules) => {
             label: pod.metric.pod,
             font: { color: style.color },
             image: podIcon,
-            shape: "image",
+            shape: 'image',
           };
           graph.nodes.push(podNode);
 
@@ -185,7 +183,7 @@ const Visualizer = (props: Modules) => {
           // point each deployment to the pods that it manage
           const deplEdge = {
             // extract deployment name
-            from: `${pod.metric.created_by_name.replace(/-[^-]+$/i, "")}-depl`,
+            from: `${pod.metric.created_by_name.replace(/-[^-]+$/i, '')}-depl`,
             to: podNode.id,
             width: 2,
             color: style.color,
@@ -197,14 +195,14 @@ const Visualizer = (props: Modules) => {
       // add a deployment node for each k8s node in the namespace
       // and point the namespace to each
       totalDeployments
-        .filter(depl => depl.metric.namespace === ns.metric.namespace)
-        .forEach(depl => {
+        .filter((depl) => depl.metric.namespace === ns.metric.namespace)
+        .forEach((depl) => {
           const deplNode = {
             id: `${depl.metric.deployment}-depl`,
             label: depl.metric.deployment,
             font: { color: style.color },
             image: deplIcon,
-            shape: "image",
+            shape: 'image',
           };
           graph.nodes.push(deplNode);
 
@@ -219,14 +217,14 @@ const Visualizer = (props: Modules) => {
       // add a service node for each k8s node in the namespace
       // and point the namespace to each
       services
-        .filter(svc => svc.metric.namespace === ns.metric.namespace)
-        .forEach(svc => {
+        .filter((svc) => svc.metric.namespace === ns.metric.namespace)
+        .forEach((svc) => {
           const svcNode = {
             id: `${svc.metric.service}-svc`,
             label: svc.metric.service,
             font: { color: style.color },
             image: svcIcon,
-            shape: "image",
+            shape: 'image',
           };
           graph.nodes.push(svcNode);
 
@@ -263,7 +261,7 @@ const Visualizer = (props: Modules) => {
       },
     },
     edges: {
-      color: "#8526d3",
+      color: '#8526d3',
     },
   };
 
@@ -276,10 +274,10 @@ const Visualizer = (props: Modules) => {
 
       const getPodInfo = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podInfoList(id, "k8", slicedClick);
+        const data = podMetric.podInfoList(id, 'k8', slicedClick);
         const resData = await data;
         const podInfo = resData?.metric.data.result[0];
-        console.log("pod info", podInfo);
+        console.log('pod info', podInfo);
         console.log(podInfo.metric.job);
         setCurrPod(slicedClick);
         setCurrJob(podInfo.metric.job);
@@ -287,7 +285,7 @@ const Visualizer = (props: Modules) => {
 
       const getPodMemory = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podMem(id, "k8", slicedClick);
+        const data = podMetric.podMem(id, 'k8', slicedClick);
         const bytes = await data;
         const bytesToMb = bytes?.metric.data.result[0].value[1] / 1048576;
         //hard coded number is conversion of bytes to MB
@@ -297,23 +295,29 @@ const Visualizer = (props: Modules) => {
 
       const getPodStart = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podStart(id, "k8", slicedClick);
+        const data = podMetric.podStart(id, 'k8', slicedClick);
         const seconds = await data;
         const unixTime = seconds?.metric.data.result[0].value[1];
         const currTime = Date.now() / 1000;
         setCurrTimeSinceStart(
-          `${Math.floor((currTime - unixTime) / 3600)} hours (${((currTime - unixTime) / 60).toFixed(2)} minutes)`,
+          `${Math.floor((currTime - unixTime) / 3600)} hours (${(
+            (currTime - unixTime) /
+            60
+          ).toFixed(2)} minutes)`
         );
       };
 
       const getPodDeploy = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podDeployed(id, "k8", slicedClick);
+        const data = podMetric.podDeployed(id, 'k8', slicedClick);
         const seconds = await data;
         const unixTime = seconds?.metric.data.result[0].value[1];
         const currTime = Date.now() / 1000;
         setCurrTimeSinceDeploy(
-          `${Math.floor((currTime - unixTime) / 3600)} hours (${((currTime - unixTime) / 60).toFixed(2)} minutes)`,
+          `${Math.floor((currTime - unixTime) / 3600)} hours (${(
+            (currTime - unixTime) /
+            60
+          ).toFixed(2)} minutes)`
         );
       };
 
@@ -331,24 +335,24 @@ const Visualizer = (props: Modules) => {
     <Box
       sx={{
         flexGrow: 1,
-        height: "90vh",
+        height: '90vh',
       }}
     >
       <Graph
         graph={graph}
         options={options}
         events={events}
-        getNetwork={network => {
+        getNetwork={(network) => {
           // ensure that the network eases in to fit the viewport
           setTimeout(
             () =>
               network.fit({
                 animation: {
                   duration: 1500,
-                  easingFunction: "linear",
+                  easingFunction: 'linear',
                 },
               }),
-            1000,
+            1000
           );
         }}
       />

@@ -83,7 +83,10 @@ export function checkExpStatus(token: ITokenSession): IExpirationStatus {
   return 'expired';
 }
 
-export async function editSession(user: IUser, accessSecret: string | undefined) {
+export async function editSession(
+  user: IUser,
+  accessSecret: string | undefined
+) {
   // this function is to renew token so session time can start all over
   const { id, username } = user;
   const tokenObj = encodeSession(accessSecret, { id, username });
@@ -94,5 +97,5 @@ export async function editSession(user: IUser, accessSecret: string | undefined)
     { new: true }
   ).exec();
   // returns the new token
-  return tokenObj.token
+  return tokenObj.token;
 }

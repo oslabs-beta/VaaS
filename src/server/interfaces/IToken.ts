@@ -5,22 +5,22 @@ export interface ITokenSession {
   eat: number;
 }
 
-export type IPartialSession = Omit<ITokenSession, "iat" | "eat">;
+export type IPartialSession = Omit<ITokenSession, 'iat' | 'eat'>;
 
 export interface IEncodeResult {
-  token: string
+  token: string;
 }
 
 export type IDecodeResult =
   | {
-      type: "valid";
+      type: 'valid';
       session: ITokenSession;
     }
   | {
-      type: "integrity-error";
+      type: 'integrity-error';
     }
   | {
-      type: "invalid-token";
+      type: 'invalid-token';
     };
 
-export type IExpirationStatus = "expired" | "active" | "grace";
+export type IExpirationStatus = 'expired' | 'active' | 'grace';

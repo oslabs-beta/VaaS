@@ -1,6 +1,6 @@
-import { IClusterMetrics, IClusterUIState } from "./IAction";
-import { ClusterTypes } from "./ICluster";
-import { DeployedFunctionTypes, FunctionTypes } from "../Interfaces/IFunction";
+import { IClusterMetrics, IClusterUIState } from './IAction';
+import { ClusterTypes } from './ICluster';
+import { DeployedFunctionTypes, FunctionTypes } from '../Interfaces/IFunction';
 
 export interface IClusterReducer {
   render: boolean;
@@ -13,7 +13,7 @@ export interface IApiReducer {
   clusterDbData: ClusterTypes[];
   clusterQueryData: {
     [index: string]: IClusterMetrics;
-  }
+  };
 }
 
 export interface IUIReducer {
@@ -21,12 +21,11 @@ export interface IUIReducer {
 }
 
 export interface IOFReducer {
-
-      selectedDeployedFunction: string,
-      selectedOpenFaaSFunction: string,
-      openFaaSFunctions: FunctionTypes[],
-      deployedFunctions: DeployedFunctionTypes[]
-  }
+  selectedDeployedFunction: string;
+  selectedOpenFaaSFunction: string;
+  openFaaSFunctions: FunctionTypes[];
+  deployedFunctions: DeployedFunctionTypes[];
+}
 
 export interface IReducers {
   clusterReducer: IClusterReducer;
@@ -34,4 +33,3 @@ export interface IReducers {
   apiReducer: IApiReducer;
   OFReducer: IOFReducer;
 }
-

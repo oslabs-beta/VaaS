@@ -1,65 +1,78 @@
 import router from '../router';
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
-import { jwtVerify, verifyCookie, bcrypt, authUser } from '../../warehouse/middlewares';
+import {
+  jwtVerify,
+  verifyCookie,
+  bcrypt,
+  authUser,
+} from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
-router.route('/users')/* GETTING ALL USERS FROM DB:
+router
+  .route('/users') /* GETTING ALL USERS FROM DB:
 VERIFIES USER's TOKEN, FETCHES ALL USERS IN DB. THROW ERROR IF NO USERS EXISTS, OTHERWISE SEND ALL USERS DETAILS TO THE CLIENT
 */
-.get(verifyCookie, async (req: Request, res: Response) => {
-  terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-  try {
-    const users = await User.find({}).exec();
-    if (users.length === 0) {
+  .get(verifyCookie, async (req: Request, res: Response) => {
+    terminal(
+      `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+    );
+    try {
+      const users = await User.find({}).exec();
+      if (users.length === 0) {
+        const error: IError = {
+          status: 401,
+          message: `Fail: No user data exists`,
+          exists: false,
+        };
+        terminal(`Fail: ${error.message}`);
+        return res.status(error.status).json(error);
+      }
+      terminal(`Success: No user data exists in MongoDB collection`);
+      return res.status(200).json(users);
+    } catch (err) {
       const error: IError = {
-        status: 401,
-        message: `Fail: No user data exists`,
-        exists: false
+        status: 500,
+        message: `Unable to fulfill ${req.method} request: ${err}`,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
-    terminal(`Success: No user data exists in MongoDB collection`);
-    return res.status(200).json(users);
-  } catch (err) {
-    const error: IError = {
-      status: 500,
-      message: `Unable to fulfill ${req.method} request: ${err}`
-    };
-    terminal(`Fail: ${error.message}`);
-    return res.status(error.status).json(error);
-  }
-});
- 
-router.route('/user')
- /* GETTING SPECIFIC USER USING USERNAME:
+  });
+
+router
+  .route('/user')
+  /* GETTING SPECIFIC USER USING USERNAME:
   VERIFIES USER's TOKEN, FINDS USER IN DB. IF USER EXISTS, SEND USER DETAILS TO CLIENT. ELSE THROW ERROR
   */
   .get(verifyCookie, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    terminal(
+      `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+    );
     console.log('USERNAME ', res.locals.username);
-    console.log(req.cookies.cookieId, 'COOKIEID')
+    console.log(req.cookies.cookieId, 'COOKIEID');
     try {
       const user = await User.find({ username: res.locals.username });
       if (user.length === 0) {
         const error: IError = {
           status: 401,
           message: `Fail: User [${req.params['username']}] does not exist`,
-          exists: false
+          exists: false,
         };
         terminal(`Fail: ${error.message}`);
         console.log('FAILED');
         return res.status(error.status).json(error);
       }
-      terminal(`Success: User [${req.params['username']}] document retrieved from MongoDB collection`);
+      terminal(
+        `Success: User [${req.params['username']}] document retrieved from MongoDB collection`
+      );
       console.log(user);
       return res.status(200).json(user[0]);
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfill ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
@@ -70,10 +83,14 @@ router.route('/user')
   THROWS ERROR IF NO USER IS FOUND, OTHERWISE UPDATES USERDATA RETURNED FROM DB WITH DESTRUCTURED FIELDS FROM THE CLIENT.
   */
   .put(verifyCookie, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
+    terminal(
+      `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+    );
     const { username, firstName, lastName, darkMode, refreshRate } = req.body;
 
-    const { jwt: { id } } = res.locals;
+    const {
+      jwt: { id },
+    } = res.locals;
     try {
       terminal(`Searching for user [${username}] in MongoDB`);
       const user = await User.find({ _id: id }).exec();
@@ -82,7 +99,7 @@ router.route('/user')
         const error: IError = {
           status: 401,
           message: `Fail: User [${username}] does not exist`,
-          exists: false
+          exists: false,
         };
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
@@ -94,7 +111,7 @@ router.route('/user')
           firstName: firstName,
           lastName: lastName,
           darkMode: darkMode,
-          refreshRate: refreshRate
+          refreshRate: refreshRate,
         }
       );
       terminal(`Success: User [${req.body.username}] document updated`);
@@ -102,36 +119,44 @@ router.route('/user')
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfill ${req.method} request: ${err}`
+        message: `Unable to fulfill ${req.method} request: ${err}`,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
   })
   // delete admin account
-  .delete(authUser, bcrypt, verifyCookie, async (req: Request, res: Response) => {
-    terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
-    try {
-      const response = await User.deleteOne({ username: req.body.username });
-      if (response.deletedCount === 0) {
+  .delete(
+    authUser,
+    bcrypt,
+    verifyCookie,
+    async (req: Request, res: Response) => {
+      terminal(
+        `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+      );
+      try {
+        const response = await User.deleteOne({ username: req.body.username });
+        if (response.deletedCount === 0) {
+          const error: IError = {
+            status: 401,
+            message: `Fail: User [${req.body.username}] either does not exist or could not be deleted`,
+          };
+          terminal(`Fail: ${error.message}`);
+          return res.status(error.status).json({ error });
+        }
+        terminal(
+          `Success: User [${req.body.username}] deleted from MongoDB collection`
+        );
+        return res.status(200).json({ deleted: true });
+      } catch (err) {
         const error: IError = {
-          status: 401,
-          message: `Fail: User [${req.body.username}] either does not exist or could not be deleted`
+          status: 500,
+          message: `Unable to fulfill ${req.method} request: ${err}`,
         };
         terminal(`Fail: ${error.message}`);
-        return res.status(error.status).json({ error });
+        return res.status(error.status).json(error);
       }
-      terminal(`Success: User [${req.body.username}] deleted from MongoDB collection`);
-      return res.status(200).json({ deleted: true });
-    } catch (err) {
-      const error: IError = {
-        status: 500,
-        message: `Unable to fulfill ${req.method} request: ${err}`
-      };
-      terminal(`Fail: ${error.message}`);
-      return res.status(error.status).json(error);
     }
-  });
-
+  );
 
 export default router;

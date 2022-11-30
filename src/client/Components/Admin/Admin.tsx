@@ -1,60 +1,63 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Get, Post, Put, Delete } from "../../Services/index";
-import { apiRoute } from "../../utils";
-import NavBar from "../Home/NavBar";
-import UserWelcome from "../Admin/UserWelcome";
-import { ClusterTypes } from "../../Interfaces/ICluster";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { IReducers } from "../../Interfaces/IReducers";
-import { setDarkMode } from "../../Store/actions";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Get, Post, Put, Delete } from '../../Services/index';
+import { apiRoute } from '../../utils';
+import NavBar from '../Home/NavBar';
+import UserWelcome from '../Admin/UserWelcome';
+import { ClusterTypes } from '../../Interfaces/ICluster';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
+import { IReducers } from '../../Interfaces/IReducers';
+import { setDarkMode } from '../../Store/actions';
 
 const Admin = () => {
   const dispatch = useAppDispatch();
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
 
-  const [updateUserErr, setUpdateUserErr] = useState("");
-  const [deletePasswordErr, setDeletePasswordErr] = useState("");
-  const [addClusterMessage, setAddClusterMessage] = useState("");
-  const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState("");
+  const [updateUserErr, setUpdateUserErr] = useState('');
+  const [deletePasswordErr, setDeletePasswordErr] = useState('');
+  const [addClusterMessage, setAddClusterMessage] = useState('');
+  const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
   const darkMode = uiReducer.clusterUIState.darkmode;
   const [refreshRate, setRefreshRate] = useState(0);
   const navigate = useNavigate();
   const [containerStyle] = useState({
-    width: "350px",
-    marginTop: "-10px",
+    width: '350px',
+    marginTop: '-10px',
   });
   const [textFieldStyle] = useState({
-    background: "#FFFFFF",
-    borderRadius: "5px",
-    marginBottom: "0px",
-    width: "100%",
-    fontSize: "10px",
+    background: '#FFFFFF',
+    borderRadius: '5px',
+    marginBottom: '0px',
+    width: '100%',
+    fontSize: '10px',
   });
   const [buttonStyle] = useState({
-    background: "#3a4a5b",
-    borderRadius: "5px",
-    marginBottom: "0px",
-    width: "100%",
-    fontSize: "10px",
+    background: '#3a4a5b',
+    borderRadius: '5px',
+    marginBottom: '0px',
+    width: '100%',
+    fontSize: '10px',
   });
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const user = await Get(apiRoute.getRoute(`user:${localStorage.username}`), {
-        authorization: localStorage.getItem("token"),
-      });
+      const user = await Get(
+        apiRoute.getRoute(`user:${localStorage.username}`),
+        {
+          authorization: localStorage.getItem('token'),
+        }
+      );
       console.log(localStorage.username);
-      console.log("USER: ", user.darkMode);
-      console.log("USER: ", user.refreshRate / 1000);
+      console.log('USER: ', user.darkMode);
+      console.log('USER: ', user.refreshRate / 1000);
       dispatch(setDarkMode(user.darkMode));
       setRefreshRate(user.refreshRate / 1000);
     };
@@ -64,82 +67,107 @@ const Admin = () => {
   const handleAddCluster = async (): Promise<void> => {
     try {
       const body = {
-        url: (document.getElementById("cluster-url") as HTMLInputElement).value,
-        k8_port: (document.getElementById("k8_port") as HTMLInputElement).value,
-        faas_port: (document.getElementById("faas_port") as HTMLInputElement).value,
-        faas_username: (document.getElementById("faas_username") as HTMLInputElement).value,
-        faas_password: (document.getElementById("faas_password") as HTMLInputElement).value,
-        name: (document.getElementById("cluster-name") as HTMLInputElement).value,
-        description: (document.getElementById("cluster-description") as HTMLInputElement).value,
+        url: (document.getElementById('cluster-url') as HTMLInputElement).value,
+        k8_port: (document.getElementById('k8_port') as HTMLInputElement).value,
+        faas_port: (document.getElementById('faas_port') as HTMLInputElement)
+          .value,
+        faas_username: (
+          document.getElementById('faas_username') as HTMLInputElement
+        ).value,
+        faas_password: (
+          document.getElementById('faas_password') as HTMLInputElement
+        ).value,
+        name: (document.getElementById('cluster-name') as HTMLInputElement)
+          .value,
+        description: (
+          document.getElementById('cluster-description') as HTMLInputElement
+        ).value,
       };
-      if (!body.url || !body.k8_port || !body.faas_port || !body.name || !body.description) {
-        setAddClusterMessage("Missing input fields");
+      if (
+        !body.url ||
+        !body.k8_port ||
+        !body.faas_port ||
+        !body.name ||
+        !body.description
+      ) {
+        setAddClusterMessage('Missing input fields');
         return;
       }
       if (!body.k8_port.match(/[0-9]/g) || !body.faas_port.match(/[0-9]/g)) {
-        setAddClusterMessage("Port(s) must be numbers");
+        setAddClusterMessage('Port(s) must be numbers');
         return;
       }
       const res = await Get(apiRoute.getRoute(`cluster:${body.name}`), {
-        authorization: localStorage.getItem("token"),
+        authorization: localStorage.getItem('token'),
       });
       console.log(res);
       if (res.message) {
-        await Post(apiRoute.getRoute("cluster"), body, {
-          authorization: localStorage.getItem("token"),
+        await Post(apiRoute.getRoute('cluster'), body, {
+          authorization: localStorage.getItem('token'),
         });
-        setAddClusterMessage("Successfully added cluster");
-      } else setAddClusterMessage("Cluster with name already exists");
+        setAddClusterMessage('Successfully added cluster');
+      } else setAddClusterMessage('Cluster with name already exists');
     } catch (err) {
-      console.log("Add cluster failed", err);
+      console.log('Add cluster failed', err);
     }
   };
 
   const handleUserUpdate = async (): Promise<void> => {
     try {
       const body = {
-        username: (document.getElementById("update-username-input") as HTMLInputElement).value,
-        firstName: (document.getElementById("update-firstName-input") as HTMLInputElement).value,
-        lastName: (document.getElementById("update-lastName-input") as HTMLInputElement).value,
+        username: (
+          document.getElementById('update-username-input') as HTMLInputElement
+        ).value,
+        firstName: (
+          document.getElementById('update-firstName-input') as HTMLInputElement
+        ).value,
+        lastName: (
+          document.getElementById('update-lastName-input') as HTMLInputElement
+        ).value,
       };
       if (!body.username && !body.firstName && !body.lastName) {
-        setUpdateUserErr("No inputs in input fields");
+        setUpdateUserErr('No inputs in input fields');
         return;
       }
-      const user = await Get(apiRoute.getRoute(`user:${localStorage.username}`), {
-        authorization: localStorage.getItem("token"),
-      });
+      const user = await Get(
+        apiRoute.getRoute(`user:${localStorage.username}`),
+        {
+          authorization: localStorage.getItem('token'),
+        }
+      );
       if (!body.username) body.username = user.username;
       if (!body.firstName) body.firstName = user.firstName;
       if (!body.lastName) body.lastName = user.lastName;
 
-      const updateStatus = await Put(apiRoute.getRoute("user"), body, {
-        authorization: localStorage.getItem("token"),
-      }).catch(err => console.log(err));
+      const updateStatus = await Put(apiRoute.getRoute('user'), body, {
+        authorization: localStorage.getItem('token'),
+      }).catch((err) => console.log(err));
 
       if (updateStatus.success) {
-        localStorage.setItem("username", body.username);
-        setUpdateUserErr("Account information successfully updated");
+        localStorage.setItem('username', body.username);
+        setUpdateUserErr('Account information successfully updated');
       } else {
-        setUpdateUserErr("Your account details could not be updated");
+        setUpdateUserErr('Your account details could not be updated');
       }
     } catch (err) {
-      console.log("Update request to server failed", err);
+      console.log('Update request to server failed', err);
     }
   };
 
   const handleUserDelete = async (): Promise<void> => {
     try {
       const userBody = {
-        username: localStorage.getItem("username"),
-        password: (document.getElementById("delete-password-input") as HTMLInputElement).value,
+        username: localStorage.getItem('username'),
+        password: (
+          document.getElementById('delete-password-input') as HTMLInputElement
+        ).value,
       };
-      const deleteStatus = await Delete(apiRoute.getRoute("user"), userBody, {
-        authorization: localStorage.getItem("token"),
+      const deleteStatus = await Delete(apiRoute.getRoute('user'), userBody, {
+        authorization: localStorage.getItem('token'),
       });
 
-      const clusters = await Get(apiRoute.getRoute("cluster"), {
-        authorization: localStorage.getItem("token"),
+      const clusters = await Get(apiRoute.getRoute('cluster'), {
+        authorization: localStorage.getItem('token'),
       });
 
       clusters.forEach(async (cluster: ClusterTypes) => {
@@ -147,79 +175,93 @@ const Admin = () => {
           clusterId: cluster._id,
           favorite: false,
         };
-        await Put(apiRoute.getRoute("cluster"), clusterBody, {
-          authorization: localStorage.getItem("token"),
+        await Put(apiRoute.getRoute('cluster'), clusterBody, {
+          authorization: localStorage.getItem('token'),
         });
       });
 
       if (deleteStatus.deleted) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("username");
-        navigate("/");
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        navigate('/');
       } else {
-        console.log("Account could not be deleted - ");
-        setDeletePasswordErr("Incorrect password");
+        console.log('Account could not be deleted - ');
+        setDeletePasswordErr('Incorrect password');
       }
     } catch (err) {
-      console.log("Delete request to server failed", err);
+      console.log('Delete request to server failed', err);
     }
   };
 
   const handleDarkMode = async (): Promise<void> => {
-    console.log("CLICKED");
+    console.log('CLICKED');
     try {
       const body = {
         darkMode: !darkMode,
       };
 
-      const updateStatus = await Put(apiRoute.getRoute("user"), body, {
-        authorization: localStorage.getItem("token"),
+      const updateStatus = await Put(apiRoute.getRoute('user'), body, {
+        authorization: localStorage.getItem('token'),
       });
       if (updateStatus.success) {
         dispatch(setDarkMode(!darkMode));
-        console.log("Dark mode enabled");
+        console.log('Dark mode enabled');
       } else {
-        console.log("Dark mode could not be enabled");
+        console.log('Dark mode could not be enabled');
       }
     } catch (err) {
-      console.log("Update request to server failed", err);
+      console.log('Update request to server failed', err);
     }
   };
 
   const handleRefreshRate = async (): Promise<void> => {
     try {
       const body = {
-        refreshRate: Number((document.getElementById("refresh-rate-input") as HTMLInputElement).value) * 1000,
+        refreshRate:
+          Number(
+            (document.getElementById('refresh-rate-input') as HTMLInputElement)
+              .value
+          ) * 1000,
       };
-      const updateStatus = await Put(apiRoute.getRoute("user"), body, {
-        authorization: localStorage.getItem("token"),
+      const updateStatus = await Put(apiRoute.getRoute('user'), body, {
+        authorization: localStorage.getItem('token'),
       });
       if (updateStatus.success) {
         console.log(body.refreshRate);
         setRefreshRate(body.refreshRate / 1000);
-        setUpdateRefreshRateMessage(`Refresh rate successfully set to ${body.refreshRate / 1000} seconds`);
+        setUpdateRefreshRateMessage(
+          `Refresh rate successfully set to ${body.refreshRate / 1000} seconds`
+        );
       } else {
-        setUpdateRefreshRateMessage("Refresh rate could not be updated");
+        setUpdateRefreshRateMessage('Refresh rate could not be updated');
       }
     } catch (err) {
-      console.log("Update request to server failed", err);
+      console.log('Update request to server failed', err);
     }
   };
 
-  const handleEnterKeyDownUpdate = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === "Enter") handleUserUpdate();
+  const handleEnterKeyDownUpdate = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (e.key === 'Enter') handleUserUpdate();
   };
 
-  const handleEnterKeyDownDelete = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === "Enter") handleUserDelete();
+  const handleEnterKeyDownDelete = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (e.key === 'Enter') handleUserDelete();
   };
 
-  const handleEnterKeyDownAddCluster = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === "Enter") handleAddCluster();
+  const handleEnterKeyDownAddCluster = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (e.key === 'Enter') handleAddCluster();
   };
 
-  const handleEnterKeyDownRefreshRate = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === "Enter") handleRefreshRate();
+  const handleEnterKeyDownRefreshRate = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (e.key === 'Enter') handleRefreshRate();
   };
 
   return (
@@ -227,10 +269,14 @@ const Admin = () => {
       <UserWelcome />
       <Accordion
         sx={{
-          marginTop: "0.5rem",
+          marginTop: '0.5rem',
         }}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
           Administrator Account Details
         </AccordionSummary>
         <AccordionDetails>
@@ -275,7 +321,13 @@ const Admin = () => {
               />
             </div>
             <div>
-              <Button variant="contained" className="btn" type="button" onClick={handleUserUpdate} sx={buttonStyle}>
+              <Button
+                variant="contained"
+                className="btn"
+                type="button"
+                onClick={handleUserUpdate}
+                sx={buttonStyle}
+              >
                 Update Admin Details
               </Button>
               <span id="update-user-err">{updateUserErr}</span>
@@ -285,7 +337,11 @@ const Admin = () => {
       </Accordion>
 
       <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2a-content" id="panel2a-header">
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
           Delete Administrator Account
         </AccordionSummary>
         <AccordionDetails>
@@ -321,10 +377,14 @@ const Admin = () => {
 
       <Accordion
         sx={{
-          marginTop: "0.5rem",
+          marginTop: '0.5rem',
         }}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
           Add Cluster
         </AccordionSummary>
         <AccordionDetails>
@@ -412,7 +472,13 @@ const Admin = () => {
               />
             </div>
             <div>
-              <Button variant="contained" className="btn" type="button" onClick={handleAddCluster} sx={buttonStyle}>
+              <Button
+                variant="contained"
+                className="btn"
+                type="button"
+                onClick={handleAddCluster}
+                sx={buttonStyle}
+              >
                 Add Cluster
               </Button>
               <div id="add-cluster-msg">{addClusterMessage}</div>
@@ -422,7 +488,11 @@ const Admin = () => {
       </Accordion>
 
       <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2a-content" id="panel2a-header">
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
           Cluster Refresh Rate
         </AccordionSummary>
         <AccordionDetails>
@@ -458,18 +528,34 @@ const Admin = () => {
       </Accordion>
 
       <Accordion>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2a-content" id="panel2a-header">
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
           Dark Mode
         </AccordionSummary>
         <AccordionDetails>
           <Container sx={containerStyle}>
             {!darkMode && (
-              <Button variant="contained" className="btn" type="button" onClick={handleDarkMode} sx={buttonStyle}>
+              <Button
+                variant="contained"
+                className="btn"
+                type="button"
+                onClick={handleDarkMode}
+                sx={buttonStyle}
+              >
                 Enable Dark Mode
               </Button>
             )}
             {darkMode && (
-              <Button variant="contained" className="btn" type="button" onClick={handleDarkMode} sx={buttonStyle}>
+              <Button
+                variant="contained"
+                className="btn"
+                type="button"
+                onClick={handleDarkMode}
+                sx={buttonStyle}
+              >
                 Disable Dark Mode
               </Button>
             )}
@@ -479,10 +565,14 @@ const Admin = () => {
 
       <Accordion
         sx={{
-          marginTop: "0.5rem",
+          marginTop: '0.5rem',
         }}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel2a-content" id="panel2a-header">
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
           About VaaS
         </AccordionSummary>
         <AccordionDetails>
@@ -492,11 +582,17 @@ const Admin = () => {
               className="btn"
               type="button"
               sx={buttonStyle}
-              onClick={() => window.open("https://vaas.dev/", "_blank", "noopener,noreferrer")}
+              onClick={() =>
+                window.open(
+                  'https://vaas.dev/',
+                  '_blank',
+                  'noopener,noreferrer'
+                )
+              }
             >
               Learn about the project
             </Button>
-            <Box sx={{ textAlign: "center" }}>
+            <Box sx={{ textAlign: 'center' }}>
               <h3>Developed by:</h3>
               <p>James Chan</p>
               <p>Jimmy Lim</p>

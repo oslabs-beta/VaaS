@@ -15,10 +15,6 @@
     "sourceMap": true
   },
   "compileOnSave": true,
-  "exclude": [
-    "./src/client"
-  ],
-  "include": [
-    "./src/server"
-  ]
+  "exclude": ["./src/client"],
+  "include": ["./src/server"]
 }

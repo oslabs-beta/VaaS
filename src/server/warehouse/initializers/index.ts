@@ -4,5 +4,5 @@ import check from './check';
 // THESE MIDDLEWARES RUN BEFORE OTHER MIDDLEWARES/CONTROLLERS RUN AND ARE EXECUTED IN ORDER
 export default {
   check,
-  logger
+  logger,
 };

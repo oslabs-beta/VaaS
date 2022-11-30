@@ -12,5 +12,5 @@ export {
   jwtVerify,
   gitAccessToken,
   gitAuthUser,
-  verifyCookie
+  verifyCookie,
 };

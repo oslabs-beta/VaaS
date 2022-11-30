@@ -103,11 +103,15 @@ async function createServer(isProd = process.env.NODE_ENV === 'production') {
     }
   });
 
+  // getGrafanaAddress();
+
   db.connect();
   const port: number = Number(process.env.EXPRESS_PORT) || 3020;
   app.listen(Number(port), '0.0.0.0', () => {
-    console.log(`VaaS is awake on http://localhost:${port}`);
+    console.log(`\u001b[32;1mVaaS is awake on http://localhost:${port}`);
   });
 }
 
+console.time('\u001b[33;1mServer startup');
 createServer();
+console.timeEnd('\u001b[33;1mServer startup');

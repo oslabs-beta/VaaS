@@ -6,7 +6,7 @@ import { Post } from '../../Services/index';
 import { Container, Button, TextField } from '@mui/material';
 
 const Register = () => {
-  // potential redux? 
+  // potential redux?
   const [registered, setRegistered] = useState('');
   const [firstNameErr, setFirstNameErr] = useState('First Name');
   const [lastNameErr, setLastNameErr] = useState('Last Name');
@@ -17,36 +17,42 @@ const Register = () => {
   const handleSignUp = async (): Promise<void> => {
     try {
       const body = {
-        firstName: (document.getElementById('firstName-input') as HTMLInputElement).value,
-        lastName: (document.getElementById('lastName-input') as HTMLInputElement).value,
-        username: (document.getElementById('register-username-input') as HTMLInputElement).value,
-        password: (document.getElementById('register-password-input') as HTMLInputElement).value,
+        firstName: (
+          document.getElementById('firstName-input') as HTMLInputElement
+        ).value,
+        lastName: (
+          document.getElementById('lastName-input') as HTMLInputElement
+        ).value,
+        username: (
+          document.getElementById('register-username-input') as HTMLInputElement
+        ).value,
+        password: (
+          document.getElementById('register-password-input') as HTMLInputElement
+        ).value,
       };
 
-      const res = await Post(
-        apiRoute.getRoute('auth'), 
-        body
-      )
-      .catch(err => console.log(err));
+      const res = await Post(apiRoute.getRoute('auth'), body).catch((err) =>
+        console.log(err)
+      );
 
-      if(!body.firstName) setFirstNameErr(' please enter first name');
+      if (!body.firstName) setFirstNameErr(' please enter first name');
       else setFirstNameErr('First Name');
 
-      if(!body.lastName) setLastNameErr(' please enter last name');
+      if (!body.lastName) setLastNameErr(' please enter last name');
       else setLastNameErr('Last Name');
 
-      if(!body.username) setUsernameErr(' please enter username');
+      if (!body.username) setUsernameErr(' please enter username');
       else setUsernameErr('Username');
 
-      if(!body.password) setPasswordErr(' please enter password');
+      if (!body.password) setPasswordErr(' please enter password');
       else setPasswordErr('Password');
-      
-      if(res.exists) {
+
+      if (res.exists) {
         setRegistered('user already exists');
       } else if (
-        !body.firstName || 
-        !body.lastName || 
-        !body.username || 
+        !body.firstName ||
+        !body.lastName ||
+        !body.username ||
         !body.password
       ) {
         setRegistered('');
@@ -61,12 +67,14 @@ const Register = () => {
     }
   };
 
-  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if(e.key === 'Enter') handleSignUp();
+  const handleEnterKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (e.key === 'Enter') handleSignUp();
   };
 
   return (
-    <Container 
+    <Container
       sx={{
         height: '100vh',
         minWidth: '100%',
@@ -77,70 +85,70 @@ const Register = () => {
         alignItems: 'center',
         backgroundSize: 'contain',
         bgColor: '#3a4a5b',
-      }} 
-      className='backdrop'
+      }}
+      className="backdrop"
     >
-      <Container 
-        maxWidth='sm' 
-        className='login-container' 
-        sx = {{
-            width: '40%',
-            minWidth: '300px',
-            opacity: '95%',
-            direction: 'column',
-            textAlign: 'center',
-            color: '#3a4a5b',
-            alignItems: 'center',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            backgroundRepeat: 'no-repeat',
-            padding: '1.5rem',
-            borderRadius: '2%'
+      <Container
+        maxWidth="sm"
+        className="login-container"
+        sx={{
+          width: '40%',
+          minWidth: '300px',
+          opacity: '95%',
+          direction: 'column',
+          textAlign: 'center',
+          color: '#3a4a5b',
+          alignItems: 'center',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          backgroundRepeat: 'no-repeat',
+          padding: '1.5rem',
+          borderRadius: '2%',
         }}
       >
         <div>
           <h2>VaaS Registration</h2>
         </div>
         <TextField
-          id='firstName-input'
+          id="firstName-input"
           label={firstNameErr}
-          type='string'
-          size='small'
-          variant='outlined'
+          type="string"
+          size="small"
+          variant="outlined"
           margin="dense"
           onKeyDown={handleEnterKeyDown}
         />
         <TextField
-          id='lastName-input'
+          id="lastName-input"
           label={lastNameErr}
-          type='string'
-          size='small'
-          variant='outlined'
+          type="string"
+          size="small"
+          variant="outlined"
           margin="dense"
           onKeyDown={handleEnterKeyDown}
         />
         <TextField
-          id='register-username-input'
+          id="register-username-input"
           label={usernameErr}
-          type='username'
-          size='small'
-          autoComplete='current-username'
-          variant='outlined'
+          type="username"
+          size="small"
+          autoComplete="current-username"
+          variant="outlined"
           onKeyDown={handleEnterKeyDown}
           margin="dense"
         />
         <TextField
-          id='register-password-input'
+          id="register-password-input"
           label={passwordErr}
-          type='password'
-          size='small'
-          autoComplete='current-password'
-          variant='outlined'
+          type="password"
+          size="small"
+          autoComplete="current-password"
+          variant="outlined"
           margin="dense"
           onKeyDown={handleEnterKeyDown}
         />
-        <Container 
-          id='buttonContainer' 
+        <Container
+          id="buttonContainer"
           sx={{
             display: 'flex',
             justifyContent: 'center',
@@ -148,32 +156,32 @@ const Register = () => {
             padding: '.5em',
           }}
         >
-          <Button 
-            onClick = {() => navigate('/')}
-            variant='contained'
+          <Button
+            onClick={() => navigate('/')}
+            variant="contained"
             sx={{
-              color: 'white', 
-              backgroundColor: '#3a4a5b', 
+              color: 'white',
+              backgroundColor: '#3a4a5b',
               borderColor: 'white',
             }}
-          > 
+          >
             Go Back
           </Button>
-          <Button 
-            onClick={handleSignUp} 
-            variant='contained'
+          <Button
+            onClick={handleSignUp}
+            variant="contained"
             sx={{
-              color: 'white', 
-              backgroundColor: '#3a4a5b', 
+              color: 'white',
+              backgroundColor: '#3a4a5b',
               borderColor: 'white',
             }}
-            type='button'
-          > 
+            type="button"
+          >
             Sign Up
           </Button>
         </Container>
         <div>
-          <p className='input-error-text'>{registered}</p>
+          <p className="input-error-text">{registered}</p>
         </div>
       </Container>
     </Container>
