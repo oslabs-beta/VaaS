@@ -10,6 +10,7 @@ export default async (
 ): Promise<void | Response> => {
   terminal(`Received ${req.method} request at 'authUser' middleware`);
   try {
+    // CHECK THAT USERNAME IS SENT IN REQUEST BODY
     if (!req.body.username) {
       const error: IError = {
         status: 500,
@@ -21,7 +22,7 @@ export default async (
     const { username } = req.body;
     terminal(`Searching for user [${username}] in MongoDB`);
     // QUERY DATABASE WITH username
-    const user = await User.find({ username });
+    const user = await User.find({ username }).exec();
     terminal(`Success: MongoDB query executed [${username}]`);
     /* REGISTER USER */
     if (req.method === 'POST') {

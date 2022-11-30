@@ -37,7 +37,7 @@ export default async (
     }
     terminal(`Searching for user [${username}] in MongoDB`);
     // { username } is Javascript property value shorthand for { username: username }
-    const user = await User.find({ username });
+    const user = await User.find({ username }).exec();
     terminal(`Success: MongoDB query executed [${username}]`);
     res.locals.userId = user[0]._id;
 

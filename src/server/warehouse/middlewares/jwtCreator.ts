@@ -15,3 +15,4 @@ export default (req: Request, res: Response, next: NextFunction): void | Respons
   terminal(`Success: JWT created: ${res.locals.jwt} for ${username}`);
   return next();
 };
+

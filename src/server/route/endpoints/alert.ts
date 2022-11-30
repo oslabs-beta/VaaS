@@ -1,23 +1,22 @@
 import router from '../router';
 import { Request, Response } from "express";
 import { IError } from '../../interfaces/IError';
-import { jwtVerify } from '../../warehouse/middlewares';
+// import { jwtVerify } from '../../warehouse/middlewares';
+import { verifyCookie } from '../../warehouse/middlewares'
 import { terminal } from '../../services/terminal';
 import { execSync } from 'child_process';
 
 import yaml from 'js-yaml';
 import fs from 'fs';
-// import path from 'path';
-// import { execPath } from 'process';
 import findup from 'findup-sync';
 
 router.route('/alert')
-  .get(jwtVerify, async (req: Request, res: Response) => {
+  .get(verifyCookie, async (req: Request, res: Response) => {
     terminal({ req });
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     terminal(`URL IS ${req.url}`);
     const { id, ns, q, expr, dur } = req.query;
-    try {
+    try { 
       console.log('enters alert');
       const fileLoc = findup('alert-rules.yaml');
       console.log('fileloc', fileLoc);

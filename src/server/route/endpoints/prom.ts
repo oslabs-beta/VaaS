@@ -3,12 +3,13 @@ import { Request, Response } from "express";
 import fetch from "node-fetch";
 import { Cluster } from '../../models';
 import { IError } from '../../interfaces/IError';
-import { jwtVerify } from '../../warehouse/middlewares';
+// import { jwtVerify } from '../../warehouse/middlewares';
+import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
 
 router.route('/prom')
-  .get(jwtVerify, async (req: Request, res: Response) => {
+  .get(verifyCookie, async (req: Request, res: Response) => {
     terminal(`Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`);
     terminal(req.query);
     terminal(`URL IS ${req.url}`);
@@ -24,12 +25,14 @@ router.route('/prom')
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
+    // id = cluster ID, ns = namespace, q = query string
     const { id, ns, q } = req.query;
     try {
-      const cluster = await Cluster.findOne({ _id: id });
+      const cluster = await Cluster.findOne({ _id: id }).exec();
       if (cluster) {
         const { url, k8_port, faas_port } = cluster;
         let port: number;
+        // assign port based on namespace provided by the client
         switch (ns) {
           case 'k8': port = k8_port;
             break;
@@ -43,6 +46,7 @@ router.route('/prom')
             return res.status(error.status).json(error);
           }
         }
+        // make prometheus query with provided info to get metrics
         const metric = await fetch(`${url}:${port}/api/v1/query?query=${q}`, {
           method: 'GET',
           headers: {
