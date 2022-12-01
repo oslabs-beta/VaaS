@@ -38,8 +38,13 @@ const Visualizer = (props: Modules) => {
     boxShadow: 24,
     p: 4,
   };
+  interface DeplCache {
+    [key: string]: string;
+  }
+  const deplCache: DeplCache = {};
 
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
+  console.log('grabbing cluster data in visualizer');
   console.log(apiReducer.clusterDbData);
   console.log(apiReducer.clusterQueryData);
 
@@ -55,6 +60,7 @@ const Visualizer = (props: Modules) => {
     color: '#00fff5',
   });
   const [offline, setOffline] = useState(false);
+  console.log('grabbing namespaces and deployments in visualizer');
   console.log(apiReducer.clusterQueryData[id].allNamespaces);
   console.log(apiReducer.clusterQueryData[id].totalDeployments);
 
@@ -84,6 +90,7 @@ const Visualizer = (props: Modules) => {
   const graph: any = {
     nodes: [
       {
+        // id: `${Math.random() * 1000000}`,
         id: `control-plane`,
         label: 'Control Plane',
         size: 45,
@@ -99,9 +106,10 @@ const Visualizer = (props: Modules) => {
 
   // add a network node for each k8s node and point control plane node to each
 
-  nodes.forEach((nodeName) => {
+  nodes.forEach((nodeName, index) => {
     const nodeNode = {
-      id: `${nodeName}-node`,
+      // id: `${Math.random() * 1000000}`,
+      id: `${nodeName}-${index}-node`,
       label: `${nodeName}`,
       size: 37.5,
       font: { color: style.color },
@@ -126,9 +134,10 @@ const Visualizer = (props: Modules) => {
     // fetchNameList();
 
     // add a node for each namespace and point k8s node to each
-    nameSpaces.forEach((ns) => {
+    nameSpaces.forEach((ns, nsindex) => {
+      const randomIndex = Math.random() * 1000000;
       const nsNode = {
-        id: `${ns.metric.namespace}-ns`,
+        id: `${ns.metric.namespace}-${randomIndex}-ns`,
         label: ns.metric.namespace,
         size: 30,
         font: { color: style.color },
@@ -144,13 +153,39 @@ const Visualizer = (props: Modules) => {
       };
       graph.edges.push(nodeEdge);
 
+      // add a deployment node for each k8s node in the namespace
+      // and point the namespace to each
+      totalDeployments
+        .filter((depl) => depl.metric.namespace === ns.metric.namespace)
+        .forEach((depl, index) => {
+          const randomDeplIndex = Math.random() * 1000000;
+          const deplNode = {
+            // id: `${Math.random() * 1000000}`,
+            id: `${depl.metric.deployment}-${randomDeplIndex}-depl`,
+            label: depl.metric.deployment,
+            font: { color: style.color },
+            image: deplIcon,
+            shape: 'image',
+          };
+          graph.nodes.push(deplNode);
+          deplCache[depl.metric.deployment] = deplNode.id;
+
+          const nsEdge = {
+            from: nsNode.id,
+            to: deplNode.id,
+            width: 2,
+          };
+          graph.edges.push(nsEdge);
+        });
+
       // add a node for each pod in the namespace
       // and point the namespace to each
       nameList
         .filter((nameList) => nameList.metric.namespace === ns.metric.namespace)
-        .forEach((pod) => {
+        .forEach((pod, index) => {
+          const randomNLIndex = Math.random() * 1000000;
           const podNode = {
-            id: `${pod.metric.pod}-pod`,
+            id: `${pod.metric.pod}-${randomNLIndex}-pod`,
             // title: htmlTitle(`
             // <div>
             //   <dl>
@@ -181,9 +216,15 @@ const Visualizer = (props: Modules) => {
           graph.edges.push(nsEdge);
 
           // point each deployment to the pods that it manage
+          const deplName = `${pod.metric.created_by_name.replace(
+            /-[^-]+$/i,
+            ''
+          )}`;
+          const deplId = deplCache[deplName];
           const deplEdge = {
             // extract deployment name
-            from: `${pod.metric.created_by_name.replace(/-[^-]+$/i, '')}-depl`,
+            from: deplId,
+            // from: `${pod.metric.created_by_name.replace(/-[^-]+$/i, '')}-depl`,
             to: podNode.id,
             width: 2,
             color: style.color,
@@ -192,35 +233,38 @@ const Visualizer = (props: Modules) => {
           graph.edges.push(deplEdge);
         });
 
-      // add a deployment node for each k8s node in the namespace
-      // and point the namespace to each
-      totalDeployments
-        .filter((depl) => depl.metric.namespace === ns.metric.namespace)
-        .forEach((depl) => {
-          const deplNode = {
-            id: `${depl.metric.deployment}-depl`,
-            label: depl.metric.deployment,
-            font: { color: style.color },
-            image: deplIcon,
-            shape: 'image',
-          };
-          graph.nodes.push(deplNode);
+      // // add a deployment node for each k8s node in the namespace
+      // // and point the namespace to each
+      // totalDeployments
+      //   .filter((depl) => depl.metric.namespace === ns.metric.namespace)
+      //   .forEach((depl, index) => {
+      //     const randomDeplIndex = Math.random() * 1000000;
+      //     const deplNode = {
+      //       // id: `${Math.random() * 1000000}`,
+      //       id: `${depl.metric.deployment}-${randomDeplIndex}-depl`,
+      //       label: depl.metric.deployment,
+      //       font: { color: style.color },
+      //       image: deplIcon,
+      //       shape: 'image',
+      //     };
+      //     graph.nodes.push(deplNode);
 
-          const nsEdge = {
-            from: nsNode.id,
-            to: deplNode.id,
-            width: 2,
-          };
-          graph.edges.push(nsEdge);
-        });
+      //     const nsEdge = {
+      //       from: nsNode.id,
+      //       to: deplNode.id,
+      //       width: 2,
+      //     };
+      //     graph.edges.push(nsEdge);
+      //   });
 
       // add a service node for each k8s node in the namespace
       // and point the namespace to each
       services
         .filter((svc) => svc.metric.namespace === ns.metric.namespace)
-        .forEach((svc) => {
+        .forEach((svc, index) => {
+          const randomSvcIndex = Math.floor(Math.random() * 1000000);
           const svcNode = {
-            id: `${svc.metric.service}-svc`,
+            id: `${svc.metric.service}-${randomSvcIndex}-svc`,
             label: svc.metric.service,
             font: { color: style.color },
             image: svcIcon,
@@ -269,23 +313,27 @@ const Visualizer = (props: Modules) => {
     select: function (params: { nodes: any; edges: any }) {
       const { nodes } = params;
       const clicked = nodes[0];
-      const slicedClick = clicked.substring(clicked.length - 4, 0);
+      console.log('THIS IS CLICKED:', clicked);
+      // split clicked by dashes and take the length-1 elements
+      const splitClickInterim = clicked.split('-').slice(0, -2);
+      const splitClick = splitClickInterim.join('-');
+      console.log('THIS IS SPLIT CLICK:', splitClick);
       // REMOVES THE '-POD' FROM LAST 4 CHARS
 
       const getPodInfo = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podInfoList(id, 'k8', slicedClick);
+        const data = podMetric.podInfoList(id, 'k8', splitClick);
         const resData = await data;
         const podInfo = resData?.metric.data.result[0];
         console.log('pod info', podInfo);
         console.log(podInfo.metric.job);
-        setCurrPod(slicedClick);
+        setCurrPod(splitClick);
         setCurrJob(podInfo.metric.job);
       };
 
       const getPodMemory = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podMem(id, 'k8', slicedClick);
+        const data = podMetric.podMem(id, 'k8', splitClick);
         const bytes = await data;
         const bytesToMb = bytes?.metric.data.result[0].value[1] / 1048576;
         //hard coded number is conversion of bytes to MB
@@ -295,7 +343,7 @@ const Visualizer = (props: Modules) => {
 
       const getPodStart = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podStart(id, 'k8', slicedClick);
+        const data = podMetric.podStart(id, 'k8', splitClick);
         const seconds = await data;
         const unixTime = seconds?.metric.data.result[0].value[1];
         const currTime = Date.now() / 1000;
@@ -309,7 +357,7 @@ const Visualizer = (props: Modules) => {
 
       const getPodDeploy = async () => {
         //run the podInfo middleware to run a query to the prometheus server
-        const data = podMetric.podDeployed(id, 'k8', slicedClick);
+        const data = podMetric.podDeployed(id, 'k8', splitClick);
         const seconds = await data;
         const unixTime = seconds?.metric.data.result[0].value[1];
         const currTime = Date.now() / 1000;
