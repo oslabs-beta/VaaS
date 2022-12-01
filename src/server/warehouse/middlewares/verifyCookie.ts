@@ -12,7 +12,7 @@ export default async (
 ): Promise<void | Response> => {
   //get cookie from request
   const { cookieId } = req.cookies;
-  const { baseUrl, url } = req;
+  const { baseUrl, url, method } = req;
   try {
     // move on to next middleware if token does not exist
     if (!cookieId) {
@@ -22,7 +22,7 @@ export default async (
       };
       return res.status(error.status).json({ ...error, invalid: true });
     }
-    console.log(baseUrl, url, cookieId, 'req urls'); // /api /user:username
+    // console.log(baseUrl, url, cookieId, 'req urls'); // /api /user:username
     // query db with token from cookies to get user
     const user = await User.findOne({ cookieId }).exec();
     if (user) {
@@ -32,7 +32,7 @@ export default async (
       if (authorized.type === 'valid') {
         // CHECK TOKEN EXPIRATION STATUS
         const tokenStatus = checkExpStatus(authorized.session);
-        console.log(tokenStatus, 'tokenStatus');
+        // console.log(tokenStatus, 'tokenStatus');
         if (tokenStatus === 'grace' && baseUrl === '/api' && url === '/auth') {
           // RENEW TOKEN SO SESSION TIME CAN START ALL OVER
           const token = await editSession(user, process.env.JWT_ACCESS_SECRET);
@@ -41,8 +41,8 @@ export default async (
           return res.status(201).json({ invalid: false });
         }
         if (tokenStatus === 'active') {
-          console.log('base url: ', baseUrl);
-          console.log('url: ', url);
+          // console.log('base url: ', baseUrl);
+          // console.log('url: ', url);
           // IF TOKEN IS ACTIVE, SAVE USER's username to locals for the /user: route
           if (baseUrl === '/api' && url === '/auth')
             return res.status(201).json({ invalid: false });

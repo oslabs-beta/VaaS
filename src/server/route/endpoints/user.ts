@@ -50,8 +50,6 @@ router
     terminal(
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
-    console.log('USERNAME ', res.locals.username);
-    console.log(req.cookies.cookieId, 'COOKIEID');
     try {
       const user = await User.find({ username: res.locals.username });
       if (user.length === 0) {
@@ -67,7 +65,6 @@ router
       terminal(
         `Success: User [${req.params['username']}] document retrieved from MongoDB collection`
       );
-      console.log(user);
       return res.status(200).json(user[0]);
     } catch (err) {
       const error: IError = {

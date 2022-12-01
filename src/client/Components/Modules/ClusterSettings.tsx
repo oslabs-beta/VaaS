@@ -154,7 +154,7 @@ const ClusterSettings = (props: Modules) => {
         }}
       >
         <div className="Module-top-row">
-          <div className="module-title noselect">Cluster Settings</div>
+          <div className="module-title noselect">Cluster Settingsssss</div>
           <Button
             sx={{
               ...buttonColor,

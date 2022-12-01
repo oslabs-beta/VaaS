@@ -10,7 +10,7 @@ const grafanaIP = import.meta.env.VITE_GRAFANA_IP;
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
-  const grafIP = '34.168.31.129';
+  const grafIP = '34.83.229.2';
   const inputStyle = {
     width: '45%',
     background: 'blue',
