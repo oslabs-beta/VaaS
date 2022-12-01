@@ -12,10 +12,11 @@ import { IClusterMetrics } from '../../Interfaces/IAction';
 import './styles.css';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import { setDarkMode } from '../../Store/actions';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const clusterReducer = useAppSelector(
     (state: IReducers) => state.clusterReducer
   );
@@ -41,7 +42,7 @@ const Home = () => {
       console.log(res, 'GetCluster');
       if (res.invalid) {
         console.log('Go to login');
-        return <Navigate to="/" />;
+        return navigate('/');
       }
       if (res.message) {
         setNoClusterError(
@@ -75,7 +76,7 @@ const Home = () => {
       console.log(res, 'getCluster2 favs Home:line 69');
       if (res.invalid) {
         console.log('Go to login');
-        return <Navigate to="/" />;
+        return navigate('/');
       }
       if (res.message) {
         setNoClusterError(
@@ -183,7 +184,7 @@ const Home = () => {
       console.log('USER: ', user);
       if (user.invalid) {
         console.log('Go to login');
-        return <Navigate to="/" />;
+        return navigate('/');
       }
       dispatch(setDarkMode(user.darkMode));
       user.darkMode

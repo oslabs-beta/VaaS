@@ -25,7 +25,6 @@ export default async (
     console.log(baseUrl, url, cookieId, 'req urls'); // /api /user:username
     // query db with token from cookies to get user
     const user = await User.findOne({ cookieId }).exec();
-    console.log(user, 'user console logged');
     if (user) {
       // authorized returns object with type and result as properties
       const authorized = decodeSession(process.env.JWT_ACCESS_SECRET, cookieId);
@@ -34,21 +33,22 @@ export default async (
         // CHECK TOKEN EXPIRATION STATUS
         const tokenStatus = checkExpStatus(authorized.session);
         console.log(tokenStatus, 'tokenStatus');
+        if (tokenStatus === 'grace' && baseUrl === '/api' && url === '/auth') {
+          // RENEW TOKEN SO SESSION TIME CAN START ALL OVER
+          const token = await editSession(user, process.env.JWT_ACCESS_SECRET);
+          // new token is saved into cookie
+          res.cookie('cookieId', token, { httpOnly: true });
+          return res.status(201).json({ invalid: false });
+        }
         if (tokenStatus === 'active') {
-          if (baseUrl === '/api' && url === '/cluster') return next();
+          console.log('base url: ', baseUrl);
+          console.log('url: ', url);
           // IF TOKEN IS ACTIVE, SAVE USER's username to locals for the /user: route
           if (baseUrl === '/api' && url === '/auth')
             return res.status(201).json({ invalid: false });
           if (baseUrl === '/api' && url === '/user')
             res.locals.username = user.username;
-          // RENEW TOKEN SO SESSION TIME CAN START ALL OVER
-          const token = await editSession(
-            user,
-            process.env.token_ACCESS_SECRET
-          );
-          // new token is saved into response
-          res.cookie('cookieId', token, { httpOnly: true });
-          next();
+          return next();
         } else {
           // RETURN ERROR IF TOKEN ISN'T ACTIVE
           const error: IError = {

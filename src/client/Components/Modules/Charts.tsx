@@ -10,6 +10,7 @@ const grafanaIP = import.meta.env.VITE_GRAFANA_IP;
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
+  const grafIP = '34.168.31.129';
   const inputStyle = {
     width: '45%',
     background: 'blue',
@@ -52,7 +53,7 @@ const Charts = (props: Modules) => {
       {/* iframe for  node exporter use method node*/}
       {dashboard && (
         <iframe
-          src={`http://${grafanaIP}/d/${dashboard}/?&kiosk`}
+          src={`http://${grafIP}/d/${dashboard}/?&kiosk`}
           height="1600px"
           width="100%"
           frameBorder="0"

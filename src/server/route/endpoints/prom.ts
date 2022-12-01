@@ -7,10 +7,16 @@ import { IError } from '../../interfaces/IError';
 import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
+// We're never hitting this prom route?
+
 router.route('/prom').get(verifyCookie, async (req: Request, res: Response) => {
   terminal(
     `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
   );
+  console.log(
+    `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
+  );
+  console.log('WHAT THE FUCK!!!!!!!!!!!! THIS SHOULD FIRE???');
   terminal(req.query);
   terminal(`URL IS ${req.url}`);
   if (!req.query.id || !req.query.ns || !req.query.q) {

@@ -17,6 +17,7 @@ export function encodeSession(
   partialSession: IPartialSession
 ): IEncodeResult {
   //SPECIFYING ALGORITHM TO USE FOR ENCODING
+  console.log('made it to encodesession');
   const algo: TAlgorithm = 'HS512';
   // iat = ISSUED AT
   const iat = Date.now(),
@@ -29,10 +30,17 @@ export function encodeSession(
     iat: iat,
     eat: eat,
   };
-  // RETURN ENCODED RESULT
-  return {
+
+  console.log('what is session: ', session);
+  const encodedObject = {
     token: encode(session, accessSecret, algo),
   };
+  console.log(encodedObject, 'encodedObject'); // BROKEN
+  return encodedObject;
+  // RETURN ENCODED RESULT
+  // return {
+  //   token: encode(session, accessSecret, algo),
+  // };
 }
 
 // DECODING USER's JWT TOKEN
@@ -83,19 +91,26 @@ export function checkExpStatus(token: ITokenSession): IExpirationStatus {
   return 'expired';
 }
 
-export async function editSession(
-  user: IUser,
-  accessSecret: string | undefined
-) {
+export async function editSession(user: IUser, accessSecret: string | any) {
+  console.log('editing session');
   // this function is to renew token so session time can start all over
   const { id, username } = user;
-  const tokenObj = encodeSession(accessSecret, { id, username });
+
+  const tokenObj = encodeSession(accessSecret, {
+    id,
+    username,
+  });
+
+  console.log('tokenObj: ', tokenObj);
   // updates user with the new token
+  console.log(' attempting user update ');
   await User.findOneAndUpdate(
     { id },
     { cookieId: tokenObj.token },
     { new: true }
   ).exec();
+
+  console.log('user updated');
   // returns the new token
   return tokenObj.token;
 }
