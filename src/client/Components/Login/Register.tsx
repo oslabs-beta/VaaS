@@ -1,78 +1,60 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { apiRoute } from '../../utils';
-import { Post } from '../../Services/index';
+import { registerUser } from '../../Queries';
 import { Container, Button, TextField } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 const Register = () => {
-  // potential redux?
-  const [registered, setRegistered] = useState('');
-  const [firstNameErr, setFirstNameErr] = useState('First Name');
-  const [lastNameErr, setLastNameErr] = useState('Last Name');
-  const [usernameErr, setUsernameErr] = useState('Username');
-  const [passwordErr, setPasswordErr] = useState('Password');
   const navigate = useNavigate();
+  const [fields, setFields] = useState({
+    firstName: '',
+    lastName: '',
+    username: '',
+    password: '',
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const disabled =
+    !fields.firstName ||
+    !fields.lastName ||
+    !fields.username ||
+    !fields.password;
 
   const handleSignUp = async (): Promise<void> => {
+    setLoading(true);
     try {
-      const body = {
-        firstName: (
-          document.getElementById('firstName-input') as HTMLInputElement
-        ).value,
-        lastName: (
-          document.getElementById('lastName-input') as HTMLInputElement
-        ).value,
-        username: (
-          document.getElementById('register-username-input') as HTMLInputElement
-        ).value,
-        password: (
-          document.getElementById('register-password-input') as HTMLInputElement
-        ).value,
-      };
-
-      const res = await Post(apiRoute.getRoute('auth'), body).catch((err) =>
-        console.log(err)
-      );
-
-      if (!body.firstName) setFirstNameErr(' please enter first name');
-      else setFirstNameErr('First Name');
-
-      if (!body.lastName) setLastNameErr(' please enter last name');
-      else setLastNameErr('Last Name');
-
-      if (!body.username) setUsernameErr(' please enter username');
-      else setUsernameErr('Username');
-
-      if (!body.password) setPasswordErr(' please enter password');
-      else setPasswordErr('Password');
-
-      if (res.exists) {
-        setRegistered('user already exists');
-      } else if (
-        !body.firstName ||
-        !body.lastName ||
-        !body.username ||
-        !body.password
-      ) {
-        setRegistered('');
-      } else {
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('username', body.username);
-        localStorage.setItem('userId', res.userId);
-        navigate('/home');
-      }
-    } catch (err) {
-      console.log('Post failed', err);
+      const response = await registerUser({ ...fields });
+      // console.log(response, 'OUR RESPONSE');
+      if (response.data.userId) navigate('/home');
+      setLoading(false);
+    } catch (error: any) {
+      // console.log('Signup failed', error.response);
+      setError(error.response.data.message);
+      setLoading(false);
     }
   };
 
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setError('');
+    const {
+      target: { name, value },
+    } = e;
+    setFields({ ...fields, [name]: value });
+    // console.log(fields);
+  };
+
+  // when click on enter key, invoke signup func
   const handleEnterKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>
   ): void => {
-    if (e.key === 'Enter') handleSignUp();
+    if (e.key === 'Enter') {
+      // console.log('Enter key pressed');
+      if (disabled) return;
+      handleSignUp();
+    }
   };
-
   return (
     <Container
       sx={{
@@ -108,44 +90,57 @@ const Register = () => {
       >
         <div>
           <h2>VaaS Registration</h2>
+          {error && <span style={{ color: 'red' }}>{error}</span>}
         </div>
         <TextField
           id="firstName-input"
-          label={firstNameErr}
+          label="Firstname"
           type="string"
           size="small"
           variant="outlined"
           margin="dense"
+          name="firstName"
+          value={fields.firstName}
           onKeyDown={handleEnterKeyDown}
+          onChange={(e) => handleChange(e)}
         />
         <TextField
           id="lastName-input"
-          label={lastNameErr}
+          label="lastName"
           type="string"
           size="small"
           variant="outlined"
           margin="dense"
+          name="lastName"
+          value={fields.lastName}
           onKeyDown={handleEnterKeyDown}
+          onChange={(e) => handleChange(e)}
         />
         <TextField
           id="register-username-input"
-          label={usernameErr}
+          label="username"
           type="username"
           size="small"
           autoComplete="current-username"
           variant="outlined"
-          onKeyDown={handleEnterKeyDown}
           margin="dense"
+          name="username"
+          value={fields.username}
+          onKeyDown={handleEnterKeyDown}
+          onChange={(e) => handleChange(e)}
         />
         <TextField
           id="register-password-input"
-          label={passwordErr}
+          label="password"
           type="password"
           size="small"
           autoComplete="current-password"
           variant="outlined"
           margin="dense"
+          name="password"
+          value={fields.password}
           onKeyDown={handleEnterKeyDown}
+          onChange={(e) => handleChange(e)}
         />
         <Container
           id="buttonContainer"
@@ -167,7 +162,7 @@ const Register = () => {
           >
             Go Back
           </Button>
-          <Button
+          <LoadingButton
             onClick={handleSignUp}
             variant="contained"
             sx={{
@@ -176,13 +171,12 @@ const Register = () => {
               borderColor: 'white',
             }}
             type="button"
+            disabled={disabled}
+            loading={loading}
           >
             Sign Up
-          </Button>
+          </LoadingButton>
         </Container>
-        <div>
-          <p className="input-error-text">{registered}</p>
-        </div>
       </Container>
     </Container>
   );

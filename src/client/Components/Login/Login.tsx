@@ -1,75 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import {
-  apiRoute,
-  GITHUB_CLIENT_ID,
-  GITHUB_REDIRECT,
-  GClientId,
-} from '../../utils';
-import { setTitle } from '../../Store/actions';
-import { Put, Post } from '../../Services/index';
-import { IReducers } from '../../Interfaces/IReducers';
+import { loginUser } from '../../Queries';
+import { checkAuth } from '../../utils';
 import { Container, Box, Button, TextField, CssBaseline } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import './styles.css';
 import { useDispatch } from 'react-redux';
 import LoginBackGround from '../../../../public/images/LoginBackGround.png';
 
 const Login = () => {
-  const [usernameErr, setUsernameErr] = useState('Username');
-  const [passwordErr, setPasswordErr] = useState('Password');
-  const dispatch = useAppDispatch();
-  const clusterReducer = useAppSelector(
-    (state: IReducers) => state.clusterReducer
-  );
   const navigate = useNavigate();
+  const [fields, setFields] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const disabled = !fields.username || !fields.password;
 
   useEffect(() => {
-    //sign in state might need to be removed - because we are working with persistent state
-    //might be that we use redux-persist in conjunction with local.storage as oppose to actually touching local storage
-    console.log('render state from clusterReducer: ', clusterReducer.render);
-  }, [clusterReducer]);
+    const authorize = async () => {
+      const authorized = await checkAuth();
+      if (!authorized.invalid) navigate('/home');
+    };
+    authorize();
+  }, []);
 
-  const handleLogin = async (): Promise<void> => {
-    try {
-      const body = {
-        username: (
-          document.getElementById('login-username-input') as HTMLInputElement
-        ).value,
-        password: (
-          document.getElementById('login-password-input') as HTMLInputElement
-        ).value,
-      };
-      // put request returns token and userId
-      const res = await Put(apiRoute.getRoute('auth'), body).catch((err) =>
-        console.log(err)
-      );
-
-      if (!body.username) setUsernameErr(' please enter username');
-      else setUsernameErr('Username');
-
-      if (!body.password) setPasswordErr(' please enter password');
-      else setPasswordErr('Password');
-      console.log(res, 'res on login');
-      if (res.userId) {
-        dispatch(setTitle('Home'));
-        navigate('/home');
-      }
-      if (res.invalid) {
-        setUsernameErr(res.message);
-        setPasswordErr('');
-      }
-    } catch (err) {
-      console.log('Get failed', err);
-    }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setError('');
+    const {
+      target: { name, value },
+    } = e;
+    setFields({ ...fields, [name]: value });
   };
 
+  const handleLogin = async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await loginUser({ ...fields });
+      if (response.data.userId) navigate('/home');
+      setLoading(false);
+    } catch (error: any) {
+      setError(error.response.data.message);
+      setLoading(false);
+    }
+  };
   // when click on enter key, invoke login func
   const handleEnterKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>
   ): void => {
     if (e.key === 'Enter') {
-      console.log('Enter key pressed');
+      // console.log('Enter key pressed');
+      if (disabled) return;
       handleLogin();
     }
   };
@@ -112,26 +93,31 @@ const Login = () => {
         >
           <div>
             <h1>VaaS</h1>
+            {error && <span style={{ color: 'red' }}>{error}</span>}
           </div>
           <TextField
             id="login-username-input"
-            label={usernameErr}
+            label="Username"
             type="username"
-            autoComplete="current-password"
-            variant="outlined"
+            autoComplete="current-username"
             size="small"
-            onKeyDown={handleEnterKeyDown}
             margin="dense"
+            name="username"
+            value={fields.username}
+            onKeyDown={handleEnterKeyDown}
+            onChange={(e) => handleChange(e)}
           />
           <TextField
             id="login-password-input"
-            label={passwordErr}
+            label="Password"
             type="password"
             autoComplete="current-password"
-            variant="outlined"
             size="small"
-            onKeyDown={handleEnterKeyDown}
             margin="dense"
+            name="password"
+            value={fields.password}
+            onKeyDown={handleEnterKeyDown}
+            onChange={(e) => handleChange(e)}
           />
           <Container
             id="buttonContainer"
@@ -142,7 +128,8 @@ const Login = () => {
               padding: '.5em',
             }}
           >
-            <Button
+            {/* login button */}
+            <LoadingButton
               className="btn"
               type="button"
               onClick={handleLogin}
@@ -152,10 +139,12 @@ const Login = () => {
                 backgroundColor: '#3a4a5b',
                 borderColor: 'white',
               }}
+              disabled={disabled}
+              loading={loading}
             >
               Login
-            </Button>
-
+            </LoadingButton>
+            {/* register button */}
             <Button
               className="btn"
               type="button"
