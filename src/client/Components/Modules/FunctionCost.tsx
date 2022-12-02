@@ -12,6 +12,7 @@ import {
   NativeSelect,
 } from '@mui/material';
 import { functionCost } from '../../utils';
+import { setDefaultResultOrder } from 'dns/promises';
 
 const FunctionCost = (props: Modules) => {
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
@@ -19,20 +20,19 @@ const FunctionCost = (props: Modules) => {
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
   const [data, setData] = useState({ value: 0 });
   const [retrived, setRetrived] = useState(false);
+  const [fields, setFields] = useState({
+    numInvocation: 0,
+    estExecTime: 0,
+    memoryMbs: 0,
+  });
 
-  const localStore = () => {
-    sessionStorage.setItem(
-      'invocationamount',
-      (document.getElementById('invocation-input') as HTMLInputElement).value
-    );
-    sessionStorage.setItem(
-      'estExecTime',
-      (document.getElementById('estimated-exec-time') as HTMLInputElement).value
-    );
-    sessionStorage.setItem(
-      'memoryMbs',
-      (document.getElementById('memory-mbs') as HTMLInputElement).value
-    );
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const {
+      target: { name, value },
+    } = e;
+    setFields({ ...fields, [name]: Number(value) });
   };
 
   //remove previous session storage on first page load
@@ -40,29 +40,11 @@ const FunctionCost = (props: Modules) => {
     sessionStorage.clear();
   };
 
-  // function calculation state
-  const [avgExecutionTime, setAvgExecutionTime] = useState<number | null>(0);
-  const [numOfInvokation, setNumOfInvokation] = useState<number | null>(0);
-  const [memoryOfFunc, setMemoryOfFunc] = useState<number | null>(0);
-
   const [responseStyle, setResponseStyle] = useState({
     color: 'white',
     height: '280px',
   });
-  const [dropdownStyle] = useState({
-    background: 'white',
-    borderRadius: '5px',
-    padding: '0.5rem',
-    marginBottom: '0px',
-    width: '75%',
-    fontSize: '10px',
-  });
-  const [inputStyle] = useState({
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  });
+
   const googleGBGHzMap: { [key: string]: any } = {
     128: 200,
     256: 400,
@@ -79,12 +61,7 @@ const FunctionCost = (props: Modules) => {
         height: '65vh',
       });
     }
-    console.log(localStorage.getItem('token'));
   }, []);
-
-  useEffect(() => {
-    console.log(typeof avgExecutionTime);
-  }, [avgExecutionTime]);
   useEffect(() => {
     console.log('DATA IS: ', data);
   }, [data]);
@@ -95,7 +72,7 @@ const FunctionCost = (props: Modules) => {
   };
 
   // fetch data from prom: time it takes for exection, invocation amount
-  const hadleFunctionData = async () => {
+  const handleFunctionData = async () => {
     try {
       console.log('CLICKEDDDDD');
       const type = 'avg';
@@ -128,26 +105,6 @@ const FunctionCost = (props: Modules) => {
     return deployedFunctions.find((element) => element.name === name);
   };
 
-  const handleCalculatorInput = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    dataType: string
-  ): void => {
-    switch (dataType) {
-      case 'numInvoke': {
-        setNumOfInvokation(Number(e.target.value));
-        break;
-      }
-      case 'timeInvoke': {
-        setAvgExecutionTime(Number(e.target.value));
-        break;
-      }
-      case 'memory': {
-        setMemoryOfFunc(Number(e.target.value));
-        break;
-      }
-    }
-  };
-
   const vendorFuncCost = (
     invokeAmount: number,
     invokeTime: number,
@@ -169,9 +126,8 @@ const FunctionCost = (props: Modules) => {
             totalComputeGBSeconds - functionCost.lambdaFreeTier,
             0
           );
-
           const bill = billableCompute * functionCost.lambdaChargeGBSecond;
-          // console.log('BILL WITH SECONDS IS', bill)
+          console.log('BILL WITH SECONDS IS', bill);
           // console.log('functionCost', functionCost.lambdaRequestCharge)
           const requestCharge: number =
             (invokeAmount - functionCost.lambdaFreeRequests) *
@@ -184,6 +140,7 @@ const FunctionCost = (props: Modules) => {
             computeCost: bill,
             total: totalCost,
           };
+          console.log('THIS IS THE RESULT', result);
           // console.log(totalCost);
           // console.log('****************');
           switch (resultType) {
@@ -323,19 +280,27 @@ const FunctionCost = (props: Modules) => {
           const bill = billableCompute * functionCost.ibmChargeGBSecond;
           // console.log('BILL WITH SECONDS IS', bill)
           // console.log('functionCost', functionCost.lambdaRequestCharge)
+          console.log(
+            'invoke amount:',
+            invokeAmount,
+            'freeReqs',
+            functionCost.ibmFreeRequests,
+            'ibmReqCharge:',
+            functionCost.ibmRequestCharge
+          );
           const requestCharge: number =
             (invokeAmount - functionCost.ibmFreeRequests) *
             (functionCost.ibmRequestCharge / 1000000);
           // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
           // console.log('REQ CHARGE TOT:' , requestCharge)
           const totalCost: string = (requestCharge + bill).toFixed(2);
+          console.log('ibm requestCharge:', requestCharge);
           const result = {
             requestCharge: requestCharge,
             computeCost: bill,
             total: totalCost,
           };
-          // console.log(totalCost);
-          // console.log('****************');
+
           switch (resultType) {
             case 'reqCharge': {
               return result.requestCharge.toFixed(2);
@@ -373,8 +338,25 @@ const FunctionCost = (props: Modules) => {
           alignItems: 'center',
         }}
       >
-        <Box sx={inputStyle}>
-          <FormControl fullWidth sx={dropdownStyle}>
+        <Box
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <FormControl
+            fullWidth
+            sx={{
+              background: 'white',
+              borderRadius: '5px',
+              padding: '0.5rem',
+              marginBottom: '0px',
+              width: '75%',
+              fontSize: '10px',
+            }}
+          >
             <NativeSelect
               placeholder="Select OpenFaaS function"
               inputProps={{
@@ -397,7 +379,7 @@ const FunctionCost = (props: Modules) => {
             variant="contained"
             className="btn"
             type="button"
-            onClick={hadleFunctionData}
+            onClick={handleFunctionData}
             sx={
               props.isDark
                 ? {
@@ -479,34 +461,23 @@ const FunctionCost = (props: Modules) => {
           )}
 
           <div>
-            <h4>Estimated AWS Cost of deployment:</h4>
-
+            <h4>Estimated cost of deployment:</h4>
             <form className="costCal">
               <TextField
                 size="small"
                 id="invocation-input"
                 label="# of invocation"
                 variant="filled"
-                defaultValue={sessionStorage.getItem('invocationamount')}
-                onChange={(
-                  newValue: React.ChangeEvent<HTMLInputElement>
-                ): void => {
-                  handleCalculatorInput(newValue, 'numInvoke');
-                  localStore();
-                }}
+                name="numInvocation"
+                onChange={(e) => handleChange(e)}
               ></TextField>
               <TextField
                 size="small"
                 id="estimated-exec-time"
                 label="Estimated Execution Time (ms)"
                 variant="filled"
-                defaultValue={sessionStorage.getItem('estExecTime')}
-                onChange={(
-                  newValue: React.ChangeEvent<HTMLInputElement>
-                ): void => {
-                  handleCalculatorInput(newValue, 'timeInvoke');
-                  localStore();
-                }}
+                name="estExecTime"
+                onChange={(e) => handleChange(e)}
               ></TextField>
 
               <TextField
@@ -514,13 +485,8 @@ const FunctionCost = (props: Modules) => {
                 id="memory-mbs"
                 label="memory in mbs"
                 variant="filled"
-                defaultValue={sessionStorage.getItem('memoryMbs')}
-                onChange={(
-                  newValue: React.ChangeEvent<HTMLInputElement>
-                ): void => {
-                  handleCalculatorInput(newValue, 'memory');
-                  localStore();
-                }}
+                name="memoryMbs"
+                onChange={(e) => handleChange(e)}
               ></TextField>
             </form>
             <br />
@@ -549,9 +515,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="lambda-request-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'reqCharge',
                         'aws'
                       )}
@@ -561,9 +527,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="lambda-execution-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'computeCost',
                         'aws'
                       )}
@@ -573,9 +539,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="lambda-total-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'total',
                         'aws'
                       )}
@@ -588,9 +554,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="azure-request-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'reqCharge',
                         'azure'
                       )}
@@ -600,9 +566,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="azure-execution-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'computeCost',
                         'azure'
                       )}
@@ -612,9 +578,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="azure-total-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'total',
                         'azure'
                       )}
@@ -627,9 +593,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="google-request-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'reqCharge',
                         'gCloud'
                       )}
@@ -639,9 +605,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="google-execution-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'computeCost',
                         'gCloud'
                       )}
@@ -651,9 +617,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="google-total-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'total',
                         'gCloud'
                       )}
@@ -666,9 +632,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="ibm-request-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'reqCharge',
                         'ibm'
                       )}
@@ -678,9 +644,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="ibm-execution-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'computeCost',
                         'ibm'
                       )}
@@ -690,9 +656,9 @@ const FunctionCost = (props: Modules) => {
                     $
                     <span id="ibm-total-cost">
                       {vendorFuncCost(
-                        numOfInvokation as number,
-                        avgExecutionTime as number,
-                        memoryOfFunc as number,
+                        fields.numInvocation,
+                        fields.estExecTime,
+                        fields.memoryMbs,
                         'total',
                         'ibm'
                       )}
