@@ -62,11 +62,14 @@ const OpenFaaS = (props: Modules) => {
     console.log(id);
     try {
       console.log('id is', id);
-      const funcs = await Get(apiRoute.getRoute(`faas`), {
-        authorization: localStorage.getItem('token'),
-        id: '637574fa94e8554718fbaa7b',
-        // id: "633b57fe6c5aabdf55d37bab"
-      });
+      const funcs = await Get(
+        apiRoute.getRoute(`faas`)
+        // , {
+        //   authorization: localStorage.getItem('token'),
+        //   id: '637574fa94e8554718fbaa7b',
+        //   // id: "633b57fe6c5aabdf55d37bab"
+        // }
+      );
       if (funcs.message) {
         // setDeployedFunctions([]);
         console.log('HITTING and setting state to empty array');
@@ -96,9 +99,7 @@ const OpenFaaS = (props: Modules) => {
     }
     const openFaaSFunctions = async () => {
       try {
-        const funcs = await Get(apiRoute.getRoute('faas?OpenFaaSStore=true'), {
-          authorization: localStorage.getItem('token'),
-        });
+        const funcs = await Get(apiRoute.getRoute('faas?OpenFaaSStore=true'));
         setOpenFaaSFunctions(funcs.functions);
       } catch (error) {
         console.log('Error in fetching OpenFaaS Functions', error);
@@ -128,9 +129,7 @@ const OpenFaaS = (props: Modules) => {
         service: selectedOpenFaaSFunction,
         image: getFunc?.images.x86_64,
       };
-      const response = await Post(apiRoute.getRoute('faas'), body, {
-        authorization: localStorage.getItem('token'),
-      });
+      const response = await Post(apiRoute.getRoute('faas'), body);
       if (response.success) {
         setRenderFunctions(!renderFunctions);
       }
@@ -152,9 +151,7 @@ const OpenFaaS = (props: Modules) => {
           clusterId: id,
           functionName: functionName,
         };
-        const res = await Post(apiRoute.getRoute('faas/invoke'), body, {
-          authorization: localStorage.getItem('token'),
-        });
+        const res = await Post(apiRoute.getRoute('faas/invoke'), body);
         setInvokedOutput(res);
         sessionStorage.setItem('openFaasResBody', res);
         setInvoked(false);
@@ -165,9 +162,7 @@ const OpenFaaS = (props: Modules) => {
           functionName: functionName,
           data: reqBody,
         };
-        const res = await Post(apiRoute.getRoute('faas/invoke'), body, {
-          authorization: localStorage.getItem('token'),
-        });
+        const res = await Post(apiRoute.getRoute('faas/invoke'), body);
         setInvokedOutput(res);
         sessionStorage.setItem('openFaasResBody', res);
       }

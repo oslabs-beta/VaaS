@@ -31,6 +31,7 @@
     "@types/cookie-parser": "^1.4.3",
     "@types/isomorphic-fetch": "^0.0.36",
     "autoprefixer": "^10.4.8",
+    "axios": "^1.2.0",
     "compression": "1.7.4",
     "cookie-parser": "^1.4.6",
     "cross-env": "^7.0.3",

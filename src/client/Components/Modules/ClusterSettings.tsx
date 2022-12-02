@@ -108,9 +108,7 @@ const ClusterSettings = (props: Modules) => {
         return;
       }
       if (body.name !== dbData?.name) {
-        const cluster = await Get(apiRoute.getRoute(`cluster:${body.name}`), {
-          authorization: localStorage.getItem('token'),
-        });
+        const cluster = await Get(apiRoute.getRoute(`cluster:${body.name}`));
         if (!cluster.message) {
           setUpdateClusterError(
             'Cluster name already exists. Try another name.'
