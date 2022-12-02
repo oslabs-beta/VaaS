@@ -294,14 +294,31 @@ const Visualizer = (props: Modules) => {
       // },
     },
     physics: {
-      barnesHut: {
-        gravitationalConstant: -2500,
-        centralGravity: 0.05,
-        springLength: 95,
-        springConstant: 0.005,
-
-        damping: 0.09,
-        avoidOverlap: 0.75,
+      // solver: 'barnesHut',
+      // barnesHut: {
+      //   gravitationalConstant: -100000,
+      //   centralGravity: 0.7,
+      //   springLength: 80,
+      //   springConstant: 0.8,
+      //   damping: 1,
+      //   avoidOverlap: 0.7,
+      // },
+      solver: 'forceAtlas2Based',
+      forceAtlas2Based: {
+        gravitationalConstant: -12000,
+        centralGravity: 1,
+        springLength: 40,
+        springConstant: 0.8,
+        damping: 3,
+        avoidOverlap: 10,
+      },
+      timestep: 0.5,
+      adaptiveTimestep: true,
+      maxVelocity: 40,
+      minVelocity: 1,
+      stabilization: {
+        enabled: true,
+        iterations: 80,
       },
     },
     edges: {

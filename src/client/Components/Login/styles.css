@@ -10,11 +10,14 @@
   background-image: #3a4a5b;
 }
 .login-container {
-  background-color: white;
-  border: 0.5px solid black;
   z-index: 3;
 }
 
 .input-error-text {
   color: red;
+}
+
+#login-icon {
+  height: 100%;
+  margin: '0px';
 }

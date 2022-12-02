@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { apiRoute } from '../../utils';
 import { Post } from '../../Services/index';
-import { Container, Button, TextField } from '@mui/material';
+import { Container, Button, TextField, Typography } from '@mui/material';
 
 const Register = () => {
   // potential redux?
@@ -74,117 +74,153 @@ const Register = () => {
   };
 
   return (
-    <Container
-      sx={{
-        height: '100vh',
-        minWidth: '100%',
-        justifyContent: 'center',
-        display: 'flex',
-        direction: 'column',
-        textAlign: 'center',
-        alignItems: 'center',
-        backgroundSize: 'contain',
-        bgColor: '#3a4a5b',
-      }}
-      className="backdrop"
-    >
+    <div>
       <Container
-        maxWidth="sm"
-        className="login-container"
+        id="login-logo-container"
         sx={{
-          width: '40%',
-          minWidth: '300px',
-          opacity: '95%',
-          direction: 'column',
-          textAlign: 'center',
-          color: '#3a4a5b',
-          alignItems: 'center',
+          height: '30vh',
+          marginTop: '8vh',
+          display: 'flex',
           flexDirection: 'column',
+          alignItems: 'center',
           justifyContent: 'center',
-          backgroundRepeat: 'no-repeat',
-          padding: '1.5rem',
-          borderRadius: '2%',
         }}
       >
-        <div>
-          <h2>VaaS Registration</h2>
-        </div>
-        <TextField
-          id="firstName-input"
-          label={firstNameErr}
-          type="string"
-          size="small"
-          variant="outlined"
-          margin="dense"
-          onKeyDown={handleEnterKeyDown}
-        />
-        <TextField
-          id="lastName-input"
-          label={lastNameErr}
-          type="string"
-          size="small"
-          variant="outlined"
-          margin="dense"
-          onKeyDown={handleEnterKeyDown}
-        />
-        <TextField
-          id="register-username-input"
-          label={usernameErr}
-          type="username"
-          size="small"
-          autoComplete="current-username"
-          variant="outlined"
-          onKeyDown={handleEnterKeyDown}
-          margin="dense"
-        />
-        <TextField
-          id="register-password-input"
-          label={passwordErr}
-          type="password"
-          size="small"
-          autoComplete="current-password"
-          variant="outlined"
-          margin="dense"
-          onKeyDown={handleEnterKeyDown}
-        />
-        <Container
-          id="buttonContainer"
+        <img
+          id="login-icon"
+          src="../../../../public/Images/logo-icon.png"
+        ></img>
+        <Typography
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '.5em',
-            padding: '.5em',
+            fontSize: '2.5rem',
+            fontWeight: 'bold',
+            marginTop: '0',
+            marginBottom: '2vh',
+            paddingTop: '0',
+            letterSpacing: '0.2rem',
           }}
         >
-          <Button
-            onClick={() => navigate('/')}
-            variant="contained"
-            sx={{
-              color: 'white',
-              backgroundColor: '#3a4a5b',
-              borderColor: 'white',
-            }}
-          >
-            Go Back
-          </Button>
-          <Button
-            onClick={handleSignUp}
-            variant="contained"
-            sx={{
-              color: 'white',
-              backgroundColor: '#3a4a5b',
-              borderColor: 'white',
-            }}
-            type="button"
-          >
-            Sign Up
-          </Button>
-        </Container>
-        <div>
-          <p className="input-error-text">{registered}</p>
-        </div>
+          VaaS
+        </Typography>
       </Container>
-    </Container>
+      <Container
+        sx={{
+          minWidth: '100%',
+          justifyContent: 'center',
+          display: 'flex',
+          direction: 'column',
+          textAlign: 'center',
+          alignItems: 'center',
+          backgroundSize: 'contain',
+          bgColor: '#3a4a5b',
+        }}
+        className="backdrop"
+      >
+        <Container
+          className="login-container"
+          sx={{
+            display: 'flex',
+            width: '100%',
+            minWidth: '250px',
+            maxWidth: '600px',
+            direction: 'column',
+            textAlign: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            backgroundRepeat: 'no-repeat',
+            padding: '1.5rem',
+            border: '0px solid #eaeaea',
+          }}
+        >
+          <div>
+            <h2>Registration</h2>
+          </div>
+          <TextField
+            id="firstName-input"
+            label={firstNameErr}
+            type="string"
+            variant="standard"
+            margin="dense"
+            onKeyDown={handleEnterKeyDown}
+            fullWidth={true}
+          />
+          <TextField
+            id="lastName-input"
+            label={lastNameErr}
+            type="string"
+            size="small"
+            variant="standard"
+            margin="dense"
+            onKeyDown={handleEnterKeyDown}
+            fullWidth={true}
+          />
+          <TextField
+            id="register-username-input"
+            label={usernameErr}
+            type="username"
+            size="small"
+            autoComplete="current-username"
+            variant="standard"
+            onKeyDown={handleEnterKeyDown}
+            margin="dense"
+            fullWidth={true}
+          />
+          <TextField
+            id="register-password-input"
+            label={passwordErr}
+            type="password"
+            size="small"
+            autoComplete="current-password"
+            variant="standard"
+            margin="dense"
+            onKeyDown={handleEnterKeyDown}
+            fullWidth={true}
+          />
+          <Container
+            id="buttonContainer"
+            sx={{
+              marginTop: '2rem',
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '2em',
+              padding: '.5em',
+            }}
+          >
+            <Button
+              onClick={() => navigate('/')}
+              variant="contained"
+              sx={{
+                width: '100%',
+                height: '3em',
+                color: 'white',
+                backgroundColor: '#3a4a5b',
+                borderColor: 'white',
+              }}
+            >
+              Go Back
+            </Button>
+            <Button
+              onClick={handleSignUp}
+              variant="contained"
+              sx={{
+                width: '100%',
+                height: '3em',
+                color: 'white',
+                backgroundColor: '#3a4a5b',
+                borderColor: 'white',
+              }}
+              type="button"
+            >
+              Sign Up
+            </Button>
+          </Container>
+          <div>
+            <p className="input-error-text">{registered}</p>
+          </div>
+        </Container>
+      </Container>
+    </div>
   );
 };
 

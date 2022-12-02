@@ -13,6 +13,7 @@ import './styles.css';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import { setDarkMode } from '../../Store/actions';
 import { useNavigate } from 'react-router-dom';
+import { Container } from '@mui/system';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ const Home = () => {
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState([]);
   const darkMode = uiReducer.clusterUIState.darkmode;
+  const [visited, setVisited] = useState(false);
 
   useEffect(() => {
     const getClusterDbData = async () => {
@@ -194,16 +196,40 @@ const Home = () => {
     getUserInfo();
   }, [darkMode]);
 
+  function renderSplash() {
+    if (!visited) {
+      setVisited(true);
+    }
+  }
+
   return (
-    <div className="Kube-port">
-      <div className="Kube-container">
-        {/* Hello */}
-        {favClusters}
-        {nonFavClusters}
+    <Container id="HomeContainer">
+      <Container
+        id="animated-splash"
+        sx={{
+          position: 'fixed',
+          top: '0',
+          left: '0',
+          height: '100vh',
+          width: '100vw',
+          background: 'black',
+          zIndex: 200,
+          color: 'white',
+          textAlign: 'center',
+          lineHeight: '90vh',
+        }}
+      >
+        <h1 id="fade-in">Welcome to VaaS{renderSplash}</h1>
+      </Container>
+      <div className="Kube-port">
+        <div className="Kube-container">
+          {favClusters}
+          {nonFavClusters}
+        </div>
+        {noClusterError}
+        <NavBar />
       </div>
-      {noClusterError}
-      <NavBar />
-    </div>
+    </Container>
   );
 };
 
