@@ -5,6 +5,7 @@ import { checkAuth } from '../../utils';
 import { Container, Box, Button, TextField, CssBaseline } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import './styles.css';
+import { useDispatch } from 'react-redux';
 import LoginBackGround from '../../../../public/images/LoginBackGround.png';
 
 const Login = () => {

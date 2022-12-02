@@ -50,10 +50,7 @@ const Admin = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       const user = await Get(
-        apiRoute.getRoute(`user:${localStorage.username}`),
-        {
-          authorization: localStorage.getItem('token'),
-        }
+        apiRoute.getRoute(`user:${localStorage.username}`)
       );
       console.log(localStorage.username);
       console.log('USER: ', user.darkMode);
@@ -97,14 +94,10 @@ const Admin = () => {
         setAddClusterMessage('Port(s) must be numbers');
         return;
       }
-      const res = await Get(apiRoute.getRoute(`cluster:${body.name}`), {
-        authorization: localStorage.getItem('token'),
-      });
+      const res = await Get(apiRoute.getRoute(`cluster:${body.name}`));
       console.log(res);
       if (res.message) {
-        await Post(apiRoute.getRoute('cluster'), body, {
-          authorization: localStorage.getItem('token'),
-        });
+        await Post(apiRoute.getRoute('cluster'), body);
         setAddClusterMessage('Successfully added cluster');
       } else setAddClusterMessage('Cluster with name already exists');
     } catch (err) {
@@ -130,10 +123,7 @@ const Admin = () => {
         return;
       }
       const user = await Get(
-        apiRoute.getRoute(`user:${localStorage.username}`),
-        {
-          authorization: localStorage.getItem('token'),
-        }
+        apiRoute.getRoute(`user:${localStorage.username}`)
       );
       if (!body.username) body.username = user.username;
       if (!body.firstName) body.firstName = user.firstName;
@@ -166,9 +156,7 @@ const Admin = () => {
         authorization: localStorage.getItem('token'),
       });
 
-      const clusters = await Get(apiRoute.getRoute('cluster'), {
-        authorization: localStorage.getItem('token'),
-      });
+      const clusters = await Get(apiRoute.getRoute('cluster'));
 
       clusters.forEach(async (cluster: ClusterTypes) => {
         const clusterBody = {

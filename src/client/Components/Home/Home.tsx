@@ -30,15 +30,6 @@ const Home = () => {
     const getClusterDbData = async () => {
       // returns an array of cluster object
       const res = await Get(apiRoute.getRoute('cluster'));
-
-      // result from call is not being used
-      // const user = await Get(
-      //   // get user settings info
-      //   apiRoute.getRoute(`user:${localStorage.getItem("username")}`),
-      //   {
-      //     authorization: localStorage.getItem("token"),
-      //   },
-      // );
       console.log(res, 'GetCluster');
       if (res.invalid) {
         console.log('Go to login');

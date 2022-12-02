@@ -8,7 +8,6 @@ export async function GateWayQuery(
 ): Promise<any> {
   return await Get(
     apiRoute.getRoute(`/gateway?id=${clusterId}&q=${query}&type=${type}`)
-    // ,{ authorization: localStorage.getItem('token') }
   );
 }
 
@@ -21,6 +20,5 @@ export default async function Query(
   console.log('Query params:', clusterId, ns, query);
   return await Get(
     apiRoute.getRoute(`/prom?id=${clusterId}&ns=${ns}&q=${query}`)
-    // ,{ authorization: localStorage.getItem('token') }
   );
 }
