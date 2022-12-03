@@ -101,6 +101,7 @@ const Login = () => {
           alignItems: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          marginTop: '4em',
         }}
         className="backdrop"
       >
@@ -126,6 +127,7 @@ const Login = () => {
             margin="dense"
             name="username"
             value={fields.username}
+            fullWidth={true}
             sx={{
               input: { color: '#fff' },
               label: { color: '#fff' },
@@ -144,6 +146,7 @@ const Login = () => {
             margin="dense"
             name="password"
             value={fields.password}
+            fullWidth={true}
             sx={{
               input: { color: '#fff' },
               label: { color: '#fff' },
@@ -171,13 +174,17 @@ const Login = () => {
               type="button"
               onClick={handleLogin}
               variant="contained"
-              sx={{
-                color: 'white',
-                backgroundColor: '#3a4a5b',
-                borderColor: 'white',
-              }}
               disabled={disabled}
               loading={loading}
+              sx={{
+                ':disabled': { backgroundColor: 'gray', color: '#000' },
+                margin: '1rem',
+                color: '#fff',
+                width: '100%',
+                gap: '.5em',
+                padding: '.1em',
+                height: '2.5rem',
+              }}
             >
               Login
             </LoadingButton>
@@ -192,24 +199,53 @@ const Login = () => {
                 justifyContent: 'center',
                 gap: '.5em',
                 padding: '.1em',
+                width: '100%',
+                height: '2.5rem',
               }}
             >
               Register
             </Button>
           </Container>
-          <Button
-            variant="contained"
+          <Container
+            id="oauth-buttons-container"
             sx={{
-              color: 'white',
-              backgroundColor: '#3a4a5b',
-              borderColor: 'white',
-              marginTop: '8px',
               display: 'flex',
+              width: '30vw',
+              justifyContent: 'center',
               alignItems: 'center',
             }}
           >
-            &nbsp;&nbsp;Github Sign in
-          </Button>
+            <Button
+              variant="contained"
+              sx={{
+                color: 'white',
+                backgroundColor: '#3a4a5b',
+                borderColor: 'white',
+                marginTop: '8px',
+                minWidth: '165px',
+                height: '3.5em',
+                margin: '.5em',
+                textAlign: 'center',
+              }}
+            >
+              &nbsp;&nbsp;Google Sign in
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                color: 'white',
+                backgroundColor: '#3a4a5b',
+                borderColor: 'white',
+                marginTop: '8px',
+                minWidth: '165px',
+                height: '3.5em',
+                margin: '.5em',
+                textAlign: 'center',
+              }}
+            >
+              &nbsp;&nbsp;Github Sign in
+            </Button>
+          </Container>
         </Container>
       </Container>
     </div>
