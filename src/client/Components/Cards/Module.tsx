@@ -35,6 +35,7 @@ const Module = (props: Modules) => {
   const [charts, setCharts] = useState(false);
   const [currentModule, setCurrentModule] = useState('module');
   const [id] = useState(props.id || state[0]);
+  console.log('This is props from Module.tsx:', props);
   const [style, setStyle] = useState(
     props.isDark
       ? {
