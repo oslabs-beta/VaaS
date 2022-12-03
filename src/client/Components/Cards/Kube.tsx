@@ -76,11 +76,11 @@ const Kube = (props: ClusterTypes) => {
     }
   };
   // props._id
-  console.log('This is props._id', props._id);
-  console.log(
-    'This is apiReducer.clusterQueryData',
-    apiReducer.clusterQueryData
-  );
+  // console.log('This is props._id', props._id);
+  // console.log(
+  //   'This is apiReducer.clusterQueryData',
+  //   apiReducer.clusterQueryData
+  // );
   return (
     <Container
       sx={
