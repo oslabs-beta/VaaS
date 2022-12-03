@@ -1,7 +1,10 @@
 body {
   padding: 0;
-  font-family: 'Cabin', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   padding-bottom: 43px;
+  margin: 0;
+  background-color: #101216;
+  width: 100vw;
 }
 
 .noselect {
@@ -28,7 +31,7 @@ body {
   float: right;
 }
 
-#navbar {
+/* #navbar {
   background: white;
   padding: 8px;
   margin: 0;
@@ -40,7 +43,7 @@ body {
   display: flex;
   margin-left: -1.4rem;
   border-top: 1px solid #717982;
-}
+} */
 
 #dropdown {
   float: right;
@@ -106,4 +109,44 @@ body {
   text-align: center;
   line-height: 90vh;
   transition: all 0.5s;
+}
+
+#HomeContainer {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  background-color: #101216;
+}
+
+#navbar-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  margin: 0;
+  padding: 0.5em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  align-items: center;
+  font-size: 1.7em;
+  letter-spacing: 0.05em;
+  background-color: #101216;
+  color: white;
+  border-bottom: 1px solid #717982;
+}
+
+#HeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 0.5em;
+  margin-top: 0.4em;
+  padding-left: 0.7em;
+  padding-right: 0.7em;
+  align-items: center;
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  background-color: #101216;
+  color: white;
 }

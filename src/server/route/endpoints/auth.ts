@@ -33,7 +33,7 @@ router
         lastName,
         darkMode: false,
         refreshRate: 60000,
-        cookieId: jwt,
+        cookieId: jwt.token,
       });
       await attempt.save();
       terminal(`Success: New user [${userId}] stored in MongoDB collection`);

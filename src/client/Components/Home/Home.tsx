@@ -32,15 +32,6 @@ const Home = () => {
     const getClusterDbData = async () => {
       // returns an array of cluster object
       const res = await Get(apiRoute.getRoute('cluster'));
-
-      // result from call is not being used
-      // const user = await Get(
-      //   // get user settings info
-      //   apiRoute.getRoute(`user:${localStorage.getItem("username")}`),
-      //   {
-      //     authorization: localStorage.getItem("token"),
-      //   },
-      // );
       console.log(res, 'GetCluster');
       if (res.invalid) {
         console.log('Go to login');
@@ -204,22 +195,10 @@ const Home = () => {
 
   return (
     <Container id="HomeContainer">
-      <Container
-        id="animated-splash"
-        sx={{
-          position: 'fixed',
-          top: '0',
-          left: '0',
-          height: '100vh',
-          width: '100vw',
-          background: 'black',
-          zIndex: 200,
-          color: 'white',
-          textAlign: 'center',
-          lineHeight: '90vh',
-        }}
-      >
-        <h1 id="fade-in">Welcome to VaaS{renderSplash}</h1>
+      <NavBar />
+      <Container id="HeaderContainer">
+        <div id="Header-Bar">Clusters</div>
+        <div id="Sort-Button">Sort By</div>
       </Container>
       <div className="Kube-port">
         <div className="Kube-container">
@@ -227,7 +206,6 @@ const Home = () => {
           {nonFavClusters}
         </div>
         {noClusterError}
-        <NavBar />
       </div>
     </Container>
   );

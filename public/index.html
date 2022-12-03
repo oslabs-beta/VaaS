@@ -7,6 +7,12 @@
       content="width=device-width,initial-scale=1,maximum-scale=10,minimum-scale=.25,user-scalable=yes"
       name="viewport"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
     <meta content="text/html; charset=utf-8" http-equiv="content-type" />
 
     <!-- ### Manifest and icons ### -->
@@ -14,7 +20,20 @@
     <meta name="theme-color" content="#ffffff" />
   </head>
   <body>
-    <div id="root" style="height: 100%; width: 100%"><!--app-html--></div>
+    <div
+      id="root"
+      style="
+        height: 100vh;
+        width: 100vw;
+        background-color: #101216;
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+      "
+    >
+      <!--app-html-->
+    </div>
     <script type="module" src="../src/client/index.tsx"></script>
   </body>
 </html>

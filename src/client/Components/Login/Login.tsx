@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import {
@@ -10,6 +10,9 @@ import {
 import { setTitle } from '../../Store/actions';
 import { Put, Post } from '../../Services/index';
 import { IReducers } from '../../Interfaces/IReducers';
+import { loginUser } from '../../Queries';
+import { checkAuth } from '../../utils';
+import { LoadingButton } from '@mui/lab';
 import {
   Container,
   Box,
@@ -20,164 +23,59 @@ import {
   Typography,
 } from '@mui/material';
 import './styles.css';
-// import { GoogleLogin } from 'react-google-login';
-import { gapi } from 'gapi-script';
 import { useDispatch } from 'react-redux';
 import githubIcon from '../Modules/icons/github-icon.png';
 import googleIcon from '../Modules/icons/google-icon.png';
 import LoginBackGround from '../../../../public/images/LoginBG.png';
+import { borderColor } from '@mui/system';
 
 const Login = () => {
-  const [usernameErr, setUsernameErr] = useState('Username');
-  const [passwordErr, setPasswordErr] = useState('Password');
-  const dispatch = useAppDispatch();
-  const clusterReducer = useAppSelector(
-    (state: IReducers) => state.clusterReducer
-  );
   const navigate = useNavigate();
-  const gDispatch = useDispatch();
+  const [fields, setFields] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const disabled = !fields.username || !fields.password;
 
   useEffect(() => {
-    //sign in state might need to be removed - because we are working with persistent state
-    //might be that we use redux-persist in conjunction with local.storage as oppose to actually touching local storage
-    console.log('render state from clusterReducer: ', clusterReducer.render);
-  }, [clusterReducer]);
+    const authorize = async () => {
+      const authorized = await checkAuth();
+      if (!authorized.invalid) navigate('/home');
+    };
+    authorize();
+  }, []);
 
-  // useEffect(() => {
-  //   function start() {
-  //     gapi.client.init({
-  //       clientId: GClientId,
-  //       scope: "email",
-  //     });
-  //   }
-  //   gapi.load("client:auth2", start);
-  // }, []);
-
-  // useEffect(() => {
-  //   const code = window.location.href.match(/\?code=(.*)/);
-  //   if (code) {
-  //     console.log("CODE FROM GITHUB IS: ", code[1]);
-  //     const gitCode = { code: code[1] };
-  //     gitSignin(gitCode);
-  //     console.log("BACKEND REQUEST SENT");
-  //   }
-  // make backend post request and attach code;
-
-  // if response is okay, navigate to home
-  // });
-
-  async function gitSignin(body: any) {
-    const res = await Post(apiRoute.getRoute('/github'), body).catch((err) =>
-      console.log(err)
-    );
-    console.log('DONE? ');
-    console.log(res);
-
-    if (res.token) {
-      localStorage.setItem('username', res.name);
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('userId', res.userId);
-      dispatch(setTitle('Home'));
-      navigate('/home');
-    } else {
-      throw new Error('Request unsuccessful');
-    }
-  }
-  const handleLogin = async (): Promise<void> => {
-    try {
-      console.log('Clicked');
-      const body = {
-        username: (
-          document.getElementById('login-username-input') as HTMLInputElement
-        ).value,
-        password: (
-          document.getElementById('login-password-input') as HTMLInputElement
-        ).value,
-      };
-      // put request returns token and userId
-      const res = await Put(apiRoute.getRoute('auth'), body).catch((err) =>
-        console.log(err)
-      );
-
-      if (!body.username) setUsernameErr(' please enter username');
-      else setUsernameErr('Username');
-
-      if (!body.password) setPasswordErr(' please enter password');
-      else setPasswordErr('Password');
-      console.log(res, 'res on login');
-      if (res.userId) {
-        dispatch(setTitle('Home'));
-        console.log(
-          "I got here but for some reason it doesn't want to render Home"
-        );
-        navigate('/home');
-      }
-      if (res.invalid) {
-        setUsernameErr(res.message);
-        setPasswordErr('');
-      }
-    } catch (err) {
-      console.log('Get failed', err);
-    }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setError('');
+    const {
+      target: { name, value },
+    } = e;
+    setFields({ ...fields, [name]: value });
   };
 
+  const handleLogin = async (): Promise<void> => {
+    setLoading(true);
+    try {
+      const response = await loginUser({ ...fields });
+      if (response.data.userId) navigate('/home');
+      setLoading(false);
+    } catch (error: any) {
+      setError(error.response.data.message);
+      setLoading(false);
+    }
+  };
   // when click on enter key, invoke login func
   const handleEnterKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>
   ): void => {
     if (e.key === 'Enter') {
-      console.log('Enter key pressed');
+      // console.log('Enter key pressed');
+      if (disabled) return;
       handleLogin();
     }
   };
 
-  const googleSuccess = async (gRes: any) => {
-    const result = gRes?.profileObj;
-    const token = gRes?.tokenId;
-
-    try {
-      gDispatch({ type: 'AUTH', data: { result, token } });
-      const body = {
-        firstName: gRes.profileObj.givenName,
-        lastName: gRes.profileObj.familyName,
-        username: gRes.profileObj.email,
-        password: gRes.profileObj.googleId,
-      };
-      const check: boolean = await Post(apiRoute.getRoute('gcheck'), body);
-      if (check === true) {
-        const res = await Put(apiRoute.getRoute('auth'), body).catch((err) =>
-          console.log(err)
-        );
-        if (res.token) {
-          localStorage.setItem('username', body.username);
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('userId', res.userId);
-        }
-      } else {
-        const res = await Post(apiRoute.getRoute('auth'), body).catch((err) =>
-          console.log(err)
-        );
-        if (res.token) {
-          localStorage.setItem('username', body.username);
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('userId', res.userId);
-        }
-      }
-      navigate('/home');
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const googleFailure = (error: any) => {
-    console.log('Google Login failure', error);
-  };
-
-  const handleGit = () => {
-    window.location.replace(
-      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT}&scope=user`
-    );
-  };
   return (
     <div>
       <Container
@@ -198,15 +96,16 @@ const Login = () => {
         <Typography
           sx={{
             fontSize: '2.5rem',
-            fontWeight: 'bold',
             marginTop: '0',
             marginBottom: '2vh',
             paddingTop: '0',
-            letterSpacing: '0.2rem',
+            letterSpacing: '0.3rem',
+            color: '#fff',
           }}
         >
           VaaS
         </Typography>
+        {error && <span style={{ color: 'red' }}>{error}</span>}
       </Container>
       <Container
         sx={{
@@ -250,26 +149,49 @@ const Login = () => {
           >
             <TextField
               id="login-username-input"
-              label={usernameErr}
+              label="Username"
               type="username"
-              autoComplete="current-password"
+              autoComplete="current-username"
+              name="username"
+              value={fields.username}
               variant="standard"
               onKeyDown={handleEnterKeyDown}
               margin="dense"
               fullWidth={true}
+              onChange={(e) => handleChange(e)}
+              sx={{
+                input: {
+                  color: '#fff',
+                },
+                label: {
+                  color: '#fff',
+                },
+                borderBottom: '1px solid #fff',
+              }}
             />
             <TextField
               id="login-password-input"
-              label={passwordErr}
+              label="Password"
               type="password"
+              name="password"
+              value={fields.password}
               autoComplete="current-password"
               variant="standard"
               onKeyDown={handleEnterKeyDown}
               margin="dense"
+              onChange={(e) => handleChange(e)}
               fullWidth={true}
+              sx={{
+                input: {
+                  color: '#fff',
+                },
+                label: {
+                  color: '#fff',
+                },
+                borderBottom: '1px solid #fff',
+              }}
             />
             <Button
-              size="small"
               variant="text"
               sx={{
                 justifySelf: 'flex-end',
@@ -289,6 +211,13 @@ const Login = () => {
                 padding: '.1em',
               }}
             >
+              <LoadingButton
+                className="btn"
+                type="button"
+                onClick={handleLogin}
+                disabled={disabled}
+                loading={loading}
+              ></LoadingButton>
               <Button
                 className="btn"
                 type="button"
@@ -302,7 +231,12 @@ const Login = () => {
               >
                 Log in
               </Button>
-              <Divider sx={{ color: 'black' }}>OR</Divider>
+              <Divider
+                light={true}
+                sx={{ color: 'white', borderColor: 'white' }}
+              >
+                OR
+              </Divider>
               <Button
                 className="btn"
                 type="button"
@@ -354,7 +288,6 @@ const Login = () => {
                     width: '100%',
                     height: '4em',
                   }}
-                  onClick={handleGit}
                 >
                   <img src={githubIcon} height="18px"></img>
                   &nbsp;&nbsp;Github Sign in
