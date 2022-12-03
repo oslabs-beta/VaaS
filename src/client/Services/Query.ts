@@ -17,7 +17,6 @@ export default async function Query(
   ns: string,
   query: string
 ): Promise<any> {
-  console.log('Query params:', clusterId, ns, query);
   return await Get(
     apiRoute.getRoute(`/prom?id=${clusterId}&ns=${ns}&q=${query}`)
   );

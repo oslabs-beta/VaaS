@@ -215,9 +215,6 @@ const Register = () => {
               Sign Up
             </Button>
           </Container>
-          <div>
-            <p className="input-error-text">{registered}</p>
-          </div>
         </Container>
       </Container>
     </div>

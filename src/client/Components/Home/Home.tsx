@@ -32,9 +32,9 @@ const Home = () => {
     const getClusterDbData = async () => {
       // returns an array of cluster object
       const res = await Get(apiRoute.getRoute('cluster'));
-      console.log(res, 'GetCluster');
+      // console.log(res, 'GetCluster');
       if (res.invalid) {
-        console.log('Go to login');
+        // console.log('Go to login');
         return navigate('/');
       }
       if (res.message) {
@@ -55,10 +55,10 @@ const Home = () => {
       apiReducer.initialLoad ||
       apiReducer.lastFetch + 3020 < new Date().getTime()
     ) {
-      console.log(
-        apiReducer.initialLoad,
-        'apiReducer initial load Home:line 59'
-      );
+      // console.log(
+      //   apiReducer.initialLoad,
+      //   'apiReducer initial load Home:line 59'
+      // );
       getClusterDbData();
     }
   }, [clusterReducer.render]);
@@ -135,7 +135,6 @@ const Home = () => {
 
       dispatch(storeClusterQueryData(element._id, metrics));
     });
-    console.log('I was called in cluster array Home:line132');
   }, [clustersArray]);
 
   const favClusters: JSX.Element[] = [];

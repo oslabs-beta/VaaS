@@ -1,33 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import {
-  apiRoute,
-  GITHUB_CLIENT_ID,
-  GITHUB_REDIRECT,
-  GClientId,
-} from '../../utils';
-import { setTitle } from '../../Store/actions';
-import { Put, Post } from '../../Services/index';
-import { IReducers } from '../../Interfaces/IReducers';
-import { loginUser } from '../../Queries';
+import { loginUser } from 'src/client/Queries';
 import { checkAuth } from '../../utils';
-import { LoadingButton } from '@mui/lab';
 import {
   Container,
   Box,
   Button,
   TextField,
   CssBaseline,
-  Divider,
   Typography,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import './styles.css';
-import { useDispatch } from 'react-redux';
-import githubIcon from '../Modules/icons/github-icon.png';
-import googleIcon from '../Modules/icons/google-icon.png';
-import LoginBackGround from '../../../../public/images/LoginBG.png';
-import { borderColor } from '@mui/system';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -130,9 +114,35 @@ const Login = () => {
             justifyContent: 'center',
           }}
         >
-          <Box
-            maxWidth="sm"
-            className="login-container"
+          <div>
+            <h1>VaaS</h1>
+          </div>
+          <TextField
+            id="login-username-input"
+            label="Username"
+            type="username"
+            autoComplete="current-password"
+            variant="outlined"
+            size="small"
+            onKeyDown={handleEnterKeyDown}
+            margin="dense"
+            name="username"
+            value={fields.username}
+          />
+          <TextField
+            id="login-password-input"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            variant="outlined"
+            size="small"
+            onKeyDown={handleEnterKeyDown}
+            margin="dense"
+            name="password"
+            value={fields.password}
+          />
+          <Container
+            id="buttonContainer"
             sx={{
               width: '100%',
               minWidth: '250px',
@@ -147,62 +157,26 @@ const Login = () => {
               border: '0px solid #eaeaea',
             }}
           >
-            <TextField
-              id="login-username-input"
-              label="Username"
-              type="username"
-              autoComplete="current-username"
-              name="username"
-              value={fields.username}
-              variant="standard"
-              onKeyDown={handleEnterKeyDown}
-              margin="dense"
-              fullWidth={true}
-              onChange={(e) => handleChange(e)}
+            <LoadingButton
+              className="btn"
+              type="button"
+              onClick={handleLogin}
+              variant="contained"
               sx={{
-                input: {
-                  color: '#fff',
-                },
-                label: {
-                  color: '#fff',
-                },
-                borderBottom: '1px solid #fff',
+                color: 'white',
+                backgroundColor: '#3a4a5b',
+                borderColor: 'white',
               }}
-            />
-            <TextField
-              id="login-password-input"
-              label="Password"
-              type="password"
-              name="password"
-              value={fields.password}
-              autoComplete="current-password"
-              variant="standard"
-              onKeyDown={handleEnterKeyDown}
-              margin="dense"
-              onChange={(e) => handleChange(e)}
-              fullWidth={true}
-              sx={{
-                input: {
-                  color: '#fff',
-                },
-                label: {
-                  color: '#fff',
-                },
-                borderBottom: '1px solid #fff',
-              }}
-            />
-            <Button
-              variant="text"
-              sx={{
-                justifySelf: 'flex-end',
-                alignSelf: 'flex-end',
-                fontSize: '0.7em',
-              }}
+              disabled={disabled}
+              loading={loading}
             >
-              Forgot Password?
-            </Button>
-            <Container
-              id="buttonContainer"
+              Login
+            </LoadingButton>
+            <Button
+              className="btn"
+              type="button"
+              onClick={() => navigate('/register')}
+              variant="contained"
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -211,113 +185,22 @@ const Login = () => {
                 padding: '.1em',
               }}
             >
-              <LoadingButton
-                className="btn"
-                type="button"
-                onClick={handleLogin}
-                disabled={disabled}
-                loading={loading}
-              ></LoadingButton>
-              <Button
-                className="btn"
-                type="button"
-                onClick={handleLogin}
-                variant="contained"
-                sx={{
-                  marginTop: '2em',
-                  marginBottom: '1em',
-                  height: '3em',
-                }}
-              >
-                Log in
-              </Button>
-              <Divider
-                light={true}
-                sx={{ color: 'white', borderColor: 'white' }}
-              >
-                OR
-              </Divider>
-              <Button
-                className="btn"
-                type="button"
-                onClick={() => navigate('/register')}
-                variant="contained"
-                sx={{
-                  marginTop: '1em',
-                  marginBottom: '1em',
-                  height: '3em',
-                }}
-              >
-                Register
-              </Button>
-              <Container
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  width: '100%',
-                  margin: '0em',
-                  padding: '0em',
-                  gap: '2em',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Button
-                  variant="contained"
-                  sx={{
-                    color: 'white',
-                    borderColor: 'white',
-                    marginTop: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '100%',
-                    height: '4em',
-                  }}
-                >
-                  <img src={githubIcon} height="18px"></img>
-                  &nbsp;&nbsp;Google Sign In
-                </Button>
-                <Button
-                  variant="contained"
-                  sx={{
-                    color: 'white',
-                    borderColor: 'white',
-                    marginTop: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    width: '100%',
-                    height: '4em',
-                  }}
-                >
-                  <img src={githubIcon} height="18px"></img>
-                  &nbsp;&nbsp;Github Sign in
-                </Button>
-              </Container>
-            </Container>
-            {/* <GoogleLogin
-                clientId={GClientId}
-                render={(renderProps) => (
-                  <Button
-                    className='gBtn'
-                    color='primary'
-                    onClick={renderProps.onClick}
-                    disabled={renderProps.disabled}
-                    variant="contained"
-                    
-                    sx={{
-                      color: 'white', 
-                      backgroundColor: '#3a4a5b', 
-                      borderColor: 'white',
-                    }}
-                  ><img src={googleIcon} height='18px'></img>
-                    &nbsp;&nbsp;Google Sign In
-                  </Button>
-                )}
-                onSuccess={googleSuccess}
-                onFailure={googleFailure}
-                cookiePolicy="single_host_origin"
-            /> */}
-          </Box>
+              Register
+            </Button>
+          </Container>
+          <Button
+            variant="contained"
+            sx={{
+              color: 'white',
+              backgroundColor: '#3a4a5b',
+              borderColor: 'white',
+              marginTop: '8px',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            &nbsp;&nbsp;Github Sign in
+          </Button>
         </Container>
       </Container>
     </div>
