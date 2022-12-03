@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from 'src/client/Queries';
+import { loginUser } from '../../Queries';
 import { checkAuth } from '../../utils';
 import {
   Container,
@@ -109,37 +109,46 @@ const Login = () => {
           id="login-container-container"
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <div>
-            <h1>VaaS</h1>
-          </div>
           <TextField
             id="login-username-input"
             label="Username"
             type="username"
             autoComplete="current-password"
-            variant="outlined"
+            variant="standard"
             size="small"
             onKeyDown={handleEnterKeyDown}
+            onChange={handleChange}
             margin="dense"
             name="username"
             value={fields.username}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+            }}
           />
           <TextField
             id="login-password-input"
             label="Password"
             type="password"
             autoComplete="current-password"
-            variant="outlined"
+            variant="standard"
             size="small"
             onKeyDown={handleEnterKeyDown}
+            onChange={handleChange}
             margin="dense"
             name="password"
             value={fields.password}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+            }}
           />
           <Container
             id="buttonContainer"
