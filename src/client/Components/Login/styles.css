@@ -6,8 +6,20 @@
   z-index: 2;  */
 /* background-color: '#3a4a5b'; */
 
+.container{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	width: 400px;
+	padding: 40px;
+	background: rgb(0, 0, 0);
+	box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(248, 245, 245, 0.5);
+	border-radius: 10px;
+}
 .login {
-  background-image: #3a4a5b;
+  background-image: #000;
   color: white;
 }
 .login-container {
@@ -15,11 +27,41 @@
   color: white;
 }
 
+.spacer{
+  aspect-ratio: 960/540;
+  width: 100;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+#root{
+  background-image: url("./svg/wave1.svg");
+  aspect-ratio: 960/540;
+  width: 100;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 .input-error-text {
   color: red;
 }
 
+.login-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,.5);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+}
+
 #login-icon {
-  height: 100%;
-  margin: '0px';
+  height: 150%;
+  width: 150%;
+  margin: -100px;
 }

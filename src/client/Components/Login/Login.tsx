@@ -61,7 +61,7 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <Container
         id="login-logo-container"
         sx={{
@@ -73,10 +73,7 @@ const Login = () => {
           justifyContent: 'center',
         }}
       >
-        <img
-          id="login-icon"
-          src="../../../../public/Images/logo-icon.png"
-        ></img>
+        <img id="login-icon" src="../../../../public/Images/v4.svg"/>
         <Typography
           sx={{
             fontSize: '2.5rem',
@@ -210,7 +207,7 @@ const Login = () => {
             id="oauth-buttons-container"
             sx={{
               display: 'flex',
-              width: '30vw',
+              width: '12vw',
               justifyContent: 'center',
               alignItems: 'center',
             }}
