@@ -63,7 +63,7 @@ router
         return res.status(error.status).json(error);
       }
       terminal(
-        `Success: User [${req.params['username']}] document retrieved from MongoDB collection`
+        `Success: User [${res.locals.username}] document retrieved from MongoDB collection`
       );
       return res.status(200).json(user[0]);
     } catch (err) {
@@ -85,12 +85,12 @@ router
     );
     const { username, firstName, lastName, darkMode, refreshRate } = req.body;
 
-    const {
-      jwt: { id },
-    } = res.locals;
+    // const {
+    //   jwt: { id },
+    // } = res.locals;
     try {
       terminal(`Searching for user [${username}] in MongoDB`);
-      const user = await User.find({ _id: id }).exec();
+      const user = await User.find({ username: res.locals.username }).exec();
       terminal(`Success: MongoDB query executed with [${username}]`);
       if (user.length === 0) {
         const error: IError = {
@@ -102,7 +102,7 @@ router
         return res.status(error.status).json(error);
       }
       await User.updateOne(
-        { _id: id },
+        { username: res.locals.username },
         {
           username: username,
           firstName: firstName,

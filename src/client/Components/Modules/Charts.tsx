@@ -20,7 +20,7 @@ const Charts = (props: Modules) => {
   console.log('THIS IS USESTATE:', id);
   console.log('THIS IS NOT USE STATE:', id1);
   // REPLACE GRAFANA IP WITH ONE FROM THE REDUCER
-  const grafIP = '34.168.117.222';
+  const grafIP = '35.199.145.18';
   const inputStyle = {
     width: '45%',
     background: 'blue',
@@ -33,13 +33,15 @@ const Charts = (props: Modules) => {
     width: '100%',
     fontSize: '10px',
   };
+  // ! These dashboard IDs change for each user, we shouldn't be hardcoding these
   const dashboardIDs = {
-    NEUSECluster: '2WSgtZFVz',
-    NEUSENode: 'oHIRtWF4z',
+    NEUSECluster: 'rrcZvfFVk',
+    NEUSENode: 'Qe5ZDfF4z',
     NEFull: 'rYdddlPWk',
     Deployments: 'kbmUTOFVk',
     ServerMetrics: 'MWxrodK4z',
     NEUSEPod: 'dpI6oOK4k',
+    NEnodes: '8A5ZvfF4z',
   };
   const [dashboard, setDashboard] = useState('rYdddlPWk');
   const handleDashboardSelect = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -73,6 +75,9 @@ const Charts = (props: Modules) => {
             <option key={6} value="ServerMetrics">
               {'Node Exporter - Server Metrics'}
             </option>
+            <option key={7} value="NEnodes">
+              {'Node Exporter - Nodes'}
+            </option>
           </NativeSelect>
         </FormControl>
       </Box>
@@ -91,6 +96,8 @@ const Charts = (props: Modules) => {
         height="1500px"
         width="100%"
         frameBorder="0"
+
+        
       ></iframe> */}
     </div>
   );
