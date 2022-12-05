@@ -54,7 +54,7 @@ const Register = () => {
     }
   };
   return (
-    <div>
+    <div className="container">
       <Container
         id="login-logo-container"
         sx={{
@@ -66,18 +66,16 @@ const Register = () => {
           justifyContent: 'center',
         }}
       >
-        <img
-          id="login-icon"
-          src="../../../../public/Images/logo-icon.png"
-        ></img>
+        <img id="login-icon" src="../../../../public/Images/v4.svg" />
+
         <Typography
           sx={{
             fontSize: '2.5rem',
-            fontWeight: 'bold',
             marginTop: '0',
             marginBottom: '2vh',
             paddingTop: '0',
-            letterSpacing: '0.2rem',
+            letterSpacing: '0.3rem',
+            color: '#fff',
           }}
         >
           VaaS
@@ -119,7 +117,7 @@ const Register = () => {
           </div>
           <TextField
             id="firstName-input"
-            label="firstName"
+            label="First Name"
             name="firstName"
             value={fields.firstName}
             type="string"
@@ -128,10 +126,15 @@ const Register = () => {
             onKeyDown={handleEnterKeyDown}
             onChange={(e) => handleChange(e)}
             fullWidth={true}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+            }}
           />
           <TextField
             id="lastName-input"
-            label="lastName"
+            label="Last Name"
             name="lastName"
             value={fields.lastName}
             type="string"
@@ -141,10 +144,15 @@ const Register = () => {
             onKeyDown={handleEnterKeyDown}
             onChange={(e) => handleChange(e)}
             fullWidth={true}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+            }}
           />
           <TextField
             id="register-username-input"
-            label="username"
+            label="Username"
             type="username"
             name="username"
             value={fields.username}
@@ -155,10 +163,15 @@ const Register = () => {
             onChange={(e) => handleChange(e)}
             margin="dense"
             fullWidth={true}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+            }}
           />
           <TextField
             id="register-password-input"
-            label="password"
+            label="Password"
             type="password"
             name="password"
             value={fields.password}
@@ -169,25 +182,49 @@ const Register = () => {
             onKeyDown={handleEnterKeyDown}
             onChange={(e) => handleChange(e)}
             fullWidth={true}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+            }}
           />
           <Container
             id="buttonContainer"
             sx={{
-              marginTop: '2rem',
+              width: '100%',
+              minWidth: '250px',
+              maxWidth: '600px',
+              direction: 'column',
+              textAlign: 'center',
+              alignItems: 'center',
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
-              gap: '2em',
-              padding: '.5em',
+              padding: '1.5rem',
+              border: '0px solid #eaeaea',
             }}
           >
             <LoadingButton
+              className="btn"
+              type="button"
               onClick={handleSignUp}
               variant="contained"
-              type="button"
               disabled={disabled}
               loading={loading}
-            ></LoadingButton>
+              sx={{
+                ':disabled': { backgroundColor: 'gray', color: '#000' },
+                margin: '1rem',
+                color: '#fff',
+                width: '100%',
+                gap: '.5em',
+                padding: '.1em',
+                height: '2.5rem',
+              }}
+            >
+              Sign Up
+            </LoadingButton>
             <Button
+              className="btn1"
               onClick={() => navigate('/')}
               variant="contained"
               sx={{
@@ -199,20 +236,6 @@ const Register = () => {
               }}
             >
               Go Back
-            </Button>
-            <Button
-              onClick={handleSignUp}
-              variant="contained"
-              sx={{
-                width: '100%',
-                height: '3em',
-                color: 'white',
-                backgroundColor: '#3a4a5b',
-                borderColor: 'white',
-              }}
-              type="button"
-            >
-              Sign Up
             </Button>
           </Container>
         </Container>
