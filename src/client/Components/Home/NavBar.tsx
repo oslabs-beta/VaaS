@@ -39,7 +39,7 @@ export default function NavBar() {
 
   return (
     <Container id="navbar-container">
-      <a>VaaS</a>
+      <a onClick={() => navigate('/')}>VaaS</a>
       <Avatar></Avatar>
       {/* <div id="navbar">
         <div className="title noselect">VaaS</div>
