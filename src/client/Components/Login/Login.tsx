@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../Queries';
 import { checkAuth } from '../../utils';
+import { FcGoogle } from 'react-icons/fc';
+import { BsGithub } from 'react-icons/bs';
 import {
   Container,
   Box,
@@ -73,7 +75,7 @@ const Login = () => {
           justifyContent: 'center',
         }}
       >
-        <img id="login-icon" src="../../../../public/Images/v4.svg"/>
+        <img id="login-icon" src="../../../../public/Images/v4.svg" />
         <Typography
           sx={{
             fontSize: '2.5rem',
@@ -186,7 +188,7 @@ const Login = () => {
               Login
             </LoadingButton>
             <Button
-              className="btn"
+              className="btn1"
               type="button"
               onClick={() => navigate('/register')}
               variant="contained"
@@ -225,7 +227,8 @@ const Login = () => {
                 textAlign: 'center',
               }}
             >
-              &nbsp;&nbsp;Google Sign in
+              <FcGoogle className="icon" />
+              &nbsp;&nbsp;Sign in
             </Button>
             <Button
               variant="contained"
@@ -240,7 +243,8 @@ const Login = () => {
                 textAlign: 'center',
               }}
             >
-              &nbsp;&nbsp;Github Sign in
+              <BsGithub className="icon" />
+              &nbsp;&nbsp;Sign in
             </Button>
           </Container>
         </Container>

@@ -5,7 +5,7 @@
   background-position: center center;
   z-index: 2;  */
 /* background-color: '#3a4a5b'; */
-
+body { overflow: hidden; /* Hide scrollbars */ } 
 .container{
 	position: absolute;
 	top: 50%;
@@ -36,7 +36,6 @@
 }
 #root{
   background-image: url("./svg/wave1.svg");
-  aspect-ratio: 960/540;
   width: 100;
   background-repeat: no-repeat;
   background-position: center;
@@ -64,4 +63,16 @@
   height: 150%;
   width: 150%;
   margin: -100px;
+}
+
+.btn{
+  background-image: linear-gradient(90deg, hsla(191, 75%, 60%, 1) 0%, hsla(248, 87%, 36%, 1) 100%);}  
+.btn1{
+  background-image: linear-gradient(90deg, hsla(191, 75%, 60%, 1) 0%, hsla(248, 87%, 36%, 1) 100%);}
+
+.icon{
+  margin-left: -10%;
+  margin-right: -10%;
+  width: 50%;
+  height: 75%;
 }
