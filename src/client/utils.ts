@@ -18,6 +18,7 @@ class Api implements IApi {
 const apiRoute: Api = Object.freeze(new Api('http://localhost:3020'));
 
 const checkAuth = async () => {
+  console.log('ENTER CHECK AUTH');
   const response = await axiosInstance.get('/auth');
   console.log(
     response.data,

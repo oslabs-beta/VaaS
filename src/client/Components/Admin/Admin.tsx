@@ -17,6 +17,17 @@ import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { IReducers } from '../../Interfaces/IReducers';
 import { setDarkMode } from '../../Store/actions';
 
+type Admin = {
+  cookieId: string;
+  darkMode: boolean;
+  firstName: string;
+  lastName: string;
+  password: string;
+  refreshRate: number;
+  username: string;
+  _id: string;
+};
+
 const Admin = () => {
   const dispatch = useAppDispatch();
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
@@ -25,6 +36,7 @@ const Admin = () => {
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
   const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
+  const [currUser, setCurrUser] = useState<Admin | unknown>({});
   const darkMode = uiReducer.clusterUIState.darkmode;
   const [refreshRate, setRefreshRate] = useState(0);
   const navigate = useNavigate();
@@ -49,12 +61,9 @@ const Admin = () => {
 
   useEffect(() => {
     const getUserInfo = async () => {
-      const user = await Get(
-        apiRoute.getRoute(`user:${localStorage.username}`)
-      );
-      console.log(localStorage.username);
-      console.log('USER: ', user.darkMode);
-      console.log('USER: ', user.refreshRate / 1000);
+      // This user can be used globally once the fetch is complete, it's an object with all relevant user details
+      const user = await Get(apiRoute.getRoute(`user`));
+      setCurrUser(user);
       dispatch(setDarkMode(user.darkMode));
       setRefreshRate(user.refreshRate / 1000);
     };
@@ -122,19 +131,16 @@ const Admin = () => {
         setUpdateUserErr('No inputs in input fields');
         return;
       }
-      const user = await Get(
-        apiRoute.getRoute(`user:${localStorage.username}`)
-      );
+      const user = await Get(apiRoute.getRoute(`user`));
       if (!body.username) body.username = user.username;
       if (!body.firstName) body.firstName = user.firstName;
       if (!body.lastName) body.lastName = user.lastName;
 
-      const updateStatus = await Put(apiRoute.getRoute('user'), body, {
-        authorization: localStorage.getItem('token'),
-      }).catch((err) => console.log(err));
+      const updateStatus = await Put(apiRoute.getRoute('user'), body).catch(
+        (err) => console.log(err)
+      );
 
       if (updateStatus.success) {
-        localStorage.setItem('username', body.username);
         setUpdateUserErr('Account information successfully updated');
       } else {
         setUpdateUserErr('Your account details could not be updated');
@@ -147,14 +153,12 @@ const Admin = () => {
   const handleUserDelete = async (): Promise<void> => {
     try {
       const userBody = {
-        username: localStorage.getItem('username'),
+        username: currUser.username,
         password: (
           document.getElementById('delete-password-input') as HTMLInputElement
         ).value,
       };
-      const deleteStatus = await Delete(apiRoute.getRoute('user'), userBody, {
-        authorization: localStorage.getItem('token'),
-      });
+      const deleteStatus = await Delete(apiRoute.getRoute('user'), userBody);
 
       const clusters = await Get(apiRoute.getRoute('cluster'));
 
@@ -163,14 +167,10 @@ const Admin = () => {
           clusterId: cluster._id,
           favorite: false,
         };
-        await Put(apiRoute.getRoute('cluster'), clusterBody, {
-          authorization: localStorage.getItem('token'),
-        });
+        await Put(apiRoute.getRoute('cluster'), clusterBody);
       });
 
       if (deleteStatus.deleted) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
         navigate('/');
       } else {
         console.log('Account could not be deleted - ');
@@ -188,9 +188,7 @@ const Admin = () => {
         darkMode: !darkMode,
       };
 
-      const updateStatus = await Put(apiRoute.getRoute('user'), body, {
-        authorization: localStorage.getItem('token'),
-      });
+      const updateStatus = await Put(apiRoute.getRoute('user'), body);
       if (updateStatus.success) {
         dispatch(setDarkMode(!darkMode));
         console.log('Dark mode enabled');
@@ -211,9 +209,7 @@ const Admin = () => {
               .value
           ) * 1000,
       };
-      const updateStatus = await Put(apiRoute.getRoute('user'), body, {
-        authorization: localStorage.getItem('token'),
-      });
+      const updateStatus = await Put(apiRoute.getRoute('user'), body);
       if (updateStatus.success) {
         console.log(body.refreshRate);
         setRefreshRate(body.refreshRate / 1000);
@@ -254,7 +250,7 @@ const Admin = () => {
 
   return (
     <div>
-      <UserWelcome />
+      <UserWelcome user={currUser.username} />
       <Accordion
         sx={{
           marginTop: '0.5rem',

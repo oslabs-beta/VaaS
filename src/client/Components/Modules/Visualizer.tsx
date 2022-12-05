@@ -7,7 +7,7 @@ import './network.css';
 const Visualizer = (props: Modules) => {
   return (
     <iframe
-      src={`http://35.247.110.92/80`}
+      src={`http://35.230.55.147/80`}
       height="500px"
       width="100%"
       frameBorder="0"
