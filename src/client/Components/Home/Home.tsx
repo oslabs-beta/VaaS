@@ -196,8 +196,8 @@ const Home = () => {
     <Container id="HomeContainer">
       <NavBar />
       <Container id="HeaderContainer">
-        <div id="Header-Bar">Clusters</div>
-        <div id="Sort-Button">Sort By</div>
+        <div id="Header-Bar-Title">CLUSTERS</div>
+        <div id="Sort-Button">SORT</div>
       </Container>
       <div className="Kube-port">
         <div className="Kube-container" id="Kube-container">

@@ -148,10 +148,13 @@ const Kube = (props: ClusterTypes) => {
     <Box
       className="Cluster-Kube-Box"
       sx={{
-        backgroundColor: '#fff',
         display: 'flex',
         backgroundColor: '#181A1D',
         color: 'white',
+        width: '80%',
+        height: '380px',
+        border: '2px solid #15161d',
+        boxShadow: '1px 1px 10px .5px #403e54',
       }}
     >
       <CssBaseline />
@@ -162,15 +165,14 @@ const Kube = (props: ClusterTypes) => {
           flexDirection: 'column',
           margin: '0',
           padding: '0',
-          borderRight: '1px solid white',
-          alignItems: 'center',
-          minWidth: '120px',
+          minWidth: '150px',
+          borderRight: '2px solid #15161d',
         }}
       >
         <Box
           className="Cluster-Kube-Box-Title"
           sx={{
-            border: '1px solid white',
+            borderBottom: '2px solid #15161d',
             minHeight: '60px',
             width: '100%',
             display: 'flex',
@@ -180,24 +182,23 @@ const Kube = (props: ClusterTypes) => {
         >
           {dbData?.name}
         </Box>
-        <Divider />
         <Box
           className="Cluster-Kube-Box-Modules-General"
           sx={{
-            border: '1px solid white',
-            height: '100%',
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
+            alignItems: 'flex-start',
             gap: '10px',
             paddingTop: '10px',
             paddingBottom: '10px',
           }}
         >
           <Button
-            className="Graphs-Button"
+            className="Cluster-Buttons"
+            id="Graphs-Button"
+            fullWidth={true}
+            startIcon={<InsightsIcon />}
             onClick={() =>
               navigate('/module', { state: [dbData?._id, 'charts', true] })
             }
@@ -205,7 +206,10 @@ const Kube = (props: ClusterTypes) => {
             Graphs
           </Button>
           <Button
-            className="Cluster-Map-Button"
+            className="Cluster-Buttons"
+            id="Cluster-Map-Button"
+            fullWidth={true}
+            startIcon={<ViewInArIcon />}
             onClick={() =>
               navigate('/module', { state: [dbData?._id, 'visualizer', true] })
             }
@@ -213,7 +217,10 @@ const Kube = (props: ClusterTypes) => {
             Cluster Map
           </Button>
           <Button
-            className="Queries-Button"
+            className="Cluster-Buttons"
+            id="Queries-Button"
+            fullWidth={true}
+            startIcon={<QueryStatsIcon />}
             onClick={() =>
               navigate('/module', { state: [dbData?._id, 'custom', true] })
             }
@@ -221,7 +228,10 @@ const Kube = (props: ClusterTypes) => {
             Queries
           </Button>
           <Button
-            className="Alerts-Button"
+            className="Cluster-Buttons"
+            id="Alerts-Button"
+            fullWidth={true}
+            startIcon={<AddAlertIcon />}
             onClick={() =>
               navigate('/module', { state: [dbData?._id, 'alert', true] })
             }
@@ -233,21 +243,20 @@ const Kube = (props: ClusterTypes) => {
         <Box
           className="Cluster-Kube-Box-Modules-Faas"
           sx={{
-            border: '1px solid white',
-            minHeight: '100px',
-            height: '100%',
+            height: '200px',
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             gap: '10px',
-            paddingTop: '10px',
-            paddingBottom: '10px',
           }}
         >
           <Button
-            className="OpenFaaS-Button"
+            className="Cluster-Buttons"
+            id="OpenFaaS-Button"
+            fullWidth={true}
+            startIcon={<FunctionsIcon />}
             onClick={() =>
               navigate('/module', { state: [dbData?._id, 'faas', true] })
             }
@@ -255,7 +264,10 @@ const Kube = (props: ClusterTypes) => {
             OpenFaaS
           </Button>
           <Button
-            className="FaaSCost-Button"
+            className="Cluster-Buttons"
+            id="FaaSCost-Button"
+            fullWidth={true}
+            startIcon={<AttachMoneyIcon />}
             onClick={() =>
               navigate('/module', {
                 state: [dbData?._id, 'functionCost', true],
@@ -268,30 +280,139 @@ const Kube = (props: ClusterTypes) => {
       </Box>
       <Box
         className="Cluster-Kube-Box-Right"
-        sx={{ width: '100%', height: '100%' }}
+        sx={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '0',
+          margin: '0',
+        }}
       >
         <Box
           className="Cluster-Description-Box"
-          sx={{ borderBottom: '1px solid white', minHeight: '60px' }}
+          sx={{
+            borderBottom: '2px solid #15161d',
+            height: '60px',
+            minHeight: '60px',
+            maxHeight: '60px',
+            display: 'flex',
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            alignItems: 'center',
+          }}
         >
           {dbData?.description}
         </Box>
-        <Box className="Cluster-Nodes-Box">
-          <div>Nodes: </div>
-          <div>
-            {apiReducer.clusterQueryData[props._id]?.allNodes.length || 0}
-          </div>
+        <Box className="Basic-Descriptors">
+          <Box
+            className="Cluster-Nodes-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <div className="basic-descriptor-title" id="node-title">
+              NODES:{' '}
+            </div>
+            <div>
+              {apiReducer.clusterQueryData[props._id]?.allNodes.length || 0}
+            </div>
+          </Box>
+          <Box
+            className="Cluster-Deployments-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <div className="basic-descriptor-title" id="deployment-title">
+              DEPLOYMENTS:{' '}
+            </div>
+            <div>
+              {apiReducer.clusterQueryData[props._id]?.totalDeployments
+                .length || 0}
+            </div>
+          </Box>
+          <Box
+            className="Cluster-Pods-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <div className="basic-descriptor-title" id="pod-title">
+              PODS:{' '}
+            </div>
+            <div>{apiReducer.clusterQueryData[props._id]?.totalPods || 0}</div>
+          </Box>
         </Box>
-        <Box className="Cluster-Deployments-Box">
-          <div>Deployments: </div>
-          <div>
-            {apiReducer.clusterQueryData[props._id]?.totalDeployments.length ||
-              0}
-          </div>
-        </Box>
-        <Box className="Cluster-Pods-Box">
-          <div>Pods: </div>
-          <div>{apiReducer.clusterQueryData[props._id]?.totalPods || 0}</div>
+        <Box className="Gauges-Descriptors">
+          <Box
+            className="Cluster-CPU-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+            }}
+          >
+            <Box className="Cluster-CPU-Box-Title">CPU</Box>
+            <Box className="Cluster-CPU-Gauge">
+              <GaugeChart
+                nrOfLevels={30}
+                colors={['green', '#FF5F6D']}
+                arcWidth={0.1}
+                percent={
+                  (apiReducer.clusterQueryData[props._id]?.cpuLoad || 0) / 100
+                }
+                style={{
+                  width: '90px',
+                  height: '2px',
+                }}
+                needleColor={props.isDark ? '#c0c0c0' : '#464A4F'}
+                hideText={true}
+              />
+              <a className="gauge-text">
+                {apiReducer.clusterQueryData[props._id]?.cpuLoad || 0}%
+              </a>
+            </Box>
+          </Box>
+          <Box
+            className="Cluster-Memory-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+            }}
+          >
+            <Box className="Cluster-Memory-Box-Title">Memory</Box>
+            <Box className="Cluster-Memory-Gauge">
+              <GaugeChart
+                nrOfLevels={30}
+                colors={['green', '#FF5F6D']}
+                arcWidth={0.1}
+                percent={
+                  (apiReducer.clusterQueryData[props._id]?.memoryLoad || 0) /
+                  2048
+                }
+                style={{
+                  width: '90px',
+                  height: '2px',
+                }}
+                needleColor={props.isDark ? '#c0c0c0' : '#464A4F'}
+                hideText={true}
+              />
+              <a className="gauge-text">
+                {apiReducer.clusterQueryData[props._id]?.memoryLoad || 0} / 2048
+                MB
+              </a>
+            </Box>
+          </Box>
         </Box>
       </Box>
     </Box>

@@ -1,3 +1,6 @@
+* {
+}
+
 h3 {
   text-align: center;
 }
@@ -114,17 +117,27 @@ dd {
 .Module-top-row {
   width: 100%;
   display: flex;
-  margin-top: 10px;
+  align-items: space-between;
+  font-size: 1.3em;
+  letter-spacing: 1em;
+  padding-top: 6em;
 }
 
 .module-title {
-  font-size: 20px;
   width: 100%;
   display: inline-block;
   cursor: default;
   margin-right: auto;
-  margin-left: 0;
-  margin-top: 6px;
+  margin-left: 0.5em;
+  color: white;
+  font-size: 20.8px;
+  font-weight: 400;
+  font-family: 'Montserrat Thin', sans-serif;
+  letter-spacing: 1em;
+}
+
+.module-title::first-letter {
+  font-size: 1.4em;
 }
 
 .module-button {
@@ -151,4 +164,64 @@ dd {
   font-size: 10px;
   text-align: right;
   margin-top: -15px;
+}
+
+.Cluster-Buttons {
+  padding: 0;
+  margin: 0;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  color: white;
+  font-weight: 400;
+}
+
+.Basic-Descriptors {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1.2em;
+  font-size: 1.5em;
+}
+
+.Gauges-Descriptors {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2em;
+  font-size: 1.5em;
+}
+
+.basic-descriptor-title {
+  font-size: 0.7em;
+}
+
+.basic-descriptor-title::first-letter {
+  font-size: 1.3em;
+}
+
+#basic-button {
+  color: white;
+}
+
+.Cluster-Memory-Gauge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Cluster-CPU-Gauge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gauge-text {
+  margin-top: 3em;
+  font-size: 0.7em;
+}
+
+.Cluster-Kube-Box:hover {
+  transform: scale(1.03);
+  transition: 0.2s;
+  box-shadow: 1px 1px 10px 0.5px #837fb3;
 }

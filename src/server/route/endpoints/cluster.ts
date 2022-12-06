@@ -189,9 +189,9 @@ router
         name,
         description,
       } = req.body;
-      const {
-        jwt: { id },
-      } = res.locals;
+      // const {
+      //   jwt: { id },
+      // } = res.locals;
       // Check to see if cluster exists
       terminal(`Searching for cluster [${name}] in MongoDB`);
       const cluster = await Cluster.find({ _id: clusterId }).exec();
