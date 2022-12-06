@@ -29,6 +29,7 @@
     "@mui/lab": "^5.0.0-alpha.110",
     "@mui/material": "^5.10.2",
     "@reduxjs/toolkit": "^1.8.4",
+    "@tanstack/react-query": "^4.19.0",
     "@types/cookie-parser": "^1.4.3",
     "@types/isomorphic-fetch": "^0.0.36",
     "autoprefixer": "^10.4.8",

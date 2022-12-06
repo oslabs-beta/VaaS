@@ -20,10 +20,6 @@ const apiRoute: Api = Object.freeze(new Api('http://localhost:3020'));
 const checkAuth = async () => {
   console.log('ENTER CHECK AUTH');
   const response = await axiosInstance.get('/auth');
-  console.log(
-    response.data,
-    'this is the response we are gettign from checking auth'
-  );
   return response.data;
 };
 

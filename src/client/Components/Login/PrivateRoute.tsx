@@ -5,7 +5,6 @@ import { apiRoute } from '../../utils';
 // import { setTitle } from '../../Store/actions';
 
 export default function PrivateRoute() {
-  console.log('hit private route');
   let authorized: { invalid: boolean } = { invalid: false };
   async function authorize() {
     authorized = await Get(apiRoute.getRoute('auth'));

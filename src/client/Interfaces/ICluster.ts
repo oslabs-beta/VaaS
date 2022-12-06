@@ -1,3 +1,5 @@
+import { IClusterMetrics } from '../Interfaces/IAction';
+
 export interface ClusterTypes {
   _id: string;
   url?: string;
@@ -9,8 +11,8 @@ export interface ClusterTypes {
   __v?: number;
   favoriteStatus?: boolean;
   isDark?: boolean; //*adding for darkmode
+  clusterMetrics?: IClusterMetrics;
 }
-
 export interface Modules {
   _id?: string;
   id?: string;
@@ -21,4 +23,9 @@ export interface Modules {
   faas_port?: number | undefined;
   description?: string;
   isDark?: boolean; //*adding for darkmode
+}
+
+export interface useFetchMetricsProps {
+  clusterId: string;
+  k8Str: string;
 }
