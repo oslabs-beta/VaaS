@@ -1,4 +1,60 @@
-.vis .overlay {
+* {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 100;
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  letter-spacing: 1.6px;
+  line-height: 24px;
+  text-size-adjust: 100%;
+}
+.renderDashboard {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.chartsBackground {
+  background-color: #000;
+}
+.dashboard {
+  text-align: center;
+  font-size: 35px;
+  width: 400px;
+  margin: 20px;
+  cursor: pointer;
+  color: white;
+}
+.category {
+  height: 150px;
+  width: 300px;
+  border: 3px solid #2704ff;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  color: #2704ff;
+  background-color: #101216;
+  cursor: pointer;
+}
+.categoryList {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #101216;
+  gap: 50px;
+  justify-content: center;
+  margin-top: 30px;
+  /* justify-content: space-around; */
+}
+
+.modal-2-box {
+  background-color: transparent;
+  border: none;
+}
+
+.modal-2 {
+  background-color: rgba(0, 0, 0, 0.1);
+  width: 100vw;
+}
+/* .vis .overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -610,7 +666,7 @@ div.vis-network div.vis-manipulation div.vis-button:active {
 /* div.vis-network div.vis-manipulation div.vis-button.vis-back {
       background-image: url(img/network/backIcon.png);
   } */
-div.vis-network div.vis-manipulation div.vis-button.vis-none:hover {
+/* div.vis-network div.vis-manipulation div.vis-button.vis-none:hover {
   box-shadow: 1px 1px 8px transparent;
   cursor: default;
 }
@@ -665,4 +721,4 @@ div.vis-network div.vis-navigation div.vis-button:hover {
 }
 div.vis-network div.vis-navigation div.vis-button:active {
   box-shadow: 0 0 1px 3px rgba(56, 207, 21, 0.95);
-}
+} */

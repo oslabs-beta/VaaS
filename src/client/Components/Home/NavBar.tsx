@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Avatar, Button, Toolbar, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -8,7 +8,18 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { IReducers } from '../../Interfaces/IReducers';
 import { setRender } from '../../Store/actions';
-
+import { Container } from '@mui/system';
+import Box from '@mui/material/Box';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import { Link } from 'react-router-dom';
 export default function NavBar() {
   const navigate = useNavigate();
   const clusterReducer = useAppSelector(
@@ -36,60 +47,85 @@ export default function NavBar() {
   //   setUser(JSON.parse(localStorage.getItem('profile') as any));
   // }, []);
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
-    <div id="navbar">
-      <div className="title noselect">VaaS</div>
-      {/* <Toolbar>
-        {user ? (
-          <div className='profile'>
-            <Avatar alt={user.result.name} src={user.result.imageUrl}>{user.result.name.charAt(0)}</Avatar>
-            <Typography className='userName' variant='h6'>{user.result.name}</Typography>
-            <Button variant='contained' className='gLogout' color='secondary'>Logout</Button>
-          </div>
-        ) : (
-          <Button variant='contained' className='gLogout' color='secondary'>Sign In with Google</Button>
-        )}
-      </Toolbar> */}
-      <Button
-        id="basic-button"
-        onClick={handleLogOut}
-        variant="text"
-        sx={{
-          color: '#3a4a5b',
-        }}
-      >
-        <LogoutIcon />
-      </Button>
-      <Button
-        id="basic-button"
-        onClick={routeHome}
-        variant="text"
-        sx={{
-          color: '#3a4a5b',
-        }}
-      >
-        <HomeIcon />
-      </Button>
-      <Button
-        id="basic-button"
-        onClick={() => dispatch(setRender(!clusterReducer.render))}
-        variant="text"
-        sx={{
-          color: '#3a4a5b',
-        }}
-      >
-        <RefreshIcon />
-      </Button>
-      <Button
-        id="basic-button"
-        onClick={routeAdmin}
-        variant="text"
-        sx={{
-          color: '#3a4a5b',
-        }}
-      >
-        <SettingsIcon />
-      </Button>
-    </div>
+    <header id="header">
+      <Container id="navbar-container">
+        <a onClick={() => navigate('/home')}>
+          <img className="homeicon" src="../../../../public/Images/v4.svg" />
+        </a>
+        <a id="navbar-title">VaaS</a>
+
+        <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+            sx={{ backgroundColor: '#181A1D', marginRight: '10px' }}
+          >
+            <Avatar
+              sx={{ width: 32, height: 32 }}
+              src="../../../../public/Images/prof.png"
+            ></Avatar>
+          </IconButton>
+        </Tooltip>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              mt: 1.5,
+              '& .MuiAvatar-root': {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              '&:before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+                backgroundColor: '#181A1D',
+              },
+            },
+          }}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        >
+          <MenuItem component={Link} to="/admin">
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      </Container>
+    </header>
   );
 }

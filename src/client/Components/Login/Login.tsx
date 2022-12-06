@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../Queries';
 import { checkAuth } from '../../utils';
-import { Container, Box, Button, TextField, CssBaseline } from '@mui/material';
+import { FcGoogle } from 'react-icons/fc';
+import { BsGithub } from 'react-icons/bs';
+import {
+  Container,
+  Box,
+  Button,
+  TextField,
+  CssBaseline,
+  Typography,
+} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import './styles.css';
-import { useDispatch } from 'react-redux';
-import LoginBackGround from '../../../../public/images/LoginBackGround.png';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -57,110 +64,191 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="container" id="login-container">
+      <Container
+        id="login-logo-container"
+        sx={{
+          height: '30vh',
+          marginTop: '8vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <img id="login-icon" src="../../../../public/Images/v4.svg" />
+        <Typography
+          sx={{
+            fontSize: '2.5rem',
+            marginTop: '0',
+            marginBottom: '2vh',
+            paddingTop: '0',
+            letterSpacing: '0.3rem',
+            color: '#fff',
+          }}
+        >
+          VaaS
+        </Typography>
+        {error && <span style={{ color: 'red' }}>{error}</span>}
+      </Container>
       <Container
         sx={{
-          height: '100vh',
           minWidth: '100%',
           justifyContent: 'center',
           display: 'flex',
           direction: 'column',
           textAlign: 'center',
           alignItems: 'center',
-          backgroundImage: `url(${LoginBackGround})`,
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
+          marginTop: '4em',
         }}
         className="backdrop"
       >
         <CssBaseline />
-        <Box
-          maxWidth="sm"
-          className="login-container"
+        <Container
+          id="login-container-container"
           sx={{
-            width: '40%',
-            minWidth: '250px',
-            opacity: '95%',
-            direction: 'column',
-            textAlign: 'center',
-            alignItems: 'center',
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'center',
-            backgroundRepeat: 'no-repeat',
-            padding: '1.5rem',
-            borderRadius: '2%',
           }}
         >
-          <div>
-            <h1>VaaS</h1>
-            {error && <span style={{ color: 'red' }}>{error}</span>}
-          </div>
           <TextField
             id="login-username-input"
             label="Username"
             type="username"
-            autoComplete="current-username"
+            autoComplete="current-password"
+            variant="standard"
             size="small"
+            onKeyDown={handleEnterKeyDown}
+            onChange={handleChange}
             margin="dense"
             name="username"
             value={fields.username}
-            onKeyDown={handleEnterKeyDown}
-            onChange={(e) => handleChange(e)}
+            fullWidth={true}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+            }}
           />
           <TextField
             id="login-password-input"
             label="Password"
             type="password"
             autoComplete="current-password"
+            variant="standard"
             size="small"
+            onKeyDown={handleEnterKeyDown}
+            onChange={handleChange}
             margin="dense"
             name="password"
             value={fields.password}
-            onKeyDown={handleEnterKeyDown}
-            onChange={(e) => handleChange(e)}
+            fullWidth={true}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+            }}
           />
           <Container
             id="buttonContainer"
             sx={{
+              width: '100%',
+              minWidth: '250px',
+              maxWidth: '600px',
+              direction: 'column',
+              textAlign: 'center',
+              alignItems: 'center',
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
-              gap: '.5em',
-              padding: '.5em',
+              padding: '1.5rem',
+              border: '0px solid #eaeaea',
             }}
           >
-            {/* login button */}
             <LoadingButton
               className="btn"
               type="button"
               onClick={handleLogin}
               variant="contained"
-              sx={{
-                color: 'white',
-                backgroundColor: '#3a4a5b',
-                borderColor: 'white',
-              }}
               disabled={disabled}
               loading={loading}
+              sx={{
+                ':disabled': { backgroundColor: 'gray', color: '#000' },
+                margin: '1rem',
+                color: '#fff',
+                width: '100%',
+                gap: '.5em',
+                padding: '.1em',
+                height: '2.5rem',
+              }}
             >
               Login
             </LoadingButton>
-            {/* register button */}
             <Button
-              className="btn"
+              className="btn1"
               type="button"
               onClick={() => navigate('/register')}
               variant="contained"
               sx={{
-                color: 'white',
-                backgroundColor: '#3a4a5b',
-                borderColor: 'white',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                gap: '.5em',
+                padding: '.1em',
+                width: '100%',
+                height: '2.5rem',
               }}
             >
               Register
             </Button>
           </Container>
-        </Box>
+          <Container
+            id="oauth-buttons-container"
+            sx={{
+              display: 'flex',
+              width: '12vw',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Button
+              variant="contained"
+              sx={{
+                color: 'white',
+                backgroundColor: '#3a4a5b',
+                borderColor: 'white',
+                marginTop: '8px',
+                minWidth: '165px',
+                height: '3.5em',
+                margin: '.5em',
+                textAlign: 'center',
+              }}
+            >
+              <FcGoogle className="icon" />
+              &nbsp;&nbsp;Sign in
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                color: 'white',
+                backgroundColor: '#3a4a5b',
+                borderColor: 'white',
+                marginTop: '8px',
+                minWidth: '165px',
+                height: '3.5em',
+                margin: '.5em',
+                textAlign: 'center',
+              }}
+            >
+              <BsGithub className="icon" />
+              &nbsp;&nbsp;Sign in
+            </Button>
+          </Container>
+        </Container>
       </Container>
     </div>
   );

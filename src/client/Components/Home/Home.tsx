@@ -13,6 +13,7 @@ import './styles.css';
 import { ClusterTypes } from '../../Interfaces/ICluster';
 import { setDarkMode } from '../../Store/actions';
 import { useNavigate } from 'react-router-dom';
+import { Container } from '@mui/system';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ const Home = () => {
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState([]);
   const darkMode = uiReducer.clusterUIState.darkmode;
+  const [visited, setVisited] = useState(false);
 
   useEffect(() => {
     const getClusterDbData = async () => {
@@ -184,16 +186,27 @@ const Home = () => {
     getUserInfo();
   }, [darkMode]);
 
+  function renderSplash() {
+    if (!visited) {
+      setVisited(true);
+    }
+  }
+
   return (
-    <div className="Kube-port">
-      <div className="Kube-container">
-        {/* Hello */}
-        {favClusters}
-        {nonFavClusters}
-      </div>
-      {noClusterError}
+    <Container id="HomeContainer">
       <NavBar />
-    </div>
+      <Container id="HeaderContainer">
+        <div id="Header-Bar-Title">CLUSTERS</div>
+        <div id="Sort-Button">SORT</div>
+      </Container>
+      <div className="Kube-port">
+        <div className="Kube-container" id="Kube-container">
+          {favClusters}
+          {nonFavClusters}
+        </div>
+        {noClusterError}
+      </div>
+    </Container>
   );
 };
 

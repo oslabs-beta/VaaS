@@ -1,7 +1,22 @@
 body {
   padding: 0;
-  font-family: 'Cabin', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   padding-bottom: 43px;
+  margin: 0;
+  background-color: #101216;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+}
+
+.homeicon {
+  height: 110px;
+  margin-bottom: -10px;
+  margin-left: -15px;
+}
+
+.homeicon:hover {
+  cursor: pointer;
 }
 
 .noselect {
@@ -22,13 +37,18 @@ body {
 .Kube-container {
   -webkit-scroll-snap-align: start;
   scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 2em;
 }
 
 #logout-btn {
   float: right;
 }
 
-#navbar {
+/* #navbar {
   background: white;
   padding: 8px;
   margin: 0;
@@ -40,7 +60,7 @@ body {
   display: flex;
   margin-left: -1.4rem;
   border-top: 1px solid #717982;
-}
+} */
 
 #dropdown {
   float: right;
@@ -69,4 +89,118 @@ body {
   font-size: 1.3em;
   color: #3a4a5b;
   cursor: default;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+#fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}
+
+#animated-splash {
+  opacity: 1;
+  animation: fadeOut 1s ease-out backwards;
+}
+
+#animated-splash-none {
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  z-index: -10;
+  color: white;
+  text-align: center;
+  line-height: 90vh;
+  transition: all 0.5s;
+}
+
+#HomeContainer {
+  height: 100%;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  background-color: #101216;
+}
+
+#navbar-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 0.5em;
+  padding-left: 0.4em;
+  padding-right: 0.4em;
+  align-items: center;
+  font-size: 1.7em;
+  letter-spacing: 0.05em;
+  background-color: #101216;
+  color: white;
+  border-bottom: 1px solid #717982;
+  height: 3.5em;
+  position: fixed;
+  z-index: 100;
+}
+
+#navbar-container > a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 30vw;
+  font-size: 1.3em;
+}
+
+#HeaderContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 1em;
+  margin-top: 5em;
+  padding-left: 2.2em;
+  padding-right: 2.2em;
+  align-items: center;
+  font-size: 1.3em;
+  letter-spacing: 0.05em;
+  background-color: #101216;
+  color: white;
+}
+
+#Header-Bar-Title:hover {
+  user-select: none;
+}
+
+#Header-Bar-Title {
+  letter-spacing: 0.1em;
+}
+
+#HeaderContainer > div::first-letter {
+  font-size: 1.4em;
+}
+
+.avatar:hover {
+  cursor: pointer;
+}
+
+#navbar-title:hover {
+  user-select: none;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+  z-index: 100;
 }

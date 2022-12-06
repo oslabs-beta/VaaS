@@ -199,14 +199,25 @@ const Module = (props: Modules) => {
   };
   return (
     <div>
-      <Container component={Card} sx={style} className="module-container">
+      <NavBar />
+      <Container
+        component={Card}
+        sx={{
+          width: '100%',
+          height: '100%',
+          margin: '0px',
+          padding: '0px',
+          backgroundColor: '#101216',
+        }}
+        className="module-container"
+      >
         <div className="Module-top-row">
           <div className="module-title noselect">
             {faas && <div>OpenFaaS</div>}
-            {visualizer && <div>Visualizer</div>}
-            {custom && <div>Prom Query</div>}
-            {charts && <div>Charts</div>}
-            {functionCost && <div>OpenFaaS Function Cost Calculator</div>}
+            {visualizer && <div>VISUALIZER</div>}
+            {custom && <div>PROM QUERY</div>}
+            {charts && <div id="Header-Bar-Title">CHARTS</div>}
+            {functionCost && <div>FUNCTION COST CALCULATOR</div>}
           </div>
           <Button
             sx={buttonStyle}
@@ -315,7 +326,7 @@ const Module = (props: Modules) => {
           color: style.color,
         }}
       ></Container>
-      {!props.nested && <NavBar />}
+      {!props.nested}
     </div>
   );
 };
