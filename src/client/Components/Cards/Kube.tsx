@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ClusterTypes } from '../../Interfaces/ICluster';
+import { ClusterTypes, useFetchMetricsProps } from '../../Interfaces/ICluster';
 import { Put } from '../../Services';
 import { apiRoute } from '../../utils';
 import Module from './Module';
@@ -36,6 +36,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useFetchMetrics } from '../../Queries';
 
 const Kube = (props: ClusterTypes) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -51,12 +52,59 @@ const Kube = (props: ClusterTypes) => {
   const [settings, setSettings] = useState(false);
 
   const drawerWidth = 240;
-
-  // accessing state to find data of the specfic cluster
+  // accessing redux state clusterDbData to find data of the specfic cluster by _id
   const [dbData] = useState(
     apiReducer.clusterDbData.find((element) => element._id === props._id)
   );
   console.log('THIS IS dbData', dbData);
+  // console logging clusterQueryData in store to be sure cluster metrics was dispatched after all metrics were fetched
+  // console.log(
+  //   apiReducer.clusterQueryData,
+  //   'apiReducer.clusterQueryDataapiReducer.clusterQueryDataapiReducer.clusterQueryDataapiReducer.clusterQueryData'
+  // );
+
+  // declare useFetchMetrics custom hook props
+  const fetchProps: useFetchMetricsProps = {
+    clusterId: props?._id,
+    k8Str: 'k8',
+  };
+  // invoke custom hook which takes the clusterId and 'k8 as arguments/props
+  const {
+    allNodes,
+    cpuLoad,
+    memoryLoad,
+    totalDeployments,
+    totalPods,
+    allNamespaces,
+    allServices,
+  } = useFetchMetrics(fetchProps);
+
+  // console all cluster metrics returned from custom hook
+  // console.log(
+  //   {
+  //     allNodes,
+  //     cpuLoad,
+  //     memoryLoad,
+  //     totalDeployments,
+  //     totalPods,
+  //     allNamespaces,
+  //     allServices,
+  //   },
+  //   'datadatadatadatadatadatadatadatadatadata'
+  // );
+
+  // dispatching in here causes incessant rendering (moved to custome hook - to run ONLY after all the metrics of the cluster have been fetched)
+  // dispatch(
+  //   storeClusterQueryData(props._id, {
+  //     allNodes,
+  //     cpuLoad,
+  //     memoryLoad,
+  //     totalDeployments,
+  //     totalPods,
+  //     allNamespaces,
+  //     allServices,
+  //   })
+  // );
 
   useEffect(() => {
     dispatch(
@@ -317,9 +365,7 @@ const Kube = (props: ClusterTypes) => {
             <div className="basic-descriptor-title" id="node-title">
               NODES:{' '}
             </div>
-            <div>
-              {apiReducer.clusterQueryData[props._id]?.allNodes.length || 0}
-            </div>
+            <div>{allNodes?.length || 0}</div>
           </Box>
           <Box
             className="Cluster-Deployments-Box"
@@ -332,10 +378,7 @@ const Kube = (props: ClusterTypes) => {
             <div className="basic-descriptor-title" id="deployment-title">
               DEPLOYMENTS:{' '}
             </div>
-            <div>
-              {apiReducer.clusterQueryData[props._id]?.totalDeployments
-                .length || 0}
-            </div>
+            <div>{totalDeployments || 0}</div>
           </Box>
           <Box
             className="Cluster-Pods-Box"
@@ -348,7 +391,7 @@ const Kube = (props: ClusterTypes) => {
             <div className="basic-descriptor-title" id="pod-title">
               PODS:{' '}
             </div>
-            <div>{apiReducer.clusterQueryData[props._id]?.totalPods || 0}</div>
+            <div>{totalPods || 0}</div>
           </Box>
         </Box>
         <Box className="Gauges-Descriptors">
@@ -367,9 +410,7 @@ const Kube = (props: ClusterTypes) => {
                 nrOfLevels={30}
                 colors={['green', '#FF5F6D']}
                 arcWidth={0.1}
-                percent={
-                  (apiReducer.clusterQueryData[props._id]?.cpuLoad || 0) / 100
-                }
+                percent={(cpuLoad || 0) / 100}
                 style={{
                   width: '90px',
                   height: '2px',
@@ -377,9 +418,7 @@ const Kube = (props: ClusterTypes) => {
                 needleColor={props.isDark ? '#c0c0c0' : '#464A4F'}
                 hideText={true}
               />
-              <a className="gauge-text">
-                {apiReducer.clusterQueryData[props._id]?.cpuLoad || 0}%
-              </a>
+              <a className="gauge-text">{cpuLoad || 0}%</a>
             </Box>
           </Box>
           <Box
@@ -397,10 +436,7 @@ const Kube = (props: ClusterTypes) => {
                 nrOfLevels={30}
                 colors={['green', '#FF5F6D']}
                 arcWidth={0.1}
-                percent={
-                  (apiReducer.clusterQueryData[props._id]?.memoryLoad || 0) /
-                  2048
-                }
+                percent={(memoryLoad || 0) / 2048}
                 style={{
                   width: '90px',
                   height: '2px',
@@ -408,10 +444,7 @@ const Kube = (props: ClusterTypes) => {
                 needleColor={props.isDark ? '#c0c0c0' : '#464A4F'}
                 hideText={true}
               />
-              <a className="gauge-text">
-                {apiReducer.clusterQueryData[props._id]?.memoryLoad || 0} / 2048
-                MB
-              </a>
+              <a className="gauge-text">{memoryLoad || 0} / 2048 MB</a>
             </Box>
           </Box>
         </Box>

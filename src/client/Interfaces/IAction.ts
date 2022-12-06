@@ -21,7 +21,7 @@ export interface IClusterMetrics {
   allNodes: any;
   allNamespaces: any;
   allServices: any;
-  allNameList: any;
+  allNameList?: any;
 }
 
 export interface IClusterUIAction {
