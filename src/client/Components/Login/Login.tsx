@@ -23,6 +23,7 @@ const Login = () => {
   const disabled = !fields.username || !fields.password;
 
   useEffect(() => {
+    console.log('Fire Authorize Use Effect');
     const authorize = async () => {
       const authorized = await checkAuth();
       if (!authorized.invalid) navigate('/home');

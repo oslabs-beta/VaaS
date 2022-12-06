@@ -250,6 +250,9 @@ const Charts = (props: Modules) => {
             <option key={6} value="ServerMetrics">
               {'Node Exporter - Server Metrics'}
             </option>
+            <option key={7} value="NEnodes">
+              {'Node Exporter - Nodes'}
+            </option>
           </NativeSelect>
         </FormControl>
       </Box> */}
@@ -268,6 +271,8 @@ const Charts = (props: Modules) => {
         height="1500px"
         width="100%"
         frameBorder="0"
+
+        
       ></iframe> */}
     </div>
   );

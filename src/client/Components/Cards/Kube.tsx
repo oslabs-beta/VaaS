@@ -56,6 +56,7 @@ const Kube = (props: ClusterTypes) => {
   const [dbData] = useState(
     apiReducer.clusterDbData.find((element) => element._id === props._id)
   );
+  console.log('THIS IS dbData', dbData);
 
   useEffect(() => {
     dispatch(

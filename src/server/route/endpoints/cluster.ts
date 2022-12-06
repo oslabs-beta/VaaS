@@ -223,7 +223,7 @@ router
               authorization: authorization,
               name: name,
               description: description,
-              $push: { favorite: id },
+              // $push: { favorite: id },
             }
           );
           terminal(
@@ -241,7 +241,7 @@ router
               authorization: authorization,
               name: name,
               description: description,
-              $pull: { favorite: id },
+              // $pull: { favorite: id },
             }
           );
           terminal(
@@ -268,7 +268,7 @@ router
     } catch (err) {
       const error: IError = {
         status: 500,
-        message: `Unable to fulfill ${req.method} request: ${err}`,
+        message: `Unable to fulfill ${req.method} request: ${err} I BROKE HERE 271`,
       };
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);

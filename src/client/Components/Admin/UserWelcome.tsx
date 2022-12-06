@@ -1,11 +1,12 @@
 import React from 'react';
 import './styles.css';
 
-const UserWelcome = () => {
-  const username = localStorage.username;
-  const greetings = `Welcome, ${username}`;
+type UserWelcomeProps = {
+  user: string;
+};
 
-  return <div id="welcome-banner">{greetings}</div>;
+const UserWelcome = ({ user }: UserWelcomeProps) => {
+  return <div id="welcome-banner">{`Welcome, ${user}`}</div>;
 };
 
 export default UserWelcome;
