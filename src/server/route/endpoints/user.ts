@@ -2,12 +2,7 @@ import router from '../router';
 import { Request, Response } from 'express';
 import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
-import {
-  jwtVerify,
-  verifyCookie,
-  bcrypt,
-  authUser,
-} from '../../warehouse/middlewares';
+import { verifyCookie, bcrypt, authUser } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
 router
@@ -155,5 +150,4 @@ router
       }
     }
   );
-
 export default router;

@@ -92,7 +92,6 @@ export function checkExpStatus(token: ITokenSession): IExpirationStatus {
 }
 
 export async function editSession(user: IUser, accessSecret: string | any) {
-  console.log('editing session');
   // this function is to renew token so session time can start all over
   const { id, username } = user;
 
@@ -100,17 +99,12 @@ export async function editSession(user: IUser, accessSecret: string | any) {
     id,
     username,
   });
-
-  console.log('tokenObj: ', tokenObj);
   // updates user with the new token
-  console.log(' attempting user update ');
   await User.findOneAndUpdate(
     { id },
     { cookieId: tokenObj.token },
     { new: true }
   ).exec();
-
-  console.log('user updated');
   // returns the new token
   return tokenObj.token;
 }

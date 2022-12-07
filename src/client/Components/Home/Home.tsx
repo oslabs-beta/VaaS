@@ -3,8 +3,6 @@ import { useAppSelector, useAppDispatch } from '../../Store/hooks';
 import { storeClusterDbData } from '../../Store/actions';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
-import { Get } from '../../Services';
-import { apiRoute } from '../../utils';
 import { IReducers } from '../../Interfaces/IReducers';
 import './styles.css';
 import { ClusterTypes } from '../../Interfaces/ICluster';
@@ -12,7 +10,7 @@ import { setDarkMode } from '../../Store/actions';
 import { useNavigate } from 'react-router-dom';
 import { Container } from '@mui/system';
 import { useQuery } from '@tanstack/react-query';
-import { fetchClusters } from '../../Queries';
+import { fetchClusters, fetchUser } from '../../Queries';
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +23,10 @@ const Home = () => {
   const { data } = useQuery({
     queryKey: ['cluster'],
     queryFn: fetchClusters,
+  });
+  const { data: userData } = useQuery({
+    queryKey: ['user'],
+    queryFn: fetchUser,
   });
 
   useEffect(() => {
@@ -43,18 +45,12 @@ const Home = () => {
 
   //* Added to load darkmode state when navigating to home, (was just at admin load) -mcm
   useEffect(() => {
-    const getUserInfo = async () => {
-      const user = await Get(apiRoute.getRoute(`user`));
-      if (user.invalid) {
-        return navigate('/');
-      }
-      dispatch(setDarkMode(user.darkMode));
-      user.darkMode
-        ? (document.body.style.backgroundColor = '#34363b')
-        : (document.body.style.backgroundColor = '#3a4a5b');
-    };
-    getUserInfo();
-  }, [darkMode, dispatch, navigate]);
+    if (userData?.invalid) return navigate('/');
+    dispatch(setDarkMode(userData?.darkMode));
+    userData?.darkMode
+      ? (document.body.style.backgroundColor = '#34363b')
+      : (document.body.style.backgroundColor = '#3a4a5b');
+  }, [darkMode, dispatch, navigate, userData]);
 
   function renderSplash() {
     if (!visited) {

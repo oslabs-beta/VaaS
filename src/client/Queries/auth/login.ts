@@ -7,3 +7,8 @@ export const loginUser = async (payload: {
   const response = await axiosInstance.put('/auth', payload);
   return response;
 };
+
+export const logOutUser = async () => {
+  const response = await axiosInstance.delete('/auth');
+  return response;
+};

@@ -6,7 +6,7 @@ function path(url: string): IPathRoute {
       methods: ['GET', 'PUT', 'DELETE'],
     },
     '/auth': {
-      methods: ['GET', 'POST', 'PUT'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
     },
     '/cluster': {
       methods: ['GET', 'POST', 'PUT', 'DELETE'],

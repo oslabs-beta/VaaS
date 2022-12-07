@@ -14,7 +14,7 @@ export default async (
   const { cookieId } = req.cookies;
   const { baseUrl, url, method } = req;
   try {
-    // move on to next middleware if token does not exist
+    // send error to client if token does not exist
     if (!cookieId) {
       const error: IError = {
         status: 400,
@@ -22,8 +22,7 @@ export default async (
       };
       return res.status(error.status).json({ ...error, invalid: true });
     }
-    // console.log(baseUrl, url, cookieId, 'req urls'); // /api /user:username
-    // query db with token from cookies to get user
+    // query db with token from cookies to get user details
     const user = await User.findOne({ cookieId }).exec();
     if (user) {
       // authorized returns object with type and result as properties
@@ -36,18 +35,22 @@ export default async (
         if (tokenStatus === 'grace' && baseUrl === '/api' && url === '/auth') {
           // RENEW TOKEN SO SESSION TIME CAN START ALL OVER
           const token = await editSession(user, process.env.JWT_ACCESS_SECRET);
-          // new token is saved into cookie
+          // new token is saved into cookie, expiry time is not added as it is already encoded in the jwt token
           res.cookie('cookieId', token, { httpOnly: true });
+          // return response to user if token that exist is the same as token saved to user in db
           return res.status(201).json({ invalid: false });
         }
         if (tokenStatus === 'active') {
-          // console.log('base url: ', baseUrl);
-          // console.log('url: ', url);
           // IF TOKEN IS ACTIVE, SAVE USER's username to locals for the /user: route
-          if (baseUrl === '/api' && url === '/auth')
+          if (baseUrl === '/api' && url === '/auth' && method !== 'DELETE')
             return res.status(201).json({ invalid: false });
-          if (baseUrl === '/api' && url === '/user')
+          if (
+            (baseUrl === '/api' && url === '/user') ||
+            (baseUrl === '/api' && url === '/auth' && method === 'DELETE')
+          ) {
             res.locals.username = user.username;
+            res.locals.id = user._id;
+          }
           return next();
         } else {
           // RETURN ERROR IF TOKEN ISN'T ACTIVE
