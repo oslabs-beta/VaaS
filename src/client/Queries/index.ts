@@ -5,7 +5,8 @@ import podMetric from './Pod';
 import customMetric from './Custom';
 import alertAdd from './Alert';
 import openFaasMetric from './OpenFaaS';
-import { loginUser, registerUser } from './auth';
+import { loginUser, registerUser, logOutUser, checkAuth } from './auth';
+import { fetchUser } from './user';
 import axiosInstance from './axios/axiosConfig';
 
 export {
@@ -18,7 +19,10 @@ export {
   openFaasMetric,
   loginUser,
   registerUser,
+  logOutUser,
   axiosInstance,
   fetchClusters,
   useFetchMetrics,
+  checkAuth,
+  fetchUser,
 };

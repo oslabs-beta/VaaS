@@ -20,6 +20,8 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
+import { logOutUser } from '../../Queries';
+
 export default function NavBar() {
   const navigate = useNavigate();
   const clusterReducer = useAppSelector(
@@ -35,17 +37,10 @@ export default function NavBar() {
     navigate('/admin');
   };
 
-  const handleLogOut = (): void => {
-    setUser(null);
-    navigate('/');
+  const handleLogOut = async (): Promise<void> => {
+    const res = await logOutUser();
+    if (!res.data.valid) navigate('/');
   };
-
-  // console.log(user);
-  // useEffect(() => {
-  //   const token = user?.token;
-
-  //   setUser(JSON.parse(localStorage.getItem('profile') as any));
-  // }, []);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -118,7 +113,7 @@ export default function NavBar() {
             </ListItemIcon>
             Settings
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={handleLogOut}>
             <ListItemIcon>
               <Logout fontSize="small" />
             </ListItemIcon>

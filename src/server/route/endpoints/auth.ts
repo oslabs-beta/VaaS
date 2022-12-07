@@ -6,7 +6,6 @@ import {
   bcrypt,
   authUser,
   jwtCreator,
-  jwtVerify,
   verifyCookie,
 } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
@@ -75,6 +74,13 @@ router
       terminal(`Fail: ${error.message}`);
       return res.status(error.status).json(error);
     }
+  })
+  .delete(verifyCookie, async (req: Request, res: Response) => {
+    const id = res.locals.id;
+    res.clearCookie('cookieId');
+    await User.findOneAndUpdate({ id }, { cookieId: '' }, { new: true }).exec();
+    res.cookie('cookieId', '', { httpOnly: true });
+    return res.status(200).json({ valid: false });
   });
 
 export default router;

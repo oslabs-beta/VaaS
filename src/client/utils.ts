@@ -1,4 +1,3 @@
-import { axiosInstance } from './Queries';
 interface IApi {
   host: string;
   getRoute: (routeName: string) => string;
@@ -16,12 +15,6 @@ class Api implements IApi {
 }
 
 const apiRoute: Api = Object.freeze(new Api('http://localhost:3020'));
-
-const checkAuth = async () => {
-  console.log('ENTER CHECK AUTH');
-  const response = await axiosInstance.get('/auth');
-  return response.data;
-};
 
 const customFuncBody: { [key: string]: null } = {
   cows: null,
@@ -66,5 +59,4 @@ export {
   functionCost,
   GITHUB_CLIENT_ID,
   GITHUB_REDIRECT,
-  checkAuth,
 };
