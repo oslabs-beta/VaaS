@@ -219,6 +219,7 @@ const Charts = (props: Modules) => {
           <div className="renderDashboard">
             <iframe
               src={`http://${grafIP}/d/${dashboard}/?&kiosk=tv`}
+              // src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
               height="1000px"
               width="1250px"
               frameBorder="0"

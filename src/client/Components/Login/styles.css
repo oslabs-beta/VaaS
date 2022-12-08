@@ -16,7 +16,7 @@ body {
   transform: translate(-50%, -50%);
   width: 400px;
   padding: 40px;
-  background: rgb(0, 0, 0);
+  background: rgba(19, 19, 19, 0.9);
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(248, 245, 245, 0.5);
   border-radius: 10px;

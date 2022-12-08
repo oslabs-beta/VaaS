@@ -26,6 +26,7 @@ const OpenFaaS = (props: Modules) => {
   // const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
+  console.log('THIS IS THE ID FROM THE DB', id);
   // const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
   // const openFaaSDeployed = OFReducer.clusterOpenFaaSData[id].deployedFunctions || null;
   const deployedFunctions = OFReducer.deployedFunctions || [];
@@ -63,7 +64,8 @@ const OpenFaaS = (props: Modules) => {
     try {
       console.log('id is', id);
       const funcs = await Get(
-        apiRoute.getRoute(`faas`)
+        apiRoute.getRoute(`faas`),
+        { id }
         // , {
         //   authorization: localStorage.getItem('token'),
         //   id: '637574fa94e8554718fbaa7b',
