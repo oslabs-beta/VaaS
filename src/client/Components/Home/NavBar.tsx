@@ -52,7 +52,7 @@ export default function NavBar() {
   };
   return (
     <header id="header">
-      <Container id="navbar-container">
+      <div id="navbar-container">
         <a onClick={() => navigate('/home')}>
           <img className="homeicon" src="../../../../public/Images/v4.svg" />
         </a>
@@ -120,7 +120,7 @@ export default function NavBar() {
             Logout
           </MenuItem>
         </Menu>
-      </Container>
+      </div>
     </header>
   );
 }

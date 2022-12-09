@@ -100,7 +100,7 @@ const Login = () => {
           alignItems: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
-          marginTop: '4em',
+          marginTop: '-80px',
         }}
         className="backdrop"
       >
@@ -131,6 +131,10 @@ const Login = () => {
               input: { color: '#fff' },
               label: { color: '#fff' },
               borderBottom: '1px solid #fff',
+              backgroundColor: 'transparent',
+              borderRadius: '10px',
+              padding: '10px 20px',
+              maxWidth: '70%',
             }}
           />
           <TextField
@@ -150,6 +154,10 @@ const Login = () => {
               input: { color: '#fff' },
               label: { color: '#fff' },
               borderBottom: '1px solid #fff',
+              backgroundColor: 'transparent',
+              borderRadius: '10px',
+              padding: '10px 20px',
+              maxWidth: '70%',
             }}
           />
           <Container
@@ -176,13 +184,14 @@ const Login = () => {
               disabled={disabled}
               loading={loading}
               sx={{
-                ':disabled': { backgroundColor: 'gray', color: '#000' },
+                ':disabled': { backgroundColor: 'gray', color: 'black', border: '1px solid black' },
+                ':enabled': { backgroundColor: 'blue', color: 'white', border: '1px solid black' },
                 margin: '1rem',
-                color: '#fff',
                 width: '100%',
                 gap: '.5em',
                 padding: '.1em',
                 height: '2.5rem',
+                maxWidth: '60%',
               }}
             >
               Login
@@ -200,6 +209,9 @@ const Login = () => {
                 padding: '.1em',
                 width: '100%',
                 height: '2.5rem',
+                backgroundColor: '#2704ff',
+                border: '1px solid black',
+                maxWidth: '60%',
               }}
             >
               Register
@@ -218,13 +230,14 @@ const Login = () => {
               variant="contained"
               sx={{
                 color: 'white',
-                backgroundColor: '#3a4a5b',
+                backgroundColor: '#2704ff',
                 borderColor: 'white',
                 marginTop: '8px',
                 minWidth: '165px',
                 height: '3.5em',
                 margin: '.5em',
                 textAlign: 'center',
+                border: '1px solid black',
               }}
             >
               <FcGoogle className="icon" />
@@ -234,13 +247,14 @@ const Login = () => {
               variant="contained"
               sx={{
                 color: 'white',
-                backgroundColor: '#3a4a5b',
+                backgroundColor: '#2704ff',
                 borderColor: 'white',
                 marginTop: '8px',
                 minWidth: '165px',
                 height: '3.5em',
                 margin: '.5em',
                 textAlign: 'center',
+                border: '1px solid black',
               }}
             >
               <BsGithub className="icon" />

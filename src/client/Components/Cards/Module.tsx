@@ -200,7 +200,7 @@ const Module = (props: Modules) => {
   return (
     <div>
       <NavBar />
-      <Container
+      {/* <Container
         component={Card}
         sx={{
           width: '100%',
@@ -210,7 +210,7 @@ const Module = (props: Modules) => {
           backgroundColor: '#101216',
         }}
         className="module-container"
-      >
+      > */}
         <div className="Module-top-row">
           <div className="module-title noselect">
             {faas && <div>OpenFaaS</div>}
@@ -319,7 +319,7 @@ const Module = (props: Modules) => {
           {visualizer && <Visualizer id={id} nested={props.nested} />}
           {alert && <Alert id={id} nested={props.nested} />}
         </div>
-      </Container>
+      {/* </Container> */}
       <Container
         className="cluster-id"
         sx={{

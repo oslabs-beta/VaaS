@@ -200,7 +200,7 @@ const Kube = (props: ClusterTypes) => {
         display: 'flex',
         backgroundColor: '#181A1D',
         color: 'white',
-        width: '80%',
+        width: '100%',
         height: '380px',
         border: '2px solid #15161d',
         boxShadow: '1px 1px 10px .5px #403e54',
@@ -346,8 +346,8 @@ const Kube = (props: ClusterTypes) => {
             minHeight: '60px',
             maxHeight: '60px',
             display: 'flex',
-            paddingLeft: '10px',
-            paddingRight: '10px',
+            // paddingLeft: '10px',
+            // paddingRight: '10px',
             alignItems: 'center',
           }}
         >
