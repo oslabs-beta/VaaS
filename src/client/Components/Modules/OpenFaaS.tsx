@@ -26,7 +26,6 @@ const OpenFaaS = (props: Modules) => {
   // const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]);
-  console.log('THIS IS THE ID FROM THE DB', id);
   // const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
   // const openFaaSDeployed = OFReducer.clusterOpenFaaSData[id].deployedFunctions || null;
   const deployedFunctions = OFReducer.deployedFunctions || [];
@@ -63,15 +62,7 @@ const OpenFaaS = (props: Modules) => {
     console.log(id);
     try {
       console.log('id is', id);
-      const funcs = await Get(
-        apiRoute.getRoute(`faas`),
-        { id }
-        // , {
-        //   authorization: localStorage.getItem('token'),
-        //   id: '637574fa94e8554718fbaa7b',
-        //   // id: "633b57fe6c5aabdf55d37bab"
-        // }
-      );
+      const funcs = await Get(apiRoute.getRoute(`faas`), { id });
       if (funcs.message) {
         // setDeployedFunctions([]);
         console.log('HITTING and setting state to empty array');
@@ -125,7 +116,7 @@ const OpenFaaS = (props: Modules) => {
       const getFunc = openFaaSFunctions.find(
         (element) => element.name === selectedOpenFaaSFunction
       );
-
+      console.log('THIS IS BEFORE POST REQ', id, selectedOpenFaaSFunction);
       const body = {
         clusterId: id,
         service: selectedOpenFaaSFunction,
@@ -237,6 +228,7 @@ const OpenFaaS = (props: Modules) => {
         <Box sx={inputStyle}>
           <FormControl fullWidth sx={dropdownStyle}>
             <NativeSelect
+              placeholder="hi"
               onChange={handleOpenFaaSFunctionsChange}
               inputProps={{
                 name: 'OpenFaaS Functions Store',

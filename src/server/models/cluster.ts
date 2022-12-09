@@ -9,6 +9,7 @@ const clusterSchema: Schema<ICluster> = new Schema<ICluster>({
   _id: { type: Schema.Types.ObjectId, required: true },
   url: String,
   k8_port: Number,
+  faas_url: String,
   faas_port: Number,
   authorization: String,
   name: { type: String, unique: true },

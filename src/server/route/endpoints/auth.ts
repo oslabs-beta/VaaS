@@ -60,7 +60,7 @@ router
       res.cookie('cookieId', jwt.token, { httpOnly: true });
       // update user cookieId with ntoken created during login
       await User.findOneAndUpdate(
-        { userId },
+        { _id: userId },
         { cookieId: jwt.token },
         { new: true }
       ).exec();

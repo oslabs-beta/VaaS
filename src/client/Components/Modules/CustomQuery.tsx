@@ -58,13 +58,14 @@ const CustomQuery = (props: Modules) => {
       sx={{
         width: '1200px',
         overflow: 'hidden',
+        paddingRight: '200px',
       }}
     >
       <iframe
         // src={`http://${grafIP}/d/${dashboard}/`}
-        src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
+        src="http://35.199.145.18/dashboard/new?orgId=1&edit/?&kiosk=tv"
         height="1000px"
-        width="1250px"
+        width="1200px"
         className="custom-graf"
         frameBorder="0"
       ></iframe>
