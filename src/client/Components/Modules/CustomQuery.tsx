@@ -54,13 +54,7 @@ const CustomQuery = (props: Modules) => {
   };
 
   return (
-    <Container
-      sx={{
-        width: '1200px',
-        overflow: 'hidden',
-        paddingRight: '200px',
-      }}
-    >
+    <div className="iframeDiv">
       <iframe
         // src={`http://${grafIP}/d/${dashboard}/`}
         src="http://35.199.145.18/dashboard/new?orgId=1&edit/?&kiosk=tv"
@@ -143,7 +137,7 @@ const CustomQuery = (props: Modules) => {
         </Container>
       </div>
     </Container> */}
-    </Container>
+    </div>
   );
 };
 

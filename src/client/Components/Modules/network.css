@@ -2,19 +2,44 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 100;
   font-size: 16px;
-  color: rgb(255, 255, 255);
+  /* color: red; */
   letter-spacing: 1.6px;
   line-height: 24px;
   text-size-adjust: 100%;
 }
+.kubeView iframe {
+  display: block;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.kubeView {
+  background-color: #2604ff56;
+}
 .custom-graf {
+  display: block;
+  margin: 10px auto;
+  overflow-y: scroll;
+}
+.iframeDiv {
+  background-color: #2604ff56;
 }
 .renderDashboard {
-  margin-top: 50px;
   margin-bottom: 50px;
+  max-height: 600px;
+}
+#closeButton {
+  z-index: 1;
+  display: block;
+  margin: 0 auto;
+  background-color: #2704ff;
+  color: white;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  padding: 10px 25px;
+  margin-bottom: 10px;
 }
 .chartsBackground {
-  background-color: #000;
 }
 .dashboard {
   text-align: center;
@@ -23,24 +48,31 @@
   margin: 20px;
   cursor: pointer;
   color: white;
+  padding: 7px;
+  border-bottom: 2px solid #2704ff;
 }
 .category {
   height: 150px;
   width: 300px;
-  border: 3px solid #2704ff;
+  border: 3px solid #15161d;
   border-radius: 10px;
+  box-shadow: 1px 1px 10px 0.5px #403e54;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 40px;
-  color: #2704ff;
-  background-color: #101216;
+  color: white;
+  background-color: #181a1d;
   cursor: pointer;
+}
+.category:hover {
+  transform: scale(1.1);
+  transition: 0.1s;
+  box-shadow: 4px 4px 15px 0.5px #837fb3;
 }
 .categoryList {
   display: flex;
   flex-wrap: wrap;
-  background-color: #101216;
   gap: 50px;
   justify-content: center;
   margin-top: 30px;

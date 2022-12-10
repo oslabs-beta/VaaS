@@ -59,12 +59,12 @@ const Home = () => {
   }
 
   return (
-    <Container id="HomeContainer">
+    <div id="HomeContainer">
       <NavBar />
-      <Container id="HeaderContainer">
+      <div id="HeaderContainer">
         <div id="Header-Bar-Title">CLUSTERS</div>
-        <div id="Sort-Button">SORT</div>
-      </Container>
+        {/* <div id="Sort-Button">SORT</div> */}
+      </div>
       <div className="Kube-port">
         <div className="Kube-container" id="Kube-container">
           {clustersArray?.length &&
@@ -80,7 +80,7 @@ const Home = () => {
         </div>
         {noClusterError}
       </div>
-    </Container>
+    </div>
   );
 };
 

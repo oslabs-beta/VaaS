@@ -66,8 +66,8 @@ const Charts = (props: Modules) => {
   };
   const overviewDashboard = {
     Kubelet: '3138fa155d5915769fbded898ac09fd9',
-    'USE/NODE': 'Qe5ZDfF4z',
-    'USE/CLUSTER': 'rrcZvfFVk',
+    'USE/NODE': 'iseqT9K4z',
+    'USE/CLUSTER': 'KMg6orFVk',
     'Node Exporter': '8A5ZvfF4z',
   };
   const coreDashboard = {
@@ -133,7 +133,7 @@ const Charts = (props: Modules) => {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: '#2704FF',
+    bgcolor: '#181A1D',
     border: '5px solid #101216',
     borderRadius: '10px',
     boxShadow: 24,
@@ -144,10 +144,10 @@ const Charts = (props: Modules) => {
   };
   const style2 = {
     position: 'absolute' as const,
-    top: '50%',
+    top: '20%',
     left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bgcolor: '#2704FF',
+    transform: 'translate(-50%, -20%)',
+    bgcolor: '#181A1D', //#2704FF
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
@@ -169,6 +169,12 @@ const Charts = (props: Modules) => {
         </div>
         <div className="category" data-value="core" onClick={handleOpen}>
           Core
+        </div>
+        <div className="category" data-value="custom" onClick={handleOpen}>
+          Custom
+        </div>
+        <div className="category" data-value="openfaas" onClick={handleOpen}>
+          OpenFaaS
         </div>
       </div>
       <Modal
@@ -217,17 +223,18 @@ const Charts = (props: Modules) => {
       >
         <Box className="modal-2-box" sx={style2}>
           <div className="renderDashboard">
+          <button id="closeButton" onClick={handleCloseSecond}>{'Close Graph'}</button>
             <iframe
               src={`http://${grafIP}/d/${dashboard}/?&kiosk=tv`}
               // src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
-              height="1000px"
-              width="1250px"
+              height="800px"
+              width="1300px"
               frameBorder="0"
             ></iframe>
           </div>
-          <>
-            <Button onClick={handleCloseSecond}>{'CLOSE GRAPH'}</Button>
-          </>
+          {/* <>
+            <button id="closeButton" onClick={handleCloseSecond}>{'Close Graph'}</button>
+          </> */}
         </Box>
       </Modal>
       {/* <Box sx={inputStyle}>

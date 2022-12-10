@@ -17,6 +17,7 @@ import FunctionsIcon from '@mui/icons-material/Functions';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SettingsIcon from '@mui/icons-material/Settings';
 import GaugeChart from 'react-gauge-chart';
+import Tooltip from '@mui/material/Tooltip'; 
 import './styles.css';
 import {
   Accordion,
@@ -200,7 +201,7 @@ const Kube = (props: ClusterTypes) => {
         display: 'flex',
         backgroundColor: '#181A1D',
         color: 'white',
-        width: '80%',
+        width: '100%',
         height: '380px',
         border: '2px solid #15161d',
         boxShadow: '1px 1px 10px .5px #403e54',
@@ -346,12 +347,15 @@ const Kube = (props: ClusterTypes) => {
             minHeight: '60px',
             maxHeight: '60px',
             display: 'flex',
-            paddingLeft: '10px',
-            paddingRight: '10px',
+            // paddingLeft: '10px',
+            // paddingRight: '10px',
             alignItems: 'center',
           }}
         >
-          {dbData?.description}
+          {/* {dbData?.description} */}
+          <Tooltip title="Cluster Settings">
+          <div id="settingButton"> &#9784;</div>
+          </Tooltip>
         </Box>
         <Box className="Basic-Descriptors">
           <Box
