@@ -13,7 +13,11 @@
   height:200px;
   width:200px;
   padding-left:20px;
-  padding-top:20px;
+  padding-top:35px;
+}
+#navbar-title {
+  color: white;
+  font-size: 35px;
 }
 .Kube-port {
   width:80%;
@@ -26,9 +30,12 @@
 #Header-Bar-Title {
   margin-top:10px;
   margin-left:20px;
+  color: white;
 
 }
-
+.logoutMenuButton {
+  color: #2704FF;
+}
 /* body {
   padding: 0;
   font-family: 'Montserrat', sans-serif;

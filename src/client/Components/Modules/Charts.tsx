@@ -223,6 +223,7 @@ const Charts = (props: Modules) => {
       >
         <Box className="modal-2-box" sx={style2}>
           <div className="renderDashboard">
+          <button id="closeButton" onClick={handleCloseSecond}>{'Close Graph'}</button>
             <iframe
               src={`http://${grafIP}/d/${dashboard}/?&kiosk=tv`}
               // src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
@@ -231,9 +232,9 @@ const Charts = (props: Modules) => {
               frameBorder="0"
             ></iframe>
           </div>
-          <>
+          {/* <>
             <button id="closeButton" onClick={handleCloseSecond}>{'Close Graph'}</button>
-          </>
+          </> */}
         </Box>
       </Modal>
       {/* <Box sx={inputStyle}>

@@ -82,7 +82,7 @@ export default function NavBar() {
             elevation: 0,
             sx: {
               overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              filter: 'drop-shadow(0px 2px 8px #2704FF)',
               mt: 1.5,
               '& .MuiAvatar-root': {
                 width: 32,
@@ -100,24 +100,18 @@ export default function NavBar() {
                 height: 10,
                 transform: 'translateY(-50%) rotate(45deg)',
                 zIndex: 0,
-                backgroundColor: '#181A1D',
+                backgroundColor: '#2704FF',
               },
             },
           }}
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem component={Link} to="/admin">
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
+          <MenuItem component={Link} to="/admin" className="logoutMenuButton">
+            &#9784; Settings
           </MenuItem>
-          <MenuItem onClick={handleLogOut}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Logout
+          <MenuItem onClick={handleLogOut} className="logoutMenuButton">
+            &#10148; Logout
           </MenuItem>
         </Menu>
       </div>

@@ -9,6 +9,23 @@
   margin-top: 20px;
 }
 
+.closeButton {
+  z-index:3;
+  display:block;
+  margin: 0 auto;
+  background-color: #2704ff;
+  color:white;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  padding:10px 25px;
+  margin-top:20px;
+}
+#settingButton {
+  font-size: 40px;
+  margin-left:10px;
+  cursor: pointer;
+}
 /* .Module-top-row {
   width: 100%;
   display: flex;
@@ -123,7 +140,9 @@ dd {
   margin: 0;
   padding: 0;
 }
-
+.module-title{
+  color: white;
+}
 /* #module {
   width: 100%;
 } */

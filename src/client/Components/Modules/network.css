@@ -2,7 +2,7 @@
   font-family: 'Montserrat', sans-serif;
   font-weight: 100;
   font-size: 16px;
-  color: rgb(255, 255, 255);
+  /* color: red; */
   letter-spacing: 1.6px;
   line-height: 24px;
   text-size-adjust: 100%;
@@ -29,13 +29,15 @@
 }
 #closeButton {
   z-index:1;
+  display: block;
+  margin: 0 auto;
   background-color: #2704ff;
   color:white;
   border-radius: 7px;
   border:none;
   cursor: pointer;
-  padding:5px 15px;
-  margin-top:80px
+  padding:10px 25px;
+  margin-bottom:10px
 }
 .chartsBackground {
 }
@@ -62,6 +64,11 @@
   color: white;
   background-color: #181A1D;
   cursor: pointer;
+}
+.category:hover {
+  transform: scale(1.1);
+  transition: 0.1s;
+  box-shadow: 4px 4px 15px 0.5px #837fb3;
 }
 .categoryList {
   display: flex;

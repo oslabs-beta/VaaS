@@ -17,6 +17,7 @@ import FunctionsIcon from '@mui/icons-material/Functions';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SettingsIcon from '@mui/icons-material/Settings';
 import GaugeChart from 'react-gauge-chart';
+import Tooltip from '@mui/material/Tooltip'; 
 import './styles.css';
 import {
   Accordion,
@@ -351,7 +352,10 @@ const Kube = (props: ClusterTypes) => {
             alignItems: 'center',
           }}
         >
-          {dbData?.description}
+          {/* {dbData?.description} */}
+          <Tooltip title="Cluster Settings">
+          <div id="settingButton"> &#9784;</div>
+          </Tooltip>
         </Box>
         <Box className="Basic-Descriptors">
           <Box

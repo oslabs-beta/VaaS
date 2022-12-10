@@ -18,7 +18,9 @@ import DataObjectIcon from '@mui/icons-material/DataObject';
 import FunctionsIcon from '@mui/icons-material/Functions';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-
+import Tooltip from '@mui/material/Tooltip';
+import Modal from '@mui/material/Modal';
+import { Box, FormControl, NativeSelect } from '@mui/material';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import './styles.css';
 import { Terminal } from '@mui/icons-material';
@@ -28,10 +30,23 @@ const Module = (props: Modules) => {
   const { state }: any = useLocation();
   const navigate = useNavigate();
   const [faas, setFaaS] = useState(true);
+  
+  
+  const [custom, setCustom] = useState(false);
   const [visualizer, setVisualizer] = useState(false);
+
+  const [openCustom, setOpenCustom] = useState(false);
+  const [openVisualizer, setOpenVisualizer] = useState(false);
+
+  const handleCustomOpen = () => setOpenCustom(true);
+  const handleCustomClose = () => setOpenCustom(false);
+  const handleVisualizerOpen = () => setOpenVisualizer(true);
+  const handleVisualizerClose = () => setOpenVisualizer(false);
+  
+  
+  
   const [functionCost, setFunctionCost] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [custom, setCustom] = useState(false);
   const [charts, setCharts] = useState(false);
   const [currentModule, setCurrentModule] = useState('module');
   const [id] = useState(props.id || state[0]);
@@ -96,7 +111,7 @@ const Module = (props: Modules) => {
             break;
           case 'visualizer':
             setFaaS(false);
-            setVisualizer(true);
+            setVisualizer(false);
             setCustom(false);
             setFunctionCost(false);
             setCharts(false);
@@ -106,7 +121,7 @@ const Module = (props: Modules) => {
             setFaaS(false);
             setVisualizer(false);
             setFunctionCost(false);
-            setCustom(true);
+            setCustom(false);
             setCharts(false);
             setAlert(false);
             break;
@@ -148,25 +163,25 @@ const Module = (props: Modules) => {
     setAlert(false);
   };
 
-  const handleVisualizerButton = () => {
-    setFaaS(false);
-    setVisualizer(true);
-    setCurrentModule('visualizer');
-    setCustom(false);
-    setFunctionCost(false);
-    setCharts(false);
-    setAlert(false);
-  };
+  // const handleVisualizerButton = () => {
+  //   setFaaS(false);
+  //   setVisualizer(false);
+  //   setCurrentModule('visualizer');
+  //   setCustom(false);
+  //   setFunctionCost(false);
+  //   setCharts(false);
+  //   setAlert(false);
+  // };
 
-  const handleCustomButton = () => {
-    setFaaS(false);
-    setVisualizer(false);
-    setCustom(true);
-    setCurrentModule('custom');
-    setFunctionCost(false);
-    setCharts(false);
-    setAlert(false);
-  };
+  // const handleCustomButton = () => {
+  //   setFaaS(false);
+  //   setVisualizer(false);
+  //   setCustom(false);
+  //   setCurrentModule('custom');
+  //   setFunctionCost(false);
+  //   setCharts(false);
+  //   setAlert(false);
+  // };
 
   const handleChartsButton = () => {
     setFaaS(false);
@@ -197,6 +212,10 @@ const Module = (props: Modules) => {
     setAlert(false);
     setCurrentModule('functionCost');
   };
+  const customBox = {
+    overflow:'scroll',
+    maxHeight: '97%',
+  }
   return (
     <div>
       <NavBar />
@@ -219,15 +238,18 @@ const Module = (props: Modules) => {
             {charts && <div id="Header-Bar-Title">CHARTS</div>}
             {functionCost && <div>FUNCTION COST CALCULATOR</div>}
           </div>
+          <Tooltip title="Custom Querry">
           <Button
             sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
-            onClick={handleCustomButton}
+            onClick={handleCustomOpen}
           >
             <DataObjectIcon />
           </Button>
+          </Tooltip>
+          <Tooltip title="Grafana Charts">
           <Button
             sx={buttonStyle}
             variant="text"
@@ -237,6 +259,8 @@ const Module = (props: Modules) => {
           >
             <QueryStatsIcon />
           </Button>
+          </Tooltip>
+          <Tooltip title="Faas Querries">
           <Button
             sx={buttonStyle}
             variant="text"
@@ -246,6 +270,8 @@ const Module = (props: Modules) => {
           >
             <FunctionsIcon />
           </Button>
+          </Tooltip>
+          <Tooltip title="Function Costs">
           <Button
             sx={buttonStyle}
             variant="text"
@@ -255,15 +281,18 @@ const Module = (props: Modules) => {
           >
             <AttachMoneyIcon />
           </Button>
+          </Tooltip>
+          <Tooltip title = "Open Visualizer">
           <Button
             sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
-            onClick={handleVisualizerButton}
+            onClick={handleVisualizerOpen}
           >
             <GrainIcon />
           </Button>
+          </Tooltip>
           {props.nested && (
             <Button
               sx={{
@@ -281,6 +310,7 @@ const Module = (props: Modules) => {
               <FullscreenIcon />
             </Button>
           )}
+          <Tooltip title="Alert Manager">
           <Button
             sx={buttonStyle}
             variant="text"
@@ -290,7 +320,9 @@ const Module = (props: Modules) => {
           >
             <AddAlertIcon />
           </Button>
+          </Tooltip>
           {!props.nested && (
+            <Tooltip title="Exit to Home">
             <Button
               sx={{
                 ...buttonStyle,
@@ -303,6 +335,7 @@ const Module = (props: Modules) => {
             >
               <FullscreenExitIcon />
             </Button>
+            </Tooltip>
           )}
         </div>
         <div id="module-content">
@@ -319,6 +352,44 @@ const Module = (props: Modules) => {
           {visualizer && <Visualizer id={id} nested={props.nested} />}
           {alert && <Alert id={id} nested={props.nested} />}
         </div>
+        <Modal
+          open = {openCustom}
+          onClose = {handleCustomClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className="customBox" sx = {customBox}>
+            <div className = "renderCustom">
+            <button className="closeButton" onClick={handleCustomClose}>{'Close Query'}</button>
+              <iframe
+                src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
+                height="1000px"
+                width="1250px"
+                className="custom-graf"
+                frameBorder="0"
+              ></iframe>
+            </div>
+          </Box>
+        </Modal>
+        <Modal
+          open = {openVisualizer}
+          onClose = {handleVisualizerClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box className="customBox" sx = {customBox}>
+            <div className = "renderCustom">
+            <button className="closeButton" onClick={handleVisualizerClose}>{'Close Visualizer'}</button>
+            <iframe
+              src={`http://35.230.55.147/80`}
+              height="800px"
+              width="70%"
+              frameBorder="0"
+              className="custom-graf"
+            ></iframe>
+            </div>
+          </Box>
+        </Modal>
       {/* </Container> */}
       <Container
         className="cluster-id"
