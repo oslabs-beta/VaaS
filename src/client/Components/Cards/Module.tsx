@@ -229,13 +229,14 @@ const Module = (props: Modules) => {
         className="module-container"
       > */}
       <div className="Module-top-row">
-        <div className="module-title noselect">
-          {faas && <div>OpenFaaS</div>}
-          {visualizer && <div>VISUALIZER</div>}
-          {custom && <div>PROM QUERY</div>}
-          {charts && <div id="Header-Bar-Title">CHARTS</div>}
-          {functionCost && <div>FUNCTION COST CALCULATOR</div>}
-        </div>
+        {/* <div className="module-title noselect"> */}
+        {faas && <div className="Header-Bar-Title">OPENFAAS</div>}
+        {visualizer && <div>VISUALIZER</div>}
+        {custom && <div>PROM QUERY</div>}
+        {charts && <div className="Header-Bar-Title">CHARTS</div>}
+        {functionCost && <div className="Header-Bar-Title">FUNCTION COST</div>}
+        {alert && <div className="Header-Bar-Title">ALERT</div>}
+        {/* </div> */}
         <Tooltip title="Custom Query">
           <Button
             sx={buttonStyle}
@@ -258,7 +259,7 @@ const Module = (props: Modules) => {
             <QueryStatsIcon />
           </Button>
         </Tooltip>
-        <Tooltip title="Faas Querries">
+        <Tooltip title="FaaS Queries">
           <Button
             sx={buttonStyle}
             variant="text"

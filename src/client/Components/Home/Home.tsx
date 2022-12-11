@@ -59,10 +59,10 @@ const Home = () => {
   }
 
   return (
-    <div id="HomeContainer">
+    <div>
       <NavBar />
       <div id="HeaderContainer">
-        <div id="Header-Bar-Title">CLUSTERS</div>
+        <div id="Home-Bar-Title">CLUSTERS</div>
         {/* <div id="Sort-Button">SORT</div> */}
       </div>
       <div className="Kube-port">

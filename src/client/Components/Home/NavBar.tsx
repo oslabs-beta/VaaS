@@ -51,70 +51,68 @@ export default function NavBar() {
     setAnchorEl(null);
   };
   return (
-    <header id="header">
-      <div id="navbar-container">
-        <a onClick={() => navigate('/home')}>
-          <img className="homeicon" src="../../../../public/Images/v4.svg" />
-        </a>
-        <a id="navbar-title">VaaS</a>
+    <div id="navbar-container">
+      <a onClick={() => navigate('/home')}>
+        <img className="homeicon" src="../../../../public/Images/v4.svg" />
+      </a>
+      <a id="navbar-title">VaaS</a>
 
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            sx={{ backgroundColor: '#181A1D', marginRight: '10px' }}
-          >
-            <Avatar
-              sx={{ width: 32, height: 32 }}
-              src="../../../../public/Images/prof.png"
-            ></Avatar>
-          </IconButton>
-        </Tooltip>
-        <Menu
-          anchorEl={anchorEl}
-          id="account-menu"
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px #2704FF)',
-              mt: 1.5,
-              '& .MuiAvatar-root': {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              '&:before': {
-                content: '""',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                transform: 'translateY(-50%) rotate(45deg)',
-                zIndex: 0,
-                backgroundColor: '#2704FF',
-              },
-            },
-          }}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      <Tooltip title="Account settings">
+        <IconButton
+          onClick={handleClick}
+          aria-controls={open ? 'account-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          sx={{ backgroundColor: '#181A1D', marginRight: '10px' }}
         >
-          <MenuItem component={Link} to="/admin" className="logoutMenuButton">
-            &#9784; Settings
-          </MenuItem>
-          <MenuItem onClick={handleLogOut} className="logoutMenuButton">
-            &#10148; Logout
-          </MenuItem>
-        </Menu>
-      </div>
-    </header>
+          <Avatar
+            sx={{ width: 45, height: 45 }}
+            src="../../../../public/Images/prof.png"
+          ></Avatar>
+        </IconButton>
+      </Tooltip>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px #2704FF)',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+              backgroundColor: '#2704FF',
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem component={Link} to="/admin" className="logoutMenuButton">
+          &#9784; Settings
+        </MenuItem>
+        <MenuItem onClick={handleLogOut} className="logoutMenuButton">
+          &#10148; Logout
+        </MenuItem>
+      </Menu>
+    </div>
   );
 }

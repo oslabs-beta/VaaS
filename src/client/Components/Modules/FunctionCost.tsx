@@ -328,6 +328,7 @@ const FunctionCost = (props: Modules) => {
       }}
     >
       <Box
+        id="test"
         sx={{
           width: '100%',
           display: 'flex',
@@ -339,6 +340,7 @@ const FunctionCost = (props: Modules) => {
         }}
       >
         <Box
+          id="test-1"
           sx={{
             width: '100%',
             display: 'flex',
@@ -408,39 +410,22 @@ const FunctionCost = (props: Modules) => {
           </Button>
         </Box>
         <Box
-          sx={
-            props.isDark
-              ? {
-                  width: '100%',
-                  display: 'flex',
-                  fontSize: '16px',
-                  flexDirection: 'column',
-                  gap: '1.5rem',
-                  marginLeft: '-1rem',
-                  marginTop: '8px',
-                  justifyContent: 'center',
-                  backgroundColor: '#F0F0F0',
-                  color: '#5B5B5B',
-                  borderRadius: '5px',
-                  marginRight: '3px',
-                  marginBottom: '0px',
-                }
-              : {
-                  width: '100%',
-                  display: 'flex',
-                  fontSize: '16px',
-                  flexDirection: 'column',
-                  gap: '1.5rem',
-                  marginLeft: '-1rem',
-                  marginTop: '8px',
-                  justifyContent: 'center',
-                  backgroundColor: '#F0F0F0',
-                  color: '#5B5B5B',
-                  borderRadius: '5px',
-                  marginRight: '3px',
-                  marginBottom: '0px',
-                }
-          }
+          id="test-2"
+          sx={{
+            width: '100%',
+            display: 'flex',
+            fontSize: '16px',
+            flexDirection: 'column',
+            gap: '1.5rem',
+            marginLeft: '-1rem',
+            marginTop: '8px',
+            justifyContent: 'center',
+            backgroundColor: 'black',
+            color: '#5B5B5B',
+            borderRadius: '5px',
+            marginRight: '3px',
+            marginBottom: '0px',
+          }}
         >
           {/* <div>THIS IS SELECTED {selectedDeployedFunction}</div> */}
           {/* {
@@ -460,8 +445,8 @@ const FunctionCost = (props: Modules) => {
             </div>
           )}
 
-          <div>
-            <h4>Estimated cost of deployment:</h4>
+          <div id="cost-container">
+            <h4 id="cost-estimate">Estimated cost of deployment:</h4>
             <form className="costCal">
               <TextField
                 size="small"
@@ -470,6 +455,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="numInvocation"
                 onChange={(e) => handleChange(e)}
+                sx={{ color: 'white', backgroundColor: 'white' }}
               ></TextField>
               <TextField
                 size="small"
@@ -478,6 +464,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="estExecTime"
                 onChange={(e) => handleChange(e)}
+                sx={{ color: 'white', backgroundColor: 'white' }}
               ></TextField>
 
               <TextField
@@ -487,6 +474,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="memoryMbs"
                 onChange={(e) => handleChange(e)}
+                sx={{ color: 'white', backgroundColor: 'white' }}
               ></TextField>
             </form>
             <br />

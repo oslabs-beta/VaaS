@@ -64,7 +64,7 @@ const Login = () => {
 
   return (
     <div className="container" id="login-container">
-      <Container
+      <Box
         id="login-logo-container"
         sx={{
           height: '30vh',
@@ -89,8 +89,8 @@ const Login = () => {
           VaaS
         </Typography>
         {error && <span style={{ color: 'red' }}>{error}</span>}
-      </Container>
-      <Container
+      </Box>
+      <Box
         sx={{
           minWidth: '100%',
           justifyContent: 'center',
@@ -100,18 +100,19 @@ const Login = () => {
           alignItems: 'center',
           backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
-          marginTop: '-80px',
         }}
         className="backdrop"
       >
         <CssBaseline />
-        <Container
+        <Box
           id="login-container-container"
           sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            paddingBottom: '2rem',
+            width: '100%',
           }}
         >
           <TextField
@@ -126,7 +127,6 @@ const Login = () => {
             margin="dense"
             name="username"
             value={fields.username}
-            fullWidth={true}
             sx={{
               input: { color: '#fff' },
               label: { color: '#fff' },
@@ -134,7 +134,7 @@ const Login = () => {
               backgroundColor: 'transparent',
               borderRadius: '10px',
               padding: '10px 20px',
-              maxWidth: '70%',
+              width: '50%',
             }}
           />
           <TextField
@@ -149,7 +149,6 @@ const Login = () => {
             margin="dense"
             name="password"
             value={fields.password}
-            fullWidth={true}
             sx={{
               input: { color: '#fff' },
               label: { color: '#fff' },
@@ -157,10 +156,10 @@ const Login = () => {
               backgroundColor: 'transparent',
               borderRadius: '10px',
               padding: '10px 20px',
-              maxWidth: '70%',
+              width: '50%',
             }}
           />
-          <Container
+          <Box
             id="buttonContainer"
             sx={{
               width: '100%',
@@ -184,8 +183,16 @@ const Login = () => {
               disabled={disabled}
               loading={loading}
               sx={{
-                ':disabled': { backgroundColor: 'gray', color: 'black', border: '1px solid black' },
-                ':enabled': { backgroundColor: 'blue', color: 'white', border: '1px solid black' },
+                ':disabled': {
+                  backgroundColor: 'gray',
+                  color: 'black',
+                  border: '1px solid black',
+                },
+                ':enabled': {
+                  backgroundColor: 'blue',
+                  color: 'white',
+                  border: '1px solid black',
+                },
                 margin: '1rem',
                 width: '100%',
                 gap: '.5em',
@@ -216,8 +223,8 @@ const Login = () => {
             >
               Register
             </Button>
-          </Container>
-          <Container
+          </Box>
+          <Box
             id="oauth-buttons-container"
             sx={{
               display: 'flex',
@@ -260,9 +267,9 @@ const Login = () => {
               <BsGithub className="icon" />
               &nbsp;&nbsp;Sign in
             </Button>
-          </Container>
-        </Container>
-      </Container>
+          </Box>
+        </Box>
+      </Box>
     </div>
   );
 };

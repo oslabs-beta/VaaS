@@ -43,39 +43,63 @@
 }
 .dashboard {
   text-align: center;
-  font-size: 35px;
+  font-size: 25px;
   width: 400px;
   margin: 20px;
   cursor: pointer;
   color: white;
-  padding: 7px;
-  border-bottom: 2px solid #2704ff;
+  background-image: linear-gradient(to right, #2074ff, #2074ff 50%, #fff 0%);
+  background-size: 200% 100%;
+  background-position: -100%;
+  display: inline-block;
+  padding: 5px 0;
+  position: relative;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease-in-out;
+}
+.dashboard:before {
+  content: '';
+  background: #2074ff;
+  display: block;
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  transition: all 0.3s ease-in-out;
+}
+.dashboard:hover {
+  background-position: 0;
+}
+
+.dashboard:hover::before {
+  width: 100%;
 }
 .category {
-  height: 150px;
-  width: 300px;
+  height: 20vh;
+  width: 20vw;
   border: 3px solid #15161d;
-  border-radius: 10px;
   box-shadow: 1px 1px 10px 0.5px #403e54;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 40px;
+  font-size: 30px;
   color: white;
   background-color: #181a1d;
   cursor: pointer;
 }
 .category:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
   transition: 0.1s;
   box-shadow: 4px 4px 15px 0.5px #837fb3;
 }
 .categoryList {
   display: flex;
   flex-wrap: wrap;
-  gap: 50px;
+  gap: 60px;
   justify-content: center;
-  margin-top: 30px;
+  /* margin-top: 45px; */
   /* justify-content: space-around; */
 }
 
@@ -88,6 +112,40 @@
   background-color: rgba(0, 0, 0, 0.1);
   width: 100vw;
 }
+
+.chartBox {
+  height: 150px;
+  width: 300px;
+  border: '2px solid #15161d';
+  box-shadow: '1px 1px 10px .5px #403e54';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+  background-color: '#181A1D';
+  cursor: pointer;
+}
+
+.chartBox:hover {
+  transform: scale(1.03);
+  transition: 0.2s;
+  box-shadow: 1px 1px 10px 0.5px #837fb3;
+}
+
+#cost-container {
+  background-color: #15161d;
+  color: white;
+}
+
+#cost-estimate {
+  color: white;
+}
+
+.costCal {
+  color: white;
+}
+
 /* .vis .overlay {
   position: absolute;
   top: 0;
@@ -714,12 +772,10 @@ div.vis-network div.vis-manipulation div.notification {
   margin: 2px;
   font-weight: 700;
 }
-
 div.vis-network div.vis-edit-mode div.vis-button.vis-edit.vis-edit-mode {
   background-color: #fcfcfc;
   border: 1px solid #ccc;
 }
-
 div.vis-network div.vis-edit-mode div.vis-label,
 div.vis-network div.vis-manipulation div.vis-label {
   margin: 0 0 0 23px;

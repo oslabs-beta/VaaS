@@ -1,41 +1,67 @@
 #navbar-container {
+  box-sizing: border-box;
+  padding-right: 100px;
   display: flex;
   flex-direction: row;
   width: 100vw;
+  overflow: hidden;
   justify-content: space-between;
-  padding-right:100px;
   background-color: black;
   align-items: center;
-  font-size: 1.3em;
-  height:130px;
+  /* font-size: 1.3em; */
+  height: 100px;
+}
+#Home-Bar-Title {
+  font-size: 20px;
+  width: 300px;
+  color: white;
+  margin-left: 192px;
+  margin-top: 25px;
 }
 #navbar-container img {
-  height:200px;
-  width:200px;
-  padding-left:20px;
-  padding-top:35px;
+  box-sizing: border-box;
+  height: 200px;
+  width: 200px;
+  padding-left: 20px;
+  padding-top: 35px;
+  /* border: 30px solid yellow; */
+  /* padding-top: 35px; */
 }
 #navbar-title {
   color: white;
   font-size: 35px;
+  font-weight: 100 !important;
 }
 .Kube-port {
-  width:80%;
+  width: 80%;
   display: block;
   margin: 0px auto;
 }
 .Kube-container {
-  margin-bottom:20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  align-items: center;
+  width: 60%;
+  gap: 5em;
 }
-#Header-Bar-Title {
-  margin-top:10px;
-  margin-left:20px;
+.Header-Bar-Title {
+  width: 300px;
+  margin-top: 10px;
+  margin-left: 100px;
   color: white;
-
+  font-size: 20px;
 }
 .logoutMenuButton {
-  color: #2704FF;
+  color: #2704ff;
 }
+/* #HomeContainer {
+  border: 30px solid red;
+}
+#header {
+  border: 30px solid green;
+} */
 /* body {
   padding: 0;
   font-family: 'Montserrat', sans-serif;
@@ -106,7 +132,7 @@
   margin-left: 1.5rem;
   cursor: default;
   -webkit-user-select: none; /* Safari */
-  /* -ms-user-select: none; /* IE 10 and IE 11 */
+/* -ms-user-select: none; /* IE 10 and IE 11 */
 /* 
 @keyframes fadeIn {
   to {
@@ -150,7 +176,7 @@
   width: 100vw;
   /* margin: 0;
   padding: 0; */
-  /* align-items: center;
+/* align-items: center;
   font-size: 1.7em;
   letter-spacing: 0.05em;
   background-color: #101216;
@@ -186,7 +212,7 @@ navbar-container > a {
   padding: 1em;
   margin-top: 5em;
   padding-left: 2.2em; */
-  /* padding-right: 2.2em;
+/* padding-right: 2.2em;
   align-items: center;
   font-size: 1.3em;
   letter-spacing: 0.05em;

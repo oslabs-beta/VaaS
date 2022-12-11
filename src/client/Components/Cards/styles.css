@@ -1,8 +1,9 @@
 .Module-top-row {
   width: 100%;
-  padding-right:20px;
+  /* padding-right: 20px; */
   margin-top: 15px;
-  display:flex;
+  margin-bottom: 45px;
+  display: flex;
   justify-content: space-around;
 }
 .Cluster-Kube-Box {
@@ -10,20 +11,20 @@
 }
 
 .closeButton {
-  z-index:3;
-  display:block;
+  z-index: 3;
+  display: block;
   margin: 0 auto;
   background-color: #2704ff;
-  color:white;
+  color: white;
   border-radius: 7px;
   border: none;
   cursor: pointer;
-  padding:10px 25px;
-  margin-top:20px;
+  padding: 10px 25px;
+  margin-top: 20px;
 }
 #settingButton {
   font-size: 40px;
-  margin-left:10px;
+  margin-left: 10px;
   cursor: pointer;
 }
 /* .Module-top-row {
@@ -34,9 +35,6 @@
   letter-spacing: 1em;
   padding-top: 6em;
 } */
-
-*{
-}
 
 h3 {
   text-align: center;
@@ -81,15 +79,14 @@ dd {
 .set-favorite {
   cursor: pointer;
   user-select: none;
-} */
-
+}
 #overview {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  -ms-overflow-style: none; 
+  -ms-overflow-style: none;
   scrollbar-width: none;
   overflow-y: hidden;
   overflow-x: auto;
@@ -140,7 +137,7 @@ dd {
   margin: 0;
   padding: 0;
 }
-.module-title{
+.module-title {
   color: white;
 }
 /* #module {
@@ -152,7 +149,6 @@ dd {
   width: 100%;
   flex-direction: column;
 } */
-
 
 /* .Module-top-row {
   width: 100%;
@@ -256,7 +252,7 @@ dd {
 }
 
 .gauge-text {
-  margin-top: 3em;
+  margin-top: 5em;
   font-size: 0.7em;
 }
 
@@ -264,4 +260,20 @@ dd {
   transform: scale(1.03);
   transition: 0.2s;
   box-shadow: 1px 1px 10px 0.5px #837fb3;
+}
+
+.Cluster-Information {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-inline: 12px;
+}
+
+/* Settings Modal styling */
+
+.Settings-Modal-Container {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

@@ -9,6 +9,8 @@ import { Container } from '@mui/system';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { Box } from '@mui/material';
+import { Scale } from '@mui/icons-material';
 
 const ClusterSettings = (props: Modules) => {
   const clusterReducer = useAppSelector(
@@ -25,10 +27,8 @@ const ClusterSettings = (props: Modules) => {
   const [settingsField] = useState({
     background: 'white',
     borderRadius: '5px',
-    marginRight: '3px',
-    marginBottom: '0px',
-    width: '350px',
-    fontSize: '10px',
+    marginBlock: '7px',
+    width: '300px',
   });
   const [buttonColor] = useState({
     color: 'white',
@@ -146,34 +146,17 @@ const ClusterSettings = (props: Modules) => {
           minHeight: '100%',
           minWidth: '100%',
           display: 'flex',
-          justifyContent: 'left',
-          alignContent: 'center',
-          backgroundImage: 'linear-gradient(#4f4a4b, #AFAFAF)',
+          flexDirection: 'column',
+          backgroundColor: 'rgb(0,0,0)',
+          boxShadow: '1px 1px 10px .5px #403e54',
+          borderRadius: '0px',
+          marginBottom: '20px',
         }}
       >
         <div className="Module-top-row">
-          <div className="module-title noselect">Cluster Settingsssss</div>
-          <Button
-            sx={{
-              ...buttonColor,
-              marginRight: '9px',
-            }}
-            variant="text"
-            id="basic-button"
-            className="full-screen-button"
-            onClick={handleDeleteCluster}
-          >
-            Delete
-          </Button>
-          <Button
-            className="full-screen-button"
-            variant="text"
-            id="basic-button"
-            onClick={handleUpdateCluster}
-            sx={buttonColor}
-          >
-            Update
-          </Button>
+          <div className="module-title noselect">
+            Cluster Settings: {props.name}
+          </div>
         </div>
         <div id="module-content">
           <Container
@@ -273,9 +256,36 @@ const ClusterSettings = (props: Modules) => {
             </div>
             <div>{updateClusterError}</div>
           </Container>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              marginBottom: '7px',
+            }}
+          >
+            <Button
+              sx={{
+                ':hover': { backgroundColor: 'red' },
+              }}
+              variant="text"
+              id="basic-button"
+              className="full-screen-button"
+              onClick={handleDeleteCluster}
+            >
+              Delete
+            </Button>
+            <Button
+              className="full-screen-button"
+              variant="text"
+              id="basic-button"
+              onClick={handleUpdateCluster}
+              sx={{ ':hover': { backgroundColor: 'green' } }}
+            >
+              Update
+            </Button>
+          </Box>
         </div>
       </Container>
-      <Container className="cluster-id">{props.id}</Container>
     </div>
   );
 };

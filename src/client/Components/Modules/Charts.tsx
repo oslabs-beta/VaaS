@@ -66,9 +66,9 @@ const Charts = (props: Modules) => {
   };
   const overviewDashboard = {
     Kubelet: '3138fa155d5915769fbded898ac09fd9',
-    'USE/NODE': 'iseqT9K4z',
-    'USE/CLUSTER': 'KMg6orFVk',
-    'Node Exporter': '8A5ZvfF4z',
+    'USE/NODE': 'gmnFMzc4k',
+    'USE/CLUSTER': 'USMKMkcVk',
+    'Node Exporter': 'sinKGz54z',
   };
   const coreDashboard = {
     'API Server': '09ec8aa1e996d6ffcd6817bbaff4db1b',
@@ -134,9 +134,8 @@ const Charts = (props: Modules) => {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: '#181A1D',
-    border: '5px solid #101216',
-    borderRadius: '10px',
-    boxShadow: 24,
+    border: '2px solid #15161d',
+    boxShadow: '1px 1px 10px .5px #403e54',
     p: 7,
     display: 'flex',
     flexWrap: 'wrap',
@@ -176,6 +175,125 @@ const Charts = (props: Modules) => {
         <div className="category" data-value="openfaas" onClick={handleOpen}>
           OpenFaaS
         </div>
+        {/* <Box
+          className="chartBox"
+          sx={{
+            display: 'flex',
+            backgroundColor: '#181A1D',
+            color: 'white',
+            width: '80%',
+            height: '380px',
+            border: '2px solid #15161d',
+            boxShadow: '1px 1px 10px .5px #403e54',
+          }}
+          data-value="computing"
+          onClick={handleOpen}
+        >
+          {' '}
+          Computing
+        </Box>
+        <Box
+          className="chartBox"
+          sx={{
+            display: 'flex',
+            backgroundColor: '#181A1D',
+            color: 'white',
+            width: '80%',
+            height: '380px',
+            border: '2px solid #15161d',
+            boxShadow: '1px 1px 10px .5px #403e54',
+          }}
+          data-value="networking"
+          onClick={handleOpen}
+        >
+          {' '}
+          Networking
+        </Box>
+        <Box
+          className="chartBox"
+          sx={{
+            display: 'flex',
+            backgroundColor: '#181A1D',
+            color: 'white',
+            width: '80%',
+            height: '380px',
+            border: '2px solid #15161d',
+            boxShadow: '1px 1px 10px .5px #403e54',
+          }}
+          data-value="isolated"
+          onClick={handleOpen}
+        >
+          {' '}
+          Isolated
+        </Box>
+        <Box
+          className="chartBox"
+          sx={{
+            display: 'flex',
+            backgroundColor: '#181A1D',
+            color: 'white',
+            width: '80%',
+            height: '380px',
+            border: '2px solid #15161d',
+            boxShadow: '1px 1px 10px .5px #403e54',
+          }}
+          data-value="overview"
+          onClick={handleOpen}
+        >
+          {' '}
+          Overview
+        </Box>
+        <Box
+          className="chartBox"
+          sx={{
+            display: 'flex',
+            backgroundColor: '#181A1D',
+            color: 'white',
+            width: '80%',
+            height: '380px',
+            border: '2px solid #15161d',
+            boxShadow: '1px 1px 10px .5px #403e54',
+          }}
+          data-value="core"
+          onClick={handleOpen}
+        >
+          {' '}
+          Core
+        </Box>
+        <Box
+          className="chartBox"
+          sx={{
+            display: 'flex',
+            backgroundColor: '#181A1D',
+            color: 'white',
+            width: '80%',
+            height: '380px',
+            border: '2px solid #15161d',
+            boxShadow: '1px 1px 10px .5px #403e54',
+          }}
+          data-value="core"
+          onClick={handleOpen}
+        >
+          {' '}
+          OpenFaaS
+        </Box>
+        <Box
+          className="chartBox"
+          sx={{
+            display: 'flex',
+            backgroundColor: '#181A1D',
+            color: 'white',
+            width: '80%',
+            height: '380px',
+            border: '2px solid #15161d',
+            boxShadow: '1px 1px 10px .5px #403e54',
+          }}
+          data-value="core"
+          onClick={handleOpen}
+        >
+          {' '}
+          Custom
+        </Box> */}
       </div>
       <Modal
         open={open}
@@ -183,7 +301,7 @@ const Charts = (props: Modules) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box className="modal-" sx={style}>
           <div
             data-value={Object.values(dashboardObj)[0]}
             onClick={handleDashboard}
@@ -223,7 +341,9 @@ const Charts = (props: Modules) => {
       >
         <Box className="modal-2-box" sx={style2}>
           <div className="renderDashboard">
-          <button id="closeButton" onClick={handleCloseSecond}>{'Close Graph'}</button>
+            <button id="closeButton" onClick={handleCloseSecond}>
+              {'Close Graph'}
+            </button>
             <iframe
               src={`http://${grafIP}/d/${dashboard}/?&kiosk=tv`}
               // src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
@@ -237,51 +357,6 @@ const Charts = (props: Modules) => {
           </> */}
         </Box>
       </Modal>
-      {/* <Box sx={inputStyle}>
-        <FormControl fullWidth sx={dropdownStyle}>
-          <NativeSelect onChange={handleDashboardSelect}>
-            <option key={1} value="NEFull">
-              {'Node Exporter - Full'}
-            </option>
-            <option key={2} value="NEUSECluster">
-              {'Node Exporter - Cluster'}
-            </option>
-            <option key={3} value="NEUSENode">
-              {'Node Exporter - Nodes'}
-            </option>
-            <option key={4} value="Deployments">
-              {'Node Exporter - Deployments'}
-            </option>
-            <option key={5} value="NEUSEPod">
-              {'Node Exporter - Pods'}
-            </option>
-            <option key={6} value="ServerMetrics">
-              {'Node Exporter - Server Metrics'}
-            </option>
-            <option key={7} value="NEnodes">
-              {'Node Exporter - Nodes'}
-            </option>
-          </NativeSelect>
-        </FormControl>
-      </Box> */}
-      {/* iframe for  node exporter use method node*/}
-      {/* {dashboard && (
-        <iframe
-          src={`http://${grafIP}/d/${dashboard}/?&kiosk=tv`}
-          height="1600px"
-          width="100%"
-          frameBorder="0"
-        ></iframe>
-      )} */}
-      {/* iframe for node exporter use method cluster */}
-      {/* <iframe
-        src="http://34.83.254.250/d/oHIRtWF4z/?&kiosk"
-        height="1500px"
-        width="100%"
-        frameBorder="0"
-
-        
-      ></iframe> */}
     </div>
   );
 };
