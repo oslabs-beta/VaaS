@@ -218,7 +218,7 @@ const Charts = (props: Modules) => {
         <Box className="modal-2-box" sx={style2}>
           <div className="renderDashboard">
             <iframe
-              src={`http://${grafIP}/d/${dashboard}/?&kiosk=tv`}
+              src={`http://${grafIP}/d/${dashboard}/`}
               height="1000px"
               width="1250px"
               frameBorder="0"

@@ -13,6 +13,20 @@ export interface ClusterTypes {
   isDark?: boolean; //*adding for darkmode
   clusterMetrics?: IClusterMetrics;
 }
+
+export interface AddClusterType {
+  url: string;
+  k8_port: string | number;
+  faas_port: string | number;
+  faas_username: string;
+  faas_password: string;
+  name: string;
+  description: string;
+  faas_url: string;
+  grafana_url: string;
+  kubeview_url: string;
+}
+
 export interface Modules {
   _id?: string;
   id?: string;

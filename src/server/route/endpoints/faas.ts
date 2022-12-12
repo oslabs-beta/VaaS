@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { Cluster } from '../../models';
 import { IError } from '../../interfaces/IError';
-// import { jwtVerify } from '../../warehouse/middlewares';
 import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 

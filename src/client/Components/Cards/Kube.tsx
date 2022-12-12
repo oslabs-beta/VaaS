@@ -79,33 +79,6 @@ const Kube = (props: ClusterTypes) => {
     allServices,
   } = useFetchMetrics(fetchProps);
 
-  // console all cluster metrics returned from custom hook
-  // console.log(
-  //   {
-  //     allNodes,
-  //     cpuLoad,
-  //     memoryLoad,
-  //     totalDeployments,
-  //     totalPods,
-  //     allNamespaces,
-  //     allServices,
-  //   },
-  //   'datadatadatadatadatadatadatadatadatadata'
-  // );
-
-  // dispatching in here causes incessant rendering (moved to custome hook - to run ONLY after all the metrics of the cluster have been fetched)
-  // dispatch(
-  //   storeClusterQueryData(props._id, {
-  //     allNodes,
-  //     cpuLoad,
-  //     memoryLoad,
-  //     totalDeployments,
-  //     totalPods,
-  //     allNamespaces,
-  //     allServices,
-  //   })
-  // );
-
   useEffect(() => {
     dispatch(
       setUI(props._id, {

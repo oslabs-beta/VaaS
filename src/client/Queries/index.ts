@@ -1,4 +1,9 @@
-import clusterMetric, { fetchClusters, useFetchMetrics } from './Cluster';
+import clusterMetric, {
+  addCluster,
+  fetchClusters,
+  fetchSingleCluster,
+  useFetchMetrics,
+} from './Cluster';
 import containerMetric from './Container';
 import nodeMetric from './Node';
 import podMetric from './Pod';
@@ -21,7 +26,9 @@ export {
   registerUser,
   logOutUser,
   axiosInstance,
+  addCluster,
   fetchClusters,
+  fetchSingleCluster,
   useFetchMetrics,
   checkAuth,
   fetchUser,
