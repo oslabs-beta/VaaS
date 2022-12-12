@@ -42,6 +42,7 @@ router
         terminal(`Success: PromQL query [${q}] executed`);
         // cleaning up the data send back to front end according to type of query it is
         if (type === 'avg') {
+          // return res.status(200).json(data);
           const dataCleaned: { function_name: string; value: number } = {
             function_name: data.data.result[0].metric.function_name,
             value: data.data.result[0].value[1],

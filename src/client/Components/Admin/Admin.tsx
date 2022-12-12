@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { IReducers } from '../../Interfaces/IReducers';
 import { setDarkMode } from '../../Store/actions';
 import { addCluster, fetchUser, fetchSingleCluster } from '../../Queries';
+import './styles.css';
 
 type Admin = {
   cookieId: string;
@@ -313,21 +314,22 @@ const Admin = () => {
 
   return (
     <div id="HomeContainer">
-      <NavBar />
-      <br />
-      <br />
-      <br />
-
-      <Container>Settings</Container>
-      <Container>
+      {/* <NavBar /> */}
+      <Container
+        className={'Admin-Modal-Container'}
+        sx={{
+          color: 'white',
+          minHeight: '65%',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'rgb(0,0,0)',
+          boxShadow: '1px 1px 10px .5px #403e54',
+          borderRadius: '0px',
+          marginBottom: '20px',
+        }}
+      >
         <Box sx={{ width: '100%' }}>
-          <Box
-            sx={{
-              borderBottom: 1,
-              borderColor: 'divider',
-              backgroundColor: 'red',
-            }}
-          >
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs
               value={value}
               onChange={handleChange}
@@ -402,7 +404,6 @@ const Admin = () => {
                 margin="dense"
                 sx={textFieldStyle}
               />
-
               <div>
                 <Button
                   variant="contained"
@@ -426,7 +427,6 @@ const Admin = () => {
                 margin="dense"
                 sx={textFieldStyle}
               />
-
               <div>
                 <Button
                   id="delete-password-input"
@@ -445,17 +445,15 @@ const Admin = () => {
           <TabPanel value={value} index={1}>
             <Container sx={containerStyle}>
               <TextField
-                // autoComplete="current-password"
+                onKeyDown={handleEnterKeyDownAddCluster}
                 id="cluster-url"
                 type="text"
                 label="Cluster URL"
                 variant="filled"
                 size="small"
                 margin="dense"
-                onChange={handleInputChange}
                 name="url"
                 value={clusterData.url}
-                onKeyDown={handleEnterKeyDownAddCluster}
                 sx={textFieldStyle}
               />
               <TextField

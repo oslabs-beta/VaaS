@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Avatar, Button, Toolbar, Typography } from '@mui/material';
+import { Avatar, Toolbar, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -21,12 +21,16 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
+import Modal from '@mui/material/Modal';
+import Admin from '../Admin/Admin';
+import Button from '@mui/material/Button';
 
 export default function NavBar() {
   const navigate = useNavigate();
   const clusterReducer = useAppSelector(
     (state: IReducers) => state.clusterReducer
   );
+  const [adminModal, handleAdminModal] = useState(false);
   const [user, setUser] = useState(null);
   const dispatch = useAppDispatch();
   const routeHome = () => {
@@ -51,76 +55,92 @@ export default function NavBar() {
     setAnchorEl(null);
   };
   return (
-    <header id="header">
-      <Container id="navbar-container">
-        <a onClick={() => navigate('/home')}>
-          <img className="homeicon" src="../../../../public/Images/v4.svg" />
-        </a>
-        <a id="navbar-title">VaaS</a>
+    <div id="navbar-container">
+      <a onClick={() => navigate('/home')}>
+        <img className="homeicon" src="../../../../public/Images/v4.svg" />
+      </a>
+      <a id="navbar-title">VaaS</a>
 
-        <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-            sx={{ backgroundColor: '#181A1D', marginRight: '10px' }}
-          >
-            <Avatar
-              sx={{ width: 32, height: 32 }}
-              src="../../../../public/Images/prof.png"
-            ></Avatar>
-          </IconButton>
-        </Tooltip>
-        <Menu
-          anchorEl={anchorEl}
-          id="account-menu"
-          open={open}
-          onClose={handleClose}
-          onClick={handleClose}
-          PaperProps={{
-            elevation: 0,
-            sx: {
-              overflow: 'visible',
-              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-              mt: 1.5,
-              '& .MuiAvatar-root': {
-                width: 32,
-                height: 32,
-                ml: -0.5,
-                mr: 1,
-              },
-              '&:before': {
-                content: '""',
-                display: 'block',
-                position: 'absolute',
-                top: 0,
-                right: 14,
-                width: 10,
-                height: 10,
-                transform: 'translateY(-50%) rotate(45deg)',
-                zIndex: 0,
-                backgroundColor: '#181A1D',
-              },
-            },
-          }}
-          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      <Tooltip title="Account settings">
+        <IconButton
+          onClick={handleClick}
+          aria-controls={open ? 'account-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          sx={{ backgroundColor: '#181A1D', marginRight: '10px' }}
         >
-          <MenuItem component={Link} to="/admin">
-            <ListItemIcon>
-              <Settings fontSize="small" />
-            </ListItemIcon>
-            Settings
-          </MenuItem>
-          <MenuItem onClick={handleLogOut}>
-            <ListItemIcon>
-              <Logout fontSize="small" />
-            </ListItemIcon>
-            Logout
-          </MenuItem>
-        </Menu>
-      </Container>
-    </header>
+          <Avatar
+            sx={{ width: 45, height: 45 }}
+            src="../../../../public/Images/prof.png"
+          ></Avatar>
+        </IconButton>
+      </Tooltip>
+      <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            backgroundColor: '#181A1D',
+            width: '200px',
+            display: 'flex',
+            justifyContent: 'center',
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px #2704FF)',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+              backgroundColor: '#2704FF',
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem
+          onClick={() => {
+            handleAdminModal(true);
+          }}
+          className="logoutMenuButton"
+          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+        >
+          &#9784; SETTINGS
+        </MenuItem>
+        <MenuItem
+          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+          onClick={handleLogOut}
+          className="logoutMenuButton"
+        >
+          &#10148; LOGOUT
+        </MenuItem>
+      </Menu>
+      <Modal
+        open={adminModal}
+        onClose={() => {
+          handleAdminModal(false);
+        }}
+      >
+        <div>
+          <Admin />
+        </div>
+      </Modal>
+    </div>
   );
 }

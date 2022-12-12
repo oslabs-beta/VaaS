@@ -17,6 +17,9 @@ import FunctionsIcon from '@mui/icons-material/Functions';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import SettingsIcon from '@mui/icons-material/Settings';
 import GaugeChart from 'react-gauge-chart';
+import Tooltip from '@mui/material/Tooltip';
+import Modal from '@mui/material/Modal';
+
 import './styles.css';
 import {
   Accordion,
@@ -40,6 +43,7 @@ import { useFetchMetrics } from '../../Queries';
 
 const Kube = (props: ClusterTypes) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [settingsModal, handleSettingsModal] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const clusterReducer = useAppSelector(
@@ -56,7 +60,8 @@ const Kube = (props: ClusterTypes) => {
   const [dbData] = useState(
     apiReducer.clusterDbData.find((element) => element._id === props._id)
   );
-  console.log('THIS IS dbData', dbData);
+  console.log('This is a rerender', props._id);
+  // console.log(`THIS IS dbData from ${props._id}`, dbData);
   // console logging clusterQueryData in store to be sure cluster metrics was dispatched after all metrics were fetched
   // console.log(
   //   apiReducer.clusterQueryData,
@@ -173,8 +178,12 @@ const Kube = (props: ClusterTypes) => {
         display: 'flex',
         backgroundColor: '#181A1D',
         color: 'white',
-        width: '80%',
-        height: '380px',
+        width: '60%',
+        minWidth: '500px',
+        maxWidth: '1500px',
+        minHeight: '350px',
+        height: '30vh',
+        maxHeight: '450px',
         border: '2px solid #15161d',
         boxShadow: '1px 1px 10px .5px #403e54',
       }}
@@ -319,12 +328,25 @@ const Kube = (props: ClusterTypes) => {
             minHeight: '60px',
             maxHeight: '60px',
             display: 'flex',
-            paddingLeft: '10px',
-            paddingRight: '10px',
+            // paddingLeft: '10px',
+            // paddingRight: '10px',
             alignItems: 'center',
           }}
         >
-          {dbData?.description}
+          <div className="Cluster-Information">
+            {dbData?.description}
+            <Tooltip title="Cluster Settings">
+              <div
+                id="settingButton"
+                onClick={() => {
+                  handleSettingsModal(true);
+                }}
+              >
+                {' '}
+                &#9784;
+              </div>
+            </Tooltip>
+          </div>
         </Box>
         <Box className="Basic-Descriptors">
           <Box
@@ -422,6 +444,25 @@ const Kube = (props: ClusterTypes) => {
           </Box>
         </Box>
       </Box>
+      <Modal
+        open={settingsModal}
+        onClose={() => {
+          handleSettingsModal(false);
+        }}
+        sx={{ border: 'none' }}
+      >
+        <Box className="Settings-Modal-Container" sx={{ border: 'none' }}>
+          <ClusterSettings id={dbData?._id} name={dbData?.name} />
+          <Button
+            id="closeButton"
+            onClick={() => {
+              handleSettingsModal(false);
+            }}
+          >
+            {'Close Settings'}
+          </Button>
+        </Box>
+      </Modal>
     </Box>
   );
 };

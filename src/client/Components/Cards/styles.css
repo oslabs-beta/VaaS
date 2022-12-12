@@ -1,5 +1,40 @@
-* {
+.Module-top-row {
+  width: 100%;
+  /* padding-right: 20px; */
+  margin-top: 15px;
+  margin-bottom: 45px;
+  display: flex;
+  justify-content: space-around;
 }
+.Cluster-Kube-Box {
+  margin-top: 20px;
+}
+
+.closeButton {
+  z-index: 3;
+  display: block;
+  margin: 0 auto;
+  background-color: #2704ff;
+  color: white;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  padding: 10px 25px;
+  margin-top: 20px;
+}
+#settingButton {
+  font-size: 40px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+/* .Module-top-row {
+  width: 100%;
+  display: flex;
+  align-items: space-between;
+  font-size: 1.3em;
+  letter-spacing: 1em;
+  padding-top: 6em;
+} */
 
 h3 {
   text-align: center;
@@ -29,10 +64,10 @@ dd {
   box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.05);
 }
 
-.Kube-top-row {
+/* .Kube-top-row {
   display: flex;
   margin-top: 8px;
-}
+} */
 
 .cluster-title {
   font-size: 20px;
@@ -45,15 +80,14 @@ dd {
   cursor: pointer;
   user-select: none;
 }
-
 #overview {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   overflow-y: hidden;
   overflow-x: auto;
   margin-bottom: 8px;
@@ -65,8 +99,8 @@ dd {
   display: none;
 }
 
-.ov-box {
-  /* background-color: #fafafa; */
+/* .ov-box {
+  background-color: #fafafa; 
   border: 1px solid #3a4a5b1e;
   display: flex;
   flex-direction: column;
@@ -79,7 +113,7 @@ dd {
   min-width: 80px;
   margin-top: 4px;
   margin-right: 8px;
-}
+} */
 
 .ov-title {
   margin-top: -0.35rem;
@@ -103,27 +137,29 @@ dd {
   margin: 0;
   padding: 0;
 }
-
-#module {
-  width: 100%;
+.module-title {
+  color: white;
 }
-
+/* #module {
+  width: 100%;
+} */
+/* 
 .module-container {
   height: 100%;
   width: 100%;
   flex-direction: column;
-}
+} */
 
-.Module-top-row {
+/* .Module-top-row {
   width: 100%;
   display: flex;
   align-items: space-between;
   font-size: 1.3em;
   letter-spacing: 1em;
   padding-top: 6em;
-}
+} */
 
-.module-title {
+/* .module-title {
   width: 100%;
   display: inline-block;
   cursor: default;
@@ -134,9 +170,9 @@ dd {
   font-weight: 400;
   font-family: 'Montserrat Thin', sans-serif;
   letter-spacing: 1em;
-}
+} */
 
-.module-title::first-letter {
+/* .module-title::first-letter {
   font-size: 1.4em;
 }
 
@@ -157,7 +193,7 @@ dd {
 
 .module-btn {
   float: right;
-}
+} */
 
 .cluster-id {
   color: #ffffff;
@@ -216,7 +252,7 @@ dd {
 }
 
 .gauge-text {
-  margin-top: 3em;
+  margin-top: 5em;
   font-size: 0.7em;
 }
 
@@ -224,4 +260,20 @@ dd {
   transform: scale(1.03);
   transition: 0.2s;
   box-shadow: 1px 1px 10px 0.5px #837fb3;
+}
+
+.Cluster-Information {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-inline: 12px;
+}
+
+/* Settings Modal styling */
+
+.Settings-Modal-Container {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

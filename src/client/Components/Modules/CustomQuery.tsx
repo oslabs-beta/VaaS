@@ -54,7 +54,16 @@ const CustomQuery = (props: Modules) => {
   };
 
   return (
-    <Container
+    <div className="iframeDiv">
+      <iframe
+        // src={`http://${grafIP}/d/${dashboard}/`}
+        src="http://35.199.145.18/dashboard/new?orgId=1&edit/?&kiosk=tv"
+        height="1000px"
+        width="1200px"
+        className="custom-graf"
+        frameBorder="0"
+      ></iframe>
+      {/* <Container
       sx={{
         width: '100%',
         textAlign: 'center',
@@ -127,7 +136,8 @@ const CustomQuery = (props: Modules) => {
           <ReactJson src={data || { input: 'query' }} />
         </Container>
       </div>
-    </Container>
+    </Container> */}
+    </div>
   );
 };
 
