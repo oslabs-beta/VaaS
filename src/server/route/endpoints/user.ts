@@ -83,10 +83,6 @@ router
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
     const { username, firstName, lastName, darkMode, refreshRate } = req.body;
-
-    // const {
-    //   jwt: { id },
-    // } = res.locals;
     try {
       terminal(`Searching for user [${username}] in MongoDB`);
       const user = await User.find({ username: res.locals.username }).exec();

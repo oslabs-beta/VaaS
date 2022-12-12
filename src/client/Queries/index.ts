@@ -11,7 +11,13 @@ import customMetric from './Custom';
 import alertAdd from './Alert';
 import openFaasMetric from './OpenFaaS';
 import { loginUser, registerUser, logOutUser, checkAuth } from './auth';
-import { fetchUser } from './user';
+import {
+  fetchUser,
+  editUser,
+  deleteUser,
+  changeDarkMode,
+  changeRefreshRate,
+} from './user';
 import axiosInstance from './axios/axiosConfig';
 
 export {
@@ -32,4 +38,8 @@ export {
   useFetchMetrics,
   checkAuth,
   fetchUser,
+  editUser,
+  deleteUser,
+  changeDarkMode,
+  changeRefreshRate,
 };

@@ -1,45 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Avatar, Toolbar, Typography } from '@mui/material';
-import HomeIcon from '@mui/icons-material/Home';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/Logout';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { IReducers } from '../../Interfaces/IReducers';
-import { setRender } from '../../Store/actions';
-import { Container } from '@mui/system';
-import Box from '@mui/material/Box';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Avatar, Modal } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
-import Modal from '@mui/material/Modal';
 import Admin from '../Admin/Admin';
-import Button from '@mui/material/Button';
 
 export default function NavBar() {
   const navigate = useNavigate();
-  const clusterReducer = useAppSelector(
-    (state: IReducers) => state.clusterReducer
-  );
   const [adminModal, handleAdminModal] = useState(false);
-  const [user, setUser] = useState(null);
-  const dispatch = useAppDispatch();
-  const routeHome = () => {
-    navigate('/home');
-  };
-
-  const routeAdmin = () => {
-    navigate('/admin');
-  };
 
   const handleLogOut = async (): Promise<void> => {
     const res = await logOutUser();

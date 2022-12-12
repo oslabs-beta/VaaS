@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Get, Post, Put, Delete } from '../../Services/index';
-import { apiRoute } from '../../utils';
-import NavBar from '../Home/NavBar';
-import UserWelcome from '../Admin/UserWelcome';
-import { ClusterTypes, AddClusterType } from '../../Interfaces/ICluster';
+import { AddClusterType } from '../../Interfaces/ICluster';
 import { Box, Button, Container, TextField } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
 import { Tab, Tabs, Typography } from '@mui/material';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { IReducers } from '../../Interfaces/IReducers';
 import { setDarkMode } from '../../Store/actions';
-import { addCluster, fetchUser, fetchSingleCluster } from '../../Queries';
+import {
+  addCluster,
+  fetchUser,
+  editUser,
+  deleteUser,
+  changeDarkMode,
+  changeRefreshRate,
+} from '../../Queries';
 import './styles.css';
 
 type Admin = {
@@ -41,24 +40,19 @@ const Admin = () => {
   const darkMode = uiReducer.clusterUIState.darkmode;
   const [refreshRate, setRefreshRate] = useState(0);
   // mui tabs uses this to change tabs
-  const [clusterData, setClusterData] = useState({
-    url: '',
-    k8_port: '',
-    faas_port: '',
-    faas_username: '',
-    faas_password: '',
-    name: '',
-    description: '',
-    faas_url: '',
-    grafana_url: '',
-    kubeview_url: '',
-  });
   const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
-  const { data: userData } = useQuery({
+  // fetch Query
+  const { data: userData, refetch } = useQuery({
     queryKey: ['user'],
     queryFn: fetchUser,
   });
+  useEffect(() => {
+    setCurrUser(userData);
+    dispatch(setDarkMode(userData?.darkMode));
+    setRefreshRate(userData?.refreshRate / 1000);
+  }, [dispatch, userData]);
+  // mutations
   const mutation = useMutation((data: AddClusterType) => addCluster(data), {
     onSuccess: (response) => {
       response.success
@@ -66,7 +60,58 @@ const Admin = () => {
         : setAddClusterMessage(response.message);
     },
   });
-
+  const userMutation = useMutation(
+    (data: {
+      username: string;
+      firstName: string;
+      lastName: string;
+      darkMode: boolean;
+    }) => editUser(data),
+    {
+      onSuccess: (response) => {
+        response.success
+          ? setUpdateUserErr('Account information successfully updated')
+          : setUpdateUserErr('Your account details could not be updated');
+      },
+    }
+  );
+  const userDeleteMutation = useMutation(
+    (body: { username: string; password: string }) => deleteUser(body),
+    {
+      onSuccess: (response) => {
+        response.deleted
+          ? navigate('/')
+          : setDeletePasswordErr('Incorrect password');
+      },
+    }
+  );
+  const darkModeMutation = useMutation(
+    (data: { darkMode: boolean }) => changeDarkMode(data),
+    {
+      onSuccess: (response) => {
+        response.success
+          ? dispatch(setDarkMode(!darkMode))
+          : console.log('Dark mode could not be enabled');
+      },
+    }
+  );
+  const refreshRateMutation = useMutation(
+    (data: { refreshRate: number }) => changeRefreshRate(data),
+    {
+      onSuccess: (response) => {
+        console.log(response, 'responseresponseresponseresponseresponse');
+        if (response.success) {
+          refetch();
+          setUpdateRefreshRateMessage(
+            `Refresh rate successfully set to ${
+              userData.refreshRate / 1000
+            } seconds`
+          );
+        } else setUpdateRefreshRateMessage('Refresh rate could not be updated');
+      },
+    }
+  );
+  //styles
   const containerStyle = {
     width: '350px',
     marginTop: '-10px',
@@ -85,13 +130,7 @@ const Admin = () => {
     width: '100%',
     fontSize: '10px',
   };
-
-  useEffect(() => {
-    setCurrUser(userData);
-    dispatch(setDarkMode(userData?.darkMode));
-    setRefreshRate(userData?.refreshRate / 1000);
-  }, [dispatch, userData]);
-
+  // handler functions
   const handleAddCluster = async (): Promise<void> => {
     try {
       const body = {
@@ -126,7 +165,8 @@ const Admin = () => {
         !body.name ||
         !body.description ||
         !body.faas_url ||
-        !body.grafana_url
+        !body.grafana_url ||
+        !body.kubeview_url
       ) {
         setAddClusterMessage('Missing input fields');
         return;
@@ -135,7 +175,6 @@ const Admin = () => {
         setAddClusterMessage('Port(s) must be numbers');
         return;
       }
-      console.log(body, 'body body body body');
       mutation.mutate(body);
     } catch (err) {
       console.log('Add cluster failed', err);
@@ -159,20 +198,11 @@ const Admin = () => {
         setUpdateUserErr('No inputs in input fields');
         return;
       }
-      const user = await Get(apiRoute.getRoute(`user`));
-      if (!body.username) body.username = user.username;
-      if (!body.firstName) body.firstName = user.firstName;
-      if (!body.lastName) body.lastName = user.lastName;
+      if (!body.username) body.username = userData.username;
+      if (!body.firstName) body.firstName = userData.firstName;
+      if (!body.lastName) body.lastName = userData.lastName;
 
-      const updateStatus = await Put(apiRoute.getRoute('user'), body).catch(
-        (err) => console.log(err)
-      );
-
-      if (updateStatus.success) {
-        setUpdateUserErr('Account information successfully updated');
-      } else {
-        setUpdateUserErr('Your account details could not be updated');
-      }
+      userMutation.mutate(body);
     } catch (err) {
       console.log('Update request to server failed', err);
     }
@@ -186,43 +216,18 @@ const Admin = () => {
           document.getElementById('delete-password-input') as HTMLInputElement
         ).value,
       };
-      const deleteStatus = await Delete(apiRoute.getRoute('user'), userBody);
-
-      const clusters = await Get(apiRoute.getRoute('cluster'));
-
-      clusters.forEach(async (cluster: ClusterTypes) => {
-        const clusterBody = {
-          clusterId: cluster._id,
-          favorite: false,
-        };
-        await Put(apiRoute.getRoute('cluster'), clusterBody);
-      });
-
-      if (deleteStatus.deleted) {
-        navigate('/');
-      } else {
-        console.log('Account could not be deleted - ');
-        setDeletePasswordErr('Incorrect password');
-      }
+      userDeleteMutation.mutate(userBody);
     } catch (err) {
       console.log('Delete request to server failed', err);
     }
   };
 
   const handleDarkMode = async (): Promise<void> => {
-    console.log('CLICKED');
     try {
       const body = {
         darkMode: !darkMode,
       };
-
-      const updateStatus = await Put(apiRoute.getRoute('user'), body);
-      if (updateStatus.success) {
-        dispatch(setDarkMode(!darkMode));
-        console.log('Dark mode enabled');
-      } else {
-        console.log('Dark mode could not be enabled');
-      }
+      darkModeMutation.mutate(body);
     } catch (err) {
       console.log('Update request to server failed', err);
     }
@@ -237,16 +242,7 @@ const Admin = () => {
               .value
           ) * 1000,
       };
-      const updateStatus = await Put(apiRoute.getRoute('user'), body);
-      if (updateStatus.success) {
-        console.log(body.refreshRate);
-        setRefreshRate(body.refreshRate / 1000);
-        setUpdateRefreshRateMessage(
-          `Refresh rate successfully set to ${body.refreshRate / 1000} seconds`
-        );
-      } else {
-        setUpdateRefreshRateMessage('Refresh rate could not be updated');
-      }
+      refreshRateMutation.mutate(body);
     } catch (err) {
       console.log('Update request to server failed', err);
     }
@@ -314,7 +310,6 @@ const Admin = () => {
 
   return (
     <div id="HomeContainer">
-      {/* <NavBar /> */}
       <Container
         className={'Admin-Modal-Container'}
         sx={{
@@ -445,15 +440,13 @@ const Admin = () => {
           <TabPanel value={value} index={1}>
             <Container sx={containerStyle}>
               <TextField
-                onKeyDown={handleEnterKeyDownAddCluster}
                 id="cluster-url"
                 type="text"
                 label="Cluster URL"
                 variant="filled"
                 size="small"
                 margin="dense"
-                name="url"
-                value={clusterData.url}
+                onKeyDown={handleEnterKeyDownAddCluster}
                 sx={textFieldStyle}
               />
               <TextField
