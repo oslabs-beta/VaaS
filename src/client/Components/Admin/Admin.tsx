@@ -16,6 +16,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { IReducers } from '../../Interfaces/IReducers';
 import { setDarkMode } from '../../Store/actions';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import './styles.css';
 
 type Admin = {
   cookieId: string;
@@ -248,353 +252,316 @@ const Admin = () => {
     if (e.key === 'Enter') handleRefreshRate();
   };
 
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+  interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+  }
+
+  function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  }
+
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
   return (
-    <div></div>
-    //   <div>
-    //     <NavBar />
-    //     <UserWelcome />
-    //     <Accordion
-    //       sx={{
-    //         marginTop: '0.5rem',
-    //       }}
-    //     >
-    //       <AccordionSummary
-    //         expandIcon={<ExpandMoreIcon />}
-    //         aria-controls="panel1a-content"
-    //         id="panel1a-header"
-    //       >
-    //         Administrator Account Details
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         <Container sx={containerStyle}>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownUpdate}
-    //               autoComplete="current-password"
-    //               id="update-username-input"
-    //               type="username"
-    //               label="Username"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownUpdate}
-    //               autoComplete="current-password"
-    //               id="update-firstName-input"
-    //               type="firstName"
-    //               label="First Name"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownUpdate}
-    //               autoComplete="current-password"
-    //               id="update-lastName-input"
-    //               type="userName"
-    //               label="Last Name"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <Button
-    //               variant="contained"
-    //               className="btn"
-    //               type="button"
-    //               onClick={handleUserUpdate}
-    //               sx={buttonStyle}
-    //             >
-    //               Update Admin Details
-    //             </Button>
-    //             <span id="update-user-err">{updateUserErr}</span>
-    //           </div>
-    //         </Container>
-    //       </AccordionDetails>
-    //     </Accordion>
-
-    //     <Accordion>
-    //       <AccordionSummary
-    //         expandIcon={<ExpandMoreIcon />}
-    //         aria-controls="panel2a-content"
-    //         id="panel2a-header"
-    //       >
-    //         Delete Administrator Account
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         <Container sx={containerStyle}>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownDelete}
-    //               id="delete-password-input"
-    //               type="password"
-    //               label="Enter Password to Confirm Deletion"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <Button
-    //               id="delete-password-input"
-    //               variant="contained"
-    //               className="btn"
-    //               type="button"
-    //               onClick={handleUserDelete}
-    //               sx={buttonStyle}
-    //             >
-    //               Delete
-    //             </Button>
-    //             <span id="delete-password-err">{deletePasswordErr}</span>
-    //           </div>
-    //         </Container>
-    //       </AccordionDetails>
-    //     </Accordion>
-
-    //     <Accordion
-    //       sx={{
-    //         marginTop: '0.5rem',
-    //       }}
-    //     >
-    //       <AccordionSummary
-    //         expandIcon={<ExpandMoreIcon />}
-    //         aria-controls="panel1a-content"
-    //         id="panel1a-header"
-    //       >
-    //         Add Cluster
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         <Container sx={containerStyle}>
-    //           <TextField
-    //             onKeyDown={handleEnterKeyDownAddCluster}
-    //             id="cluster-url"
-    //             type="text"
-    //             label="Cluster URL"
-    //             variant="filled"
-    //             size="small"
-    //             margin="dense"
-    //             sx={textFieldStyle}
-    //           />
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownAddCluster}
-    //               id="k8_port"
-    //               type="text"
-    //               label="Kubernetes Port"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownAddCluster}
-    //               id="faas_port"
-    //               type="text"
-    //               label="FaaS Port"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownAddCluster}
-    //               id="faas_username"
-    //               type="username"
-    //               label="FaaS Username"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownAddCluster}
-    //               id="faas_password"
-    //               type="password"
-    //               label="FaaS Password"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownAddCluster}
-    //               id="cluster-name"
-    //               type="text"
-    //               label="Cluster Name"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownAddCluster}
-    //               id="cluster-description"
-    //               type="text"
-    //               label="Cluster Description"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <Button
-    //               variant="contained"
-    //               className="btn"
-    //               type="button"
-    //               onClick={handleAddCluster}
-    //               sx={buttonStyle}
-    //             >
-    //               Add Cluster
-    //             </Button>
-    //             <div id="add-cluster-msg">{addClusterMessage}</div>
-    //           </div>
-    //         </Container>
-    //       </AccordionDetails>
-    //     </Accordion>
-
-    //     <Accordion>
-    //       <AccordionSummary
-    //         expandIcon={<ExpandMoreIcon />}
-    //         aria-controls="panel2a-content"
-    //         id="panel2a-header"
-    //       >
-    //         Cluster Refresh Rate
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         <Container sx={containerStyle}>
-    //           <div>
-    //             <TextField
-    //               onKeyDown={handleEnterKeyDownRefreshRate}
-    //               id="refresh-rate-input"
-    //               type="text"
-    //               label="Enter Refresh Rate in Seconds"
-    //               variant="filled"
-    //               size="small"
-    //               margin="dense"
-    //               placeholder={`Currently set to ${String(refreshRate)} seconds`}
-    //               sx={textFieldStyle}
-    //             />
-    //           </div>
-    //           <div>
-    //             <Button
-    //               id="refresh-rate-input"
-    //               variant="contained"
-    //               className="btn"
-    //               type="button"
-    //               onClick={handleRefreshRate}
-    //               sx={buttonStyle}
-    //             >
-    //               Update Refresh Rate
-    //             </Button>
-    //             <div>{updateRefreshRateMessage}</div>
-    //           </div>
-    //         </Container>
-    //       </AccordionDetails>
-    //     </Accordion>
-
-    //     <Accordion>
-    //       <AccordionSummary
-    //         expandIcon={<ExpandMoreIcon />}
-    //         aria-controls="panel2a-content"
-    //         id="panel2a-header"
-    //       >
-    //         Dark Mode
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         <Container sx={containerStyle}>
-    //           {!darkMode && (
-    //             <Button
-    //               variant="contained"
-    //               className="btn"
-    //               type="button"
-    //               onClick={handleDarkMode}
-    //               sx={buttonStyle}
-    //             >
-    //               Enable Dark Mode
-    //             </Button>
-    //           )}
-    //           {darkMode && (
-    //             <Button
-    //               variant="contained"
-    //               className="btn"
-    //               type="button"
-    //               onClick={handleDarkMode}
-    //               sx={buttonStyle}
-    //             >
-    //               Disable Dark Mode
-    //             </Button>
-    //           )}
-    //         </Container>
-    //       </AccordionDetails>
-    //     </Accordion>
-
-    //     <Accordion
-    //       sx={{
-    //         marginTop: '0.5rem',
-    //       }}
-    //     >
-    //       <AccordionSummary
-    //         expandIcon={<ExpandMoreIcon />}
-    //         aria-controls="panel2a-content"
-    //         id="panel2a-header"
-    //       >
-    //         About VaaS
-    //       </AccordionSummary>
-    //       <AccordionDetails>
-    //         <Container sx={containerStyle}>
-    //           <Button
-    //             variant="contained"
-    //             className="btn"
-    //             type="button"
-    //             sx={buttonStyle}
-    //             onClick={() =>
-    //               window.open(
-    //                 'https://vaas.dev/',
-    //                 '_blank',
-    //                 'noopener,noreferrer'
-    //               )
-    //             }
-    //           >
-    //             Learn about the project
-    //           </Button>
-    //           <Box sx={{ textAlign: 'center' }}>
-    //             <h3>Developed by:</h3>
-    //             <p>James Chan</p>
-    //             <p>Jimmy Lim</p>
-    //             <p>Alex Kaneps</p>
-    //             <p>Matthew McGowan</p>
-    //             <p>Vu Duong</p>
-    //             <p>Murad Alqadi</p>
-    //             <p>Kevin Le</p>
-    //             <p>Richard Zhang</p>
-    //             <p>Irvin Ie</p>
-    //           </Box>
-    //         </Container>
-    //       </AccordionDetails>
-    //     </Accordion>
-    //   </div>
-    // );
+    <div id="HomeContainer">
+      {/* <NavBar /> */}
+      <Container
+        className={'Admin-Modal-Container'}
+        sx={{
+          color: 'white',
+          minHeight: '65%',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'rgb(0,0,0)',
+          boxShadow: '1px 1px 10px .5px #403e54',
+          borderRadius: '0px',
+          marginBottom: '20px',
+        }}
+      >
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              sx={{
+                color: '#FFF',
+              }}
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: '#2074FF',
+                },
+              }}
+              centered
+            >
+              <Tab
+                label="Account Details"
+                {...a11yProps(0)}
+                sx={{
+                  color: '#FFF',
+                }}
+              />
+              <Tab
+                label="Add Cluster"
+                {...a11yProps(1)}
+                sx={{
+                  color: '#FFF',
+                }}
+              />
+              <Tab
+                label="About"
+                {...a11yProps(2)}
+                sx={{
+                  color: '#FFF',
+                }}
+              />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <Container sx={containerStyle}>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownUpdate}
+                  autoComplete="current-password"
+                  id="update-username-input"
+                  type="username"
+                  label="Username"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownUpdate}
+                  autoComplete="current-password"
+                  id="update-firstName-input"
+                  type="firstName"
+                  label="First Name"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownUpdate}
+                  autoComplete="current-password"
+                  id="update-lastName-input"
+                  type="userName"
+                  label="Last Name"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <Button
+                  variant="contained"
+                  className="btn"
+                  type="button"
+                  onClick={handleUserUpdate}
+                  sx={buttonStyle}
+                >
+                  Update Admin Details
+                </Button>
+                <span id="update-user-err">{updateUserErr}</span>
+              </div>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownDelete}
+                  id="delete-password-input"
+                  type="password"
+                  label="Enter Password to Confirm Deletion"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <Button
+                  id="delete-password-input"
+                  variant="contained"
+                  className="btn"
+                  type="button"
+                  onClick={handleUserDelete}
+                  sx={buttonStyle}
+                >
+                  Delete
+                </Button>
+                <span id="delete-password-err">{deletePasswordErr}</span>
+              </div>
+            </Container>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Container sx={containerStyle}>
+              <TextField
+                onKeyDown={handleEnterKeyDownAddCluster}
+                id="cluster-url"
+                type="text"
+                label="Cluster URL"
+                variant="filled"
+                size="small"
+                margin="dense"
+                sx={textFieldStyle}
+              />
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownAddCluster}
+                  id="k8_port"
+                  type="text"
+                  label="Kubernetes Port"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownAddCluster}
+                  id="faas_port"
+                  type="text"
+                  label="FaaS Port"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownAddCluster}
+                  id="faas_username"
+                  type="username"
+                  label="FaaS Username"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownAddCluster}
+                  id="faas_password"
+                  type="password"
+                  label="FaaS Password"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownAddCluster}
+                  id="cluster-name"
+                  type="text"
+                  label="Cluster Name"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <TextField
+                  onKeyDown={handleEnterKeyDownAddCluster}
+                  id="cluster-description"
+                  type="text"
+                  label="Cluster Description"
+                  variant="filled"
+                  size="small"
+                  margin="dense"
+                  sx={textFieldStyle}
+                />
+              </div>
+              <div>
+                <Button
+                  variant="contained"
+                  className="btn"
+                  type="button"
+                  onClick={handleAddCluster}
+                  sx={buttonStyle}
+                >
+                  Add Cluster
+                </Button>
+                <div id="add-cluster-msg">{addClusterMessage}</div>
+              </div>
+            </Container>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Container sx={containerStyle}>
+              <Button
+                variant="contained"
+                type="button"
+                className="btn"
+                sx={buttonStyle}
+                onClick={() =>
+                  window.open(
+                    'https://vaas.dev/',
+                    '_blank',
+                    'noopener,noreferrer'
+                  )
+                }
+              >
+                Learn about the project
+              </Button>
+              <Box sx={{ textAlign: 'center' }}>
+                <h3>Developed by:</h3>
+                <p>Young Kim</p>
+                <p>Ahsan Ali </p>
+                <p>Rabea Ahmad</p>
+                <p>Stephan Chiorean</p>
+                <p>Ruqayaah Sabitu</p>
+                <p>James Chan</p>
+                <p>Jimmy Lim</p>
+                <p>Alex Kaneps</p>
+                <p>Matthew McGowan</p>
+                <p>Vu Duong</p>
+                <p>Murad Alqadi</p>
+                <p>Kevin Le</p>
+                <p>Richard Zhang</p>
+                <p>Irvin Ie</p>
+              </Box>
+            </Container>
+          </TabPanel>
+        </Box>
+      </Container>
+    </div>
   );
 };
 
