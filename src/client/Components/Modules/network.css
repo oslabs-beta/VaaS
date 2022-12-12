@@ -134,12 +134,12 @@
 }
 
 #cost-container {
-  background-color: #15161d;
-  color: white;
+  background-color: whitesmoke;
+  color: black;
 }
 
 #cost-estimate {
-  color: white;
+  color: black;
 }
 
 .costCal {

@@ -19,6 +19,7 @@ import { setDarkMode } from '../../Store/actions';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
+import './styles.css';
 
 type Admin = {
   cookieId: string;
@@ -291,11 +292,20 @@ const Admin = () => {
 
   return (
     <div id="HomeContainer">
-      <NavBar />
-      <div id="HeaderContainer">
-        <div className="Header-Bar-Title">Settings</div>
-      </div>
-      <Container>
+      {/* <NavBar /> */}
+      <Container
+        className={'Admin-Modal-Container'}
+        sx={{
+          color: 'white',
+          minHeight: '65%',
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'rgb(0,0,0)',
+          boxShadow: '1px 1px 10px .5px #403e54',
+          borderRadius: '0px',
+          marginBottom: '20px',
+        }}
+      >
         <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs

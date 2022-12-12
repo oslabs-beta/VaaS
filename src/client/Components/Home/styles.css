@@ -11,6 +11,9 @@
   /* font-size: 1.3em; */
   height: 100px;
 }
+.test {
+  border: 10px solid red;
+}
 #Home-Bar-Title {
   font-size: 20px;
   width: 300px;
@@ -54,8 +57,13 @@
   font-size: 20px;
 }
 .logoutMenuButton {
-  color: #2704ff;
+  color: white;
+  font-size: 24px;
+  padding: 5px 10px;
 }
+/* #account-menu {
+  width: 500px;
+} */
 /* #HomeContainer {
   border: 30px solid red;
 }
@@ -244,4 +252,4 @@ header {
   display: flex;
   justify-content: center;
   z-index: 100;
-} */
+} */ ;

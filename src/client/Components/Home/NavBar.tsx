@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Avatar, Button, Toolbar, Typography } from '@mui/material';
+import { Avatar, Toolbar, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -21,12 +21,16 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { Link } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
+import Modal from '@mui/material/Modal';
+import Admin from '../Admin/Admin';
+import Button from '@mui/material/Button';
 
 export default function NavBar() {
   const navigate = useNavigate();
   const clusterReducer = useAppSelector(
     (state: IReducers) => state.clusterReducer
   );
+  const [adminModal, handleAdminModal] = useState(false);
   const [user, setUser] = useState(null);
   const dispatch = useAppDispatch();
   const routeHome = () => {
@@ -80,6 +84,10 @@ export default function NavBar() {
         PaperProps={{
           elevation: 0,
           sx: {
+            backgroundColor: '#181A1D',
+            width: '200px',
+            display: 'flex',
+            justifyContent: 'center',
             overflow: 'visible',
             filter: 'drop-shadow(0px 2px 8px #2704FF)',
             mt: 1.5,
@@ -106,13 +114,33 @@ export default function NavBar() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem component={Link} to="/admin" className="logoutMenuButton">
+        <MenuItem
+          onClick={() => {
+            handleAdminModal(true);
+          }}
+          className="logoutMenuButton"
+          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+        >
           &#9784; Settings
         </MenuItem>
-        <MenuItem onClick={handleLogOut} className="logoutMenuButton">
+        <MenuItem
+          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+          onClick={handleLogOut}
+          className="logoutMenuButton"
+        >
           &#10148; Logout
         </MenuItem>
       </Menu>
+      <Modal
+        open={adminModal}
+        onClose={() => {
+          handleAdminModal(false);
+        }}
+      >
+        <div>
+          <Admin />
+        </div>
+      </Modal>
     </div>
   );
 }
