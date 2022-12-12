@@ -4,23 +4,38 @@ import { useFetchMetricsProps } from '../Interfaces/ICluster';
 import { storeClusterQueryData } from '..//Store/actions';
 import { useAppDispatch } from '../Store/hooks';
 import { AddClusterType } from '../Interfaces/ICluster';
+import { AxiosRequestConfig } from 'axios';
 
 export const fetchClusters = async () => {
   const data = await axiosInstance('/cluster');
   return data.data;
 };
 
-export const fetchSingleCluster = async (clusterName: string) => {
+export const fetchSingleCluster = async (clusterName: string | undefined) => {
   const data = await axiosInstance(`/cluster:${clusterName}`);
   return data.data;
 };
 
 export const addCluster = async (payload: AddClusterType) => {
   const data = await axiosInstance.post('/cluster', payload);
-  console.log(
-    data,
-    'addClusteraddClusteraddClusteraddClusteraddClusteraddClusteraddCluster'
-  );
+  return data.data;
+};
+
+export const deleteCluster = async (
+  payload:
+    | AxiosRequestConfig<{
+        clusterId: string | undefined;
+      }>
+    | undefined
+) => {
+  const data = await axiosInstance.delete('/cluster', payload);
+  return data.data;
+};
+
+export const editCluster = async (
+  payload: AxiosRequestConfig<any> | undefined
+) => {
+  const data = await axiosInstance.put('/cluster', payload);
   return data.data;
 };
 

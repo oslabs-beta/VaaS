@@ -23,17 +23,6 @@ const Charts = (props: Modules) => {
   // };
   const handleClose = () => setOpen(false);
   const handleCloseSecond = () => setOpenSecond(false);
-  // const darkMode = useSelector((state: any) => state.DarkMode);
-  // console.log('IS THIS DARK MODE? ', darkMode);
-  // // get user from store
-  // const user: any = useSelector((state: any) => state.user);
-  // console.log('THIS IS USELOCATION STATE user ', user);
-  // const [id] = useState(props.id || state[0]);
-  // const id1 = props.id || state[0];
-  // console.log('THIS IS USESTATE:', id);
-  // console.log('THIS IS NOT USE STATE:', id1);
-  // REPLACE GRAFANA IP WITH ONE FROM THE REDUCER
-  const grafIP = '35.199.145.18';
   const inputStyle = {
     width: '45%',
     background: 'blue',
@@ -81,8 +70,6 @@ const Charts = (props: Modules) => {
   // };
   const handleOpen = (e: any) => {
     setCategory(e.target.getAttribute('data-value'));
-    console.log(category);
-    console.log(e.target.getAttribute('data-value'));
     switch (e.target.getAttribute('data-value')) {
       case 'computing': {
         setDashboardObj(computingDashboard);
@@ -111,22 +98,6 @@ const Charts = (props: Modules) => {
     setOpenSecond(true);
     setDashboard(e.target.getAttribute('data-value'));
   };
-  // const dashboardIDs = {
-  //   NEUSECluster: '2WSgtZFVz',
-  //   NEUSENode: 'oHIRtWF4z',
-  //   NEFull: 'rYdddlPWk',
-  //   Deployments: 'kbmUTOFVk',
-  //   ServerMetrics: 'MWxrodK4z',
-  //   NEUSEPod: 'dpI6oOK4k',
-  // };
-  // const [dashboard, setDashboard] = useState('');
-  // const handleDashboardSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-  //   setDashboard(dashboardIDs[e.target.value]);
-  // };
-  // useEffect(() => {
-  //   console.log('placeholder');
-  // }, []);
-  // console.log(state);
   const style = {
     position: 'absolute' as const,
     top: '50%',
@@ -345,7 +316,7 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              src={`http://${grafIP}/d/${dashboard}/?&kiosk=tv`}
+              src={`http://${state[1]}/d/${dashboard}/?&kiosk=tv`}
               // src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
               height="800px"
               width="1300px"

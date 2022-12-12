@@ -196,10 +196,10 @@ router
         faas_password,
         name,
         description,
+        faas_url,
+        grafana_url,
+        kubeview_url,
       } = req.body;
-      // const {
-      //   jwt: { id },
-      // } = res.locals;
       // Check to see if cluster exists
       terminal(`Searching for cluster [${name}] in MongoDB`);
       const cluster = await Cluster.find({ _id: clusterId }).exec();
@@ -232,6 +232,9 @@ router
               name: name,
               description: description,
               // $push: { favorite: id },
+              faas_url,
+              grafana_url,
+              kubeview_url,
             }
           );
           terminal(
@@ -249,6 +252,9 @@ router
               authorization: authorization,
               name: name,
               description: description,
+              faas_url,
+              grafana_url,
+              kubeview_url,
               // $pull: { favorite: id },
             }
           );
@@ -267,6 +273,9 @@ router
               authorization: authorization,
               name: name,
               description: description,
+              faas_url,
+              grafana_url,
+              kubeview_url,
             }
           );
           terminal(`Success: Cluster [${req.body.clusterId}] document updated`);

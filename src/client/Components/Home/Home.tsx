@@ -20,7 +20,7 @@ const Home = () => {
   const [clustersArray, setClustersArray] = useState<ClusterTypes[]>([]);
   const darkMode = uiReducer.clusterUIState.darkmode;
   const [visited, setVisited] = useState(false);
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['cluster'],
     queryFn: fetchClusters,
   });
@@ -30,7 +30,6 @@ const Home = () => {
   });
 
   useEffect(() => {
-    // console.log(data, 'DATA FROM REACT QUERY');
     if (data?.invalid) return navigate('/');
     if (data?.message) {
       setNoClusterError(
@@ -39,9 +38,8 @@ const Home = () => {
       return;
     }
     dispatch(storeClusterDbData(data));
-    // console.log(data, 'jjjdkkdkdkkdk');
     setClustersArray(data);
-  }, [data, dispatch, navigate]);
+  }, [data, dispatch, navigate, refetch]);
 
   //* Added to load darkmode state when navigating to home, (was just at admin load) -mcm
   useEffect(() => {
@@ -75,6 +73,7 @@ const Home = () => {
                 _id={cluster._id}
                 favorite={cluster.favorite}
                 favoriteStatus={true}
+                refetch={refetch}
               />
             ))}
         </div>

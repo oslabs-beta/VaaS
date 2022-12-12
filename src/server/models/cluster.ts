@@ -15,7 +15,6 @@ const clusterSchema: Schema<ICluster> = new Schema<ICluster>({
   name: { type: String, unique: true },
   description: String,
   favorite: [Schema.Types.ObjectId],
-  faas_url: String,
   grafana_url: String,
   kubeview_url: String,
 });

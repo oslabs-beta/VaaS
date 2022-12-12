@@ -3,6 +3,8 @@ import clusterMetric, {
   fetchClusters,
   fetchSingleCluster,
   useFetchMetrics,
+  deleteCluster,
+  editCluster,
 } from './Cluster';
 import containerMetric from './Container';
 import nodeMetric from './Node';
@@ -42,4 +44,6 @@ export {
   deleteUser,
   changeDarkMode,
   changeRefreshRate,
+  deleteCluster,
+  editCluster,
 };

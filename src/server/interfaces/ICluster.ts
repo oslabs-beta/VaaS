@@ -10,7 +10,6 @@ export interface ICluster extends Document {
   name: { type: string; unique: boolean };
   description: string;
   favorite: string[];
-  faas_url: string;
   grafana_url: string;
   kubeview_url?: string;
 }
