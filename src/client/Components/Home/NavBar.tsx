@@ -121,14 +121,14 @@ export default function NavBar() {
           className="logoutMenuButton"
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
         >
-          &#9784; Settings
+          &#9784; SETTINGS
         </MenuItem>
         <MenuItem
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
           onClick={handleLogOut}
           className="logoutMenuButton"
         >
-          &#10148; Logout
+          &#10148; LOGOUT
         </MenuItem>
       </Menu>
       <Modal

@@ -153,7 +153,7 @@ const ClusterSettings = (props: Modules) => {
           marginBottom: '20px',
         }}
       >
-        <div className="Module-top-row">
+        <div className="Module-top-row" style={{ marginBottom: '20px' }}>
           <div className="module-title noselect">
             Cluster Settings: {props.name}
           </div>
