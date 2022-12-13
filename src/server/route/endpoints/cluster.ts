@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 import { Cluster } from '../../models';
 import { IError } from '../../interfaces/IError';
-// import { jwtVerify } from '../../warehouse/middlewares';
 import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 
@@ -89,7 +88,10 @@ router
       !req.body.faas_username ||
       !req.body.faas_password ||
       !req.body.name ||
-      !req.body.description
+      !req.body.description ||
+      !req.body.faas_url ||
+      !req.body.grafana_url ||
+      !req.body.kubeview_url
     ) {
       const error: IError = {
         status: 500,
@@ -107,6 +109,9 @@ router
         faas_password,
         name,
         description,
+        faas_url,
+        grafana_url,
+        kubeview_url,
       } = req.body;
       terminal(`Searching for cluster [${name}] in MongoDB`);
       const cluster = await Cluster.find({ name: name }).exec();
@@ -134,6 +139,9 @@ router
         name,
         description,
         favorite: [],
+        faas_url,
+        grafana_url,
+        kubeview_url,
       });
       await attempt.save();
       terminal(
@@ -188,10 +196,10 @@ router
         faas_password,
         name,
         description,
+        faas_url,
+        grafana_url,
+        kubeview_url,
       } = req.body;
-      // const {
-      //   jwt: { id },
-      // } = res.locals;
       // Check to see if cluster exists
       terminal(`Searching for cluster [${name}] in MongoDB`);
       const cluster = await Cluster.find({ _id: clusterId }).exec();
@@ -224,6 +232,9 @@ router
               name: name,
               description: description,
               // $push: { favorite: id },
+              faas_url,
+              grafana_url,
+              kubeview_url,
             }
           );
           terminal(
@@ -241,6 +252,9 @@ router
               authorization: authorization,
               name: name,
               description: description,
+              faas_url,
+              grafana_url,
+              kubeview_url,
               // $pull: { favorite: id },
             }
           );
@@ -259,6 +273,9 @@ router
               authorization: authorization,
               name: name,
               description: description,
+              faas_url,
+              grafana_url,
+              kubeview_url,
             }
           );
           terminal(`Success: Cluster [${req.body.clusterId}] document updated`);

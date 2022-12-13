@@ -47,7 +47,6 @@ const Module = (props: Modules) => {
   const [charts, setCharts] = useState(false);
   const [currentModule, setCurrentModule] = useState('module');
   const [id] = useState(props.id || state[0]);
-  console.log('This is props from Module.tsx:', props);
   const [style, setStyle] = useState(
     props.isDark
       ? {
@@ -200,7 +199,6 @@ const Module = (props: Modules) => {
   };
 
   const handleFunctionCostButton = () => {
-    console.log('CLICKED');
     setFaaS(false);
     setVisualizer(false);
     setCustom(false);
@@ -302,7 +300,6 @@ const Module = (props: Modules) => {
             id="basic-button"
             className="module-button"
             onClick={() =>
-              // console.log('testing full screen')
               navigate('/module', { state: [id, currentModule, true] })
             }
           >
@@ -384,7 +381,7 @@ const Module = (props: Modules) => {
               {'Close Visualizer'}
             </button>
             <iframe
-              src={`http://35.230.55.147/80`}
+              src={`${state[0].kubeview_url}`}
               height="800px"
               width="70%"
               frameBorder="0"

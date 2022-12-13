@@ -60,7 +60,11 @@ router
       terminal(
         `Success: User [${res.locals.username}] document retrieved from MongoDB collection`
       );
-      return res.status(200).json(user[0]);
+      // Can't use "delete" operator on mongoose query results unless you make a clone with toObject() method
+      const newObj = user[0].toObject();
+      delete newObj.cookieId;
+      console.log(newObj, 'cookieIdcookieIdcookieIdcookieIdcookieIdcookieId');
+      return res.status(200).json(newObj);
     } catch (err) {
       const error: IError = {
         status: 500,
@@ -79,10 +83,6 @@ router
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
     const { username, firstName, lastName, darkMode, refreshRate } = req.body;
-
-    // const {
-    //   jwt: { id },
-    // } = res.locals;
     try {
       terminal(`Searching for user [${username}] in MongoDB`);
       const user = await User.find({ username: res.locals.username }).exec();

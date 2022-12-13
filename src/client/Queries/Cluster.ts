@@ -3,9 +3,39 @@ import axiosInstance from './axios';
 import { useFetchMetricsProps } from '../Interfaces/ICluster';
 import { storeClusterQueryData } from '..//Store/actions';
 import { useAppDispatch } from '../Store/hooks';
+import { AddClusterType } from '../Interfaces/ICluster';
+import { AxiosRequestConfig } from 'axios';
 
 export const fetchClusters = async () => {
   const data = await axiosInstance('/cluster');
+  return data.data;
+};
+
+export const fetchSingleCluster = async (clusterName: string | undefined) => {
+  const data = await axiosInstance(`/cluster:${clusterName}`);
+  return data.data;
+};
+
+export const addCluster = async (payload: AddClusterType) => {
+  const data = await axiosInstance.post('/cluster', payload);
+  return data.data;
+};
+
+export const deleteCluster = async (
+  payload:
+    | AxiosRequestConfig<{
+        clusterId: string | undefined;
+      }>
+    | undefined
+) => {
+  const data = await axiosInstance.delete('/cluster', payload);
+  return data.data;
+};
+
+export const editCluster = async (
+  payload: AxiosRequestConfig<any> | undefined
+) => {
+  const data = await axiosInstance.put('/cluster', payload);
   return data.data;
 };
 
@@ -78,10 +108,6 @@ export const clusterMetric = {
       const metric = await axiosInstance(
         `/prom?id=${clusterId}&ns=${ns}&q=${query}`
       );
-      console.log(
-        metric.data.data.result.length,
-        'allServices TOTAL allServices'
-      );
       // extract needed data from api call
       return metric.data.data.result.length;
     } catch (err) {
@@ -123,11 +149,6 @@ export const clusterMetric = {
 
 // custom hook to be used by each Kube (Kube.tsx) created from the clusters in Home.tsx to fetch metrics of the cluster
 export const useFetchMetrics = ({ clusterId, k8Str }: useFetchMetricsProps) => {
-  // console.log(
-  //   clusterId,
-  //   k8Str,
-  //   'clusterIdclusterIdclusterIdclusterIdclusterId'
-  // );
   const dispatch = useAppDispatch();
   const [allNodes, setAllNodes] = useState(null);
   const [cpuLoad, setCpuLoad] = useState<string>('');
@@ -147,17 +168,12 @@ export const useFetchMetrics = ({ clusterId, k8Str }: useFetchMetricsProps) => {
     // fetch cpu usage of nodes on cluster
     const fetchCpuUsage = async () => {
       const res = await clusterMetric.cpuLoad(clusterId, k8Str);
-      // console.log(res, 'fetchCpuUsagefetchCpuUsagefetchCpuUsagefetchCpuUsage');
       if (res) setCpuLoad(res.toFixed(1));
     };
     fetchCpuUsage();
     // fetch memory usage of nodes on cluster
     const fetchMemoryUsage = async () => {
       const res = await clusterMetric.memoryLoad(clusterId, k8Str);
-      // console.log(
-      //   res,
-      //   'fetchMemoryUsagefetchMemoryUsagefetchMemoryUsagefetchMemoryUsage'
-      // );
       if (res) setMemoryLoad(Number((res / 1000000).toFixed(1)));
     };
     fetchMemoryUsage();
@@ -186,16 +202,7 @@ export const useFetchMetrics = ({ clusterId, k8Str }: useFetchMetricsProps) => {
     };
     fetchServices();
   }, [clusterId, k8Str]);
-  // console.log(
-  //   allNodes,
-  //   cpuLoad,
-  //   memoryLoad,
-  //   totalDeployments,
-  //   totalPods,
-  //   allNamespaces,
-  //   allServices,
-  //   'CLUSTER METRICSSSSSSSSSSSSSSSSSSSS'
-  // );
+
   // only dispatch to storeClusterQueryData if all metrics are confirmed fetched
   useEffect(() => {
     if (

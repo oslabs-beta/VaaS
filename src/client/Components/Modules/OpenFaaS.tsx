@@ -25,7 +25,7 @@ const OpenFaaS = (props: Modules) => {
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
   // const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
   const { state }: any = useLocation();
-  const [id] = useState(props.id || state[0]);
+  const [id] = useState(props.id || state[0]?._id);
   // const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
   // const openFaaSDeployed = OFReducer.clusterOpenFaaSData[id].deployedFunctions || null;
   const deployedFunctions = OFReducer.deployedFunctions || [];

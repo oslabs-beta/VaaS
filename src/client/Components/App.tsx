@@ -7,6 +7,7 @@ import Admin from './Admin/Admin';
 import Module from './Cards/Module';
 import PrivateRoute from '../Components/Login/PrivateRoute';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/module" element={<Module />} />
         </Route>
       </Routes>
+      <ReactQueryDevtools initialIsOpen={true} />
     </QueryClientProvider>
   );
 };

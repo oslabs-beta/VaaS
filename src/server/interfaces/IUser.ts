@@ -8,5 +8,6 @@ export interface IUser extends Document {
   password: string;
   darkMode: boolean;
   refreshRate: number;
-  cookieId: { type: string; unique: true };
+  // made optional so cookieId can be deleted from user object to be returned to the client when fetching user(s)
+  cookieId?: { type: string; unique: true };
 }

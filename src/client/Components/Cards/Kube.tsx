@@ -21,23 +21,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
 
 import './styles.css';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  alertClasses,
-  Box,
-  CssBaseline,
-  Divider,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from '@mui/material';
+import { Box, CssBaseline, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useFetchMetrics } from '../../Queries';
 
@@ -60,14 +44,6 @@ const Kube = (props: ClusterTypes) => {
   const [dbData] = useState(
     apiReducer.clusterDbData.find((element) => element._id === props._id)
   );
-  console.log('This is a rerender', props._id);
-  // console.log(`THIS IS dbData from ${props._id}`, dbData);
-  // console logging clusterQueryData in store to be sure cluster metrics was dispatched after all metrics were fetched
-  // console.log(
-  //   apiReducer.clusterQueryData,
-  //   'apiReducer.clusterQueryDataapiReducer.clusterQueryDataapiReducer.clusterQueryDataapiReducer.clusterQueryData'
-  // );
-
   // declare useFetchMetrics custom hook props
   const fetchProps: useFetchMetricsProps = {
     clusterId: props?._id,
@@ -83,42 +59,6 @@ const Kube = (props: ClusterTypes) => {
     allNamespaces,
     allServices,
   } = useFetchMetrics(fetchProps);
-  const clusterCSS = {
-    position: 'absolute' as const,
-    top: '20%',
-    left: '50%',
-    transform: 'translate(-50%, -20%)',
-    bgcolor: '#181A1D', //#2704FF
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  };
-  // console all cluster metrics returned from custom hook
-  // console.log(
-  //   {
-  //     allNodes,
-  //     cpuLoad,
-  //     memoryLoad,
-  //     totalDeployments,
-  //     totalPods,
-  //     allNamespaces,
-  //     allServices,
-  //   },
-  //   'datadatadatadatadatadatadatadatadatadata'
-  // );
-
-  // dispatching in here causes incessant rendering (moved to custome hook - to run ONLY after all the metrics of the cluster have been fetched)
-  // dispatch(
-  //   storeClusterQueryData(props._id, {
-  //     allNodes,
-  //     cpuLoad,
-  //     memoryLoad,
-  //     totalDeployments,
-  //     totalPods,
-  //     allNamespaces,
-  //     allServices,
-  //   })
-  // );
 
   useEffect(() => {
     dispatch(
@@ -267,7 +207,9 @@ const Kube = (props: ClusterTypes) => {
             fullWidth={true}
             startIcon={<InsightsIcon />}
             onClick={() =>
-              navigate('/module', { state: [dbData?._id, 'charts', true] })
+              navigate('/module', {
+                state: [dbData, 'charts', true],
+              })
             }
           >
             Graphs
@@ -278,7 +220,9 @@ const Kube = (props: ClusterTypes) => {
             fullWidth={true}
             startIcon={<ViewInArIcon />}
             onClick={() =>
-              navigate('/module', { state: [dbData?._id, 'visualizer', true] })
+              navigate('/module', {
+                state: [dbData, 'visualizer', true],
+              })
             }
           >
             Cluster Map
@@ -289,7 +233,7 @@ const Kube = (props: ClusterTypes) => {
             fullWidth={true}
             startIcon={<QueryStatsIcon />}
             onClick={() =>
-              navigate('/module', { state: [dbData?._id, 'custom', true] })
+              navigate('/module', { state: [dbData, 'custom', true] })
             }
           >
             Queries
@@ -300,7 +244,7 @@ const Kube = (props: ClusterTypes) => {
             fullWidth={true}
             startIcon={<AddAlertIcon />}
             onClick={() =>
-              navigate('/module', { state: [dbData?._id, 'alert', true] })
+              navigate('/module', { state: [dbData, 'alert', true] })
             }
           >
             Alerts
@@ -325,7 +269,7 @@ const Kube = (props: ClusterTypes) => {
             fullWidth={true}
             startIcon={<FunctionsIcon />}
             onClick={() =>
-              navigate('/module', { state: [dbData?._id, 'faas', true] })
+              navigate('/module', { state: [dbData, 'faas', true] })
             }
           >
             OpenFaaS
@@ -337,7 +281,7 @@ const Kube = (props: ClusterTypes) => {
             startIcon={<AttachMoneyIcon />}
             onClick={() =>
               navigate('/module', {
-                state: [dbData?._id, 'functionCost', true],
+                state: [dbData, 'functionCost', true],
               })
             }
           >
@@ -488,7 +432,12 @@ const Kube = (props: ClusterTypes) => {
         sx={{ border: 'none' }}
       >
         <Box className="Settings-Modal-Container" sx={{ border: 'none' }}>
-          <ClusterSettings id={dbData?._id} name={dbData?.name} />
+          <ClusterSettings
+            refetch={props?.refetch}
+            id={dbData?._id}
+            name={dbData?.name}
+            handleModal={handleSettingsModal}
+          />
           <Button
             id="closeButton"
             onClick={() => {

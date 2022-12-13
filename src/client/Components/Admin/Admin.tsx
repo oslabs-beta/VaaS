@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { Get, Post, Put, Delete } from '../../Services/index';
-import { apiRoute } from '../../utils';
-import NavBar from '../Home/NavBar';
-import UserWelcome from '../Admin/UserWelcome';
-import { ClusterTypes } from '../../Interfaces/ICluster';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { AddClusterType } from '../../Interfaces/ICluster';
+import { Box, Button, Container, TextField } from '@mui/material';
+import { Tab, Tabs, Typography } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { IReducers } from '../../Interfaces/IReducers';
 import { setDarkMode } from '../../Store/actions';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
+import {
+  addCluster,
+  fetchUser,
+  editUser,
+  deleteUser,
+  changeDarkMode,
+  changeRefreshRate,
+} from '../../Queries';
 import './styles.css';
 
 type Admin = {
@@ -43,37 +39,98 @@ const Admin = () => {
   const [currUser, setCurrUser] = useState<Admin | unknown>({});
   const darkMode = uiReducer.clusterUIState.darkmode;
   const [refreshRate, setRefreshRate] = useState(0);
+  // mui tabs uses this to change tabs
+  const [value, setValue] = React.useState(0);
   const navigate = useNavigate();
-  const [containerStyle] = useState({
+  // fetch Query
+  const { data: userData, refetch } = useQuery({
+    queryKey: ['user'],
+    queryFn: fetchUser,
+  });
+  useEffect(() => {
+    setCurrUser(userData);
+    dispatch(setDarkMode(userData?.darkMode));
+    setRefreshRate(userData?.refreshRate / 1000);
+  }, [dispatch, userData]);
+  // mutations
+  const mutation = useMutation((data: AddClusterType) => addCluster(data), {
+    onSuccess: (response) => {
+      response.success
+        ? setAddClusterMessage('Successfully added cluster')
+        : setAddClusterMessage(response.message);
+    },
+  });
+  const userMutation = useMutation(
+    (data: {
+      username: string;
+      firstName: string;
+      lastName: string;
+      darkMode: boolean;
+    }) => editUser(data),
+    {
+      onSuccess: (response) => {
+        response.success
+          ? setUpdateUserErr('Account information successfully updated')
+          : setUpdateUserErr('Your account details could not be updated');
+      },
+    }
+  );
+  const userDeleteMutation = useMutation(
+    (body: { username: string; password: string }) => deleteUser(body),
+    {
+      onSuccess: (response) => {
+        response.deleted
+          ? navigate('/')
+          : setDeletePasswordErr('Incorrect password');
+      },
+    }
+  );
+  const darkModeMutation = useMutation(
+    (data: { darkMode: boolean }) => changeDarkMode(data),
+    {
+      onSuccess: (response) => {
+        response.success
+          ? dispatch(setDarkMode(!darkMode))
+          : console.log('Dark mode could not be enabled');
+      },
+    }
+  );
+  const refreshRateMutation = useMutation(
+    (data: { refreshRate: number }) => changeRefreshRate(data),
+    {
+      onSuccess: (response) => {
+        console.log(response, 'responseresponseresponseresponseresponse');
+        if (response.success) {
+          refetch();
+          setUpdateRefreshRateMessage(
+            `Refresh rate successfully set to ${
+              userData.refreshRate / 1000
+            } seconds`
+          );
+        } else setUpdateRefreshRateMessage('Refresh rate could not be updated');
+      },
+    }
+  );
+  //styles
+  const containerStyle = {
     width: '350px',
     marginTop: '-10px',
-  });
-  const [textFieldStyle] = useState({
+  };
+  const textFieldStyle = {
     background: '#FFFFFF',
     borderRadius: '5px',
     marginBottom: '0px',
     width: '100%',
     fontSize: '10px',
-  });
-  const [buttonStyle] = useState({
+  };
+  const buttonStyle = {
     background: '#3a4a5b',
     borderRadius: '5px',
     marginBottom: '0px',
     width: '100%',
     fontSize: '10px',
-  });
-
-  useEffect(() => {
-    const getUserInfo = async () => {
-      // This user can be used globally once the fetch is complete, it's an object with all relevant user details
-      const user = await Get(apiRoute.getRoute(`user`));
-      setCurrUser(user);
-      dispatch(setDarkMode(user.darkMode));
-      setRefreshRate(user.refreshRate / 1000);
-    };
-    getUserInfo();
-  }, [darkMode, refreshRate]);
-
+  };
+  // handler functions
   const handleAddCluster = async (): Promise<void> => {
     try {
       const body = {
@@ -92,13 +149,24 @@ const Admin = () => {
         description: (
           document.getElementById('cluster-description') as HTMLInputElement
         ).value,
+        faas_url: (document.getElementById('openfaas-url') as HTMLInputElement)
+          .value,
+        grafana_url: (
+          document.getElementById('grafana-url') as HTMLInputElement
+        ).value,
+        kubeview_url: (
+          document.getElementById('kubeview-url') as HTMLInputElement
+        ).value,
       };
       if (
         !body.url ||
         !body.k8_port ||
         !body.faas_port ||
         !body.name ||
-        !body.description
+        !body.description ||
+        !body.faas_url ||
+        !body.grafana_url ||
+        !body.kubeview_url
       ) {
         setAddClusterMessage('Missing input fields');
         return;
@@ -107,12 +175,7 @@ const Admin = () => {
         setAddClusterMessage('Port(s) must be numbers');
         return;
       }
-      const res = await Get(apiRoute.getRoute(`cluster:${body.name}`));
-      console.log(res);
-      if (res.message) {
-        await Post(apiRoute.getRoute('cluster'), body);
-        setAddClusterMessage('Successfully added cluster');
-      } else setAddClusterMessage('Cluster with name already exists');
+      mutation.mutate(body);
     } catch (err) {
       console.log('Add cluster failed', err);
     }
@@ -135,20 +198,11 @@ const Admin = () => {
         setUpdateUserErr('No inputs in input fields');
         return;
       }
-      const user = await Get(apiRoute.getRoute(`user`));
-      if (!body.username) body.username = user.username;
-      if (!body.firstName) body.firstName = user.firstName;
-      if (!body.lastName) body.lastName = user.lastName;
+      if (!body.username) body.username = userData.username;
+      if (!body.firstName) body.firstName = userData.firstName;
+      if (!body.lastName) body.lastName = userData.lastName;
 
-      const updateStatus = await Put(apiRoute.getRoute('user'), body).catch(
-        (err) => console.log(err)
-      );
-
-      if (updateStatus.success) {
-        setUpdateUserErr('Account information successfully updated');
-      } else {
-        setUpdateUserErr('Your account details could not be updated');
-      }
+      userMutation.mutate(body);
     } catch (err) {
       console.log('Update request to server failed', err);
     }
@@ -162,43 +216,18 @@ const Admin = () => {
           document.getElementById('delete-password-input') as HTMLInputElement
         ).value,
       };
-      const deleteStatus = await Delete(apiRoute.getRoute('user'), userBody);
-
-      const clusters = await Get(apiRoute.getRoute('cluster'));
-
-      clusters.forEach(async (cluster: ClusterTypes) => {
-        const clusterBody = {
-          clusterId: cluster._id,
-          favorite: false,
-        };
-        await Put(apiRoute.getRoute('cluster'), clusterBody);
-      });
-
-      if (deleteStatus.deleted) {
-        navigate('/');
-      } else {
-        console.log('Account could not be deleted - ');
-        setDeletePasswordErr('Incorrect password');
-      }
+      userDeleteMutation.mutate(userBody);
     } catch (err) {
       console.log('Delete request to server failed', err);
     }
   };
 
   const handleDarkMode = async (): Promise<void> => {
-    console.log('CLICKED');
     try {
       const body = {
         darkMode: !darkMode,
       };
-
-      const updateStatus = await Put(apiRoute.getRoute('user'), body);
-      if (updateStatus.success) {
-        dispatch(setDarkMode(!darkMode));
-        console.log('Dark mode enabled');
-      } else {
-        console.log('Dark mode could not be enabled');
-      }
+      darkModeMutation.mutate(body);
     } catch (err) {
       console.log('Update request to server failed', err);
     }
@@ -213,16 +242,7 @@ const Admin = () => {
               .value
           ) * 1000,
       };
-      const updateStatus = await Put(apiRoute.getRoute('user'), body);
-      if (updateStatus.success) {
-        console.log(body.refreshRate);
-        setRefreshRate(body.refreshRate / 1000);
-        setUpdateRefreshRateMessage(
-          `Refresh rate successfully set to ${body.refreshRate / 1000} seconds`
-        );
-      } else {
-        setUpdateRefreshRateMessage('Refresh rate could not be updated');
-      }
+      refreshRateMutation.mutate(body);
     } catch (err) {
       console.log('Update request to server failed', err);
     }
@@ -251,8 +271,6 @@ const Admin = () => {
   ): void => {
     if (e.key === 'Enter') handleRefreshRate();
   };
-
-  const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -292,7 +310,6 @@ const Admin = () => {
 
   return (
     <div id="HomeContainer">
-      {/* <NavBar /> */}
       <Container
         className={'Admin-Modal-Container'}
         sx={{
@@ -347,45 +364,41 @@ const Admin = () => {
           </Box>
           <TabPanel value={value} index={0}>
             <Container sx={containerStyle}>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownUpdate}
-                  autoComplete="current-password"
-                  id="update-username-input"
-                  type="username"
-                  label="Username"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownUpdate}
-                  autoComplete="current-password"
-                  id="update-firstName-input"
-                  type="firstName"
-                  label="First Name"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownUpdate}
-                  autoComplete="current-password"
-                  id="update-lastName-input"
-                  type="userName"
-                  label="Last Name"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
+              <TextField
+                onKeyDown={handleEnterKeyDownUpdate}
+                autoComplete="current-password"
+                id="update-username-input"
+                type="username"
+                label="Username"
+                variant="filled"
+                size="small"
+                margin="dense"
+                sx={textFieldStyle}
+              />
+
+              <TextField
+                onKeyDown={handleEnterKeyDownUpdate}
+                autoComplete="current-password"
+                id="update-firstName-input"
+                type="firstName"
+                label="First Name"
+                variant="filled"
+                size="small"
+                margin="dense"
+                sx={textFieldStyle}
+              />
+
+              <TextField
+                onKeyDown={handleEnterKeyDownUpdate}
+                autoComplete="current-password"
+                id="update-lastName-input"
+                type="userName"
+                label="Last Name"
+                variant="filled"
+                size="small"
+                margin="dense"
+                sx={textFieldStyle}
+              />
               <div>
                 <Button
                   variant="contained"
@@ -398,18 +411,17 @@ const Admin = () => {
                 </Button>
                 <span id="update-user-err">{updateUserErr}</span>
               </div>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownDelete}
-                  id="delete-password-input"
-                  type="password"
-                  label="Enter Password to Confirm Deletion"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
+
+              <TextField
+                onKeyDown={handleEnterKeyDownDelete}
+                id="delete-password-input"
+                type="password"
+                label="Enter Password to Confirm Deletion"
+                variant="filled"
+                size="small"
+                margin="dense"
+                sx={textFieldStyle}
+              />
               <div>
                 <Button
                   id="delete-password-input"
@@ -428,87 +440,105 @@ const Admin = () => {
           <TabPanel value={value} index={1}>
             <Container sx={containerStyle}>
               <TextField
-                onKeyDown={handleEnterKeyDownAddCluster}
                 id="cluster-url"
                 type="text"
                 label="Cluster URL"
                 variant="filled"
                 size="small"
                 margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
                 sx={textFieldStyle}
               />
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownAddCluster}
-                  id="k8_port"
-                  type="text"
-                  label="Kubernetes Port"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownAddCluster}
-                  id="faas_port"
-                  type="text"
-                  label="FaaS Port"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownAddCluster}
-                  id="faas_username"
-                  type="username"
-                  label="FaaS Username"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownAddCluster}
-                  id="faas_password"
-                  type="password"
-                  label="FaaS Password"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownAddCluster}
-                  id="cluster-name"
-                  type="text"
-                  label="Cluster Name"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
-              <div>
-                <TextField
-                  onKeyDown={handleEnterKeyDownAddCluster}
-                  id="cluster-description"
-                  type="text"
-                  label="Cluster Description"
-                  variant="filled"
-                  size="small"
-                  margin="dense"
-                  sx={textFieldStyle}
-                />
-              </div>
+              <TextField
+                id="k8_port"
+                type="text"
+                label="Kubernetes Port"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
+              <TextField
+                id="faas_port"
+                type="text"
+                label="FaaS Port"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
+              <TextField
+                id="faas_username"
+                type="username"
+                label="FaaS Username"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
+              <TextField
+                id="faas_password"
+                type="password"
+                label="FaaS Password"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
+              <TextField
+                id="cluster-name"
+                type="text"
+                label="Cluster Name"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
+              <TextField
+                id="cluster-description"
+                type="text"
+                label="Cluster Description"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
+              <TextField
+                id="openfaas-url"
+                type="text"
+                label="FaaS URL"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
+              <TextField
+                id="grafana-url"
+                type="text"
+                label="Grafana URL"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
+              <TextField
+                id="kubeview-url"
+                type="text"
+                label="Kubeview URL"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={textFieldStyle}
+              />
               <div>
                 <Button
                   variant="contained"
