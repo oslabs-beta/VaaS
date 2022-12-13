@@ -83,6 +83,7 @@ const Login = () => {
             paddingTop: '0',
             letterSpacing: '0.3rem',
             color: '#fff',
+            cursor: 'default',
           }}
         >
           VaaS

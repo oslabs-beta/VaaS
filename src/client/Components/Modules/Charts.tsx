@@ -16,6 +16,7 @@ const Charts = (props: Modules) => {
   const [category, setCategory] = useState('');
   const [dashboardObj, setDashboardObj] = useState({});
   const [dashboard, setDashboard] = useState('');
+  console.log(state);
   // const handleOpen = (e: any) => {
   //   setOpen(true);
   //   setCategory(e.target.getAttribute('data-value'));
@@ -316,7 +317,7 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              src={`http://${state[1]}/d/${dashboard}/?&kiosk=tv`}
+              src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
               // src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
               height="800px"
               width="1300px"
