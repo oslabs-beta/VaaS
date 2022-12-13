@@ -1,8 +1,9 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Modules } from '../../Interfaces/ICluster';
+import { IReducers } from '../../Interfaces/IReducers';
 import openFaasMetric from '../../Queries/OpenFaaS';
 import { useAppSelector } from '../../Store/hooks';
-import { IReducers } from '../../Interfaces/IReducers';
+import { functionCost } from '../../utils';
 import {
   Container,
   TextField,
@@ -11,8 +12,7 @@ import {
   FormControl,
   NativeSelect,
 } from '@mui/material';
-import { functionCost } from '../../utils';
-import { setDefaultResultOrder } from 'dns/promises';
+
 
 const FunctionCost = (props: Modules) => {
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
@@ -159,13 +159,10 @@ const FunctionCost = (props: Modules) => {
       }
       case 'azure': {
         if (invokeAmount > functionCost.azureFreeRequests) {
-          // console.log('AZURE BILLIBLE: ', invokeAmount - functionCost.azureFreeRequests)
           const requestTimesTime =
             (invokeAmount - functionCost.azureFreeRequests) *
             (invokeTime / 1000);
-          // console.log('REQUEST TIMES TIME FOR AZURE: ', requestTimesTime)
           const computeInsec = Math.max(requestTimesTime, 0);
-          // console.log(computeInsec);
           console.log('Azure:', computeInsec);
 
           const totalComputeGBSeconds = computeInsec * (memory / 1024);
@@ -173,24 +170,17 @@ const FunctionCost = (props: Modules) => {
             totalComputeGBSeconds - functionCost.azureFreeTier,
             0
           );
-          // console.log('total seconds:', totalComputeGBSeconds);
           const bill = billableCompute * functionCost.azureChargeGBSecond;
-          // console.log('BILL WITH SECONDS IS', bill)
-          // console.log('functionCost', functionCost.lambdaRequestCharge)
           const requestCharge: number =
             (invokeAmount - functionCost.azureFreeRequests) *
             (functionCost.azureRequestCharge / 1000000);
-          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
-          // console.log('REQ CHARGE TOT:' , requestCharge)
-          console.log('*************');
           const totalCost: string = (requestCharge + bill).toFixed(2);
           const result = {
             requestCharge: requestCharge,
             computeCost: bill,
             total: totalCost,
           };
-          // console.log(totalCost);
-          // console.log('****************');
+
           switch (resultType) {
             case 'reqCharge': {
               return result.requestCharge.toFixed(2);
@@ -224,32 +214,29 @@ const FunctionCost = (props: Modules) => {
           } else {
             const totalComputeGHzSeconds =
               totalComputeGBSeconds * (googCPU / 1000);
-            // console.log('CPU SECS', totalComputeGHzSeconds)
+
             const billableCPU = Math.max(
               totalComputeGHzSeconds - functionCost.googleGHzSecondFreeTier,
               0
             );
-            // console.log('BILLABLE CPU', billableCPU)
+
             bill =
               billableCompute * functionCost.googleChargeGBSecond +
               billableCPU * functionCost.googleChargeGHzSecond;
-            // console.log(`old cost without CPU: ${billableCompute * functionCost.googleChargeGBSecond}, newCost = ${bill}`)
+
           }
-          // console.log(` BILL IS : ${billableCompute} + ${functionCost.googleChargeGBSecond} = ${bill}`);
-          // console.log('functionCost', functionCost.lambdaRequestCharge)
+
           const requestCharge: number =
             (invokeAmount - functionCost.googleFreeRequests) *
             (functionCost.googleRequestCharge / 1000000);
-          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
-          // console.log('REQ CHARGE TOT:' , requestCharge)
+
           const totalCost: string = (requestCharge + bill).toFixed(2);
           const result = {
             requestCharge: requestCharge,
             computeCost: bill,
             total: totalCost,
           };
-          // console.log(totalCost);
-          // console.log('****************');
+
           switch (resultType) {
             case 'reqCharge': {
               return result.requestCharge.toFixed(2);
@@ -269,17 +256,16 @@ const FunctionCost = (props: Modules) => {
           const requestTimesTime =
             (invokeAmount - functionCost.ibmFreeRequests) * (invokeTime / 1000);
           const computeInsec = Math.max(requestTimesTime, 0);
-          // console.log(computeInsec);
+
           const totalComputeGBSeconds = computeInsec * (memory / 1024);
-          // console.log('total seconds:', totalComputeGBSeconds);
+
           const billableCompute = Math.max(
             totalComputeGBSeconds - functionCost.ibmFreeTier,
             0
           );
 
           const bill = billableCompute * functionCost.ibmChargeGBSecond;
-          // console.log('BILL WITH SECONDS IS', bill)
-          // console.log('functionCost', functionCost.lambdaRequestCharge)
+
           console.log(
             'invoke amount:',
             invokeAmount,
@@ -291,8 +277,7 @@ const FunctionCost = (props: Modules) => {
           const requestCharge: number =
             (invokeAmount - functionCost.ibmFreeRequests) *
             (functionCost.ibmRequestCharge / 1000000);
-          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
-          // console.log('REQ CHARGE TOT:' , requestCharge)
+
           const totalCost: string = (requestCharge + bill).toFixed(2);
           console.log('ibm requestCharge:', requestCharge);
           const result = {
@@ -333,7 +318,6 @@ const FunctionCost = (props: Modules) => {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          //gap: '1.5rem',
           marginLeft: '-1rem',
           marginTop: '8px',
           alignItems: 'center',
@@ -427,12 +411,6 @@ const FunctionCost = (props: Modules) => {
             marginBottom: '0px',
           }}
         >
-          {/* <div>THIS IS SELECTED {selectedDeployedFunction}</div> */}
-          {/* {
-            data.value &&
-            <div>THIS IS THE VALUE { data. value}</div>
-          }
-           */}
           {retrived && (
             <div>
               <div>{data.value} </div>

@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { Types } from 'mongoose';
 import { User } from '../../models';
 import { IError } from '../../interfaces/IError';
-import bcrypt from 'bcrypt';
 import { terminal } from '../../services/terminal';
+import bcrypt from 'bcrypt';
 
 export default async (
   req: Request,

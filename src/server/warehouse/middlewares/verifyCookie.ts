@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import User from '../../models/user';
-import { IError } from '../../interfaces';
-// import { IUser } from '../../interfaces/IUser';
 import { decodeSession, checkExpStatus, editSession } from '../../services/jwt';
 import { terminal } from '../../services/terminal';
+import User from '../../models/user';
+import { IError } from '../../interfaces';
 
 export default async (
   req: Request,

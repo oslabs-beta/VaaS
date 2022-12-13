@@ -3,10 +3,7 @@ import alertAdd from '../../Queries/Alert';
 import { Container, TextField, Button } from '@mui/material';
 import { Modules } from '../../Interfaces/ICluster';
 import path from 'path';
-// import fs from 'fs';
-import * as fs from 'fs';
 import loadable from '@loadable/component';
-// import ReactJson from "react-json-view";
 
 import yaml from 'js-yaml';
 

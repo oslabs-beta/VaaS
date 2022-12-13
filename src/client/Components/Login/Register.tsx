@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { apiRoute } from '../../utils';
-import { Post } from '../../Services/index';
 import { Container, Button, TextField, Typography } from '@mui/material';
 import { registerUser } from '../../Queries';
 import { LoadingButton } from '@mui/lab';
@@ -21,7 +19,6 @@ const Register = () => {
     !fields.lastName ||
     !fields.username ||
     !fields.password;
-
   const handleSignUp = async (): Promise<void> => {
     setLoading(true);
     try {
@@ -33,7 +30,6 @@ const Register = () => {
       setLoading(false);
     }
   };
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -43,7 +39,6 @@ const Register = () => {
     } = e;
     setFields({ ...fields, [name]: value });
   };
-
   // when click on enter key, invoke signup func
   const handleEnterKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>

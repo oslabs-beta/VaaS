@@ -4,7 +4,6 @@ import { loginUser, checkAuth } from '../../Queries';
 import { FcGoogle } from 'react-icons/fc';
 import { BsGithub } from 'react-icons/bs';
 import {
-  Container,
   Box,
   Button,
   TextField,
@@ -20,7 +19,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const disabled = !fields.username || !fields.password;
-
+  // We don't want users who have a cookie to go through the login process -> check for their cookie and if they have a valid one, let them in
   useEffect(() => {
     const authorize = async () => {
       const authorized = await checkAuth();
@@ -28,7 +27,7 @@ const Login = () => {
     };
     authorize();
   }, []);
-
+  // Handler Functions
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -38,7 +37,6 @@ const Login = () => {
     } = e;
     setFields({ ...fields, [name]: value });
   };
-
   const handleLogin = async (): Promise<void> => {
     setLoading(true);
     try {

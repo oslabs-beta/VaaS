@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, Modal } from '@mui/material';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import { logOutUser } from '../../Queries';
 import Admin from '../Admin/Admin';
+import { Avatar, Modal, Menu, MenuItem, IconButton, Tooltip } from '@mui/material';
 
 export default function NavBar() {
   const navigate = useNavigate();
   const [adminModal, handleAdminModal] = useState(false);
-
   const handleLogOut = async (): Promise<void> => {
     const res = await logOutUser();
     if (!res.data.valid) navigate('/');
   };
-
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

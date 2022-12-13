@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { Modules } from '../../Interfaces/ICluster';
 import { setRender } from '../../Store/actions';
+import { Modules } from '../../Interfaces/ICluster';
 import { IReducers } from '../../Interfaces/IReducers';
+import { deleteCluster, editCluster } from '../../Queries';
 import { Container } from '@mui/system';
 import { Box, TextField, Card, Button } from '@mui/material';
-import { deleteCluster, editCluster } from '../../Queries';
 
 const ClusterSettings = (props: Modules) => {
+  // Use reducers to pull in things from global state
   const clusterReducer = useAppSelector(
     (state: IReducers) => state.clusterReducer
   );
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [dbData] = useState(
-    apiReducer.clusterDbData.find((element) => element._id === props.id)
-  );
+  const dbData = apiReducer.clusterDbData.find((element) => element._id === props.id)
 
   const [clusterData, setClusterData] = useState({
     url: dbData?.url,
@@ -119,10 +118,6 @@ const ClusterSettings = (props: Modules) => {
     } catch (err) {
       console.log('Update cluster error:', err);
     }
-  };
-
-  const alertrules = async () => {
-    console.log('this function works for alert rules');
   };
 
   const handleEnterKeyDown = (

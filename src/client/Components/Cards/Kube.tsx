@@ -1,49 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { ClusterTypes, useFetchMetricsProps } from '../../Interfaces/ICluster';
-import { Put } from '../../Services';
-import { apiRoute } from '../../utils';
-import Module from './Module';
+import { useNavigate } from 'react-router-dom';
+import GaugeChart from 'react-gauge-chart';
+import { ClusterTypes, useFetchMetricsProps } from '../../Interfaces';
+import { IReducers } from '../../Interfaces/IReducers';
 import ClusterSettings from '../Modules/ClusterSettings';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { setFavRender, setUI } from '../../Store/actions';
-import { IReducers } from '../../Interfaces/IReducers';
-import Container from '@mui/system/Container';
-import Button from '@mui/material/Button';
-import InsightsIcon from '@mui/icons-material/Insights';
-import AddAlertIcon from '@mui/icons-material/AddAlert';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import FunctionsIcon from '@mui/icons-material/Functions';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import SettingsIcon from '@mui/icons-material/Settings';
-import GaugeChart from 'react-gauge-chart';
-import Tooltip from '@mui/material/Tooltip';
-import Modal from '@mui/material/Modal';
-
-import './styles.css';
-import { Box, CssBaseline, Divider } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { setUI } from '../../Store/actions';
 import { useFetchMetrics } from '../../Queries';
+import { Button, Tooltip, Modal, Box, CssBaseline, Divider } from '@mui/material';
+import { Insights, AddAlert, ViewInAr, QueryStats, Functions, AttachMoney, Settings } from '@mui/icons-material';
+import './styles.css';
 
+// Dashboard for each cluster which is rendered onto the home page
 const Kube = (props: ClusterTypes) => {
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [settingsModal, handleSettingsModal] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const clusterReducer = useAppSelector(
-    (state: IReducers) => state.clusterReducer
-  );
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
-  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
-  // need to convert below to redux?
-  const [module, setModule] = useState(true);
-  const [settings, setSettings] = useState(false);
 
-  const drawerWidth = 240;
   // accessing redux state clusterDbData to find data of the specfic cluster by _id
-  const [dbData] = useState(
-    apiReducer.clusterDbData.find((element) => element._id === props._id)
-  );
+  const dbData = apiReducer.clusterDbData.find((element) => element._id === props._id);
+  
   // declare useFetchMetrics custom hook props
   const fetchProps: useFetchMetricsProps = {
     clusterId: props?._id,
@@ -81,71 +58,6 @@ const Kube = (props: ClusterTypes) => {
     );
   }, []);
 
-  const handleFavorite = async () => {
-    try {
-      const body = {
-        clusterId: props._id,
-        favorite: !props.favoriteStatus,
-      };
-      await Put(apiRoute.getRoute('cluster'), body, {
-        authorization: localStorage.getItem('token'),
-      });
-      dispatch(setFavRender(!clusterReducer.favRender));
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleSettings = async () => {
-    try {
-      console.log(uiReducer);
-      setModule(!module);
-      setSettings(!settings);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const icons = [
-    AddAlertIcon,
-    InsightsIcon,
-    ViewInArIcon,
-    QueryStatsIcon,
-    FunctionsIcon,
-    AttachMoneyIcon,
-    SettingsIcon,
-  ];
-  // const drawerMobile = (
-  //   <Container className="Drawer-Container">
-  //     <Toolbar />
-  //     <Divider />
-  //     <List>
-  //       {['Alerts', 'Charts', 'Cluster Map', 'Queries', 'OpenFaaS', 'Cost'].map(
-  //         (text, index) => (
-  //           <ListItem key={text} disablePadding>
-  //             <ListItemButton>
-  //               <ListItemIcon></ListItemIcon>
-  //               <ListItemText primary={text} />
-  //             </ListItemButton>
-  //           </ListItem>
-  //         )
-  //       )}
-  //     </List>
-  //     <Divider />
-  //     <List>
-  //       <ListItem key="UpdateCluster" disablePadding>
-  //         <ListItemButton onClick={handleSettings}>
-  //           <ListItemIcon>{/* place icon here */}</ListItemIcon>
-  //           <ListItemText primary="Update Cluster" />
-  //         </ListItemButton>
-  //       </ListItem>
-  //     </List>
-  //   </Container>
-  // );
-
-  // const drawer =
-
-  // const container = document.querySelector('#Kube-container');
 
   return (
     <Box
@@ -205,7 +117,7 @@ const Kube = (props: ClusterTypes) => {
             className="Cluster-Buttons"
             id="Graphs-Button"
             fullWidth={true}
-            startIcon={<InsightsIcon />}
+            startIcon={<Insights />}
             onClick={() =>
               navigate('/module', {
                 state: [dbData, 'charts', true],
@@ -218,7 +130,7 @@ const Kube = (props: ClusterTypes) => {
             className="Cluster-Buttons"
             id="Cluster-Map-Button"
             fullWidth={true}
-            startIcon={<ViewInArIcon />}
+            startIcon={<ViewInAr />}
             onClick={() =>
               navigate('/module', {
                 state: [dbData, 'visualizer', true],
@@ -231,7 +143,7 @@ const Kube = (props: ClusterTypes) => {
             className="Cluster-Buttons"
             id="Queries-Button"
             fullWidth={true}
-            startIcon={<QueryStatsIcon />}
+            startIcon={<QueryStats />}
             onClick={() =>
               navigate('/module', { state: [dbData, 'custom', true] })
             }
@@ -242,7 +154,7 @@ const Kube = (props: ClusterTypes) => {
             className="Cluster-Buttons"
             id="Alerts-Button"
             fullWidth={true}
-            startIcon={<AddAlertIcon />}
+            startIcon={<AddAlert />}
             onClick={() =>
               navigate('/module', { state: [dbData, 'alert', true] })
             }
@@ -267,7 +179,7 @@ const Kube = (props: ClusterTypes) => {
             className="Cluster-Buttons"
             id="OpenFaaS-Button"
             fullWidth={true}
-            startIcon={<FunctionsIcon />}
+            startIcon={<Functions />}
             onClick={() =>
               navigate('/module', { state: [dbData, 'faas', true] })
             }
@@ -278,7 +190,7 @@ const Kube = (props: ClusterTypes) => {
             className="Cluster-Buttons"
             id="FaaSCost-Button"
             fullWidth={true}
-            startIcon={<AttachMoneyIcon />}
+            startIcon={<AttachMoney />}
             onClick={() =>
               navigate('/module', {
                 state: [dbData, 'functionCost', true],
@@ -308,8 +220,6 @@ const Kube = (props: ClusterTypes) => {
             minHeight: '60px',
             maxHeight: '60px',
             display: 'flex',
-            // paddingLeft: '10px',
-            // paddingRight: '10px',
             alignItems: 'center',
           }}
         >
@@ -451,102 +361,5 @@ const Kube = (props: ClusterTypes) => {
     </Box>
   );
 };
-
-//         <span className="set-favorite noselect" onClick={handleFavorite}>
-//           ❤️
-//         </span>
-//       )}
-//       {!props.favoriteStatus && (
-//         <span className="set-favorite noselect" onClick={handleFavorite}>
-//           🤍
-//         </span>
-//       )}
-
-//
-//       <Container
-//         id="gauges-container"
-//         sx={{ display: 'flex', justifyContent: 'center' }}
-//       >
-//         <div
-//           className="ov-box"
-//           style={
-//             props.isDark
-//               ? {
-//                   backgroundColor: '#34363b',
-//                   color: '#c0c0c0',
-//                 }
-//               : {
-//                   backgroundColor: '#fafafa',
-//                 }
-//           }
-//         >
-//           <div className="ov-title noselect">
-//             <h3>CPU Usage</h3>
-//           </div>
-//           <div className="ov-content">
-//             <GaugeChart
-//               nrOfLevels={30}
-//               colors={['green', '#FF5F6D']}
-//               arcWidth={0.1}
-//               percent={
-//                 (apiReducer.clusterQueryData[props._id]?.cpuLoad || 0) / 100
-//               }
-//               style={{
-//                 width: '90px',
-//                 height: '2px',
-//               }}
-//               needleColor={props.isDark ? '#c0c0c0' : '#464A4F'}
-//             />
-//           </div>
-//         </div>
-//         <div
-//           className="ov-box"
-//           style={
-//             props.isDark
-//               ? {
-//                   backgroundColor: '#34363b',
-//                   color: '#c0c0c0',
-//                 }
-//               : {
-//                   backgroundColor: '#fafafa',
-//                 }
-//           }
-//         >
-//           <div className="ov-title noselect">
-//             <h3>Memory Usage</h3>
-//           </div>
-//           <div className="ov-content">
-//             <GaugeChart
-//               nrOfLevels={30}
-//               colors={['green', '#FF5F6D']}
-//               arcWidth={0.1}
-//               percent={
-//                 (apiReducer.clusterQueryData[props._id]?.memoryLoad || 0) /
-//                 2048
-//               }
-//               style={{
-//                 width: '90px',
-//                 height: '2px',
-//               }}
-//               needleColor={props.isDark ? '#c0c0c0' : '#464A4F'}
-//             />
-//           </div>
-//           <div className="ov-metric">
-//             <p>
-//               {(apiReducer.clusterQueryData[props._id]?.memoryLoad || 0) +
-//                 ' /2048 MB'}
-//             </p>
-//           </div>
-//         </div>
-//       </Container>
-//     </div>
-//   </Container>
-//   <div id="module">
-//     {/* {module && (
-//       <Module id={dbData?._id} nested={true} isDark={props.isDark} />
-//     )} */}
-//     {settings && <ClusterSettings id={dbData?._id} />}
-//   </div>
-// </Container>
 
 export default Kube;

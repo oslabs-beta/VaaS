@@ -1,25 +1,3 @@
-/* #welcome-banner {
-  margin-left: 0rem;
-  font-size: 15px;
-  color: #ffffff;
-  cursor: default;
-  -webkit-user-select: none; /* Safari */
-/* -ms-user-select: none; /* IE 10 and IE 11 */
-/* user-select: none; /* Standard syntax */
-/* } */
-
-/* #update-user-err {
-  margin-left: 1rem;
-}
-
-#delete-password-err {
-  margin-left: 1rem;
-}
-
-#add-cluster-msg {
-  margin-left: 1rem;
-} */
-
 .Admin-Modal-Container {
   padding: 0px;
   max-height: 60%;
@@ -28,7 +6,6 @@
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* overflow-y: scroll; */
 }
 #close-Button {
   z-index: 1;
