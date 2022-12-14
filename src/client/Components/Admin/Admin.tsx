@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import { AddClusterType } from '../../Interfaces/ICluster';
-import { Box, Button, Container, TextField } from '@mui/material';
-import { Tab, Tabs, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { IReducers } from '../../Interfaces/IReducers';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { setDarkMode } from '../../Store/actions';
 import {
   addCluster,
@@ -15,8 +13,11 @@ import {
   changeDarkMode,
   changeRefreshRate,
 } from '../../Queries';
+import { Box, Button, Container, TextField, Tab, Tabs, Typography } from '@mui/material';
 import './styles.css';
 
+// Define the Admin type, setting types for the properties
+// Associated with Admin accounts
 type Admin = {
   cookieId: string;
   darkMode: boolean;
@@ -28,16 +29,20 @@ type Admin = {
   _id: string;
 };
 
+// Create the Admin component
 const Admin = () => {
+  // Dispatch hook to dispatch actions to the store
   const dispatch = useAppDispatch();
+  // Select the uiReducer from the store
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
-
+  
+  // React hooks to maintain local state
   const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   const [addClusterMessage, setAddClusterMessage] = useState('');
-  const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
   const [currUser, setCurrUser] = useState<Admin | unknown>({});
   const darkMode = uiReducer.clusterUIState.darkmode;
+  const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
   const [refreshRate, setRefreshRate] = useState(0);
   // mui tabs uses this to change tabs
   const [value, setValue] = React.useState(0);
@@ -52,7 +57,8 @@ const Admin = () => {
     dispatch(setDarkMode(userData?.darkMode));
     setRefreshRate(userData?.refreshRate / 1000);
   }, [dispatch, userData]);
-  // mutations
+  
+  // React query mutations used for requests other than get requests, used to get more efficient requests
   const mutation = useMutation((data: AddClusterType) => addCluster(data), {
     onSuccess: (response) => {
       response.success
@@ -65,7 +71,6 @@ const Admin = () => {
       username: string;
       firstName: string;
       lastName: string;
-      darkMode: boolean;
     }) => editUser(data),
     {
       onSuccess: (response) => {
@@ -111,7 +116,7 @@ const Admin = () => {
       },
     }
   );
-  //styles
+  // Styles
   const containerStyle = {
     width: '350px',
     marginTop: '-10px',
@@ -275,6 +280,8 @@ const Admin = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  // Implementing MUI tabs
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;

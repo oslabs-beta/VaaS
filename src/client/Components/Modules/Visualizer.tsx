@@ -7,6 +7,7 @@ import './network.css';
 
 const Visualizer = (props: Modules) => {
   const { state }: any = useLocation();
+  // render kubeView iframe with ip address from state
   return (
     <div className="kubeView">
       <iframe

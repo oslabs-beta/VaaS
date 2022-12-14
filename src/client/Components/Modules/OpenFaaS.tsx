@@ -1,14 +1,12 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Modules } from '../../Interfaces/ICluster';
-import { Delete, Get, Post } from '../../Services';
-import { FunctionTypes } from '../../Interfaces/IFunction';
-import { apiRoute } from '../../utils';
 import { useLocation } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
+import { Modules } from '../../Interfaces/ICluster';
+import { FunctionTypes } from '../../Interfaces/IFunction';
 import { IReducers } from '../../Interfaces/IReducers';
-import { customFuncBody } from '../../utils';
+import { Delete, Get, Post } from '../../Services';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { GET_DeployedOFFunc, DEL_DeployedOFFunc } from '../../Store/actions';
-
+import { apiRoute, customFuncBody } from '../../utils';
 import {
   Container,
   Box,
@@ -70,10 +68,7 @@ const OpenFaaS = (props: Modules) => {
         dispatch(GET_DeployedOFFunc([]));
       } else {
         console.log('funcs is: ', funcs);
-        //  setDeployedFunctions(funcs);
-        // console.log('ID IS: ', id, ' ||', 'deployedFuncs is', deployedFunctions);
         dispatch(GET_DeployedOFFunc(funcs));
-        // setDeployedFunctions(funcs);
         console.log('UPDATED REDUX STATE');
       }
     } catch (error) {
@@ -102,14 +97,6 @@ const OpenFaaS = (props: Modules) => {
     openFaaSFunctions();
     fetchFunctions();
   }, [renderFunctions]);
-
-  // useEffect(() => {
-  //   console.log('INVOKED, regrabbing function data');
-  //   console.log(invokedOutput, 'INVOKED OUTPUT')
-
-  //   fetchFunctions();
-  //   console.log('RAN Fetch func: ', deployedFunctions)
-  // }, [invokedOutput]);
 
   const handleDeployOpenFaaS = async () => {
     try {
@@ -176,11 +163,7 @@ const OpenFaaS = (props: Modules) => {
         authorization: localStorage.getItem('token'),
       });
       if (response.success) {
-        // setDeployedFunctions(
-        //   deployedFunctions.filter(
-        //     (element) => element.name !== body.functionName
-        //   )
-        // );
+
         dispatch(
           DEL_DeployedOFFunc(
             id,

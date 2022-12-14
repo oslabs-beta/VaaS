@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { useAppSelector, useAppDispatch } from '../../Store/hooks';
-import { storeClusterDbData } from '../../Store/actions';
+import { storeClusterDbData, setDarkMode } from '../../Store/actions';
+import { IReducers } from '../../Interfaces/IReducers';
+import { ClusterTypes } from '../../Interfaces/ICluster';
+import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
-import { IReducers } from '../../Interfaces/IReducers';
 import './styles.css';
-import { ClusterTypes } from '../../Interfaces/ICluster';
-import { setDarkMode } from '../../Store/actions';
-import { useNavigate } from 'react-router-dom';
-import { Container } from '@mui/system';
-import { useQuery } from '@tanstack/react-query';
-import { fetchClusters, fetchUser } from '../../Queries';
 
 const Home = () => {
   const dispatch = useAppDispatch();

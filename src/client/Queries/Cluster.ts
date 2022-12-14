@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
+import { AxiosRequestConfig } from 'axios';
 import axiosInstance from './axios';
 import { useFetchMetricsProps } from '../Interfaces/ICluster';
-import { storeClusterQueryData } from '..//Store/actions';
-import { useAppDispatch } from '../Store/hooks';
 import { AddClusterType } from '../Interfaces/ICluster';
-import { AxiosRequestConfig } from 'axios';
+import { storeClusterQueryData } from '../Store/actions';
+import { useAppDispatch } from '../Store/hooks';
 
 export const fetchClusters = async () => {
   const data = await axiosInstance('/cluster');

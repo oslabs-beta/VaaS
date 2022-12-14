@@ -1,13 +1,13 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Login from './Login/Login';
 import Home from './Home/Home';
 import Register from './Login/Register';
 import Admin from './Admin/Admin';
 import Module from './Cards/Module';
 import PrivateRoute from '../Components/Login/PrivateRoute';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
 

@@ -1,41 +1,22 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import { Modules } from '../../Interfaces/ICluster';
-import { Delete, Get, Post } from '../../Services';
-import { apiRoute } from '../../utils';
 import { useLocation } from 'react-router-dom';
-import { Box, Button, FormControl, NativeSelect } from '@mui/material';
-import { useStore, useSelector } from 'react-redux';
-import Modal from '@mui/material/Modal';
+import { Modules } from '../../Interfaces/ICluster';
+import { Box, Button, FormControl, NativeSelect, Modal } from '@mui/material';
 
 const grafanaIP = import.meta.env.VITE_GRAFANA_IP;
 
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();
+  //hooks for opening modals... two modals will be opened to render grafana graphs
   const [open, setOpen] = useState(false);
   const [openSecond, setOpenSecond] = useState(false);
   const [category, setCategory] = useState('');
   const [dashboardObj, setDashboardObj] = useState({});
   const [dashboard, setDashboard] = useState('');
-  console.log(state);
-  // const handleOpen = (e: any) => {
-  //   setOpen(true);
-  //   setCategory(e.target.getAttribute('data-value'));
-  //   setDashboardObj(matchObj[category]);
-  // };
   const handleClose = () => setOpen(false);
   const handleCloseSecond = () => setOpenSecond(false);
-  const inputStyle = {
-    width: '45%',
-    background: 'blue',
-  };
-  // const dropdownStyle = {
-  //   background: 'white',
-  //   borderRadius: '5px',
-  //   padding: '0.5rem',
-  //   marginBottom: '0px',
-  //   width: '100%',
-  //   fontSize: '10px',
-  // };
+
+  //grafana dashboard IDs are hard coded for now, but should be configured to be dynamically fetched via an API call to grafana...
   const computingDashboard = {
     Cluster: 'efa86fd1d0c121a26444b636a3f509a8',
     Nodes: 'a87fb0d919ec0ea5f6543124e16c42a5',
@@ -66,9 +47,7 @@ const Charts = (props: Modules) => {
     Scheduler: '2e6b6a3b4bddf1427b3a55aa1311c656',
     'Controller Manager': '72e0e05bef5099e5f049b05fdc429ed4',
   };
-  // const matchObj = {
-  //   computing: computingDashboard,
-  // };
+  //upon opening up a modal, this function indicates the category and selects which dashboard object we are targeting
   const handleOpen = (e: any) => {
     setCategory(e.target.getAttribute('data-value'));
     switch (e.target.getAttribute('data-value')) {
@@ -95,10 +74,12 @@ const Charts = (props: Modules) => {
     }
     setOpen(true);
   };
+  //this handler function specifies which specific dashboard is rendered
   const handleDashboard = (e: any) => {
     setOpenSecond(true);
     setDashboard(e.target.getAttribute('data-value'));
   };
+  //styling for modals
   const style = {
     position: 'absolute' as const,
     top: '50%',
@@ -147,125 +128,6 @@ const Charts = (props: Modules) => {
         <div className="category" data-value="openfaas" onClick={handleOpen}>
           OpenFaaS
         </div>
-        {/* <Box
-          className="chartBox"
-          sx={{
-            display: 'flex',
-            backgroundColor: '#181A1D',
-            color: 'white',
-            width: '80%',
-            height: '380px',
-            border: '2px solid #15161d',
-            boxShadow: '1px 1px 10px .5px #403e54',
-          }}
-          data-value="computing"
-          onClick={handleOpen}
-        >
-          {' '}
-          Computing
-        </Box>
-        <Box
-          className="chartBox"
-          sx={{
-            display: 'flex',
-            backgroundColor: '#181A1D',
-            color: 'white',
-            width: '80%',
-            height: '380px',
-            border: '2px solid #15161d',
-            boxShadow: '1px 1px 10px .5px #403e54',
-          }}
-          data-value="networking"
-          onClick={handleOpen}
-        >
-          {' '}
-          Networking
-        </Box>
-        <Box
-          className="chartBox"
-          sx={{
-            display: 'flex',
-            backgroundColor: '#181A1D',
-            color: 'white',
-            width: '80%',
-            height: '380px',
-            border: '2px solid #15161d',
-            boxShadow: '1px 1px 10px .5px #403e54',
-          }}
-          data-value="isolated"
-          onClick={handleOpen}
-        >
-          {' '}
-          Isolated
-        </Box>
-        <Box
-          className="chartBox"
-          sx={{
-            display: 'flex',
-            backgroundColor: '#181A1D',
-            color: 'white',
-            width: '80%',
-            height: '380px',
-            border: '2px solid #15161d',
-            boxShadow: '1px 1px 10px .5px #403e54',
-          }}
-          data-value="overview"
-          onClick={handleOpen}
-        >
-          {' '}
-          Overview
-        </Box>
-        <Box
-          className="chartBox"
-          sx={{
-            display: 'flex',
-            backgroundColor: '#181A1D',
-            color: 'white',
-            width: '80%',
-            height: '380px',
-            border: '2px solid #15161d',
-            boxShadow: '1px 1px 10px .5px #403e54',
-          }}
-          data-value="core"
-          onClick={handleOpen}
-        >
-          {' '}
-          Core
-        </Box>
-        <Box
-          className="chartBox"
-          sx={{
-            display: 'flex',
-            backgroundColor: '#181A1D',
-            color: 'white',
-            width: '80%',
-            height: '380px',
-            border: '2px solid #15161d',
-            boxShadow: '1px 1px 10px .5px #403e54',
-          }}
-          data-value="core"
-          onClick={handleOpen}
-        >
-          {' '}
-          OpenFaaS
-        </Box>
-        <Box
-          className="chartBox"
-          sx={{
-            display: 'flex',
-            backgroundColor: '#181A1D',
-            color: 'white',
-            width: '80%',
-            height: '380px',
-            border: '2px solid #15161d',
-            boxShadow: '1px 1px 10px .5px #403e54',
-          }}
-          data-value="core"
-          onClick={handleOpen}
-        >
-          {' '}
-          Custom
-        </Box> */}
       </div>
       <Modal
         open={open}
@@ -318,15 +180,11 @@ const Charts = (props: Modules) => {
             </button>
             <iframe
               src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
-              // src={'http://35.199.145.18/dashboard/new?orgId=1&edit'}
               height="800px"
               width="1300px"
               frameBorder="0"
             ></iframe>
           </div>
-          {/* <>
-            <button id="closeButton" onClick={handleCloseSecond}>{'Close Graph'}</button>
-          </> */}
         </Box>
       </Modal>
     </div>

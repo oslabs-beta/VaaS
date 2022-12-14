@@ -1,10 +1,10 @@
 import React from 'react';
-import { createRoot, hydrateRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './Components/App';
+import { hydrateRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { store } from './Store/store';
+import { BrowserRouter } from 'react-router-dom';
 import fetch from 'isomorphic-fetch';
+import App from './Components/App';
+import { store } from './Store/store';
 // globalThis.fetch = fetch
 
 const container = document.getElementById('root')!;
