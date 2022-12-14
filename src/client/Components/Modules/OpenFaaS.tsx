@@ -163,7 +163,6 @@ const OpenFaaS = (props: Modules) => {
         authorization: localStorage.getItem('token'),
       });
       if (response.success) {
-
         dispatch(
           DEL_DeployedOFFunc(
             id,

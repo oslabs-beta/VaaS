@@ -26,7 +26,7 @@ export default defineConfig({
     },
   },
   build: {
-    minify: false,
+    minify: true,
     rollupOptions: {
       input: {
         main: resolve(__dirname, './public/index.html'),

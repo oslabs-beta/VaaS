@@ -3,13 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser, checkAuth } from '../../Queries';
 import { FcGoogle } from 'react-icons/fc';
 import { BsGithub } from 'react-icons/bs';
-import {
-  Box,
-  Button,
-  TextField,
-  CssBaseline,
-  Typography,
-} from '@mui/material';
+import { Box, Button, TextField, CssBaseline, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import './styles.css';
 

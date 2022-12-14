@@ -1,12 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { OpenFaaS, CustomQuery, Alert, Charts, FunctionCost } from '../Modules/index';
+import {
+  OpenFaaS,
+  // CustomQuery,
+  Alert,
+  Charts,
+  FunctionCost,
+} from '../Modules/index';
 import NavBar from '../Home/NavBar';
 import { Modules } from '../../Interfaces/ICluster';
 import Container from '@mui/system/Container';
-import { Card, Button, Tooltip, Modal, Box, FormControl, NativeSelect } from '@mui/material';
-import { Fullscreen, FullscreenExit, Grain, DataObject, Functions, QueryStats, AttachMoney, AddAlert, Terminal } from '@mui/icons-material';
+import {
+  Card,
+  Button,
+  Tooltip,
+  Modal,
+  Box,
+  FormControl,
+  NativeSelect,
+} from '@mui/material';
+import {
+  Fullscreen,
+  FullscreenExit,
+  Grain,
+  DataObject,
+  Functions,
+  QueryStats,
+  AttachMoney,
+  AddAlert,
+  Terminal,
+} from '@mui/icons-material';
 import './styles.css';
+import '../Modules/network.css';
 
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
@@ -23,7 +48,7 @@ const Module = (props: Modules) => {
   const [functionCost, setFunctionCost] = useState(false);
   const [alert, setAlert] = useState(false);
   const [charts, setCharts] = useState(false);
-  // Handlers for modals 
+  // Handlers for modals
   const handleCustomOpen = () => setOpenCustom(true);
   const handleCustomClose = () => setOpenCustom(false);
   const handleVisualizerOpen = () => setOpenVisualizer(true);
@@ -115,6 +140,7 @@ const Module = (props: Modules) => {
             setAlert(true);
             setFaaS(false);
             setVisualizer(false);
+            setFunctionCost(false);
             setCustom(false);
             setCharts(false);
             break;
@@ -157,6 +183,7 @@ const Module = (props: Modules) => {
     setVisualizer(false);
     setCustom(false);
     setCharts(false);
+    setFunctionCost(false);
     setAlert(true);
   };
 
@@ -295,9 +322,9 @@ const Module = (props: Modules) => {
         )}
       </div>
       <div id="module-content">
-        {custom && (
+        {/* {custom && (
           <CustomQuery isDark={props.isDark} id={id} nested={props.nested} />
-        )}
+        )} */}
         {faas && (
           <OpenFaaS isDark={props.isDark} id={id} nested={props.nested} />
         )}
@@ -305,7 +332,7 @@ const Module = (props: Modules) => {
         {functionCost && (
           <FunctionCost isDark={props.isDark} id={id} nested={props.nested} />
         )}
-        {visualizer && <Visualizer id={id} nested={props.nested} />}
+        {/* {visualizer && <Visualizer id={id} nested={props.nested} />} */}
         {alert && <Alert id={id} nested={props.nested} />}
       </div>
       <Modal

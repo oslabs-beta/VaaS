@@ -17,7 +17,9 @@ const ClusterSettings = (props: Modules) => {
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const dbData = apiReducer.clusterDbData.find((element) => element._id === props.id)
+  const dbData = apiReducer.clusterDbData.find(
+    (element) => element._id === props.id
+  );
 
   const [clusterData, setClusterData] = useState({
     url: dbData?.url,
