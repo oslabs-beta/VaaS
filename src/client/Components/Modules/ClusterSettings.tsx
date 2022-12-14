@@ -53,7 +53,6 @@ const ClusterSettings = (props: Modules) => {
         dispatch(setRender(!clusterReducer.render));
         props.refetch();
         props.handleModal(false);
-        navigate('/home');
       }
     },
   });

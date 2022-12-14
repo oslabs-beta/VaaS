@@ -28,7 +28,7 @@ export const deleteCluster = async (
       }>
     | undefined
 ) => {
-  const data = await axiosInstance.delete('/cluster', payload);
+  const data = await axiosInstance.delete('/cluster', { data: payload });
   return data.data;
 };
 
