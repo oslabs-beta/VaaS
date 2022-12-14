@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GaugeChart from 'react-gauge-chart';
-import { ClusterTypes, useFetchMetricsProps } from '../../Interfaces';
-import { IReducers } from '../../Interfaces/IReducers';
+import {
+  ClusterTypes,
+  useFetchMetricsProps,
+  IReducers,
+} from '../../Interfaces';
 import ClusterSettings from '../Modules/ClusterSettings';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { setUI } from '../../Store/actions';
 import { useFetchMetrics } from '../../Queries';
+import { Custom, Visualizer } from '../Modules';
 import {
   Button,
   Tooltip,
@@ -22,13 +26,17 @@ import {
   QueryStats,
   Functions,
   AttachMoney,
-  Settings,
 } from '@mui/icons-material';
 import './styles.css';
 
 // Dashboard for each cluster which is rendered onto the home page
 const Kube = (props: ClusterTypes) => {
   const [settingsModal, handleSettingsModal] = useState(false);
+  const [currModal, setCurrModal] = useState('');
+  const [openModal, setOpenModal] = useState(false);
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
@@ -43,6 +51,7 @@ const Kube = (props: ClusterTypes) => {
     clusterId: props?._id,
     k8Str: 'k8',
   };
+
   // invoke custom hook which takes the clusterId and 'k8 as arguments/props
   const {
     allNodes,
@@ -53,7 +62,11 @@ const Kube = (props: ClusterTypes) => {
     allNamespaces,
     allServices,
   } = useFetchMetrics(fetchProps);
-
+  const customBox = {
+    overflow: 'scroll',
+    maxHeight: '100%',
+    display: 'inline',
+  };
   useEffect(() => {
     dispatch(
       setUI(props._id, {
@@ -147,11 +160,10 @@ const Kube = (props: ClusterTypes) => {
             id="Cluster-Map-Button"
             fullWidth={true}
             startIcon={<ViewInAr />}
-            onClick={() =>
-              navigate('/module', {
-                state: [dbData, 'visualizer', true],
-              })
-            }
+            onClick={() => {
+              setCurrModal('visualizer');
+              setOpenModal(true);
+            }}
           >
             Cluster Map
           </Button>
@@ -160,9 +172,10 @@ const Kube = (props: ClusterTypes) => {
             id="Queries-Button"
             fullWidth={true}
             startIcon={<QueryStats />}
-            onClick={() =>
-              navigate('/module', { state: [dbData, 'custom', true] })
-            }
+            onClick={() => {
+              setCurrModal('custom');
+              setOpenModal(true);
+            }}
           >
             Queries
           </Button>
@@ -373,6 +386,28 @@ const Kube = (props: ClusterTypes) => {
             {'Close Settings'}
           </Button>
         </Box>
+      </Modal>
+      <Modal
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+      >
+        <>
+          {currModal === 'custom' ? (
+            <Custom
+              handleCustomClose={handleCloseModal}
+              customBox={customBox}
+              dbData={dbData}
+            />
+          ) : (
+            <Visualizer
+              handleVisualizerClose={handleCloseModal}
+              customBox={customBox}
+              dbData={dbData}
+            />
+          )}
+        </>
       </Modal>
     </Box>
   );

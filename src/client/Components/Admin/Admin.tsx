@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { AddClusterType } from '../../Interfaces/ICluster';
-import { IReducers } from '../../Interfaces/IReducers';
+import { AddClusterType, IReducers } from '../../Interfaces';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { setDarkMode } from '../../Store/actions';
 import {
@@ -38,7 +37,7 @@ type Admin = {
 };
 
 // Create the Admin component
-const Admin = () => {
+const Admin = (props: { refetch: any; handleAdminModal: any }) => {
   // Dispatch hook to dispatch actions to the store
   const dispatch = useAppDispatch();
   // Select the uiReducer from the store
@@ -72,6 +71,8 @@ const Admin = () => {
       response.success
         ? setAddClusterMessage('Successfully added cluster')
         : setAddClusterMessage(response.message);
+      props.refetch();
+      props.handleAdminModal(false);
     },
   });
   const userMutation = useMutation(

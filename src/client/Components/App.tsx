@@ -5,7 +5,6 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import Login from './Login/Login';
 import Home from './Home/Home';
 import Register from './Login/Register';
-import Admin from './Admin/Admin';
 import Module from './Cards/Module';
 import PrivateRoute from '../Components/Login/PrivateRoute';
 
@@ -19,9 +18,6 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<PrivateRoute />}>
           <Route path="/home" element={<Home />} />
-        </Route>
-        <Route path="/admin" element={<PrivateRoute />}>
-          <Route path="/admin" element={<Admin />} />
         </Route>
         <Route path="/module" element={<PrivateRoute />}>
           <Route path="/module" element={<Module />} />

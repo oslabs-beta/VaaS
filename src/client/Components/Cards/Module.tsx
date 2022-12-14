@@ -1,35 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  OpenFaaS,
-  // CustomQuery,
-  Alert,
-  Charts,
-  FunctionCost,
-} from '../Modules/index';
+import { OpenFaaS, Alert, Charts, FunctionCost } from '../Modules/index';
 import NavBar from '../Home/NavBar';
 import { Modules } from '../../Interfaces/ICluster';
 import Container from '@mui/system/Container';
+import { Button, Tooltip, Modal } from '@mui/material';
 import {
-  Card,
-  Button,
-  Tooltip,
-  Modal,
-  Box,
-  FormControl,
-  NativeSelect,
-} from '@mui/material';
-import {
-  Fullscreen,
-  FullscreenExit,
-  Grain,
-  DataObject,
-  Functions,
-  QueryStats,
-  AttachMoney,
+  Insights,
   AddAlert,
-  Terminal,
+  ViewInAr,
+  QueryStats,
+  Functions,
+  AttachMoney,
+  Close,
 } from '@mui/icons-material';
+import { Visualizer, Custom } from '../Modules';
 import './styles.css';
 import '../Modules/network.css';
 
@@ -37,22 +22,19 @@ import '../Modules/network.css';
 const Module = (props: Modules) => {
   const { state }: any = useLocation();
   const navigate = useNavigate();
-  const [id] = useState(props.id || state[0]);
+  const [id] = useState(props.id || state[0]._id);
   // Hooks used to indicate which module should be rendered in
   const [currentModule, setCurrentModule] = useState('module');
   const [faas, setFaaS] = useState(true);
-  const [custom, setCustom] = useState(false);
-  const [visualizer, setVisualizer] = useState(false);
-  const [openCustom, setOpenCustom] = useState(false);
-  const [openVisualizer, setOpenVisualizer] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [currModal, setCurrModal] = useState('');
   const [functionCost, setFunctionCost] = useState(false);
   const [alert, setAlert] = useState(false);
   const [charts, setCharts] = useState(false);
   // Handlers for modals
-  const handleCustomOpen = () => setOpenCustom(true);
-  const handleCustomClose = () => setOpenCustom(false);
-  const handleVisualizerOpen = () => setOpenVisualizer(true);
-  const handleVisualizerClose = () => setOpenVisualizer(false);
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const [style, setStyle] = useState(
     props.isDark
@@ -106,32 +88,24 @@ const Module = (props: Modules) => {
         switch (state[1]) {
           case 'faas':
             setFaaS(true);
-            setVisualizer(false);
-            setCustom(false);
             setFunctionCost(false);
             setCharts(false);
             setAlert(false);
             break;
           case 'visualizer':
             setFaaS(false);
-            setVisualizer(false);
-            setCustom(false);
             setFunctionCost(false);
             setCharts(false);
             setAlert(false);
             break;
           case 'custom':
             setFaaS(false);
-            setVisualizer(false);
             setFunctionCost(false);
-            setCustom(false);
             setCharts(false);
             setAlert(false);
             break;
           case 'charts':
             setFaaS(false);
-            setVisualizer(false);
-            setCustom(false);
             setFunctionCost(false);
             setCharts(true);
             setAlert(false);
@@ -139,16 +113,12 @@ const Module = (props: Modules) => {
           case 'alert':
             setAlert(true);
             setFaaS(false);
-            setVisualizer(false);
             setFunctionCost(false);
-            setCustom(false);
             setCharts(false);
             break;
           case 'functionCost':
             setAlert(false);
             setFaaS(false);
-            setVisualizer(false);
-            setCustom(false);
             setFunctionCost(true);
             setCharts(false);
             break;
@@ -160,17 +130,13 @@ const Module = (props: Modules) => {
   const handleFaaSButton = () => {
     setFaaS(true);
     setCurrentModule('faas');
-    setVisualizer(false);
     setFunctionCost(false);
-    setCustom(false);
     setCharts(false);
     setAlert(false);
   };
 
   const handleChartsButton = () => {
     setFaaS(false);
-    setVisualizer(false);
-    setCustom(false);
     setCharts(true);
     setFunctionCost(false);
     setCurrentModule('charts');
@@ -180,8 +146,6 @@ const Module = (props: Modules) => {
   const handleAlertButton = () => {
     setFaaS(false);
     setCurrentModule('alert');
-    setVisualizer(false);
-    setCustom(false);
     setCharts(false);
     setFunctionCost(false);
     setAlert(true);
@@ -189,8 +153,6 @@ const Module = (props: Modules) => {
 
   const handleFunctionCostButton = () => {
     setFaaS(false);
-    setVisualizer(false);
-    setCustom(false);
     setCharts(false);
     setFunctionCost(true);
     setAlert(false);
@@ -204,36 +166,22 @@ const Module = (props: Modules) => {
   return (
     <div>
       <NavBar />
-      {/* <Container
-        component={Card}
-        sx={{
-          width: '100%',
-          height: '100%',
-          margin: '0px',
-          padding: '0px',
-          backgroundColor: '#101216',
-        }}
-        className="module-container"
-      > */}
       <div className="Module-top-row">
-        {faas && <div className="Header-Bar-Title">OPENFAAS</div>}
-        {visualizer && <div>VISUALIZER</div>}
-        {custom && <div>PROM QUERY</div>}
-        {charts && <div className="Header-Bar-Title">CHARTS</div>}
-        {functionCost && <div className="Header-Bar-Title">FUNCTION COST</div>}
-        {alert && <div className="Header-Bar-Title">ALERT</div>}
-        <Tooltip title="Custom Query">
-          <Button
-            sx={buttonStyle}
-            variant="text"
-            id="basic-button"
-            className="module-button"
-            onClick={handleCustomOpen}
-          >
-            <DataObject />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Grafana Charts">
+        <div>
+          {faas && (
+            <div className="Header-Bar-Title">OPENFAAS: {state[0].name}</div>
+          )}
+          {charts && (
+            <div className="Header-Bar-Title">GRAPHS: {state[0].name}</div>
+          )}
+          {functionCost && (
+            <div className="Header-Bar-Title">FAAS COST: {state[0].name}</div>
+          )}
+          {alert && (
+            <div className="Header-Bar-Title">ALERTS: {state[0].name}</div>
+          )}
+        </div>
+        <Tooltip title="Graphs">
           <Button
             sx={buttonStyle}
             variant="text"
@@ -241,59 +189,38 @@ const Module = (props: Modules) => {
             className="module-button"
             onClick={handleChartsButton}
           >
+            <Insights />
+          </Button>
+        </Tooltip>
+        <Tooltip title="Cluster Map">
+          <Button
+            sx={buttonStyle}
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={() => {
+              setCurrModal('visualizer');
+              setOpenModal(true);
+            }}
+          >
+            <ViewInAr />
+          </Button>
+        </Tooltip>
+        <Tooltip title="Queries">
+          <Button
+            sx={buttonStyle}
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={() => {
+              setCurrModal('custom');
+              setOpenModal(true);
+            }}
+          >
             <QueryStats />
           </Button>
         </Tooltip>
-        <Tooltip title="FaaS Queries">
-          <Button
-            sx={buttonStyle}
-            variant="text"
-            id="basic-button"
-            className="module-button"
-            onClick={handleFaaSButton}
-          >
-            <Functions />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Function Costs">
-          <Button
-            sx={buttonStyle}
-            variant="text"
-            id="basic-button"
-            className="module-button"
-            onClick={handleFunctionCostButton}
-          >
-            <AttachMoney />
-          </Button>
-        </Tooltip>
-        <Tooltip title="Open Visualizer">
-          <Button
-            sx={buttonStyle}
-            variant="text"
-            id="basic-button"
-            className="module-button"
-            onClick={handleVisualizerOpen}
-          >
-            <Grain />
-          </Button>
-        </Tooltip>
-        {props.nested && (
-          <Button
-            sx={{
-              ...buttonStyle,
-              marginRight: '-9px',
-            }}
-            variant="text"
-            id="basic-button"
-            className="module-button"
-            onClick={() =>
-              navigate('/module', { state: [id, currentModule, true] })
-            }
-          >
-            <Fullscreen />
-          </Button>
-        )}
-        <Tooltip title="Alert Manager">
+        <Tooltip title="Alerts">
           <Button
             sx={buttonStyle}
             variant="text"
@@ -304,6 +231,29 @@ const Module = (props: Modules) => {
             <AddAlert />
           </Button>
         </Tooltip>
+        <Tooltip title="OpenFaaS">
+          <Button
+            sx={buttonStyle}
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={handleFaaSButton}
+          >
+            <Functions />
+          </Button>
+        </Tooltip>
+        <Tooltip title="FaaS Cost">
+          <Button
+            sx={buttonStyle}
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={handleFunctionCostButton}
+          >
+            <AttachMoney />
+          </Button>
+        </Tooltip>
+
         {!props.nested && (
           <Tooltip title="Exit to Home">
             <Button
@@ -316,15 +266,12 @@ const Module = (props: Modules) => {
               className="module-button"
               onClick={() => navigate('/home', { state: [id, currentModule] })}
             >
-              <FullscreenExit />
+              <Close />
             </Button>
           </Tooltip>
         )}
       </div>
       <div id="module-content">
-        {/* {custom && (
-          <CustomQuery isDark={props.isDark} id={id} nested={props.nested} />
-        )} */}
         {faas && (
           <OpenFaaS isDark={props.isDark} id={id} nested={props.nested} />
         )}
@@ -332,58 +279,30 @@ const Module = (props: Modules) => {
         {functionCost && (
           <FunctionCost isDark={props.isDark} id={id} nested={props.nested} />
         )}
-        {/* {visualizer && <Visualizer id={id} nested={props.nested} />} */}
         {alert && <Alert id={id} nested={props.nested} />}
       </div>
       <Modal
-        open={openCustom}
-        onClose={handleCustomClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className="customBox" sx={customBox}>
-          <div className="renderCustom">
-            <button className="closeButton" onClick={handleCustomClose}>
-              {'Close Query'}
-            </button>
-            <iframe
-              src={`${state[0].grafana_url}/dashboard/new?orgId=1&edit`}
-              height="1000px"
-              width="1250px"
-              className="custom-graf"
-              frameBorder="0"
-            ></iframe>
-          </div>
-        </Box>
-      </Modal>
-      <Modal
-        open={openVisualizer}
-        onClose={handleVisualizerClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box className="customBox" sx={customBox}>
-          <div className="renderCustom">
-            <button className="closeButton" onClick={handleVisualizerClose}>
-              {'Close Visualizer'}
-            </button>
-            <iframe
-              src={`${state[0].kubeview_url}`}
-              height="800px"
-              width="70%"
-              frameBorder="0"
-              className="custom-graf"
-            ></iframe>
-          </div>
-        </Box>
-      </Modal>
-      {/* </Container> */}
-      <Container
-        className="cluster-id"
-        sx={{
-          color: style.color,
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
         }}
-      ></Container>
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <>
+          {currModal === 'custom' ? (
+            <Custom
+              handleCustomClose={handleCloseModal}
+              customBox={customBox}
+            />
+          ) : (
+            <Visualizer
+              handleVisualizerClose={handleCloseModal}
+              customBox={customBox}
+            />
+          )}
+        </>
+      </Modal>
       {!props.nested}
     </div>
   );
