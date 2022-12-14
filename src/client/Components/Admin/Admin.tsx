@@ -13,7 +13,15 @@ import {
   changeDarkMode,
   changeRefreshRate,
 } from '../../Queries';
-import { Box, Button, Container, TextField, Tab, Tabs, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Tab,
+  Tabs,
+  Typography,
+} from '@mui/material';
 import './styles.css';
 
 // Define the Admin type, setting types for the properties
@@ -35,7 +43,7 @@ const Admin = () => {
   const dispatch = useAppDispatch();
   // Select the uiReducer from the store
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
-  
+
   // React hooks to maintain local state
   const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
@@ -57,7 +65,7 @@ const Admin = () => {
     dispatch(setDarkMode(userData?.darkMode));
     setRefreshRate(userData?.refreshRate / 1000);
   }, [dispatch, userData]);
-  
+
   // React query mutations used for requests other than get requests, used to get more efficient requests
   const mutation = useMutation((data: AddClusterType) => addCluster(data), {
     onSuccess: (response) => {
@@ -67,11 +75,8 @@ const Admin = () => {
     },
   });
   const userMutation = useMutation(
-    (data: {
-      username: string;
-      firstName: string;
-      lastName: string;
-    }) => editUser(data),
+    (data: { username: string; firstName: string; lastName: string }) =>
+      editUser(data),
     {
       onSuccess: (response) => {
         response.success

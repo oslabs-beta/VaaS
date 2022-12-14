@@ -13,7 +13,6 @@ import {
   NativeSelect,
 } from '@mui/material';
 
-
 const FunctionCost = (props: Modules) => {
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
   const deployedFunctions = OFReducer.deployedFunctions || [];
@@ -223,7 +222,6 @@ const FunctionCost = (props: Modules) => {
             bill =
               billableCompute * functionCost.googleChargeGBSecond +
               billableCPU * functionCost.googleChargeGHzSecond;
-
           }
 
           const requestCharge: number =

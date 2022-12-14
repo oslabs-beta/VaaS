@@ -7,8 +7,23 @@ import ClusterSettings from '../Modules/ClusterSettings';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { setUI } from '../../Store/actions';
 import { useFetchMetrics } from '../../Queries';
-import { Button, Tooltip, Modal, Box, CssBaseline, Divider } from '@mui/material';
-import { Insights, AddAlert, ViewInAr, QueryStats, Functions, AttachMoney, Settings } from '@mui/icons-material';
+import {
+  Button,
+  Tooltip,
+  Modal,
+  Box,
+  CssBaseline,
+  Divider,
+} from '@mui/material';
+import {
+  Insights,
+  AddAlert,
+  ViewInAr,
+  QueryStats,
+  Functions,
+  AttachMoney,
+  Settings,
+} from '@mui/icons-material';
 import './styles.css';
 
 // Dashboard for each cluster which is rendered onto the home page
@@ -19,8 +34,10 @@ const Kube = (props: ClusterTypes) => {
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
 
   // accessing redux state clusterDbData to find data of the specfic cluster by _id
-  const dbData = apiReducer.clusterDbData.find((element) => element._id === props._id);
-  
+  const dbData = apiReducer.clusterDbData.find(
+    (element) => element._id === props._id
+  );
+
   // declare useFetchMetrics custom hook props
   const fetchProps: useFetchMetricsProps = {
     clusterId: props?._id,
@@ -57,7 +74,6 @@ const Kube = (props: ClusterTypes) => {
       })
     );
   }, []);
-
 
   return (
     <Box

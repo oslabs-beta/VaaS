@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
 import Admin from '../Admin/Admin';
-import { Avatar, Modal, Menu, MenuItem, IconButton, Tooltip } from '@mui/material';
+import {
+  Avatar,
+  Modal,
+  Menu,
+  MenuItem,
+  IconButton,
+  Tooltip,
+} from '@mui/material';
 
 export default function NavBar() {
   const navigate = useNavigate();
