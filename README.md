@@ -1,6 +1,6 @@
 # Visualization as a Service (VaaS) &middot; ![Github](https://img.shields.io/github/repo-size/oslabs-beta/VaaS) ![GitHub](https://img.shields.io/github/license/oslabs-beta/VaaS) ![GitHub](https://img.shields.io/github/last-commit/oslabs-beta/VaaS)
 
-![VaaS](public/Images/VaaS.png)
+&nbsp; &nbsp; ![VaaS](public/Images/VaaS.png)
 
 ---
 <br />
@@ -47,7 +47,9 @@ VaaS was developed with the support of OSLabs and the OpenFaaS community. It is 
 <br/>
 
 ## Getting Started
-If you are interested in trying out VaaS, please check out our [SETUP](/SETUP.md) guide.
+If you are interested in trying out VaaS, please check out our [SETUP](/SETUP.md) guide for instructions on how to get started with a small Minikube cluster. 
+
+These instructions should also be highly relevant to anyone attempting to deploy such a cluster to a cloud provider.
 
 <br/>
 
