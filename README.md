@@ -2,7 +2,7 @@
 
 &nbsp; &nbsp; ![VaaS](public/Images/VaaS.png)
 
----
+
 <br />
 
 ## Table of Contents
@@ -18,7 +18,7 @@
 
 <br/>
 
----
+
 <br/>
 
 ## What is VaaS?
@@ -28,7 +28,7 @@ VaaS was developed with the support of OSLabs and the OpenFaaS community. It is 
 
 <br/>
 
----
+
 <br/>
 
 ## Current Features
@@ -43,7 +43,7 @@ VaaS was developed with the support of OSLabs and the OpenFaaS community. It is 
 
 <br/>
 
----
+
 <br/>
 
 ## Getting Started
@@ -53,7 +53,7 @@ These instructions should also be highly relevant to anyone attempting to deploy
 
 <br/>
 
----
+
 <br/>
 
 ## License
@@ -62,7 +62,7 @@ By contributing, you agree that your contributions will be licensed under its [M
 
 <br/>
 
----
+
 <br/>
 
 ## Team
@@ -85,7 +85,7 @@ Please feel free to reach out to us with any questions or concerns!
 
 <br/>
 
----
+
 <br/>
 
 ## Show Your Support
