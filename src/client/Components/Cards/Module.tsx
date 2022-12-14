@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { OpenFaaS, Alert, Charts, FunctionCost } from '../Modules/index';
 import NavBar from '../Home/NavBar';
 import { Modules } from '../../Interfaces/ICluster';
-import Container from '@mui/system/Container';
 import { Button, Tooltip, Modal } from '@mui/material';
 import {
   Insights,
