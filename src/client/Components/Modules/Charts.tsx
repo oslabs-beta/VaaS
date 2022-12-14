@@ -1,9 +1,7 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
-import { Box, Button, FormControl, NativeSelect, Modal } from '@mui/material';
-
-const grafanaIP = import.meta.env.VITE_GRAFANA_IP;
+import { Box, Modal } from '@mui/material';
 
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();

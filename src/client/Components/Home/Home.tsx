@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useAppSelector, useAppDispatch } from '../../Store/hooks';
 import { storeClusterDbData, setDarkMode } from '../../Store/actions';
-import { IReducers } from '../../Interfaces/IReducers';
-import { ClusterTypes } from '../../Interfaces/ICluster';
+import { ClusterTypes, IReducers } from '../../Interfaces';
 import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
@@ -17,7 +16,6 @@ const Home = () => {
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState<ClusterTypes[]>([]);
   const darkMode = uiReducer.clusterUIState.darkmode;
-  const [visited, setVisited] = useState(false);
   const { data, refetch } = useQuery({
     queryKey: ['cluster'],
     queryFn: fetchClusters,
@@ -48,18 +46,11 @@ const Home = () => {
       : (document.body.style.backgroundColor = '#3a4a5b');
   }, [darkMode, dispatch, navigate, userData]);
 
-  function renderSplash() {
-    if (!visited) {
-      setVisited(true);
-    }
-  }
-
   return (
     <div>
-      <NavBar />
+      <NavBar refetch={refetch} />
       <div id="HeaderContainer">
         <div id="Home-Bar-Title">CLUSTERS</div>
-        {/* <div id="Sort-Button">SORT</div> */}
       </div>
       <div className="Kube-port">
         <div className="Kube-container" id="Kube-container">

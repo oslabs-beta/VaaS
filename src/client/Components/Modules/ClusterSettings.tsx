@@ -40,8 +40,9 @@ const ClusterSettings = (props: Modules) => {
     {
       onSuccess: (response) => {
         if (response.deleted) {
-          navigate('/');
           dispatch(setRender(!clusterReducer.render));
+          props.refetch();
+          props.handleModal(false);
         }
       },
     }

@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from '@mui/material';
 
-export default function NavBar() {
+export default function NavBar(props: { refetch?: any }) {
   const navigate = useNavigate();
   const [adminModal, handleAdminModal] = useState(false);
   const handleLogOut = async (): Promise<void> => {
@@ -110,7 +110,7 @@ export default function NavBar() {
         }}
       >
         <div>
-          <Admin />
+          <Admin refetch={props.refetch} handleAdminModal={handleAdminModal} />
         </div>
       </Modal>
     </div>
