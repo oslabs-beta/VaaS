@@ -18,10 +18,3 @@ const FullApp = () => (
 );
 
 hydrateRoot(container, <FullApp />);
-
-// if (import.meta.hot || !container.innerText) {
-//   const root = createRoot(container);
-//   root.render(<FullApp />);
-// } else {
-//   hydrateRoot(container, <FullApp />);
-// }
