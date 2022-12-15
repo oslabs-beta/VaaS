@@ -1,6 +1,6 @@
-import * as types from "../actionTypes";
-import { IClusterUIAction } from "../../Interfaces/IAction";
-import { IUIReducer } from "../../Interfaces/IReducers";
+import * as types from '../actionTypes';
+import { IClusterUIAction } from '../../Interfaces/IAction';
+import { IUIReducer } from '../../Interfaces/IReducers';
 
 const initialState: IUIReducer = {
   clusterUIState: {
@@ -11,36 +11,39 @@ const initialState: IUIReducer = {
         deployDropdown: '',
         invokeDropdown: '',
         requestBody: '',
-        responseBody: ''
+        responseBody: '',
       },
       query: {
         inputField: '',
-        responseObject: ''
-      }
+        responseObject: '',
+      },
     },
     darkmode: false,
-  }
+  },
 };
 
-const uiReducer = (state: IUIReducer = initialState, action: IClusterUIAction) => {
+const uiReducer = (
+  state: IUIReducer = initialState,
+  action: IClusterUIAction
+) => {
   switch (action.type) {
     case types.SET_UI: {
       return {
         ...state,
         clusterUIState: {
           ...state.clusterUIState,
-          [action.payload.clusterId as string]: action.payload.clusterUIState
-        }
+          [action.payload.clusterId as string]: action.payload.clusterUIState,
+        },
       };
     }
     case types.SET_DarkMode: {
-      console.log('darkMode currently:', state.clusterUIState.darkmode)
+      console.log('darkMode currently:', state.clusterUIState.darkmode);
       return {
         ...state,
         clusterUIState: {
           ...state.clusterUIState,
-          darkmode: action.payload.darkMode
-        }
+          darkmode: action.payload.darkMode,
+        },
       };
     }
     default: {
@@ -48,6 +51,5 @@ const uiReducer = (state: IUIReducer = initialState, action: IClusterUIAction) =
     }
   }
 };
-
 
 export default uiReducer;

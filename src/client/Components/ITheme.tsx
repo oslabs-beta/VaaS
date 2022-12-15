@@ -1,17 +1,17 @@
-import { createTheme} from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Theme {
     status: {
-        danger: string;
+      danger: string;
     };
   }
   interface ThemeOptions {
     status?: {
-        danger?: string;
+      danger?: string;
     };
   }
-  }
+}
 
 export const theme = createTheme({
   palette: {
@@ -43,5 +43,5 @@ export const dark = createTheme({
       default: '#000000',
       paper: '#e8e8e8',
     },
-  }
+  },
 });

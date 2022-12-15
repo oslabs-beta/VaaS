@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="height: 100%; background-color: black">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      content="width=device-width,initial-scale=1,maximum-scale=10,minimum-scale=.25,user-scalable=yes"
+      name="viewport"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-    <title>VaaS</title>
-</head>
-
-<body style="background-color:#3a4a5b;"></body>>
-    <div id="root"></div>
-</body>
-
+    <!-- ### Manifest and icons ### -->
+    <!-- General -->
+    <meta name="theme-color" content="#ffffff" />
+  </head>
+  <body style="min-height: 100vh; height: 100%; background-color: #101217">
+    <div
+      id="root"
+      style="
+        min-height: 100%;
+        height: 100%;
+        width: 100vw;
+        background-image: url('./Images/trippy.svg');
+        display: flex;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        -webkit-font-smoothing: antialiased !important;
+      "
+    >
+      <!--app-html-->
+    </div>
+    <script type="module" src="../src/client/index.tsx"></script>
+  </body>
 </html>

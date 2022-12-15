@@ -1,8 +1,5 @@
-import User from "./user";
-import Cluster from "./cluster";
+import User from './user';
+import Cluster from './cluster';
 
-// DEFAULT MONGOOSE MODEL HANDLER
-export {
-  User,
-  Cluster
-};
+// DEFAULT MONGOOSE MODELS HANDLER
+export { User, Cluster };

@@ -3,15 +3,16 @@ export default async function Delete(
   body: Record<string, unknown>,
   headers: Record<string, unknown> = {}
 ): Promise<any> {
+  console.log(body, 'BODY OF DELETE ln 6');
   try {
     const response: Response = await fetch(url, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        ...headers
+        Accept: 'application/json',
+        ...headers,
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify(body),
     });
     return response.json();
   } catch (err: any) {

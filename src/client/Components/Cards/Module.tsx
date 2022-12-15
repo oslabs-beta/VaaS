@@ -1,131 +1,126 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import OpenFaaS from "../Modules/OpenFaaS";
-import Visualizer from "../Modules/Visualizer";
-import CustomQuery from "../Modules/CustomQuery";
-import Alert from "../Modules/Alert";
-import Charts from "../Modules/Charts";
-import FunctionCost from "../Modules/FunctionCost";
-import NavBar from "../Home/NavBar";
-import { Modules } from "../../Interfaces/ICluster";
-import Container from "@mui/system/Container";
-import Card from "@mui/material/Card";
-import Button from "@mui/material/Button";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
-import GrainIcon from "@mui/icons-material/Grain";
-import DataObjectIcon from '@mui/icons-material/DataObject';
-import FunctionsIcon from '@mui/icons-material/Functions';
-import QueryStatsIcon from '@mui/icons-material/QueryStats';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-
-import AddAlertIcon from '@mui/icons-material/AddAlert';
-import "./styles.css";
-import { Terminal } from "@mui/icons-material";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { OpenFaaS, Alert, Charts, FunctionCost } from '../Modules/index';
+import NavBar from '../Home/NavBar';
+import { Modules } from '../../Interfaces/ICluster';
+import { Button, Tooltip, Modal } from '@mui/material';
+import {
+  Insights,
+  AddAlert,
+  ViewInAr,
+  QueryStats,
+  Functions,
+  AttachMoney,
+  Close,
+} from '@mui/icons-material';
+import { Visualizer, Custom } from '../Modules';
+import './styles.css';
+import '../Modules/network.css';
 
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
-
   const { state }: any = useLocation();
   const navigate = useNavigate();
+  const [id] = useState(props.id || state[0]._id);
+  // Hooks used to indicate which module should be rendered in
+  const [currentModule, setCurrentModule] = useState('module');
   const [faas, setFaaS] = useState(true);
-  const [visualizer, setVisualizer] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const [currModal, setCurrModal] = useState('');
   const [functionCost, setFunctionCost] = useState(false);
   const [alert, setAlert] = useState(false);
-  const [custom, setCustom] = useState(false);
   const [charts, setCharts] = useState(false);
-  const [currentModule, setCurrentModule] = useState("module");
-  const [id] = useState(props.id || state[0]);
-  const [style, setStyle] = useState((props.isDark) ? {
-    color: "#c0c0c0",
-    minHeight: "100%",
-    minWidth: "100%",
-    display: "flex",
-    textAlign: "left",
-    backgroundImage: "linear-gradient(#2f3136, #7f7f7f)",
-    overflow: "auto",
-  } : {
-    color: "white",
-    minHeight: "100%",
-    minWidth: "100%",
-    display: "flex",
-    textAlign: "left",
-    backgroundImage: "linear-gradient(#1f3a4b, #AFAFAF)",
-    overflow: "auto",
-  });
-  const [buttonStyle, setButtonStyle] = useState((props.isDark) ? {
-    color: "#c0c0c0",
-    width: "1px"
-  } : {
-    color: 'white',
-    width: "1px"
-  });
+  // Handlers for modals
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const [style, setStyle] = useState(
+    props.isDark
+      ? {
+          color: '#c0c0c0',
+          minHeight: '100%',
+          minWidth: '100%',
+          display: 'flex',
+          textAlign: 'left',
+          backgroundImage: 'linear-gradient(#2f3136, #7f7f7f)',
+          overflow: 'auto',
+        }
+      : {
+          color: 'white',
+          minHeight: '100%',
+          minWidth: '100%',
+          display: 'flex',
+          textAlign: 'left',
+          backgroundImage: 'linear-gradient(#1f3a4b, #AFAFAF)',
+          overflow: 'auto',
+        }
+  );
+  const [buttonStyle, setButtonStyle] = useState(
+    props.isDark
+      ? {
+          color: '#c0c0c0',
+          width: '1px',
+        }
+      : {
+          color: 'white',
+          width: '1px',
+        }
+  );
 
   useEffect(() => {
     if (!props.nested) {
       setStyle({
-        color: "black",
-        minHeight: "92vh",
-        minWidth: "100%",
-        display: "flex",
-        textAlign: "left",
-        backgroundImage: "",
-        overflow: "auto",
+        color: 'black',
+        minHeight: '92vh',
+        minWidth: '100%',
+        display: 'flex',
+        textAlign: 'left',
+        backgroundImage: '',
+        overflow: 'auto',
       });
       setButtonStyle({
         ...buttonStyle,
-        color: "#3a4a5b",
+        color: '#3a4a5b',
       });
       if (state) {
         switch (state[1]) {
-          case "faas":
+          case 'faas':
             setFaaS(true);
-            setVisualizer(false);
-            setCustom(false);
             setFunctionCost(false);
             setCharts(false);
             setAlert(false);
             break;
-          case "visualizer":
+          case 'visualizer':
             setFaaS(false);
-            setVisualizer(true);
-            setCustom(false);
             setFunctionCost(false);
             setCharts(false);
             setAlert(false);
             break;
-          case "custom":
+          case 'custom':
             setFaaS(false);
-            setVisualizer(false);
             setFunctionCost(false);
-            setCustom(true);
             setCharts(false);
             setAlert(false);
             break;
-          case "charts":
+          case 'charts':
             setFaaS(false);
-            setVisualizer(false);
-            setCustom(false);
             setFunctionCost(false);
             setCharts(true);
             setAlert(false);
             break;
-            case "alert":
+          case 'alert':
             setAlert(true);
             setFaaS(false);
-            setVisualizer(false);
-            setCustom(false);
+            setFunctionCost(false);
             setCharts(false);
             break;
-          case "functionCost":
+          case 'functionCost':
             setAlert(false);
             setFaaS(false);
-            setVisualizer(false);
-            setCustom(false);
             setFunctionCost(true);
             setCharts(false);
             break;
-
         }
       }
     }
@@ -133,29 +128,7 @@ const Module = (props: Modules) => {
 
   const handleFaaSButton = () => {
     setFaaS(true);
-    setCurrentModule("faas");
-    setVisualizer(false);
-    setFunctionCost(false);
-    setCustom(false);
-    setCharts(false);
-    setAlert(false);
-  };
-
-  const handleVisualizerButton = () => {
-    setFaaS(false);
-    setVisualizer(true);
-    setCurrentModule("visualizer");
-    setCustom(false);
-    setFunctionCost(false);
-    setCharts(false);
-    setAlert(false);
-  };
-
-  const handleCustomButton = () => {
-    setFaaS(false);
-    setVisualizer(false);
-    setCustom(true);
-    setCurrentModule("custom");
+    setCurrentModule('faas');
     setFunctionCost(false);
     setCharts(false);
     setAlert(false);
@@ -163,83 +136,51 @@ const Module = (props: Modules) => {
 
   const handleChartsButton = () => {
     setFaaS(false);
-    setVisualizer(false);
-    setCustom(false);
     setCharts(true);
     setFunctionCost(false);
-    setCurrentModule("charts");
+    setCurrentModule('charts');
     setAlert(false);
   };
 
   const handleAlertButton = () => {
     setFaaS(false);
-    setCurrentModule("alert");
-    setVisualizer(false);
-    setCustom(false);
+    setCurrentModule('alert');
     setCharts(false);
+    setFunctionCost(false);
     setAlert(true);
   };
 
-
   const handleFunctionCostButton = () => {
-    console.log('CLICKED');
     setFaaS(false);
-    setVisualizer(false);
-    setCustom(false);
     setCharts(false);
     setFunctionCost(true);
     setAlert(false);
-    setCurrentModule("functionCost");
+    setCurrentModule('functionCost');
+  };
+  const customBox = {
+    overflow: 'scroll',
+    maxHeight: '100%',
+    display: 'inline',
   };
   return (
     <div>
-      <Container 
-        component={Card} 
-        sx={style} 
-        className="module-container"
-      >
-        <div className="Module-top-row">
-          <div className="module-title noselect">
-            {
-              faas && 
-              <div>
-                OpenFaaS
-              </div>
-            }
-            {
-              visualizer && 
-              <div>
-                Visualizer
-              </div>
-            }
-            {
-              custom && 
-              <div>
-                Prom Query
-              </div>
-            }
-            {
-              charts && 
-              <div>
-                Charts
-              </div>
-            }
-            {
-              functionCost &&
-              <div>
-                OpenFaaS Function Cost Calculator
-              </div>
-            }
-          </div>
-          <Button
-            sx={buttonStyle}
-            variant="text"
-            id="basic-button"
-            className="module-button"
-            onClick={handleCustomButton}
-          >
-            <DataObjectIcon />
-          </Button>
+      <NavBar />
+      <div className="Module-top-row">
+        <div>
+          {faas && (
+            <div className="Header-Bar-Title">OPENFAAS: {state[0].name}</div>
+          )}
+          {charts && (
+            <div className="Header-Bar-Title">GRAPHS: {state[0].name}</div>
+          )}
+          {functionCost && (
+            <div className="Header-Bar-Title">FAAS COST: {state[0].name}</div>
+          )}
+          {alert && (
+            <div className="Header-Bar-Title">ALERTS: {state[0].name}</div>
+          )}
+        </div>
+        <Tooltip title="Graphs">
           <Button
             sx={buttonStyle}
             variant="text"
@@ -247,63 +188,38 @@ const Module = (props: Modules) => {
             className="module-button"
             onClick={handleChartsButton}
           >
-            <QueryStatsIcon />
+            <Insights />
           </Button>
+        </Tooltip>
+        <Tooltip title="Cluster Map">
           <Button
             sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
-            onClick={handleFaaSButton}
+            onClick={() => {
+              setCurrModal('visualizer');
+              setOpenModal(true);
+            }}
           >
-          <FunctionsIcon />
-
+            <ViewInAr />
           </Button>
+        </Tooltip>
+        <Tooltip title="Queries">
           <Button
             sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
-            onClick={handleFunctionCostButton}
+            onClick={() => {
+              setCurrModal('custom');
+              setOpenModal(true);
+            }}
           >
-          <AttachMoneyIcon />
-
+            <QueryStats />
           </Button>
-          <Button
-            sx={buttonStyle}
-            variant="text"
-            id="basic-button"
-            className="module-button"
-            onClick={handleVisualizerButton}
-          >
-            <GrainIcon />
-          </Button>
-          {
-            props.nested && 
-            <Button
-              sx={{
-                ...buttonStyle,
-                marginRight: "-9px",
-              }}
-              variant="text"
-              id="basic-button"
-              className="module-button"
-              onClick={() =>
-                // console.log('testing full screen')
-                navigate(
-                  "/module", 
-                  { state: [
-                      id, 
-                      currentModule, 
-                      true
-                    ] 
-                  }
-                )
-              }
-            >
-              <FullscreenIcon />
-            </Button>
-          }
+        </Tooltip>
+        <Tooltip title="Alerts">
           <Button
             sx={buttonStyle}
             variant="text"
@@ -311,88 +227,82 @@ const Module = (props: Modules) => {
             className="module-button"
             onClick={handleAlertButton}
           >
-            <AddAlertIcon /> 
+            <AddAlert />
           </Button>
-          {
-            !props.nested && 
+        </Tooltip>
+        <Tooltip title="OpenFaaS">
+          <Button
+            sx={buttonStyle}
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={handleFaaSButton}
+          >
+            <Functions />
+          </Button>
+        </Tooltip>
+        <Tooltip title="FaaS Cost">
+          <Button
+            sx={buttonStyle}
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={handleFunctionCostButton}
+          >
+            <AttachMoney />
+          </Button>
+        </Tooltip>
+
+        {!props.nested && (
+          <Tooltip title="Exit to Home">
             <Button
               sx={{
                 ...buttonStyle,
-                marginRight: "-9px",
+                marginRight: '-9px',
               }}
               variant="text"
               id="basic-button"
               className="module-button"
-              onClick={() => 
-                navigate(
-                  "/home", 
-                  { state: [id, currentModule] }
-                )
-              }
+              onClick={() => navigate('/home', { state: [id, currentModule] })}
             >
-              <FullscreenExitIcon />
+              <Close />
             </Button>
-          }
-        </div>
-        <div id="module-content">
-          {
-            custom && 
-            <CustomQuery 
-              isDark={props.isDark}
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-          {
-            faas && 
-            <OpenFaaS 
-              isDark={props.isDark}
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-          {
-            charts && 
-            <Charts              
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-          {
-            functionCost &&
-            <FunctionCost
-            isDark={props.isDark}
-            id={id}
-            nested={props.nested}
-            />
-          }
-          {
-            visualizer && 
-            <Visualizer               
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-          {
-            alert && 
-            <Alert               
-              id={id} 
-              nested={props.nested} 
-            />
-          }
-        </div>
-      </Container>
-      <Container 
-        className="cluster-id"
-        sx={{
-          color: style.color
+          </Tooltip>
+        )}
+      </div>
+      <div id="module-content">
+        {faas && (
+          <OpenFaaS isDark={props.isDark} id={id} nested={props.nested} />
+        )}
+        {charts && <Charts id={id} nested={props.nested} />}
+        {functionCost && (
+          <FunctionCost isDark={props.isDark} id={id} nested={props.nested} />
+        )}
+        {alert && <Alert id={id} nested={props.nested} />}
+      </div>
+      <Modal
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
         }}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-      </Container>
-      {
-        !props.nested && 
-        <NavBar />
-      }
+        <>
+          {currModal === 'custom' ? (
+            <Custom
+              handleCustomClose={handleCloseModal}
+              customBox={customBox}
+            />
+          ) : (
+            <Visualizer
+              handleVisualizerClose={handleCloseModal}
+              customBox={customBox}
+            />
+          )}
+        </>
+      </Modal>
+      {!props.nested}
     </div>
   );
 };

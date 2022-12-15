@@ -1,37 +1,37 @@
-import { IPath, IPathRoute } from "../interfaces/IPath";
+import { IPath, IPathRoute } from '../interfaces/IPath';
 
 function path(url: string): IPathRoute {
   const allRoutes: IPath = {
     '/user': {
-      methods: ['GET', 'PUT', 'DELETE']
+      methods: ['GET', 'PUT', 'DELETE'],
     },
     '/auth': {
-      methods: ['GET', 'POST', 'PUT']
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
     },
     '/cluster': {
-      methods: ['GET', 'POST', 'PUT', 'DELETE']
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
     },
     '/prom': {
-      methods: ['GET']
+      methods: ['GET'],
     },
     '/faas': {
-      methods: ['GET', 'POST', 'PUT', 'DELETE']
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
     },
     '/faas/invoke': {
-      methods: ['POST']
+      methods: ['POST'],
     },
     '/gateway': {
-      methods: ['GET']
+      methods: ['GET'],
     },
     '/alert': {
-      methods: ['GET']
+      methods: ['GET'],
     },
     '/github': {
-      methods: ['GET', 'POST']
+      methods: ['GET', 'POST'],
     },
     '/gcheck': {
-      methods: ['POST']
-    }
+      methods: ['POST'],
+    },
   };
   return allRoutes[url];
 }

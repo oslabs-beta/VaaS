@@ -1,53 +1,190 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import { Modules } from "../../Interfaces/ICluster";
-import { Delete, Get, Post } from "../../Services";
-import { apiRoute } from "../../utils";
-import { useLocation } from "react-router-dom";
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Modules } from '../../Interfaces/ICluster';
+import { Box, Modal } from '@mui/material';
 
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();
-  const [id] = useState(props.id || state[0]);
-  const [grafanaCharts, setGrafanaCharts] = useState([])
+  //hooks for opening modals... two modals will be opened to render grafana graphs
+  const [open, setOpen] = useState(false);
+  const [openSecond, setOpenSecond] = useState(false);
+  const [category, setCategory] = useState('');
+  const [dashboardObj, setDashboardObj] = useState({});
+  const [dashboard, setDashboard] = useState('');
+  const handleClose = () => setOpen(false);
+  const handleCloseSecond = () => setOpenSecond(false);
 
-  useEffect(() => {
-    console.log('placeholder');
-  }, []);
-
+  //grafana dashboard IDs are hard coded for now, but should be configured to be dynamically fetched via an API call to grafana...
+  const computingDashboard = {
+    Cluster: import.meta.env.VITE_COMPUTING_CLUSTER,
+    Nodes: import.meta.env.VITE_COMPUTING_NODES,
+    Workloads: import.meta.env.VITE_COMPUTING_WORKLOADS,
+    Pods: import.meta.env.VITE_COMPUTING_PODS,
+  };
+  const networkingDashboard = {
+    Cluster: import.meta.env.VITE_NETWORKING_CLUSTER,
+    Namespaces: import.meta.env.VITE_NETWORKING_NAMESPACES,
+    Workloads: import.meta.env.VITE_NETWORKING_WORKLOADS,
+    Pods: import.meta.env.VITE_NETWORKING_PODS,
+  };
+  const isolatedDashboard = {
+    Cluster: import.meta.env.VITE_ISOLATED_CLUSTER,
+    Nodes: import.meta.env.VITE_ISOLATED_NODES,
+    Workloads: import.meta.env.VITE_ISOLATED_WORKLOADS,
+    Pods: import.meta.env.VITE_ISOLATED_PODS,
+  };
+  const overviewDashboard = {
+    Kubelet: import.meta.env.VITE_OVERVIEW_KUBELET,
+    'USE/NODE': import.meta.env.VITE_OVERVIEW_USENODE,
+    'USE/CLUSTER': import.meta.env.VITE_OVERVIEW_USECLUSTER,
+    'Node Exporter': import.meta.env.VITE_OVERVIEW_NODEEXPORTER,
+  };
+  const coreDashboard = {
+    'API Server': import.meta.env.VITE_CORE_APISERVER,
+    etcd: import.meta.env.VITE_CORE_ETCD,
+    Scheduler: import.meta.env.VITE_CORE_SCHEDULER,
+    'Controller Manager': import.meta.env.VITE_CORE_CONTROLMANAGER,
+  };
+  //upon opening up a modal, this function indicates the category and selects which dashboard object we are targeting
+  const handleOpen = (e: any) => {
+    setCategory(e.target.getAttribute('data-value'));
+    switch (e.target.getAttribute('data-value')) {
+      case 'computing': {
+        setDashboardObj(computingDashboard);
+        break;
+      }
+      case 'networking': {
+        setDashboardObj(networkingDashboard);
+        break;
+      }
+      case 'isolated': {
+        setDashboardObj(isolatedDashboard);
+        break;
+      }
+      case 'overview': {
+        setDashboardObj(overviewDashboard);
+        break;
+      }
+      case 'core': {
+        setDashboardObj(coreDashboard);
+        break;
+      }
+    }
+    setOpen(true);
+  };
+  //this handler function specifies which specific dashboard is rendered
+  const handleDashboard = (e: any) => {
+    setOpenSecond(true);
+    setDashboard(e.target.getAttribute('data-value'));
+  };
+  //styling for modals
+  const style = {
+    position: 'absolute' as const,
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: '#181A1D',
+    border: '2px solid #15161d',
+    boxShadow: '1px 1px 10px .5px #403e54',
+    p: 7,
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  };
+  const style2 = {
+    position: 'absolute' as const,
+    top: '20%',
+    left: '50%',
+    transform: 'translate(-50%, -20%)',
+    bgcolor: '#181A1D', //#2704FF
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  };
   return (
-    <div>
-      <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=15s&from=1665438085393&to=1665448885393&panelId=9" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665438067436&to=1665448867436&panelId=8" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665408311835&to=1665419111835&panelId=2" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/oWe9aYxmk/1-kubernetes-deployment-statefulset-daemonset-metrics?orgId=1&refresh=30s&from=1665438107076&to=1665448907076&panelId=11" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/zrP9cXD7k/cluster-and-node-health-and-scaling?orgId=1&from=1665437987775&to=1665448787775&panelId=5" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/zrP9cXD7k/cluster-and-node-health-and-scaling?orgId=1&from=1665438024893&to=1665448824893&panelId=22" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665362750915&to=1665449150915&panelId=78" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665362765553&to=1665449165553&panelId=77" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665362773502&to=1665449173502&panelId=74" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665362781278&to=1665449181278&panelId=152" width="450" height="200" frameBorder="0"></iframe>
-
-
-
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363851043&to=1665450251043&panelId=20" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363867167&to=1665450267167&panelId=155" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363875492&to=1665450275493&panelId=19" width="450" height="200" frameBorder="0"></iframe>
-
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363884075&to=1665450284075&panelId=16" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363894158&to=1665450294158&panelId=21" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363925967&to=1665450325967&panelId=154" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363939355&to=1665450339355&panelId=14" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363960556&to=1665450360556&panelId=23" width="450" height="200" frameBorder="0"></iframe>
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363971442&to=1665450371442&panelId=75" width="450" height="200" frameBorder="0"></iframe>
-
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363986855&to=1665450386855&panelId=18" width="450" height="200" frameBorder="0"></iframe>
-
-      {/* {for(let i = 0; i<10; i++) {
-
-      }} */}
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665363996561&to=1665450396561&panelId=15" width="450" height="200" frameBorder="0"></iframe>
-
-      <iframe src="http://localhost:3001/d-solo/rYdddlPWk/node-exporter-full?orgId=1&refresh=1m&from=1665420978439&to=1665507378439&panelId=20" width="450" height="200" frameBorder="0"></iframe>
-
+    <div className="chartsBackground">
+      <div className="categoryList">
+        <div className="category" data-value="computing" onClick={handleOpen}>
+          Computing
+        </div>
+        <div className="category" data-value="networking" onClick={handleOpen}>
+          Networking
+        </div>
+        <div className="category" data-value="isolated" onClick={handleOpen}>
+          Isolated
+        </div>
+        <div className="category" data-value="overview" onClick={handleOpen}>
+          Overview
+        </div>
+        <div className="category" data-value="core" onClick={handleOpen}>
+          Core
+        </div>
+        <div className="category" data-value="custom" onClick={handleOpen}>
+          Custom
+        </div>
+        <div className="category" data-value="openfaas" onClick={handleOpen}>
+          OpenFaaS
+        </div>
+      </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box className="modal-" sx={style}>
+          <div
+            data-value={Object.values(dashboardObj)[0]}
+            onClick={handleDashboard}
+            className="dashboard"
+          >
+            {Object.keys(dashboardObj)[0]}
+          </div>
+          <div
+            data-value={Object.values(dashboardObj)[1]}
+            onClick={handleDashboard}
+            className="dashboard"
+          >
+            {Object.keys(dashboardObj)[1]}
+          </div>
+          <div
+            data-value={Object.values(dashboardObj)[2]}
+            onClick={handleDashboard}
+            className="dashboard"
+          >
+            {Object.keys(dashboardObj)[2]}
+          </div>
+          <div
+            data-value={Object.values(dashboardObj)[3]}
+            onClick={handleDashboard}
+            className="dashboard"
+          >
+            {Object.keys(dashboardObj)[3]}
+          </div>
+        </Box>
+      </Modal>
+      <Modal
+        open={openSecond}
+        onClose={handleCloseSecond}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="modal-2"
+      >
+        <Box className="modal-2-box" sx={style2}>
+          <div className="renderDashboard">
+            <button id="closeButton" onClick={handleCloseSecond}>
+              {'Close Graph'}
+            </button>
+            <iframe
+              src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
+              height="900px"
+              width="1500px"
+              frameBorder="0"
+            ></iframe>
+          </div>
+        </Box>
+      </Modal>
     </div>
   );
 };

@@ -1,72 +1,60 @@
-body {
-  padding: 0;
-  font-family: 'Cabin', sans-serif;
-  padding-bottom: 43px;
-}
-
-.noselect {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
-
-.Kube-port {
-  -webkit-scroll-snap-type: y mandatory;
-  scroll-snap-type: y mandatory;
-}
-
-.Kube-container {
-  -webkit-scroll-snap-align: start;
-  scroll-snap-align: start;
-}
-
-#logout-btn {
-  float: right
-}
-
-#navbar {
-  background: white;
-  padding: 8px;
-  margin: 0;
-  width: 100vw;
-  height: 25px;
-  max-height: 25px;
-  position: fixed;
-  bottom: 0;
+#navbar-container {
+  box-sizing: border-box;
+  padding-right: 100px;
   display: flex;
-  margin-left: -1.4rem;
-  border-top: 1px solid #717982;
+  flex-direction: row;
+  width: 100vw;
+  overflow: hidden;
+  justify-content: space-between;
+  background-color: black;
+  align-items: center;
+  height: 100px;
 }
-
-#dropdown {
-  float: right;
-  margin-right: 1rem;
+.test {
+  border: 10px solid red;
 }
-
-#username-navbar {
-  float: right;
-  margin-right: 1rem;
+#Home-Bar-Title {
+  font-size: 20px;
+  width: 300px;
+  color: white;
+  margin-left: 192px;
+  margin-top: 25px;
 }
-
-#welcome-banner {
-  font-size: 0.75rem;
-  color: #3a4a5b;
-  margin-left: 1.5rem;
-  cursor: default;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+#navbar-container img {
+  box-sizing: border-box;
+  height: 200px;
+  width: 200px;
+  padding-left: 20px;
+  padding-top: 35px;
 }
-
-.title {
-  font-weight: 700;
-  margin-right: auto;
-  margin-left: 1.5rem;
-  font-size: 1.3em;
-  color: #3a4a5b;
-  cursor: default;
+#navbar-title {
+  color: white;
+  font-size: 35px;
+  font-weight: 100 !important;
+}
+.Kube-port {
+  width: 80%;
+  display: block;
+  margin: 0px auto;
+}
+.Kube-container {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  align-items: center;
+  width: 60%;
+  gap: 5em;
+}
+.Header-Bar-Title {
+  width: 300px;
+  margin-top: 10px;
+  margin-left: 100px;
+  color: white;
+  font-size: 20px;
+}
+.logoutMenuButton {
+  color: white;
+  font-size: 20px;
+  padding: 5px 10px;
 }

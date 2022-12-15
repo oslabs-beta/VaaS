@@ -1,4 +1,3 @@
-import { Terminal } from '@mui/icons-material';
 import { Get } from '../Services';
 import { apiRoute } from '../utils';
 
@@ -7,8 +6,9 @@ export default async function Alert(
   ns: string,
   query: any
 ): Promise<any> {
-  return await Get(apiRoute.getRoute(
-    `/alert?id=${clusterId}&ns=${ns}&q=${query.name}&expr=${query.expression}&dur=${query.duration}`
-  ), { authorization: localStorage.getItem('token') });
+  return await Get(
+    apiRoute.getRoute(
+      `/alert?id=${clusterId}&ns=${ns}&q=${query.name}&expr=${query.expression}&dur=${query.duration}`
+    )
+  );
 }
-

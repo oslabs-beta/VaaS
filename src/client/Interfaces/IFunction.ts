@@ -15,6 +15,4 @@ export interface DeployedFunctionTypes {
   replicas: number;
   invocationCount: number;
   image: string;
-
 }
-

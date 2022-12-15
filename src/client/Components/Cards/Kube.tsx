@@ -1,270 +1,415 @@
-import React, { useEffect, useState } from "react";
-import { ClusterTypes } from "../../Interfaces/ICluster";
-import { Put } from "../../Services";
-import { apiRoute } from "../../utils";
-import Module from "./Module";
-import ClusterSettings from "../Modules/ClusterSettings";
-import { useAppDispatch, useAppSelector } from "../../Store/hooks";
-import { setFavRender, setUI } from "../../Store/actions";
-import { IReducers } from "../../Interfaces/IReducers";
-import Container from "@mui/system/Container";
-import Button from "@mui/material/Button";
-import SettingsIcon from "@mui/icons-material/Settings";
-import AnalyticsIcon from "@mui/icons-material/Analytics";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import GaugeChart from 'react-gauge-chart';
-import "./styles.css";
+import {
+  ClusterTypes,
+  useFetchMetricsProps,
+  IReducers,
+} from '../../Interfaces';
+import ClusterSettings from '../Modules/ClusterSettings';
+import { useAppDispatch, useAppSelector } from '../../Store/hooks';
+import { setUI } from '../../Store/actions';
+import { useFetchMetrics } from '../../Queries';
+import { Custom, Visualizer } from '../Modules';
+import {
+  Button,
+  Tooltip,
+  Modal,
+  Box,
+  CssBaseline,
+  Divider,
+} from '@mui/material';
+import {
+  Insights,
+  AddAlert,
+  ViewInAr,
+  QueryStats,
+  Functions,
+  AttachMoney,
+} from '@mui/icons-material';
+import './styles.css';
 
-
-
+// Dashboard for each cluster which is rendered onto the home page
 const Kube = (props: ClusterTypes) => {
+  const [settingsModal, handleSettingsModal] = useState(false);
+  const [currModal, setCurrModal] = useState('');
+  const [openModal, setOpenModal] = useState(false);
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
   const dispatch = useAppDispatch();
-  const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
+  const navigate = useNavigate();
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
-  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
-  // need to convert below to redux? 
-  const [module, setModule] = useState(true);
-  const [settings, setSettings] = useState(false);
 
-  // accessing state to find data of the specfic cluster
-  const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props._id));
-  
+  // accessing redux state clusterDbData to find data of the specfic cluster by _id
+  const dbData = apiReducer.clusterDbData.find(
+    (element) => element._id === props._id
+  );
+
+  // declare useFetchMetrics custom hook props
+  const fetchProps: useFetchMetricsProps = {
+    clusterId: props?._id,
+    k8Str: 'k8',
+  };
+
+  // invoke custom hook which takes the clusterId and 'k8 as arguments/props
+  const {
+    allNodes,
+    cpuLoad,
+    memoryLoad,
+    totalDeployments,
+    totalPods,
+    allNamespaces,
+    allServices,
+  } = useFetchMetrics(fetchProps);
+  const customBox = {
+    overflow: 'scroll',
+    maxHeight: '100%',
+    display: 'inline',
+  };
   useEffect(() => {
     dispatch(
-      setUI(
-        props._id, 
-        {
-          currentModule: 'OpenFaaS',
-          fullscreen: false,
-          modules: {
-            OpenFaaS: {
-              deployDropdown: '',
-              invokeDropdown: '',
-              requestBody: '',
-              responseBody: ''
-            },
-            query: {
-              inputField: '',
-              responseObject: ''
-            }
-          }
-        }
-      )
+      setUI(props._id, {
+        currentModule: 'OpenFaaS',
+        fullscreen: false,
+        modules: {
+          OpenFaaS: {
+            deployDropdown: '',
+            invokeDropdown: '',
+            requestBody: '',
+            responseBody: '',
+          },
+          query: {
+            inputField: '',
+            responseObject: '',
+          },
+        },
+      })
     );
   }, []);
 
-  const handleFavorite = async () => {
-    try {
-      const body = {
-        clusterId: props._id,
-        favorite: !props.favoriteStatus,
-      };
-      await Put(
-        apiRoute.getRoute("cluster"),
-        body,
-        {
-          authorization: localStorage.getItem("token"),
-        }
-      );
-      dispatch(
-        setFavRender(!clusterReducer.favRender)
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleSettings = async () => {
-    try {
-      console.log(uiReducer);
-      setModule(!module);
-      setSettings(!settings);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
-    <Container
-      sx={
-        (props.isDark) ?
-        {
-        minWidth: "100%",
-        justifyContent: "left",
-        display: "flex",
-        direction: "column",
-        textAlign: "left",
-        backgroundSize: "contain",
-        backgroundColor: "#181A1D",
-      }: {
-        minWidth: "100%",
-        justifyContent: "left",
-        display: "flex",
-        direction: "column",
-        textAlign: "left",
-        backgroundSize: "contain",
-        backgroundColor: "#fafafa", 
+    <Box
+      className="Cluster-Kube-Box"
+      sx={{
+        display: 'flex',
+        backgroundColor: '#181A1D',
+        color: 'white',
+        width: '60%',
+        minWidth: '500px',
+        maxWidth: '1500px',
+        minHeight: '350px',
+        height: '30vh',
+        maxHeight: '450px',
+        border: '2px solid #15161d',
+        boxShadow: '1px 1px 10px .5px #403e54',
       }}
-      id="Kube"
     >
-      <div className="Kube-top-row"
-        style={(props.isDark) ? { color: "#c0c0c0" } : { color: "black"}}
+      <CssBaseline />
+      <Box
+        className="Cluster-Kube-Box-Left"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          margin: '0',
+          padding: '0',
+          minWidth: '150px',
+          borderRight: '2px solid #15161d',
+        }}
       >
-        <div className="cluster-title">
-          {
-            props.favoriteStatus &&
-            <span
-              className="set-favorite noselect"
-              onClick={handleFavorite}
-            >
-              ❤️
-            </span>
-          }
-          {
-            !props.favoriteStatus &&
-            <span
-              className="set-favorite noselect"
-              onClick={handleFavorite}
-            >
-              🤍
-            </span>
-          }
-          <span className="set-favorite noselect">
-            &nbsp;
-          </span>
-          <b>{"" + dbData?.name}:&nbsp;</b>
-          {"" + dbData?.description}
-        </div>
-        <Button
-          sx={(props.isDark) ? { color: "#c0c0c0" } : { color: "#3a4a5b" }}
-          variant="text"
-          id="basic-button"
-          onClick={handleSettings}
-        >
-          {module && <SettingsIcon />}
-          {settings && <AnalyticsIcon />}
-        </Button>
-      </div>
-      <div id="overview">
-        <div className="ov-box"
-          style={(props.isDark) ? {           
-              backgroundColor: "#34363b",
-              color: "#c0c0c0"
-              } :
-              {
-                backgroundColor: "#fafafa"
+        <Box
+          className="Cluster-Kube-Box-Title"
+          sx={{
+            borderBottom: '2px solid #15161d',
+            minHeight: '60px',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
-          <div className="ov-title noselect">
-            <h3>Nodes</h3>
-          </div>
-          <div className="ov-nodes">
-            <div>Count: <b>{(apiReducer.clusterQueryData[props._id]?.allNodes.length || 0)}</b></div>
-            <div><b>{(apiReducer.clusterQueryData[props._id]?.allNodes[0] || '🔴')}</b></div>
-          </div>
-        </div>
-        <div className="ov-box"
-          style={(props.isDark) ? {           
-              backgroundColor: "#34363b",
-              color: "#c0c0c0"
-              } :
-              {
-                backgroundColor: "#fafafa"
+          {dbData?.name}
+        </Box>
+        <Box
+          className="Cluster-Kube-Box-Modules-General"
+          sx={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '10px',
+            paddingTop: '10px',
+            paddingBottom: '10px',
           }}
         >
-          <div className="ov-title noselect">
-            <h3>Deployments</h3>
-          </div>
-          <div className="ov-content">
-            <div>{(apiReducer.clusterQueryData[props._id]?.totalDeployments.length || 0)}</div>
-          </div>
-        </div>
-        <div className="ov-box"
-          style={(props.isDark) ? {           
-              backgroundColor: "#34363b",
-              color: "#c0c0c0"
-              } :
-              {
-                backgroundColor: "#fafafa"
+          <Button
+            className="Cluster-Buttons"
+            id="Graphs-Button"
+            fullWidth={true}
+            startIcon={<Insights />}
+            onClick={() =>
+              navigate('/module', {
+                state: [dbData, 'charts', true],
+              })
+            }
+          >
+            Graphs
+          </Button>
+          <Button
+            className="Cluster-Buttons"
+            id="Cluster-Map-Button"
+            fullWidth={true}
+            startIcon={<ViewInAr />}
+            onClick={() => {
+              setCurrModal('visualizer');
+              setOpenModal(true);
+            }}
+          >
+            Cluster Map
+          </Button>
+          <Button
+            className="Cluster-Buttons"
+            id="Queries-Button"
+            fullWidth={true}
+            startIcon={<QueryStats />}
+            onClick={() => {
+              setCurrModal('custom');
+              setOpenModal(true);
+            }}
+          >
+            Queries
+          </Button>
+          <Button
+            className="Cluster-Buttons"
+            id="Alerts-Button"
+            fullWidth={true}
+            startIcon={<AddAlert />}
+            onClick={() =>
+              navigate('/module', { state: [dbData, 'alert', true] })
+            }
+          >
+            Alerts
+          </Button>
+        </Box>
+        <Divider />
+        <Box
+          className="Cluster-Kube-Box-Modules-Faas"
+          sx={{
+            height: '200px',
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
           }}
         >
-          <div className="ov-title noselect">
-            <h3>Pods</h3>
-          </div>
-          <div className="ov-content">
-            <div>{(apiReducer.clusterQueryData[props._id]?.totalPods || 0)}</div>
-          </div>
-        </div>
-        <div className="ov-box"
-          style={(props.isDark) ? {           
-              backgroundColor: "#34363b",
-              color: "#c0c0c0"
-              } :
-              {
-                backgroundColor: "#fafafa"
+          <Button
+            className="Cluster-Buttons"
+            id="OpenFaaS-Button"
+            fullWidth={true}
+            startIcon={<Functions />}
+            onClick={() =>
+              navigate('/module', { state: [dbData, 'faas', true] })
+            }
+          >
+            OpenFaaS
+          </Button>
+          <Button
+            className="Cluster-Buttons"
+            id="FaaSCost-Button"
+            fullWidth={true}
+            startIcon={<AttachMoney />}
+            onClick={() =>
+              navigate('/module', {
+                state: [dbData, 'functionCost', true],
+              })
+            }
+          >
+            FaaS Cost
+          </Button>
+        </Box>
+      </Box>
+      <Box
+        className="Cluster-Kube-Box-Right"
+        sx={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          padding: '0',
+          margin: '0',
+        }}
+      >
+        <Box
+          className="Cluster-Description-Box"
+          sx={{
+            borderBottom: '2px solid #15161d',
+            height: '60px',
+            minHeight: '60px',
+            maxHeight: '60px',
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
-          <div className="ov-title noselect">
-            <h3>CPU Usage</h3>
+          <div className="Cluster-Information">
+            {dbData?.description}
+            <Tooltip title="Cluster Settings">
+              <div
+                id="settingButton"
+                onClick={() => {
+                  handleSettingsModal(true);
+                }}
+              >
+                {' '}
+                &#9784;
+              </div>
+            </Tooltip>
           </div>
-          <div className="ov-content">
-            <GaugeChart
-              nrOfLevels={30}
-              colors={["green", "#FF5F6D"]}
-              arcWidth={0.1}
-              percent={(apiReducer.clusterQueryData[props._id]?.cpuLoad || 0)/100}
-              style={{
-                width: '90px',
-                height: '2px',
-              }}
-              needleColor={(props.isDark)? "#c0c0c0" : "#464A4F"}
-            />
-          </div>
-        </div>
-        <div className="ov-box"
-          style={(props.isDark) ? {           
-              backgroundColor: "#34363b",
-              color: "#c0c0c0"
-              } :
-              {
-                backgroundColor: "#fafafa"
-          }}
-        >
-          <div className="ov-title noselect">
-            <h3>Memory Usage</h3>
-          </div>
-          <div className="ov-content">
-            <GaugeChart
-              nrOfLevels={30}
-              colors={["green", "#FF5F6D"]}
-              arcWidth={0.1}
-              percent={(apiReducer.clusterQueryData[props._id]?.memoryLoad || 0)/2048}
-              style={{
-                width: '90px',
-                height: '2px',
-              }}
-              needleColor={(props.isDark)? "#c0c0c0" : "#464A4F"}
-            />
-          </div>
-          <div className="ov-metric">
-            <p>{(apiReducer.clusterQueryData[props._id]?.memoryLoad || 0) + ' /2048 MB'}</p>
-          </div>
-        </div>
-      </div>
-      <div id="module">
-        {module && (
-          <Module
-            id={dbData?._id}
-            nested={true}
-            isDark={props.isDark}
-          />
-        )}
-        {settings && (
+        </Box>
+        <Box className="Basic-Descriptors">
+          <Box
+            className="Cluster-Nodes-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <div className="basic-descriptor-title" id="node-title">
+              NODES:{' '}
+            </div>
+            <div>{allNodes?.length || 0}</div>
+          </Box>
+          <Box
+            className="Cluster-Deployments-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <div className="basic-descriptor-title" id="deployment-title">
+              DEPLOYMENTS:{' '}
+            </div>
+            <div>{totalDeployments || 0}</div>
+          </Box>
+          <Box
+            className="Cluster-Pods-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <div className="basic-descriptor-title" id="pod-title">
+              PODS:{' '}
+            </div>
+            <div>{totalPods || 0}</div>
+          </Box>
+        </Box>
+        <Box className="Gauges-Descriptors">
+          <Box
+            className="Cluster-CPU-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+            }}
+          >
+            <Box className="Cluster-CPU-Box-Title">CPU</Box>
+            <Box className="Cluster-CPU-Gauge">
+              <GaugeChart
+                nrOfLevels={30}
+                colors={['green', '#FF5F6D']}
+                arcWidth={0.1}
+                percent={(cpuLoad || 0) / 100}
+                style={{
+                  width: '90px',
+                  height: '2px',
+                }}
+                needleColor={props.isDark ? '#c0c0c0' : '#464A4F'}
+                hideText={true}
+              />
+              <a className="gauge-text">{cpuLoad || 0}%</a>
+            </Box>
+          </Box>
+          <Box
+            className="Cluster-Memory-Box"
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '10px',
+            }}
+          >
+            <Box className="Cluster-Memory-Box-Title">Memory</Box>
+            <Box className="Cluster-Memory-Gauge">
+              <GaugeChart
+                nrOfLevels={30}
+                colors={['green', '#FF5F6D']}
+                arcWidth={0.1}
+                percent={(memoryLoad || 0) / 2048}
+                style={{
+                  width: '90px',
+                  height: '2px',
+                }}
+                needleColor={props.isDark ? '#c0c0c0' : '#464A4F'}
+                hideText={true}
+              />
+              <a className="gauge-text">{memoryLoad || 0} / 2048 MB</a>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      <Modal
+        open={settingsModal}
+        onClose={() => {
+          handleSettingsModal(false);
+        }}
+        sx={{ border: 'none' }}
+      >
+        <Box className="Settings-Modal-Container" sx={{ border: 'none' }}>
           <ClusterSettings
+            refetch={props?.refetch}
             id={dbData?._id}
+            name={dbData?.name}
+            handleModal={handleSettingsModal}
           />
-        )}
-      </div>
-    </Container>
+          <Button
+            id="closeButton"
+            onClick={() => {
+              handleSettingsModal(false);
+            }}
+          >
+            {'Close Settings'}
+          </Button>
+        </Box>
+      </Modal>
+      <Modal
+        open={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+      >
+        <>
+          {currModal === 'custom' ? (
+            <Custom
+              handleCustomClose={handleCloseModal}
+              customBox={customBox}
+              dbData={dbData}
+            />
+          ) : (
+            <Visualizer
+              handleVisualizerClose={handleCloseModal}
+              customBox={customBox}
+              dbData={dbData}
+            />
+          )}
+        </>
+      </Modal>
+    </Box>
   );
 };
 

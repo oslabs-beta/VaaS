@@ -1,50 +1,83 @@
 import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { Modules } from '../../Interfaces/ICluster';
-import { Get, Put, Delete } from '../../Services';
 import { setRender } from '../../Store/actions';
-import { apiRoute } from '../../utils';
+import { Modules } from '../../Interfaces/ICluster';
 import { IReducers } from '../../Interfaces/IReducers';
+import { deleteCluster, editCluster } from '../../Queries';
 import { Container } from '@mui/system';
-import Card from '@mui/material/Card';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { Box, TextField, Card, Button } from '@mui/material';
 
 const ClusterSettings = (props: Modules) => {
-  const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
+  // Use reducers to pull in things from global state
+  const clusterReducer = useAppSelector(
+    (state: IReducers) => state.clusterReducer
+  );
   const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const dbData = apiReducer.clusterDbData.find(
+    (element) => element._id === props.id
+  );
 
-  const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
-
+  const [clusterData, setClusterData] = useState({
+    url: dbData?.url,
+    k8_port: dbData?.k8_port,
+    faas_port: dbData?.faas_port,
+    name: dbData?.name,
+    description: dbData?.description,
+    faas_username: dbData?.faas_username,
+    faas_password: dbData?.faas_password,
+    faas_url: dbData?.faas_url || '',
+    grafana_url: dbData?.grafana_url || '',
+    kubeview_url: dbData?.kubeview_url || '',
+  });
   const [updateClusterError, setUpdateClusterError] = useState('');
-  const [settingsField] = useState({
+
+  const deleteClusterMutation = useMutation(
+    (body: { clusterId: string | undefined }) => deleteCluster(body),
+    {
+      onSuccess: (response) => {
+        if (response.deleted) {
+          dispatch(setRender(!clusterReducer.render));
+          props.refetch();
+          props.handleModal(false);
+        }
+      },
+    }
+  );
+  const editClusterMutation = useMutation((body: any) => editCluster(body), {
+    onSuccess: (response) => {
+      if (response.success) {
+        setUpdateClusterError('Cluster successfully updated!');
+        dispatch(setRender(!clusterReducer.render));
+        props.refetch();
+        props.handleModal(false);
+      }
+    },
+  });
+  const settingsField = {
     background: 'white',
     borderRadius: '5px',
-    marginRight: '3px',
-    marginBottom: '0px',
-    width: '350px',
-    fontSize: '10px'
-  });
-  const [buttonColor] = useState({
-    color: "white"
-  });
+    marginBlock: '7px',
+    width: '300px',
+  };
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const {
+      target: { name, value },
+    } = e;
+    setClusterData({ ...clusterData, [name]: value });
+  };
 
   const handleDeleteCluster = async () => {
     try {
-      const body = {
-        clusterId: props.id
-      };
-      await Delete(
-        apiRoute.getRoute('cluster'), 
-        body, 
-        { 
-          authorization: localStorage.getItem('token') 
-        }
-      );
-      dispatch(
-        setRender(!clusterReducer.render)
-      );
+      deleteClusterMutation.mutate({
+        clusterId: props.id,
+      });
     } catch (err) {
       console.log('Delete cluster error:', err);
     }
@@ -52,127 +85,89 @@ const ClusterSettings = (props: Modules) => {
 
   const handleUpdateCluster = async () => {
     try {
-      const body = {
-        clusterId: props.id,
-        url: (document.getElementById('update-cluster-url') as HTMLInputElement).value || dbData?.url,
-        k8_port: (document.getElementById('update-cluster-k8') as HTMLInputElement).value || dbData?.k8_port,
-        faas_port: (document.getElementById('update-cluster-faas') as HTMLInputElement).value || dbData?.faas_port,
-        faas_username: (document.getElementById('update-cluster-faas-username') as HTMLInputElement).value,
-        faas_password: (document.getElementById('update-cluster-faas-password') as HTMLInputElement).value,
-        name: (document.getElementById('update-cluster-name') as HTMLInputElement).value || dbData?.name,
-        description: (document.getElementById('update-cluster-description') as HTMLInputElement).value || dbData?.description,
-      };
+      const payload = { ...clusterData, clusterId: props.id };
       if (
-        body.url === dbData?.url &&
-        body.k8_port === dbData?.k8_port &&
-        body.faas_port === dbData?.faas_port &&
-        !body.faas_username &&
-        !body.faas_password &&
-        body.name === dbData?.name &&
-        body.description === dbData?.description
+        payload.url === dbData?.url &&
+        payload.k8_port === dbData?.k8_port &&
+        payload.faas_port === dbData?.faas_port &&
+        !payload.faas_username &&
+        !payload.faas_password &&
+        payload.name === dbData?.name &&
+        payload.description === dbData?.description &&
+        payload.faas_url === dbData?.faas_url &&
+        payload.grafana_url === dbData?.grafana_url &&
+        payload.kubeview_url === dbData?.kubeview_url
       ) {
         setUpdateClusterError('Nothing to update!');
         return;
       }
-      if (
-        (body.faas_username && !body.faas_password) ||
-        (body.faas_password && !body.faas_username)
-      ) {
+      if (!payload.faas_username || !payload.faas_password) {
         setUpdateClusterError('Both OpenFaaS credentials required');
         return;
       }
-      if (!body.k8_port?.toString().match(/[0-9]/g) || !body.faas_port?.toString().match(/[0-9]/g)) {
+      if (
+        !payload.k8_port?.toString().match(/[0-9]/g) ||
+        !payload.faas_port?.toString().match(/[0-9]/g)
+      ) {
         setUpdateClusterError('Port(s) must be numbers');
         return;
       }
-      if (body.name !== dbData?.name) {
-        const cluster = await Get(apiRoute.getRoute(`cluster:${body.name}`), { authorization: localStorage.getItem('token') });
-        if (!cluster.message) {
-          setUpdateClusterError('Cluster name already exists. Try another name.');
-          return;
-        }
+      if (payload.name === dbData?.name) {
+        setUpdateClusterError('Cluster name already exists. Try another name.');
+        return;
       }
-      await Put(
-        apiRoute.getRoute('cluster'), 
-        body, 
-        { 
-          authorization: localStorage.getItem('token') 
-        }
-      );
-      setUpdateClusterError('Cluster successfully updated!');
-      dispatch(
-        setRender(!clusterReducer.render)
-      );
+      editClusterMutation.mutate(payload);
     } catch (err) {
       console.log('Update cluster error:', err);
     }
   };
 
-  const alertrules = async () => {
-    console.log('this function works for alert rules');
-  }
-
-  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  const handleEnterKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
     if (e.key === 'Enter') handleUpdateCluster();
   };
 
   return (
     <div>
-      <Container 
+      <Container
         className="module-container"
-        component={Card} 
+        component={Card}
         sx={{
-          color: "white",
+          color: 'white',
           minHeight: '100%',
           minWidth: '100%',
           display: 'flex',
-          justifyContent: 'left',
-          alignContent: 'center',
-          backgroundImage: "linear-gradient(#4f4a4b, #AFAFAF)"
-        }} 
+          flexDirection: 'column',
+          backgroundColor: 'rgb(0,0,0)',
+          boxShadow: '1px 1px 10px .5px #403e54',
+          borderRadius: '0px',
+          marginBottom: '20px',
+        }}
       >
-        <div className='Module-top-row'>
-          <div className='module-title noselect'>
-            Cluster Settings
+        <div className="Module-top-row" style={{ marginBottom: '20px' }}>
+          <div className="module-title noselect">
+            Cluster Settings: {props.name}
           </div>
-          <Button
-            sx={{
-              ...buttonColor,
-              marginRight: '9px'
-            }}
-            variant="text"
-            id="basic-button"
-            className='full-screen-button'
-            onClick={handleDeleteCluster}
-          >
-            Delete
-          </Button>
-          <Button
-            className='full-screen-button'
-            variant="text"
-            id="basic-button"
-            onClick={handleUpdateCluster}
-            sx={buttonColor}
-          >
-            Update
-          </Button>
         </div>
-        <div id='module-content'>
-          <Container 
+        <div id="module-content">
+          <Container
             sx={{
               width: '100%',
-              textAlign: 'center'
+              textAlign: 'center',
             }}
           >
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDown}
-                id='update-cluster-url'
+                onChange={handleInputChange}
+                name=""
+                value={clusterData?.url}
+                id="update-cluster-url"
                 type="text"
-                placeholder={dbData?.url}
                 label="Cluster URL"
                 variant="filled"
-                size='small'
+                size="small"
                 margin="dense"
                 sx={settingsField}
               />
@@ -180,12 +175,14 @@ const ClusterSettings = (props: Modules) => {
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDown}
-                id='update-cluster-k8'
+                onChange={handleInputChange}
+                name="k8_port"
+                value={clusterData?.k8_port}
+                id="update-cluster-k8"
                 type="text"
-                placeholder={String(dbData?.k8_port)}
                 label="Kubernetes Port"
                 variant="filled"
-                size='small'
+                size="small"
                 margin="dense"
                 sx={settingsField}
               />
@@ -193,12 +190,14 @@ const ClusterSettings = (props: Modules) => {
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDown}
-                id='update-cluster-faas'
+                onChange={handleInputChange}
+                name="faas_port"
+                value={clusterData?.faas_port}
+                id="update-cluster-faas"
                 type="text"
-                placeholder={String(dbData?.faas_port)}
                 label="FaaS Port"
                 variant="filled"
-                size='small'
+                size="small"
                 margin="dense"
                 sx={settingsField}
               />
@@ -206,11 +205,14 @@ const ClusterSettings = (props: Modules) => {
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDown}
-                id='update-cluster-faas-username'
+                onChange={handleInputChange}
+                name="faas_username"
+                value={clusterData?.faas_username}
+                id="update-cluster-faas-username"
                 type="text"
                 label="FaaS Username"
                 variant="filled"
-                size='small'
+                size="small"
                 margin="dense"
                 sx={settingsField}
               />
@@ -218,11 +220,14 @@ const ClusterSettings = (props: Modules) => {
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDown}
-                id='update-cluster-faas-password'
+                onChange={handleInputChange}
+                name="faas_password"
+                value={clusterData?.faas_password}
+                id="update-cluster-faas-password"
                 type="text"
                 label="FaaS Password"
                 variant="filled"
-                size='small'
+                size="small"
                 margin="dense"
                 sx={settingsField}
               />
@@ -230,12 +235,14 @@ const ClusterSettings = (props: Modules) => {
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDown}
-                id='update-cluster-name'
+                onChange={handleInputChange}
+                name="name"
+                value={clusterData?.name}
+                id="update-cluster-name"
                 type="text"
-                placeholder={dbData?.name}
                 label="Cluster Name"
                 variant="filled"
-                size='small'
+                size="small"
                 margin="dense"
                 sx={settingsField}
               />
@@ -243,24 +250,94 @@ const ClusterSettings = (props: Modules) => {
             <div>
               <TextField
                 onKeyDown={handleEnterKeyDown}
-                id='update-cluster-description'
+                onChange={handleInputChange}
+                name="description"
+                value={clusterData?.description}
+                id="update-cluster-description"
                 type="text"
-                placeholder={dbData?.description}
                 label="Cluster Description"
                 variant="filled"
-                size='small'
+                size="small"
                 margin="dense"
                 sx={settingsField}
               />
             </div>
             <div>
-              {updateClusterError}
+              <TextField
+                id="openfaas-url"
+                type="text"
+                label="FaaS URL"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDown}
+                onChange={handleInputChange}
+                name="faas_url"
+                value={clusterData?.faas_url}
+                sx={settingsField}
+              />
             </div>
+            <div>
+              <TextField
+                id="grafana-url"
+                type="text"
+                label="Grafana URL"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDown}
+                onChange={handleInputChange}
+                name="grafana_url"
+                value={clusterData?.grafana_url}
+                sx={settingsField}
+              />
+            </div>
+            <div>
+              <TextField
+                id="kubeview-url"
+                type="text"
+                label="Kubeview URL"
+                variant="filled"
+                size="small"
+                margin="dense"
+                onKeyDown={handleEnterKeyDown}
+                onChange={handleInputChange}
+                name="kubeview_url"
+                value={clusterData?.kubeview_url}
+                sx={settingsField}
+              />
+            </div>
+            <div>{updateClusterError}</div>
           </Container>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              marginBottom: '7px',
+            }}
+          >
+            <Button
+              sx={{
+                ':hover': { backgroundColor: 'red' },
+              }}
+              variant="text"
+              id="basic-button"
+              className="full-screen-button"
+              onClick={handleDeleteCluster}
+            >
+              Delete
+            </Button>
+            <Button
+              className="full-screen-button"
+              variant="text"
+              id="basic-button"
+              onClick={handleUpdateCluster}
+              sx={{ ':hover': { backgroundColor: 'green' } }}
+            >
+              Update
+            </Button>
+          </Box>
         </div>
-      </Container>
-      <Container className='cluster-id'>
-        {props.id}
       </Container>
     </div>
   );

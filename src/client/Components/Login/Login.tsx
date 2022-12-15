@@ -1,301 +1,267 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { apiRoute, GITHUB_CLIENT_ID, GITHUB_REDIRECT, GClientId } from '../../utils';
-import { setTitle } from '../../Store/actions';
-import { Put, Post } from '../../Services/index';
-import { IReducers } from '../../Interfaces/IReducers';
-import { Container, Box, Button, TextField, CssBaseline } from '@mui/material';
+import { loginUser, checkAuth } from '../../Queries';
+import { FcGoogle } from 'react-icons/fc';
+import { BsGithub } from 'react-icons/bs';
+import { Box, Button, TextField, CssBaseline, Typography } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import './styles.css';
-import { GoogleLogin } from 'react-google-login';
-import { gapi } from 'gapi-script';
-import { useDispatch } from 'react-redux';
-import githubIcon from '../Modules/icons/github-icon.png';
-import googleIcon from '../Modules/icons/google-icon.png';
-import LoginBackGround from '../../../../public/Images/LoginBackGround.png'; 
 
 const Login = () => {
-  const [usernameErr, setUsernameErr] = useState('Username');
-  const [passwordErr, setPasswordErr] = useState('Password');
-  const dispatch = useAppDispatch();
-  const clusterReducer = useAppSelector((state: IReducers) => state.clusterReducer);
   const navigate = useNavigate();
-  const gDispatch = useDispatch();
-
+  const [fields, setFields] = useState({ username: '', password: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const disabled = !fields.username || !fields.password;
+  // We don't want users who have a cookie to go through the login process -> check for their cookie and if they have a valid one, let them in
   useEffect(() => {
-    //sign in state might need to be removed - because we are working with persistent state 
-    //might be that we use redux-persist in conjunction with local.storage as oppose to actually touching local storage
-    console.log('render state from clusterReducer: ', clusterReducer.render);
-  }, [clusterReducer]);
-
-  useEffect(() => {
-    function start() {
-      gapi.client.init({
-        clientId: GClientId,
-        scope: 'email',
-      });
-    }
-    gapi.load('client:auth2', start);
+    const authorize = async () => {
+      const authorized = await checkAuth();
+      if (!authorized.invalid) navigate('/home');
+    };
+    authorize();
   }, []);
-
-  useEffect(() => {
-    const code = window.location.href.match(/\?code=(.*)/);
-    if (code) {
-      console.log('CODE FROM GITHUB IS: ', code[1]);
-      const gitCode = { code: code[1] }; 
-      gitSignin(gitCode);
-      console.log('BACKEND REQUEST SENT');
-      }
-      // make backend post request and attach code;
-
-      // if response is okay, navigate to home 
-    });
- 
-  async function gitSignin(body: any) {
-    const res = await Post(
-      apiRoute.getRoute('/github'),
-      body
-    )
-      .catch(err => console.log(err));
-    console.log('DONE? ');
-    console.log(res); 
-
-    if (res.token) {
-      localStorage.setItem('username', res.name);
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('userId', res.userId);
-      dispatch(setTitle('Home'));
-      navigate('/home');
-    }
-
-    else {throw new Error('Request unsuccessful');}
-  }
+  // Handler Functions
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setError('');
+    const {
+      target: { name, value },
+    } = e;
+    setFields({ ...fields, [name]: value });
+  };
   const handleLogin = async (): Promise<void> => {
+    setLoading(true);
     try {
-      const body = {
-        username: (document.getElementById('login-username-input') as HTMLInputElement).value,
-        password: (document.getElementById('login-password-input') as HTMLInputElement).value
-      };
-      // put request returns token and userId  
-      const res = await Put(
-        apiRoute.getRoute('auth'), 
-        body
-      )
-      .catch(err => console.log(err));
-
-      if (!body.username) setUsernameErr(' please enter username');
-      else setUsernameErr('Username');
-
-      if (!body.password) setPasswordErr(' please enter password');
-      else setPasswordErr('Password');
-      
-      if (res.token) {
-        localStorage.setItem('username', body.username);
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('userId', res.userId);
-        dispatch(setTitle('Home'));
-        navigate('/home');
-      }
-      if (res.invalid) {
-        setUsernameErr(res.message);
-        setPasswordErr('');
-      }
-    } catch (err) {
-      console.log('Get failed', err);
+      const response = await loginUser({ ...fields });
+      if (response.data.userId) navigate('/home');
+      setLoading(false);
+    } catch (error: any) {
+      setError(error.response.data.message);
+      setLoading(false);
     }
   };
-
   // when click on enter key, invoke login func
-  const handleEnterKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-    if (e.key === 'Enter') handleLogin();
-  };
-
-  const googleSuccess = async (gRes: any) => {
-    const result = gRes?.profileObj;
-    const token = gRes?.tokenId;
-    
-    try {
-      gDispatch({ type: 'AUTH', data: { result, token }});
-      const body = {
-      firstName: gRes.profileObj.givenName,
-      lastName: gRes.profileObj.familyName,
-      username: gRes.profileObj.email,
-      password: gRes.profileObj.googleId
-      };
-      const check: boolean = await Post(
-        apiRoute.getRoute('gcheck'),
-        body
-      );
-      if (check === true) {
-        const res = await Put(
-          apiRoute.getRoute('auth'),
-          body
-        ).catch(err => console.log(err));
-        if (res.token) {
-          localStorage.setItem('username', body.username);
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('userId', res.userId);
-        }
-      } else {
-        const res = await Post(
-          apiRoute.getRoute('auth'),
-          body
-        ).catch(err => console.log(err));
-        if (res.token) {
-          localStorage.setItem('username', body.username);
-          localStorage.setItem('token', res.token);
-          localStorage.setItem('userId', res.userId);
-        }
-      }
-      navigate('/home');
-    } catch (error) {
-      console.log(error);
+  const handleEnterKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    if (e.key === 'Enter') {
+      // console.log('Enter key pressed');
+      if (disabled) return;
+      handleLogin();
     }
   };
 
-  const googleFailure = (error: any) => {
-    console.log('Google Login failure', error);
-  };
-
-  const handleGit = () => {
-    window.location.replace(`https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}&redirect_uri=${GITHUB_REDIRECT}&scope=user`);
-  };
   return (
-    <div>
-      <Container 
+    <div className="container" id="login-container">
+      <Box
+        id="login-logo-container"
         sx={{
-          height: '100vh',
+          height: '30vh',
+          marginTop: '8vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <img id="login-icon" src="../../../../public/Images/v4.svg" />
+        <Typography
+          sx={{
+            fontSize: '2.5rem',
+            marginTop: '0',
+            marginBottom: '2vh',
+            paddingTop: '0',
+            letterSpacing: '0.3rem',
+            color: '#fff',
+            cursor: 'default',
+          }}
+        >
+          VaaS
+        </Typography>
+        {error && <span style={{ color: 'red' }}>{error}</span>}
+      </Box>
+      <Box
+        sx={{
           minWidth: '100%',
           justifyContent: 'center',
           display: 'flex',
           direction: 'column',
           textAlign: 'center',
           alignItems: 'center',
-          backgroundImage: `url(${LoginBackGround})` ,
-          backgroundSize: "cover",                   
-          backgroundRepeat: "no-repeat"
-        }} 
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+        }}
         className="backdrop"
       >
-        <CssBaseline/>
+        <CssBaseline />
         <Box
-          maxWidth="sm" 
-          className="login-container"
+          id="login-container-container"
           sx={{
-            width: '40%',
-            minWidth: '250px',
-            opacity: '95%',
-            direction: 'column',
-            textAlign: 'center',
-            alignItems: 'center',
             display: 'flex',
             flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'center',
-            backgroundRepeat: 'no-repeat',
-            padding: '1.5rem',
-            borderRadius: '2%'
+            paddingBottom: '2rem',
+            width: '100%',
           }}
         >
-          <div>
-            <h1>VaaS</h1>
-          </div>
           <TextField
-              id="login-username-input"
-              label={usernameErr}
-              type="username"
-              autoComplete="current-password"
-              variant="outlined"
-              size='small'
-              onKeyDown={handleEnterKeyDown}
-              margin="dense"
+            id="login-username-input"
+            label="Username"
+            type="username"
+            autoComplete="current-password"
+            variant="standard"
+            size="small"
+            onKeyDown={handleEnterKeyDown}
+            onChange={handleChange}
+            margin="dense"
+            name="username"
+            value={fields.username}
+            sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+              backgroundColor: 'transparent',
+              borderRadius: '10px',
+              padding: '10px 20px',
+              width: '50%',
+            }}
           />
           <TextField
             id="login-password-input"
-            label={passwordErr}
+            label="Password"
             type="password"
             autoComplete="current-password"
-            variant="outlined"
-            size='small'
+            variant="standard"
+            size="small"
             onKeyDown={handleEnterKeyDown}
+            onChange={handleChange}
             margin="dense"
-          />
-          <Container 
-            id = 'buttonContainer' 
+            name="password"
+            value={fields.password}
             sx={{
+              input: { color: '#fff' },
+              label: { color: '#fff' },
+              borderBottom: '1px solid #fff',
+              backgroundColor: 'transparent',
+              borderRadius: '10px',
+              padding: '10px 20px',
+              width: '50%',
+            }}
+          />
+          <Box
+            id="buttonContainer"
+            sx={{
+              width: '100%',
+              minWidth: '250px',
+              maxWidth: '600px',
+              direction: 'column',
+              textAlign: 'center',
+              alignItems: 'center',
               display: 'flex',
+              flexDirection: 'column',
               justifyContent: 'center',
-              gap: '.5em',
-              padding: '.5em',
+              padding: '1.5rem',
+              border: '0px solid #eaeaea',
             }}
           >
-            <Button 
-              className="btn" 
-              type="button" 
+            <LoadingButton
+              className="btn"
+              type="button"
               onClick={handleLogin}
-              variant='contained'
+              variant="contained"
+              disabled={disabled}
+              loading={loading}
               sx={{
-                color: 'white', 
-                backgroundColor: '#3a4a5b', 
-                borderColor: 'white',
+                ':disabled': {
+                  backgroundColor: 'gray',
+                  color: 'black',
+                  border: '1px solid black',
+                },
+                ':enabled': {
+                  backgroundColor: 'blue',
+                  color: 'white',
+                  border: '1px solid black',
+                },
+                margin: '1rem',
+                width: '100%',
+                gap: '.5em',
+                padding: '.1em',
+                height: '2.5rem',
+                maxWidth: '60%',
               }}
             >
               Login
-            </Button>
-            
-            <Button 
-              className="btn" 
-              type="button" 
+            </LoadingButton>
+            <Button
+              className="btn1"
+              type="button"
               onClick={() => navigate('/register')}
-              variant='contained'
+              variant="contained"
               sx={{
-                color: 'white', 
-                backgroundColor: '#3a4a5b', 
-                borderColor: 'white',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                gap: '.5em',
+                padding: '.1em',
+                width: '100%',
+                height: '2.5rem',
+                backgroundColor: '#2704ff',
+                border: '1px solid black',
+                maxWidth: '60%',
               }}
             >
               Register
             </Button>
-            
-          </Container>
-          <GoogleLogin
-              clientId={GClientId}
-              render={(renderProps) => (
-                <Button
-                  className='gBtn'
-                  color='primary'
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                  variant="contained"
-                  
-                  sx={{
-                    color: 'white', 
-                    backgroundColor: '#3a4a5b', 
-                    borderColor: 'white',
-                  }}
-                ><img src={googleIcon} height='18px'></img>
-                  &nbsp;&nbsp;Google Sign In
-                </Button>
-              )}
-              onSuccess={googleSuccess}
-              onFailure={googleFailure}
-              cookiePolicy="single_host_origin"
-          />
-          <Button
-              variant="contained"   
+          </Box>
+          <Box
+            id="oauth-buttons-container"
+            sx={{
+              display: 'flex',
+              width: '12vw',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Button
+              variant="contained"
               sx={{
-                color: 'white', 
-                backgroundColor: '#3a4a5b', 
+                color: 'white',
+                backgroundColor: '#2704ff',
                 borderColor: 'white',
                 marginTop: '8px',
-                display: 'flex',
-                alignItems: 'center'
+                minWidth: '165px',
+                height: '3.5em',
+                margin: '.5em',
+                textAlign: 'center',
+                border: '1px solid black',
               }}
-            onClick={handleGit}
-          ><img src={githubIcon} height="18px"></img> 
-            &nbsp;&nbsp;Github Sign in
-          </Button>
+            >
+              <FcGoogle className="icon" />
+              &nbsp;&nbsp;Sign in
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                color: 'white',
+                backgroundColor: '#2704ff',
+                borderColor: 'white',
+                marginTop: '8px',
+                minWidth: '165px',
+                height: '3.5em',
+                margin: '.5em',
+                textAlign: 'center',
+                border: '1px solid black',
+              }}
+            >
+              <BsGithub className="icon" />
+              &nbsp;&nbsp;Sign in
+            </Button>
+          </Box>
         </Box>
-      </Container>
+      </Box>
     </div>
   );
 };

@@ -1,134 +1,94 @@
-# [VaaS](https://vaas.dev/) 
-VaaS <br>
-Visualization tool for OpenFaas
+# Visualization as a Service (VaaS) &middot; ![Github](https://img.shields.io/github/repo-size/oslabs-beta/VaaS) ![GitHub](https://img.shields.io/github/license/oslabs-beta/VaaS) ![GitHub](https://img.shields.io/github/last-commit/oslabs-beta/VaaS)
 
-NOTE: The initial instructions below are meant to get you in and testing the development version of VaaS on your local machine as quickly as possible
-
-Before firing up and installing VaaS, please make sure to have...
-1) your Kuberenetes clusters set up and ports open
-2) create a Prometheus deployment - with ports properly forwarded: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
-<br> a) ```Terminal: kubectl get pods --namespace=monitoring```
-<br> b) ```kubectl port-forward <prometheus-deployment name> 30000:9090 -n monitoring```
-3) Set up Kube State metrics: https://devopscube.com/setup-kube-state-metrics/
- <br> a) ```kubectl port-forward svc/kube-state-metrics 30135:8080 -n kube-system```
-4) Set up node exporter; https://devopscube.com/node-exporter-kubernetes/
-5) Install Grafana through standalone macOS binaries; https://grafana.com/docs/grafana/latest/setup-grafana/installation/mac/ <br />
-  a) if on macOS, enable view hidden files and navigate to /usr/local/etc/grafana/; https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/<br />
-  b) make a copy of grafana.ini and rename the copy to custom.ini
-  c) in both custom.ini AND grafana.ini, modify the following settings:
-    DISCLAIMER: remember to remove the semicolon in front of the setting to enable it
-    1. ```allow_embedding = true``` <br>
-    2. [auth.anonymous]
-       ```sh
-       enabled = true
-       org_name = Main Org.
-       org_role = Viewer 
-          ```
-    3. ```http_port = 3001``` <br />
-
-6) Download CLI tools with arkade; https://github.com/alexellis/arkade
-<br>a) ```curl -sLS https://get.arkade.dev | sh ```
-<br>b) complete section, "Download CLI tools with arkade" in github link
-
-Skip to appropriate section - 
-
-<b>Prerequisites</b>
-( OPTIONAL ) Create a containerized image of your application
-1) Set up a Kubernetes cluster https://kubernetes.io/docs/tasks/tools/ <br />
-  a) Setting up Kind to run local cluster: https://kind.sigs.k8s.io/docs/user/quick-start/ <br />
-  b) Setting up minikube to run local cluster: https://minikube.sigs.k8s.io/docs/start/ <br /> 
-  c) Install kubectl <br />
-2) Deploying Prometheus onto you clusters: https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/<br />
-  a) Follow the guide to deploy and port forward properly - keep track of the monitoring pods and which port you're forwarding it to on localhost <br />
-3) Deploy OpenFaaS to Kubernetes: https://goncalo-a-oliveira.medium.com/setting-up-openfaas-with-minikube-28ed2f78dd1b <br />
-  a) Again keep track of your password, take special note of the command and how to temporarily store it as a temporary environment variable
-  b) Note: If you close the terminal/command prompt you will have to refetch and reassign the PASSWORD before you can use the OpenFaaS CLI to sign in
-
-If you want to set up and play with multiple clusters, make sure to have kind (requires Docker) and minikube up and running
-1) Navigating and moving between clusters <br />
-    i) To see all clusters - take note of the cluster names <br />
-    ```kubectl config view``` <br />
-    ii) To see current cluster <br />
-    ```kubectl config current-context``` <br />
-    iii) To switch into the cluster you want to configure/port forward <br />
-    ```kubectl config use-context [clusterName]``` <br />
-    iv) From here follow the steps under the "Using Kubectl port forwarding" - in link found in Step 2 of the pre-requisites <br />
-
-Documentation on best practice utilizing configuration files (recommended read): 
-https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
-
-Optional - Setting up Ability to change alerts through VaaS
+&nbsp; &nbsp; ![VaaS](public/Images/VaaS.png)
 
 
-1) Use Helm to install Prometheus package which includes Alert Manager: https://www.containiq.com/post/prometheus-alertmanager
-2) Create port forwards as instructed in article
-3) Create account on Mailtrap or similar site for email testing purposes
-4) Be sure to create alertmanager-config.yaml and alert-rules.yaml in an accessible directory, root is recommended
-5) After testing, run VaaS normally and modify alerts as needed. Do not exit server while Helm is upgrading or errors will result
+<br />
+
+## Table of Contents
+
+- [Visualization as a Service (VaaS) ·   ](#visualization-as-a-service-vaas----)
+  - [Table of Contents](#table-of-contents)
+  - [What is VaaS?](#what-is-vaas)
+  - [Current Features](#current-features)
+  - [Getting Started](#getting-started)
+  - [License](#license)
+  - [Team](#team)
+  - [Show Your Support](#show-your-support)
+
+<br/>
 
 
+<br/>
 
-<b>Installation</b> 
+## What is VaaS?
+Visualization as a Service, or VaaS, is open source tooling that allows individuals or teams to visualize and monitor their Kubernetes clusters in real-time. VaaS takes monitoring and visualization one step further by offering users a tech-agnostic solution for incorporating serverless functions into their clusters via OpenFaaS functionality. It serves to eventually be a one-stop shop for all of your Kubernetes monitoring and visualization needs, while giving you the power to deploy functions to your cluster with ease.
 
-1.  Clone this repository onto your local machine
+VaaS was developed with the support of OSLabs and the OpenFaaS community. It is actively in the process of being developed and is not quite yet ready for production use. However, we are always looking for contributors and feedback, so feel free to reach out to us with any questions or concerns.
 
-```sh
- git clone https://github.com/oslabs-beta/VaaS.git
-```
-
-2.  Install dependencies
-
-```sh
-npm install or npm install --legacy-peer-deps 
-```
-
-3. Set up .env file (create in root of VaaS folder)
-
-```sh
-JWT_ACCESS_SECRET=hello
-JWT_REFRESH_SECRET=hello
-JWT_EXP=400000000
-JWT_GRACE=4000000000
-
-MONGO_URL=@
-MONGO_PORT=
-MONGO_USERNAME=
-MONGO_PASSWORD=
-MONGO_COLLECTION=
-
-EXPRESS_PORT=3020
-EXPRESS_CONSOLE_LOG=on
-```
-
-4.  Run the app with
-
-```sh
-npm run dev
-```
-Set up order:
-You will need to port-forward Promethesus and openFaaS
-Grafana will need to be changed to port 3001 in customs.ini, but that will be in the documentation as well.
-
-https://www.docker.com/products/docker-desktop/
-https://minikube.sigs.k8s.io/docs/start/
-https://goncalo-a-oliveira.medium.com/
+<br/>
 
 
+<br/>
+
+## Current Features
+- Monitoring of key metrics of multiple clusters from a centralized dashboard
+- Graphical visualization of your cluster, including all pods, services, and deployments, as well as their current status, powered by KubeView
+- In-depth graphical visualization of key cluster metrics, powered by Grafana
+  - Several pre-built dashboards consisting of key metrics are available for ease of use
+- Execution of custom queries on your cluster via the Prometheus API
+- Deployment, invocation, and deletion of serverless function via OpenFaaS
+  - Assess the potential cost of your function via the OpenFaaS API
+- Management of cluster settings to account for any changes in your cluster
+
+<br/>
 
 
+<br/>
+
+## Getting Started
+If you are interested in trying out VaaS, please check out our [SETUP](/SETUP.md) guide for instructions on how to get started with a small Minikube cluster. 
+
+These instructions should also be highly relevant to anyone attempting to deploy such a cluster to a cloud provider.
+
+<br/>
 
 
+<br/>
 
-<b>Authors <b>
-- Jimmy Lim [@Radizorit](https://github.com/Radizorit) | [Linkedin](https://www.linkedin.com/in/jimmy-l-625ba98b/)
-- Alex Kaneps [@AlexKaneps](https://github.com/AlexKaneps) | [Linkedin](https://www.linkedin.com/in/alex-kaneps/)
-- James Chan [@j-chany](https://github.com/j-chany) | [Linkedin](https://www.linkedin.com/in/james-c-694018b5/)
-- Vu Duong [@vduong021](https://github.com/vduong021) | [Linkedin](https://www.linkedin.com/in/vu-duong/)
-- Matthew McGowan [@mcmcgowan](https://github.com/mcmcgowan) | [Linkedin](https://www.linkedin.com/in/matthewcharlesmcgowan/)
-- Murad Alqadi [@murad-alqadi](https://github.com/murad-alqadi) | [Linkedin](https://www.linkedin.com/in/muradmd/)
-- Kevin Le [@xkevinle](https://github.com/xkevinle) | [Linkedin](https://www.linkedin.com/in/xkevinle/)
-- Richard Zhang [@rich9029](https://github.com/rich9029) | [Linkedin](https://www.linkedin.com/in/dickzhang/)
-- Irvin Le [@irvinie](https://github.com/irvinie) | [Linkedin](https://www.linkedin.com/in/irvinie/)
+## License
+By contributing, you agree that your contributions will be licensed under its [MIT License](/LICENSE).
 
-<b>Show your support  <br>
-Give a ⭐️ if this project helped you!
+
+<br/>
+
+
+<br/>
+
+## Team
+Please feel free to reach out to us with any questions or concerns!
+
+- **Young Kim** - [Github](https://github.com/ykim770) - [LinkedIn](www.linkedin.com/in/young-j-kim)
+- **Ahsan Ali** - [Github](https://github.com/greyali) - [LinkedIn](https://www.linkedin.com/in/greyali/)
+- **Rabea Ahmad** - [Github](https://github.com/RabeaAhmad3) - [LinkedIn](https://www.linkedin.com/in/rabea-ahmad/)
+- **Stephan Chiorean** - [Github](https://github.com/stephan-chiorean) - [LinkedIn](https://www.linkedin.com/in/stephan-chiorean-2b6961139/)
+- **Ruqayaah Sabitu** - [Github](https://github.com/ruqayaahh) - [LinkedIn](https://www.linkedin.com/in/ruqayaahsabitu/) - [Email](mailto:aderinolaruqayaah@gmail.com)
+- **James Chan** - [Github](https://github.com/j-chany) - [LinkedIn](https://www.linkedin.com/in/james-c-694018b5/)
+- **Jimmy Lim** - [Github](https://github.com/Radizorit) - [LinkedIn](https://www.linkedin.com/in/limjimmyy)
+- **Alex Kaneps** - [Github](https://github.com/AlexKaneps) - [LinkedIn](https://www.linkedin.com/in/alex-kaneps/)
+- **Matthew McGowan** - [Github](https://github.com/mcmcgowan) - [LinkedIn](https://www.linkedin.com/in/matthewcharlesmcgowan/)
+- **Vu Duong** - [Github](https://github.com/vduong021) - [LinkedIn](https://www.linkedin.com/in/vu-duong)
+- **Murad Alqadi** - [Github](https://github.com/murad-alqadi) - [Linktree](https://linktr.ee/muradmd)
+- **Kevin Le** - [Github](https://github.com/xkevinle) - [LinkedIn](https://www.linkedin.com/in/xkevinle/)
+- **Richard Zhang** - [Github](https://github.com/rich9029) - [LinkedIn](https://www.linkedin.com/in/dickzhang/)
+- **Irvin Ie** - [Github](https://github.com/irvinie) - [LinkedIn](https://www.linkedin.com/in/irvinie/)
+
+<br/>
+
+
+<br/>
+
+## Show Your Support
+
+If you like this project, please give it a ⭐️!
+

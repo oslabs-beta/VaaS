@@ -1,16 +1,19 @@
-import * as React from 'react';
-import { createRoot } from 'react-dom/client';
+import React from 'react';
+import { hydrateRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { store } from './Store/store';
+import fetch from 'isomorphic-fetch';
 import App from './Components/App';
+import { store } from './Store/store';
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const root = createRoot(document.getElementById('root')!);
-root.render(
+const container = document.getElementById('root')!;
+
+const FullApp = () => (
   <Provider store={store}>
     <BrowserRouter>
       <App />
     </BrowserRouter>
   </Provider>
 );
+
+hydrateRoot(container, <FullApp />);

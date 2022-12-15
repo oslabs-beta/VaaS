@@ -2,7 +2,8 @@ import { Query } from '../Services';
 
 const nodeMetric = {
   cpuLoad: async (clusterId: string | undefined, ns: string) => {
-    const query = '(1 - sum by (instance)(increase(node_cpu_seconds_total{mode="idle"}[1m])) / sum by (instance)(increase(node_cpu_seconds_total[1m])))*100';
+    const query =
+      '(1 - sum by (instance)(increase(node_cpu_seconds_total{mode="idle"}[1m])) / sum by (instance)(increase(node_cpu_seconds_total[1m])))*100';
     try {
       const metric = await Query(clusterId, ns, query);
       return parseInt(metric.data.result[0].value[1]);
@@ -10,7 +11,11 @@ const nodeMetric = {
       console.log(err);
     }
   },
-  memoryLoad: async (clusterId: string | undefined, ns: string, node: string) => {
+  memoryLoad: async (
+    clusterId: string | undefined,
+    ns: string,
+    node: string
+  ) => {
     const query = `(1-sum(kube_node_status_allocatable{resource="memory",unit="byte",node="${node}"})) / sum(kube_node_status_capacity{resource="memory",unit="byte",node="${node}"}))*100`;
     try {
       const metric = await Query(clusterId, ns, query);
@@ -43,7 +48,10 @@ const nodeMetric = {
     try {
       const metric1 = await Query(clusterId, ns, query1);
       const metric2 = await Query(clusterId, ns, query2);
-      return Math.floor((parseInt(metric1.data.result[0].value[1])) + parseInt(metric2.data.result[0].value[1]) / 1024);
+      return Math.floor(
+        parseInt(metric1.data.result[0].value[1]) +
+          parseInt(metric2.data.result[0].value[1]) / 1024
+      );
     } catch (err) {
       console.log(err);
     }
@@ -54,7 +62,11 @@ const nodeMetric = {
     try {
       const metric1 = await Query(clusterId, ns, query1);
       const metric2 = await Query(clusterId, ns, query2);
-      return Math.floor((parseInt(metric1.data.result[0].value[1]) + parseInt(metric2.data.result[0].value[1])) / 1024);
+      return Math.floor(
+        (parseInt(metric1.data.result[0].value[1]) +
+          parseInt(metric2.data.result[0].value[1])) /
+          1024
+      );
     } catch (err) {
       console.log(err);
     }

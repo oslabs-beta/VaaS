@@ -1,20 +1,56 @@
-/* body {
-  /* background-image: url("../../../../public/Images/LoginBackGround.png");
-  background-size: cover;                      
-  background-repeat: no-repeat;
-  background-position: center center;
-  z-index: 2;  */
-  /* background-color: '#3a4a5b'; */
 
-.login {
-  background-image: #3a4a5b;
+body {
+  margin: 0px;
 }
+.container {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -20%);
+  width: 800px;
+  height: 80vh;
+  max-height: 1100px;
+  background: rgba(19, 19, 19, 0.9);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(248, 245, 245, 0.5);
+  border-radius: 10px;
+}
+
+
 .login-container {
-  background-color: white;
-  border: 0.5px solid black;
   z-index: 3;
+  color: white;
+}
+
+#root {
+  background-image: url('./svg/trippy2.svg');
+  background-color: blue;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .input-error-text {
   color: red;
+}
+
+
+#login-icon {
+  height: 150%;
+  width: 150%;
+  margin: -130px;
+}
+
+.icon {
+  margin-left: -10%;
+  margin-right: -10%;
+  width: 50%;
+  height: 75%;
+}
+
+#login-container {
 }

@@ -1,21 +1,21 @@
-#welcome-banner {
-  margin-left: 0rem;
-  font-size: 15px;
-  color: #ffffff;
-  cursor: default;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+.Admin-Modal-Container {
+  padding: 0px;
+  max-height: 60%;
+  max-width: 25%;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-
-#update-user-err {
-  margin-left: 1rem;
-}
-
-#delete-password-err {
-  margin-left: 1rem;
-}
-
-#add-cluster-msg {
-  margin-left: 1rem;
+#close-Button {
+  z-index: 1;
+  display: block;
+  margin: 0 auto;
+  background-color: #2704ff;
+  color: white;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  padding: 10px 25px;
+  margin-bottom: 10px;
 }
