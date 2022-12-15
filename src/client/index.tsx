@@ -5,7 +5,6 @@ import { BrowserRouter } from 'react-router-dom';
 import fetch from 'isomorphic-fetch';
 import App from './Components/App';
 import { store } from './Store/store';
-// globalThis.fetch = fetch
 
 const container = document.getElementById('root')!;
 
