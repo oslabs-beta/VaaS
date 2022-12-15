@@ -19,7 +19,6 @@ const podMetric = {
   infoList: async (clusterId: string, ns: string, node: string) => {
     const query = `kube_pod_info{node="${node}"}`;
     try {
-      console.log(clusterId, ns, query, 'podInfoList query params');
       const metric = await Query(clusterId, ns, query);
       return metric.data.result.map(
         (result: {
@@ -48,11 +47,8 @@ const podMetric = {
   },
   podInfoList: async (clusterId: string, ns: string, pod: string) => {
     const query = `kube_pod_info{pod="${pod}"}`;
-    console.log('this is my query:', query);
     try {
-      console.log(clusterId, ns, query, 'podInfoList query params');
       const metric = await Query(clusterId, ns, query);
-      console.log('this is my metric:', metric);
       return {
         metric: metric,
       };
