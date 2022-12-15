@@ -72,7 +72,7 @@ Please feel free to reach out to us with any questions or concerns!
 - **Ahsan Ali** - [Github](https://github.com/greyali) - [LinkedIn](https://www.linkedin.com/in/greyali/)
 - **Rabea Ahmad** - [Github](https://github.com/RabeaAhmad3) - [LinkedIn](https://www.linkedin.com/in/rabea-ahmad/)
 - **Stephan Chiorean** - [Github](https://github.com/stephan-chiorean) - [LinkedIn](https://www.linkedin.com/in/stephan-chiorean-2b6961139/)
-- **Ruqayaah Sabitu** - [@ruqayaahh](https://github.com/ruqayaahh) - [LinkedIn](https://www.linkedin.com/in/ruqayaahsabitu/) - [Email](mailto:aderinolaruqayaah@gmail.com)
+- **Ruqayaah Sabitu** - [Github](https://github.com/ruqayaahh) - [LinkedIn](https://www.linkedin.com/in/ruqayaahsabitu/) - [Email](mailto:aderinolaruqayaah@gmail.com)
 - **James Chan** - [Github](https://github.com/j-chany) - [LinkedIn](https://www.linkedin.com/in/james-c-694018b5/)
 - **Jimmy Lim** - [Github](https://github.com/Radizorit) - [LinkedIn](https://www.linkedin.com/in/limjimmyy)
 - **Alex Kaneps** - [Github](https://github.com/AlexKaneps) - [LinkedIn](https://www.linkedin.com/in/alex-kaneps/)
