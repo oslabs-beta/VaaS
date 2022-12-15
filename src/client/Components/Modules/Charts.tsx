@@ -16,34 +16,34 @@ const Charts = (props: Modules) => {
 
   //grafana dashboard IDs are hard coded for now, but should be configured to be dynamically fetched via an API call to grafana...
   const computingDashboard = {
-    Cluster: 'efa86fd1d0c121a26444b636a3f509a8',
-    Nodes: 'a87fb0d919ec0ea5f6543124e16c42a5',
-    Workloads: '200ac8fdbfbb74b39aff88118e4d1c2c',
-    Pods: '85a562078cdf77779eaa1add43ccec1e',
+    Cluster: import.meta.env.VITE_COMPUTING_CLUSTER,
+    Nodes: import.meta.env.VITE_COMPUTING_NODES,
+    Workloads: import.meta.env.VITE_COMPUTING_WORKLOADS,
+    Pods: import.meta.env.VITE_COMPUTING_PODS,
   };
   const networkingDashboard = {
-    Cluster: 'ff635a025bcfea7bc3dd4f508990a3e9',
-    Namespaces: 'bbb2a765a623ae38130206c7d94a160f',
-    Workloads: '728bf77cc1166d2f3133bf25846876cc',
-    Pods: '7a18067ce943a40ae25454675c19ff5c',
+    Cluster: import.meta.env.VITE_NETWORKING_CLUSTER,
+    Namespaces: import.meta.env.VITE_NETWORKING_NAMESPACES,
+    Workloads: import.meta.env.VITE_NETWORKING_WORKLOADS,
+    Pods: import.meta.env.VITE_NETWORKING_PODS,
   };
   const isolatedDashboard = {
-    Cluster: 'efa86fd1d0c121a26444b636a3f509a8',
-    Nodes: 'a87fb0d919ec0ea5f6543124e16c42a5',
-    Workloads: 'a164a7f0339f99e89cea5cb47e9be617',
-    Pods: '6581e46e4e5c7ba40a07646395ef7b23',
+    Cluster: import.meta.env.VITE_ISOLATED_CLUSTER,
+    Nodes: import.meta.env.VITE_ISOLATED_NODES,
+    Workloads: import.meta.env.VITE_ISOLATED_WORKLOADS,
+    Pods: import.meta.env.VITE_ISOLATED_PODS,
   };
   const overviewDashboard = {
-    Kubelet: '3138fa155d5915769fbded898ac09fd9',
-    'USE/NODE': 'gmnFMzc4k',
-    'USE/CLUSTER': 'USMKMkcVk',
-    'Node Exporter': 'sinKGz54z',
+    Kubelet: import.meta.env.VITE_OVERVIEW_KUBELET,
+    'USE/NODE': import.meta.env.VITE_OVERVIEW_USENODE,
+    'USE/CLUSTER': import.meta.env.VITE_OVERVIEW_USECLUSTER,
+    'Node Exporter': import.meta.env.VITE_OVERVIEW_NODEEXPORTER,
   };
   const coreDashboard = {
-    'API Server': '09ec8aa1e996d6ffcd6817bbaff4db1b',
-    etcd: 'c2f4e12cdf69feb95caa41a5a1b423d9',
-    Scheduler: '2e6b6a3b4bddf1427b3a55aa1311c656',
-    'Controller Manager': '72e0e05bef5099e5f049b05fdc429ed4',
+    'API Server': import.meta.env.VITE_CORE_APISERVER,
+    etcd: import.meta.env.VITE_CORE_ETCD,
+    Scheduler: import.meta.env.VITE_CORE_SCHEDULER,
+    'Controller Manager': import.meta.env.VITE_CORE_CONTROLMANAGER,
   };
   //upon opening up a modal, this function indicates the category and selects which dashboard object we are targeting
   const handleOpen = (e: any) => {
