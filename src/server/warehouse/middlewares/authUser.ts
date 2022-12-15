@@ -9,12 +9,6 @@ export default async (
   next: NextFunction
 ): Promise<void | Response> => {
   terminal(`Received ${req.method} request at 'authUser' middleware`);
-  // console.log(
-  //   req.body,
-  //   req.method,
-  //   req.cookies,
-  //   'ALL THE DETAILS I AM INTERESTED IN'
-  // );
   try {
     // CHECK THAT USERNAME IS SENT IN REQUEST BODY
     if (!req.body.username) {
