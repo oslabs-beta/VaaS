@@ -35,12 +35,8 @@ export function encodeSession(
   const encodedObject = {
     token: encode(session, accessSecret, algo),
   };
-  console.log(encodedObject, 'encodedObject'); // BROKEN
+  console.log(encodedObject, 'encodedObject');
   return encodedObject;
-  // RETURN ENCODED RESULT
-  // return {
-  //   token: encode(session, accessSecret, algo),
-  // };
 }
 
 // DECODING USER's JWT TOKEN
