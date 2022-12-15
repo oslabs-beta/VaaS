@@ -178,8 +178,8 @@ const Charts = (props: Modules) => {
             </button>
             <iframe
               src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
-              height="800px"
-              width="1300px"
+              height="900px"
+              width="1500px"
               frameBorder="0"
             ></iframe>
           </div>
