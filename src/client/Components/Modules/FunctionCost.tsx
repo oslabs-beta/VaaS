@@ -402,7 +402,7 @@ const FunctionCost = (props: Modules) => {
             marginLeft: '-1rem',
             marginTop: '8px',
             justifyContent: 'center',
-            backgroundColor: 'black',
+            backgroundColor: 'whitesmoke',
             color: '#5B5B5B',
             borderRadius: '5px',
             marginRight: '3px',
@@ -410,13 +410,13 @@ const FunctionCost = (props: Modules) => {
           }}
         >
           {retrived && (
-            <div>
+            <div id="conditional-render">
               <div>{data.value} </div>
               <div>
                 This function has been invoked{' '}
                 {displayFunctionData(selectedDeployedFunction)
                   ?.invocationCount || 0}{' '}
-                times
+                time(s)
               </div>
             </div>
           )}
