@@ -55,9 +55,7 @@ export default async (
     const newAcctInfo = {
       firstName,
       lastName,
-      // USERNAME = GITHUB login
       username: login,
-      // PASSWORD = GITHUB id
       password: id,
       darkMode: false,
     };
