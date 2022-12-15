@@ -78,7 +78,7 @@ Please feel free to reach out to us with any questions or concerns!
 - **Alex Kaneps** - [Github](https://github.com/AlexKaneps) - [LinkedIn](https://www.linkedin.com/in/alex-kaneps/)
 - **Matthew McGowan** - [Github](https://github.com/mcmcgowan) - [LinkedIn](https://www.linkedin.com/in/matthewcharlesmcgowan/)
 - **Vu Duong** - [Github](https://github.com/vduong021) - [LinkedIn](https://www.linkedin.com/in/vu-duong)
-- **Murad Alqadi** - [Github](https://github.com/murad-alqadi) - [Linktree](https://linktr.ee/muradmd)
+- **Murad Alqadi** - [Github](https://github.com/murad-alqadi) - [Portfolio](http://murad.md/)
 - **Kevin Le** - [Github](https://github.com/xkevinle) - [LinkedIn](https://www.linkedin.com/in/xkevinle/)
 - **Richard Zhang** - [Github](https://github.com/rich9029) - [LinkedIn](https://www.linkedin.com/in/dickzhang/)
 - **Irvin Ie** - [Github](https://github.com/irvinie) - [LinkedIn](https://www.linkedin.com/in/irvinie/)
