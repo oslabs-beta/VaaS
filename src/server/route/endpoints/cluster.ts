@@ -231,7 +231,6 @@ router
               authorization: authorization,
               name: name,
               description: description,
-              // $push: { favorite: id },
               faas_url,
               grafana_url,
               kubeview_url,
@@ -255,7 +254,6 @@ router
               faas_url,
               grafana_url,
               kubeview_url,
-              // $pull: { favorite: id },
             }
           );
           terminal(
