@@ -127,6 +127,12 @@ _OpenFaaS is a serverless framework for Kubernetes. It allows you to deploy func
    arkade get arkade
    ```
 
+   Note: if above command does not work try and you have brew installed... 
+
+   ```
+   brew install arkade
+   ```
+
 2. Next, we will install OpenFaaS using Arkade. Run the following command:
 
    ```
