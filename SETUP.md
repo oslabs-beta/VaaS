@@ -281,30 +281,9 @@ _In order to access many of the applications we just installed on our Kubernetes
    EXPRESS_PORT=3020
    EXPRESS_CONSOLE_LOG=on
 
-   VITE_COMPUTING_CLUSTER=
-   VITE_COMPUTING_NODES=
-   VITE_COMPUTING_WORKLOADS=
-   VITE_COMPUTING_PODS=
-
-   VITE_NETWORKING_CLUSTER=
-   VITE_NETWORKING_NAMESPACES=
-   VITE_NETWORKING_WORKLOADS=
-   VITE_NETWORKING_PODS=
-
-   VITE_ISOLATED_CLUSTER=
-   VITE_ISOLATED_NODES=
-   VITE_ISOLATED_WORKLOADS=
-   VITE_ISOLATED_PODS=
-
-   VITE_OVERVIEW_KUBELET=
-   VITE_OVERVIEW_USENODE=
-   VITE_OVERVIEW_USECLUSTER=
-   VITE_OVERVIEW_NODEEXPORTER=
-
-   VITE_CORE_APISERVER=
-   VITE_CORE_ETCD=
-   VITE_CORE_SCHEDULER=
-   VITE_CORE_CONTROLMANAGER=
+   VITE_GRAFANA_IP=
+   GRAFANA_NAMESPACE=
+   GRAFANA_SVC_NAME=
    ```
 
 5. You should now get your mongoDB set up. You can either use a cloud DB or localhost; however, make sure to add the DB URI to the 'URL' field in the .env file. Fill out the rest of the DB fields with the appropriate information.
