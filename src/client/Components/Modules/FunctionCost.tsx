@@ -4,14 +4,20 @@ import { IReducers } from '../../Interfaces/IReducers';
 import openFaasMetric from '../../Queries/OpenFaaS';
 import { useAppSelector } from '../../Store/hooks';
 import { functionCost } from '../../utils';
-import {
-  Container,
-  TextField,
-  Button,
-  Box,
-  FormControl,
-  NativeSelect,
-} from '@mui/material';
+// import {
+//   Container,
+//   TextField,
+//   Button,
+//   Box,
+//   FormControl,
+//   NativeSelect,
+// } from '@mui/material';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
 
 const FunctionCost = (props: Modules) => {
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);

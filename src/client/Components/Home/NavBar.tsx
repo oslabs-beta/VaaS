@@ -2,14 +2,20 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
 import Admin from '../Admin/Admin';
-import {
-  Avatar,
-  Modal,
-  Menu,
-  MenuItem,
-  IconButton,
-  Tooltip,
-} from '@mui/material';
+// import {
+//   Avatar,
+//   Modal,
+//   Menu,
+//   MenuItem,
+//   IconButton,
+//   Tooltip,
+// } from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Modal from '@mui/material/Modal';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function NavBar(props: { refetch?: any }) {
   const navigate = useNavigate();
