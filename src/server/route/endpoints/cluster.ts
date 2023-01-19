@@ -1,10 +1,11 @@
 import router from '../router';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
-import { Cluster } from '../../models';
+import { Cluster, User } from '../../models';
 import { IError } from '../../interfaces/IError';
 import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
+import { ConstructionOutlined } from '@mui/icons-material';
 
 /* GETTING SPECIFIC CLUSTER USING CLUSTERNAME:
   VERIFIES USER's TOKEN, FINDS CLUSTER IN DB. IF CLUSTER EXISTS, SEND CLUSTER DETAILS TO THE CLIENT. ELSE THROW ERROR
@@ -143,7 +144,12 @@ router
         grafana_url,
         kubeview_url,
       });
-      await attempt.save();
+      const newCluster = await attempt.save();
+      const currentUser = await User.findOne({
+        cookieId: req.cookies.cookieId,
+      });
+      currentUser?.clusters.push(newCluster._id);
+      await currentUser?.save();
       terminal(
         `Success: New cluster [${clusterId}] stored in MongoDB collection`
       );
