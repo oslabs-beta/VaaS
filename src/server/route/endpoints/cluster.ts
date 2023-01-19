@@ -5,7 +5,7 @@ import { Cluster, User } from '../../models';
 import { IError } from '../../interfaces/IError';
 import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
-import { ConstructionOutlined } from '@mui/icons-material';
+// import { ConstructionOutlined } from '@mui/icons-material';
 
 /* GETTING SPECIFIC CLUSTER USING CLUSTERNAME:
   VERIFIES USER's TOKEN, FINDS CLUSTER IN DB. IF CLUSTER EXISTS, SEND CLUSTER DETAILS TO THE CLIENT. ELSE THROW ERROR
@@ -51,7 +51,12 @@ router
     try {
       if (res.locals.error)
         return res.status(res.locals.error.status).json(res.locals.error);
-      const clusters = await Cluster.find({}).exec();
+      const currentUser = await User.findOne({
+        cookieId: req.cookies.cookieId,
+      }).exec();
+      const clusters = await Cluster.find({
+        _id: { $in: currentUser?.clusters },
+      }).exec();
       if (clusters.length === 0) {
         const error: IError = {
           status: 401,
@@ -60,7 +65,7 @@ router
         return res.status(error.status).json(error);
       }
       terminal(
-        `Success: All cluster documents retrieved from MongoDB collection`
+        `Success: All cluster documents for user retrieved from MongoDB collection`
       );
       // console.log(clusters, 'clusters');
       return res.status(200).json(clusters);
@@ -147,7 +152,7 @@ router
       const newCluster = await attempt.save();
       const currentUser = await User.findOne({
         cookieId: req.cookies.cookieId,
-      });
+      }).exec();
       currentUser?.clusters.push(newCluster._id);
       await currentUser?.save();
       terminal(
