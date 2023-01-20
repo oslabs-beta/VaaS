@@ -1,8 +1,9 @@
 import router from '../router';
 import { Request, Response } from 'express';
-import { Types } from 'mongoose';
+import { Mongoose, Types } from 'mongoose';
 import { Cluster, User } from '../../models';
 import { IError } from '../../interfaces/IError';
+import { IUser } from '../../interfaces/IUser';
 import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 // import { ConstructionOutlined } from '@mui/icons-material';
@@ -42,21 +43,28 @@ router
 router
   .route('/cluster')
   /* GETTING ALL CLUSTERS:
-    VERIFIES USER's TOKEN, FETCHES ALL CLUSTERS IN DB. IF CLUSTERS EXISTS, SEND CLUSTERS TO THE CLIENT. ELSE THROW ERROR
+    VERIFIES USER's TOKEN, FETCHES CLUSTERS IN USER's LIST FROM DB. IF CLUSTERS EXISTS, SEND CLUSTERS TO THE CLIENT. ELSE THROW ERROR
   */
   .get(verifyCookie, async (req: Request, res: Response) => {
     terminal(
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
     try {
-      if (res.locals.error)
+      if (res.locals.error) {
         return res.status(res.locals.error.status).json(res.locals.error);
+      }
+      const { cookieId } = req.cookies;
       const currentUser = await User.findOne({
-        cookieId: req.cookies.cookieId,
+        cookieId,
       }).exec();
-      const clusters = await Cluster.find({
-        _id: { $in: currentUser?.clusters },
-      }).exec();
+      let clusters;
+      if (currentUser?.username === 'admin') {
+        clusters = await Cluster.find({}).exec();
+      } else {
+        clusters = await Cluster.find({
+          _id: { $in: currentUser?.clusters },
+        }).exec();
+      }
       if (clusters.length === 0) {
         const error: IError = {
           status: 401,
