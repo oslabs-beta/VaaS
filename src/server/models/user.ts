@@ -13,6 +13,7 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   password: String,
   darkMode: Boolean,
   refreshRate: Number,
+  clusters: [{ type: Schema.Types.ObjectId, ref: 'Cluster' }],
   cookieId: { type: String, unique: true },
 });
 

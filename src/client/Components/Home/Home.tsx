@@ -18,6 +18,7 @@ const Home = () => {
   const darkMode = uiReducer.clusterUIState.darkmode;
   const { data, refetch } = useQuery({
     queryKey: ['cluster'],
+    cacheTime: 0,
     queryFn: fetchClusters,
   });
   const { data: userData } = useQuery({
@@ -54,17 +55,18 @@ const Home = () => {
       </div>
       <div className="Kube-port">
         <div className="Kube-container" id="Kube-container">
-          {clustersArray?.length &&
-            clustersArray?.map((cluster, index) => (
-              <Kube
-                isDark={darkMode} //*adding for darkmode
-                key={index}
-                _id={cluster._id}
-                favorite={cluster.favorite}
-                favoriteStatus={true}
-                refetch={refetch}
-              />
-            ))}
+          {clustersArray?.length
+            ? clustersArray?.map((cluster, index) => (
+                <Kube
+                  isDark={darkMode} //*adding for darkmode
+                  key={index}
+                  _id={cluster._id}
+                  favorite={cluster.favorite}
+                  favoriteStatus={true}
+                  refetch={refetch}
+                />
+              ))
+            : null}
         </div>
         {noClusterError}
       </div>
