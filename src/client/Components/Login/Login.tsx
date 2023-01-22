@@ -73,21 +73,26 @@ const Login = () => {
           justifyContent: 'center',
         }}
       >
-        <img id="login-icon" src="../../../../public/Images/v4.svg" />
+        <img
+          alt="login icon"
+          id="login-icon"
+          src="../../../../public/Images/v4.svg"
+        />
         <Typography
-          sx={{
-            fontSize: '2.5rem',
-            marginTop: '0',
-            marginBottom: '2vh',
-            paddingTop: '0',
-            letterSpacing: '0.3rem',
-            color: '#fff',
-            cursor: 'default',
-          }}
+          id="vaas-text"
+          // sx={{
+          //   fontSize: '2.5rem',
+          //   marginTop: '-180px',
+          //   marginBottom: '100px',
+          //   paddingTop: '0',
+          //   letterSpacing: '0.3rem',
+          //   color: '#fff',
+          //   cursor: 'default',
+          // }}
         >
           VaaS
         </Typography>
-        {error && <span style={{ color: 'red' }}>{error}</span>}
+        {error && <span id="error">{error}</span>}
       </Box>
       <Box
         sx={{
@@ -114,7 +119,7 @@ const Login = () => {
             width: '100%',
           }}
         >
-          <TextField
+          {/* <TextField
             id="login-username-input"
             label="Username"
             type="username"
@@ -134,6 +139,30 @@ const Login = () => {
               borderRadius: '10px',
               padding: '10px 20px',
               width: '50%',
+            }}
+          /> */}
+          <TextField
+            id="login-username-input"
+            // required
+            // fullWidth
+            label="Username"
+            type="username"
+            autoComplete="username"
+            variant="standard"
+            size="medium"
+            onKeyDown={handleEnterKeyDown}
+            onChange={handleChange}
+            margin="dense"
+            name="username"
+            value={fields.username}
+            sx={{
+              input: { color: '#transparent', background: 'transparent' },
+              label: { color: '#black' },
+              // borderBottom: '1px solid #fff',
+              // backgroundColor: '#fff',
+              // borderRadius: '10px',
+              // padding: '10px 20px',
+              // width: '60%',
             }}
           />
           <TextField
