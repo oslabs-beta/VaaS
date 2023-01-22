@@ -2,41 +2,46 @@
 
 body {
   margin: 0px;
-  overflow: scroll;
+}
+
+#outer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
 }
 .container {
-  /* position: absolute; */
-  /* top: 25%;
-  left: 50%;
-  transform: translate(-50%, -20%); */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   align-self: center;
   width: 650px;
+  height: 750px;
   /* height: 80vh; */
   /* max-height: 1100px; */
   background: rgba(19, 19, 19, 0.9);
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(248, 245, 245, 0.5);
   border-radius: 10px;
-}
-
-@media screen and (max-width: 900px) {
-  .container {
-    width: 80%;
-    transition: 500ms;
-    height: 90%;
-    max-height: 800px;
-    min-height: 600px;
-  }
+  transition: 500ms;
 }
 
 #error {
-  color: red;
+  color: rgb(227, 78, 78);
+  font-weight: bold;
+  /* margin-bottom: 5px; */
+  display: flex;
+  align-items: flex-end;
+  /* margin-top: -10px; */
 }
 
+#error,
+#nonError {
+  height: 15px;
+  margin-bottom: 5px;
+}
 .login-container {
   z-index: 3;
   color: white;
@@ -52,17 +57,27 @@ body {
   min-height: 100%;
   height: 100%;
   /* overflow: hidden; */
-  /* overflow: scroll; */
+  overflow: scroll;
 }
 
 .input-error-text {
   color: red;
 }
 
+#login-container-container .MuiInputBase-root {
+  background-color: rgba(255, 255, 255, 0.842);
+  width: 390px;
+  margin-bottom: 10px;
+}
+
 #login-icon {
   /* height: 150%; */
-  height: 500px;
-  margin-top: 40px;
+  overflow: none;
+  height: 250px;
+  margin-top: 0px;
+  object-fit: none;
+  object-position: 50% 20%;
+  transition: 500ms;
   /* width: 150%; */
   /* margin: -130px; */
   /* height: 40rem; */
@@ -77,22 +92,76 @@ body {
 
 #vaas-text {
   font-size: 4rem;
-  margin-top: -180px;
-  margin-bottom: 200px;
-  color: rgba(255, 255, 255, 0.921);
+  margin-top: 20px;
+  margin-bottom: 3px;
+  color: rgba(255, 255, 255, 0.735);
   font-family: Ubuntu, Arial, Helvetica, sans-serif;
   font-weight: 500;
+  transition: 500ms;
 }
 
-@media screen and (max-width: 700px) {
+.btn:hover,
+.btn1:hover,
+.oauth-btn:hover {
+  background-color: rgb(175, 41, 196);
+}
+
+@media screen and (max-height: 900px) {
   #login-icon {
+    /* margin-top: 80px; */
     height: 450px;
-    margin-top: 60px;
-    transition: 500ms;
+    /* transition: 500ms; */
   }
   #vaas-text {
+    margin-top: -120px;
+    /* transition: 500ms; */
+  }
+}
+
+@media screen and (max-height: 750px) {
+  #login-icon {
+    /* margin-top: 150px; */
+    /* height: 420px; */
+    height: 350px;
+    object-fit: scale-down;
+  }
+  #vaas-text {
+    /* margin-top: -120px; */
+    font-size: 2.8rem;
+    /* transition: 500ms; */
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #login-icon {
+    height: 450px;
+    /* transition: 500ms; */
+  }
+  #vaas-text {
+    /* margin-top: -150px; */
+    /* transition: 500ms; */
+  }
+}
+
+@media screen and (max-width: 400px) {
+  #vaas-text {
     margin-top: -150px;
-    transition: 500ms;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .container {
+    width: 80%;
+    min-width: 270px;
+    /* transition: 500ms; */
+    height: 90%;
+    max-height: 800px;
+    /* min-height: 600px; */
+  }
+  #login-container-container .MuiInputBase-root {
+    /* max-width: 400px; */
+    max-width: 60vw;
+    /* min-width: 280px; */
   }
 }
 

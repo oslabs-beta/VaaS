@@ -6,9 +6,10 @@ import { BsGithub } from 'react-icons/bs';
 // import { Box, Button, TextField, CssBaseline, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
+import { InputProps } from '@mui/material';
 
 // import { LoadingButton } from '@mui/lab';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -27,7 +28,7 @@ const Login = () => {
       if (!authorized.invalid) navigate('/home');
     };
     authorize();
-  }, []);
+  });
   // Handler Functions
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -42,7 +43,10 @@ const Login = () => {
     setLoading(true);
     try {
       const response = await loginUser({ ...fields });
-      if (response.data.userId) navigate('/home');
+      if (response.data.userId) {
+        setError('');
+        navigate('/home');
+      } else setError('Invalid username or password');
       setLoading(false);
     } catch (error: any) {
       setError(error.response.data.message);
@@ -53,6 +57,7 @@ const Login = () => {
   const handleEnterKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>
   ): void => {
+    setError('');
     if (e.key === 'Enter') {
       // console.log('Enter key pressed');
       if (disabled) return;
@@ -65,8 +70,6 @@ const Login = () => {
       <Box
         id="login-logo-container"
         sx={{
-          height: '30vh',
-          marginTop: '8vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -78,21 +81,8 @@ const Login = () => {
           id="login-icon"
           src="../../../../public/Images/v4.svg"
         />
-        <Typography
-          id="vaas-text"
-          // sx={{
-          //   fontSize: '2.5rem',
-          //   marginTop: '-180px',
-          //   marginBottom: '100px',
-          //   paddingTop: '0',
-          //   letterSpacing: '0.3rem',
-          //   color: '#fff',
-          //   cursor: 'default',
-          // }}
-        >
-          VaaS
-        </Typography>
-        {error && <span id="error">{error}</span>}
+        <Typography id="vaas-text">VaaS</Typography>
+        {error ? <div id="error">{error}</div> : <div id="nonError"> </div>}
       </Box>
       <Box
         sx={{
@@ -102,8 +92,8 @@ const Login = () => {
           direction: 'column',
           textAlign: 'center',
           alignItems: 'center',
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
+          // backgroundSize: 'cover',
+          // backgroundRepeat: 'no-repeat',
         }}
         className="backdrop"
       >
@@ -119,28 +109,6 @@ const Login = () => {
             width: '100%',
           }}
         >
-          {/* <TextField
-            id="login-username-input"
-            label="Username"
-            type="username"
-            autoComplete="current-password"
-            variant="standard"
-            size="small"
-            onKeyDown={handleEnterKeyDown}
-            onChange={handleChange}
-            margin="dense"
-            name="username"
-            value={fields.username}
-            sx={{
-              input: { color: '#fff' },
-              label: { color: '#fff' },
-              borderBottom: '1px solid #fff',
-              backgroundColor: 'transparent',
-              borderRadius: '10px',
-              padding: '10px 20px',
-              width: '50%',
-            }}
-          /> */}
           <TextField
             id="login-username-input"
             // required
@@ -148,59 +116,37 @@ const Login = () => {
             label="Username"
             type="username"
             autoComplete="username"
-            variant="standard"
-            size="medium"
+            variant="filled"
+            size="small"
             onKeyDown={handleEnterKeyDown}
             onChange={handleChange}
-            margin="dense"
+            // margin="dense"
             name="username"
             value={fields.username}
-            sx={{
-              input: { color: '#transparent', background: 'transparent' },
-              label: { color: '#black' },
-              // borderBottom: '1px solid #fff',
-              // backgroundColor: '#fff',
-              // borderRadius: '10px',
-              // padding: '10px 20px',
-              // width: '60%',
-            }}
           />
           <TextField
             id="login-password-input"
             label="Password"
             type="password"
             autoComplete="current-password"
-            variant="standard"
+            variant="filled"
             size="small"
             onKeyDown={handleEnterKeyDown}
             onChange={handleChange}
             margin="dense"
             name="password"
             value={fields.password}
-            sx={{
-              input: { color: '#fff' },
-              label: { color: '#fff' },
-              borderBottom: '1px solid #fff',
-              backgroundColor: 'transparent',
-              borderRadius: '10px',
-              padding: '10px 20px',
-              width: '50%',
-            }}
           />
           <Box
             id="buttonContainer"
             sx={{
               width: '100%',
-              minWidth: '250px',
-              maxWidth: '600px',
-              direction: 'column',
-              textAlign: 'center',
               alignItems: 'center',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              padding: '1.5rem',
-              border: '0px solid #eaeaea',
+              paddingBottom: '1rem',
+              // border: '0px solid #eaeaea',
             }}
           >
             <LoadingButton
@@ -213,20 +159,25 @@ const Login = () => {
               sx={{
                 ':disabled': {
                   backgroundColor: 'gray',
-                  color: 'black',
+                  color: 'rgb(37, 37, 37)',
                   border: '1px solid black',
                 },
                 ':enabled': {
-                  backgroundColor: 'blue',
-                  color: 'white',
+                  backgroundColor: '#2604ffb1',
+                  color: 'rgba(255, 255, 255, 0.8)',
                   border: '1px solid black',
                 },
-                margin: '1rem',
-                width: '100%',
+                margin: '0.5rem 0rem 0.6rem 0rem',
+                fontWeight: 'bold',
+                width: '390px',
                 gap: '.5em',
-                padding: '.1em',
+                // padding: '.1em',
                 height: '2.5rem',
-                maxWidth: '60%',
+                // maxWidth: '60%',
+
+                '@media screen and (max-width: 650px)': {
+                  maxWidth: '60vw',
+                },
               }}
             >
               Login
@@ -237,16 +188,18 @@ const Login = () => {
               onClick={() => navigate('/register')}
               variant="contained"
               sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
+                fontWeight: 'bold',
+                width: '390px',
                 gap: '.5em',
-                padding: '.1em',
-                width: '100%',
+                color: 'rgba(255, 255, 255, 0.8)',
+                // padding: '.1em',
                 height: '2.5rem',
-                backgroundColor: '#2704ff',
+                backgroundColor: '#2604ffb1',
                 border: '1px solid black',
-                maxWidth: '60%',
+                // maxWidth: '60%',
+                '@media screen and (max-width: 650px)': {
+                  maxWidth: '60vw',
+                },
               }}
             >
               Register
@@ -256,21 +209,24 @@ const Login = () => {
             id="oauth-buttons-container"
             sx={{
               display: 'flex',
-              width: '12vw',
+              width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
+              // flexShrink: '1',
             }}
           >
             <Button
               variant="contained"
+              className="oauth-btn"
               sx={{
                 color: 'white',
-                backgroundColor: '#2704ff',
+                backgroundColor: '#2704ffb1',
                 borderColor: 'white',
                 marginTop: '8px',
-                minWidth: '165px',
+                paddingRight: '30px',
+                width: '185px',
                 height: '3.5em',
-                margin: '.5em',
+                margin: '8px',
                 textAlign: 'center',
                 border: '1px solid black',
               }}
@@ -280,14 +236,16 @@ const Login = () => {
             </Button>
             <Button
               variant="contained"
+              className="oauth-btn"
               sx={{
                 color: 'white',
-                backgroundColor: '#2704ff',
+                backgroundColor: '#2704ffb1',
                 borderColor: 'white',
                 marginTop: '8px',
-                minWidth: '165px',
+                paddingRight: '30px',
+                width: '185px',
                 height: '3.5em',
-                margin: '.5em',
+                margin: '8px',
                 textAlign: 'center',
                 border: '1px solid black',
               }}
