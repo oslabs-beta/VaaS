@@ -8,6 +8,8 @@ import Typography from '@mui/material/Typography';
 import { registerUser } from '../../Queries';
 // import { LoadingButton } from '@mui/lab';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { FilterDramaSharp } from '@mui/icons-material';
+// import { InputProps } from '@mui/material';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -25,13 +27,33 @@ const Register = () => {
     !fields.username ||
     !fields.password;
   const handleSignUp = async (): Promise<void> => {
+    const alphaSpace = /^[A-Za-z\s]*$/;
+    const alphaOnly = /[a-zA-Z]/;
+    const alphaNum = /^([0-9]|[a-z])+([0-9a-z]+)$/i;
+    const firstNameCheck =
+      alphaOnly.test(fields.firstName) &&
+      alphaSpace.test(fields.firstName) &&
+      fields.firstName[0] !== ' ' &&
+      fields.firstName.length > 0;
+    const lastNameCheck =
+      alphaOnly.test(fields.lastName) &&
+      alphaSpace.test(fields.lastName) &&
+      fields.lastName[0] !== ' ' &&
+      fields.lastName.length > 0;
+    const userCheck =
+      alphaNum.test(fields.username) && fields.username.length > 2;
+    const pwCheck =
+      alphaNum.test(fields.password) && fields.password.length > 3;
+    if (!firstNameCheck || !lastNameCheck) return setError('Invalid name');
+    if (!userCheck || !pwCheck) return setError('Invalid username or password');
     setLoading(true);
     try {
       const response = await registerUser({ ...fields });
       if (response.data.userId) navigate('/home');
-      setLoading(false);
+      else setError('Invalid entry');
+      return setLoading(false);
     } catch (error: any) {
-      setError(error.response.data.message);
+      setError('There was an error logging in');
       setLoading(false);
     }
   };
@@ -58,40 +80,47 @@ const Register = () => {
       <Container
         id="login-logo-container"
         sx={{
-          height: '30vh',
-          marginTop: '8vh',
+          height: '100%',
+          marginTop: '3em',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
         }}
       >
-        <img id="login-icon" src="../../../../public/Images/v4.svg" />
+        <img
+          alt="login icon"
+          id="register-icon"
+          className="login-icon"
+          src="../../../../public/Images/v4.svg"
+        />
 
         <Typography
-          sx={{
-            fontSize: '2.5rem',
-            marginTop: '0',
-            marginBottom: '2vh',
-            paddingTop: '0',
-            letterSpacing: '0.3rem',
-            color: '#fff',
-          }}
+          className="vaas-text"
+          id="vaas-register-text"
+          // sx={{
+          //   fontSize: '2.5rem',
+          //   marginTop: '0',
+          //   marginBottom: '2vh',
+          //   paddingTop: '0',
+          //   letterSpacing: '0.3rem',
+          //   color: '#fff',
+          // }}
         >
           VaaS
         </Typography>
       </Container>
       <Container
-        sx={{
-          minWidth: '100%',
-          justifyContent: 'center',
-          display: 'flex',
-          direction: 'column',
-          textAlign: 'center',
-          alignItems: 'center',
-          backgroundSize: 'contain',
-          bgColor: '#3a4a5b',
-        }}
+        // sx={{
+        // minWidth: '100%',
+        // justifyContent: 'center',
+        // display: 'flex',
+        // direction: 'column',
+        // textAlign: 'center',
+        // alignItems: 'center',
+        // backgroundSize: 'contain',
+        // bgColor: '#3a4a5b',
+        // }}
         className="backdrop"
       >
         <Container
@@ -99,21 +128,26 @@ const Register = () => {
           sx={{
             display: 'flex',
             width: '100%',
-            minWidth: '250px',
-            maxWidth: '600px',
-            direction: 'column',
+            // minWidth: '250px',
+            // maxWidth: '600px',
+            // direction: 'column',
             textAlign: 'center',
             alignItems: 'center',
             flexDirection: 'column',
             justifyContent: 'center',
-            backgroundRepeat: 'no-repeat',
-            padding: '1.5rem',
-            border: '0px solid #eaeaea',
+            // backgroundRepeat: 'no-repeat',
+            padding: '0.5rem',
+            // border: '0px solid #eaeaea',
           }}
         >
           <div>
-            <h2>Registration</h2>
-            {error && <span style={{ color: 'red' }}>{error}</span>}
+            <h2 id="registration">Registration</h2>
+            {/* {error && <span style={{ color: 'red' }}>{error}</span>} */}
+            {error ? (
+              <div className="error">{error}</div>
+            ) : (
+              <div className="nonError"> </div>
+            )}
           </div>
           <TextField
             id="firstName-input"
@@ -130,6 +164,7 @@ const Register = () => {
               input: { color: '#fff' },
               label: { color: '#fff' },
               borderBottom: '1px solid #fff',
+              marginTop: '0',
             }}
           />
           <TextField
@@ -157,7 +192,7 @@ const Register = () => {
             name="username"
             value={fields.username}
             size="small"
-            autoComplete="current-username"
+            autoComplete="new-username"
             variant="standard"
             onKeyDown={handleEnterKeyDown}
             onChange={(e) => handleChange(e)}
@@ -176,7 +211,7 @@ const Register = () => {
             name="password"
             value={fields.password}
             size="small"
-            autoComplete="current-password"
+            autoComplete="new-password"
             variant="standard"
             margin="dense"
             onKeyDown={handleEnterKeyDown}
@@ -192,16 +227,24 @@ const Register = () => {
             id="buttonContainer"
             sx={{
               width: '100%',
-              minWidth: '250px',
-              maxWidth: '600px',
               direction: 'column',
               textAlign: 'center',
               alignItems: 'center',
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'row-reverse',
               justifyContent: 'center',
-              padding: '1.5rem',
-              border: '0px solid #eaeaea',
+              padding: '0.5rem',
+              marginTop: '1em',
+              marginBottom: '7em',
+              // '@media screen and (max-width: 550px)': {
+              //   marginBottom: '5em',
+              // },
+              '@media screen and (max-width: 450px)': {
+                marginBottom: '4.5em',
+              },
+              '@media screen and (max-height: 800px)': {
+                marginTop: '0',
+              },
             }}
           >
             <LoadingButton
@@ -213,12 +256,14 @@ const Register = () => {
               loading={loading}
               sx={{
                 ':disabled': { backgroundColor: 'gray', color: '#000' },
-                margin: '1rem',
+                margin: '0.2rem',
                 color: '#fff',
+                backgroundColor: '#2604ffb1',
+                fontSize: '0.7em',
                 width: '100%',
                 gap: '.5em',
-                padding: '.1em',
-                height: '2.5rem',
+                // padding: '.1em',
+                height: '3em',
               }}
             >
               Sign Up
@@ -228,9 +273,11 @@ const Register = () => {
               onClick={() => navigate('/')}
               variant="contained"
               sx={{
+                margin: '0.2rem',
                 width: '100%',
                 height: '3em',
                 color: 'white',
+                fontSize: '0.7em',
                 backgroundColor: '#3a4a5b',
                 borderColor: 'white',
               }}

@@ -27,13 +27,14 @@ const Login = () => {
   //// const disabled = !fields.username || !fields.password;
 
   // We don't want users who have a cookie to go through the login process -> check for their cookie and if they have a valid one, let them in
+  //passing in array as second argument allows authorize function to only run once
   useEffect(() => {
     const authorize = async () => {
       const authorized = await checkAuth();
       if (!authorized.invalid) navigate('/home');
     };
     authorize();
-  });
+  }, []);
 
   // Handler Functions
   const handleChange = (
@@ -94,11 +95,15 @@ const Login = () => {
       >
         <img
           alt="login icon"
-          id="login-icon"
+          className="login-icon"
           src="../../../../public/Images/v4.svg"
         />
-        <Typography id="vaas-text">VaaS</Typography>
-        {error ? <div id="error">{error}</div> : <div id="nonError"> </div>}
+        <Typography className="vaas-text">VaaS</Typography>
+        {error ? (
+          <div className="error">{error}</div>
+        ) : (
+          <div className="nonError"> </div>
+        )}
       </Box>
       <Box
         sx={{
@@ -129,7 +134,7 @@ const Login = () => {
             id="login-username-input"
             label="Username"
             type="username"
-            autoComplete="username"
+            autoComplete="current-username"
             variant="filled"
             size="small"
             onKeyDown={handleEnterKeyDown}
@@ -159,6 +164,9 @@ const Login = () => {
               flexDirection: 'column',
               justifyContent: 'center',
               paddingBottom: '0.5rem',
+              '@media screen and (max-height: 800px)': {
+                marginBottom: '2em',
+              },
             }}
           >
             <LoadingButton
