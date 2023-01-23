@@ -68,10 +68,6 @@ body {
   margin-bottom: 10px;
 }
 
-#login-container-continer .MuiInput-underline {
-  color: green;
-}
-
 #login-icon {
   overflow: none;
   height: 250px;
