@@ -11,6 +11,7 @@ body {
   height: 100%;
   width: 100%;
 }
+
 .container {
   display: flex;
   flex-direction: column;
@@ -18,15 +19,16 @@ body {
   align-items: center;
   align-self: center;
   width: 600px;
-  height: 750px;
-  min-height: 550px;
+  height: 800px;
+  min-height: 600px;
   background: rgba(19, 19, 19, 0.9);
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(248, 245, 245, 0.5);
   border-radius: 10px;
+  overflow: hidden;
 }
 
-#error {
+.error {
   color: rgb(227, 78, 78);
   font-weight: bold;
   /* margin-bottom: 5px; */
@@ -35,10 +37,14 @@ body {
   /* margin-top: -10px; */
 }
 
-#error,
-#nonError {
+.error,
+.nonError {
   height: 15px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  text-align: center;
+  word-wrap: break-word;
 }
 .login-container {
   z-index: 3;
@@ -54,8 +60,8 @@ body {
   background-size: cover;
   min-height: 100%;
   height: 100%;
-  /* overflow: hidden; */
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 .input-error-text {
@@ -66,15 +72,16 @@ body {
   background-color: rgba(255, 255, 255, 0.842);
   width: 390px;
   margin-bottom: 10px;
+  color: #3a4a5b;
 }
 
-#login-icon {
+.login-icon {
   overflow: none;
   height: 250px;
   margin-top: 0px;
   object-fit: none;
   object-position: 50% 20%;
-  transition: 500ms;
+  /* transition: 500ms; */
 }
 
 .icon {
@@ -84,15 +91,19 @@ body {
   height: 75%;
 }
 
-#vaas-text {
+.vaas-text {
   font-size: 4rem;
   margin-top: 15px;
-  margin-bottom: 3px;
+  margin-bottom: 15px;
   color: rgba(255, 255, 255, 0.735);
   font-family: Ubuntu, Arial, Helvetica, sans-serif;
   font-weight: 500;
-  transition: 500ms;
+  /* transition: 500ms; */
 }
+
+/* #vaas-register-text {
+  margin-bottom: 0;
+} */
 
 .btn:hover,
 .btn1:hover,
@@ -105,26 +116,20 @@ body {
   font-size: 13px;
 }
 
-/* @media screen and (max-height: 900px) {
-  #login-icon {
-    margin-top: 20px;
-    height: 280px;
-    object-position: 50% 60%;
-  }
-  #vaas-text {
-    margin-top: -120px;
-    margin-bottom: 10px;
-  }
-} */
+#registration {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+  margin-top: 0.3em;
+}
 
 @media screen and (max-height: 750px) {
-  #login-icon {
+  .login-icon {
     margin-top: 0px;
     /* height: 420px; */
     height: 350px;
     object-fit: scale-down;
   }
-  #vaas-text {
+  .vaas-text {
     /* margin-top: -120px; */
     font-size: 2.8rem;
     /* transition: 500ms; */
@@ -145,16 +150,24 @@ body {
     flex-direction: row;
     margin: 0px;
   }
+  #registration {
+    margin-top: -10px;
+  }
+  #vaas-register-text {
+    margin-top: -130px;
+  }
 }
 
 @media screen and (max-width: 450px) {
-  #vaas-text {
+  .vaas-text {
     margin-top: -100px;
   }
-  #login-icon {
-    height: 280px;
+  .login-icon {
+    height: 300px;
+    object-fit: scale-down;
     object-position: 50% 55%;
     margin-top: 0px;
+    margin-bottom: -10px;
   }
   .oauth-text {
     display: none;
@@ -175,16 +188,26 @@ body {
   #login-container-container .MuiInputBase-root {
     margin-bottom: 2px;
   }
-  #error,
-  #nonError {
-    height: 10px;
-    margin-bottom: 5px;
-  }
-  #error,
-  #nonError {
+  .error,
+  .nonError {
     height: 30px;
-    margin-bottom: 5px;
+    margin: 5px auto 10px auto;
+    width: 80%;
+    font-size: 0.8em;
     text-align: center;
+  }
+  #registration {
+    font-size: 1.3em;
+    margin-bottom: 0em;
+    margin-top: 0em;
+  }
+  #register-icon {
+    width: 280px;
+    margin-top: -50px;
+    margin-bottom: 0;
+  }
+  #vaas-register-text {
+    margin-top: -120px;
   }
 }
 
@@ -205,14 +228,30 @@ body {
   }
 }
 
-@media screen and (max-height: 900px) {
-  #login-icon {
+@media screen and (max-height: 800px) {
+  .container {
+    /* width: 80%; */
+    min-width: 270px;
+    /* transition: 500ms; */
+    height: 90%;
+    min-height: 580px;
+    max-height: 750px;
+    /* min-height: 600px; */
+  }
+  .login-icon {
     margin-top: 20px;
-    height: 300px;
+    height: 350px;
     object-position: 50% 60%;
   }
-  #vaas-text {
+  .vaas-text {
     margin-top: -110px;
     margin-bottom: 10px;
+  }
+  #register-icon {
+    height: 300px;
+    object-fit: scale-down;
+  }
+  #vaas-register-text {
+    margin-top: -110px;
   }
 }
