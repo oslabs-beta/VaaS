@@ -29,8 +29,12 @@ const Register = () => {
     !fields.password;
 
   const handleSignUp = async (): Promise<void> => {
+    // * VaaS 4.0 add input checking to ensure inputs are valid
+    // regex to check for alphabetic characters and accents, and spaces
     const alphaSpace = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]*$/;
+    // regex to check for alphabetic characters, accents only
     const alphaOnly = /[a-zA-ZÀ-ÖØ-öø-ÿ]/;
+    // regex to check for alphanumeric characters only
     const alphaNum = /^([0-9]|[a-z])+([0-9a-z]+)$/i;
     const firstNameCheck =
       alphaOnly.test(fields.firstName) &&
@@ -53,7 +57,10 @@ const Register = () => {
       const response = await registerUser({ ...fields });
       if (response.data.userId) navigate('/home');
       else {
-        if (response.data.message === 'User [test] already exists')
+        if (
+          response.data.message &&
+          response.data.message.includes('already exists')
+        )
           setError('Username already exists');
         else setError('Invalid entry');
       }
