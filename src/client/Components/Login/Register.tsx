@@ -8,27 +8,29 @@ import Typography from '@mui/material/Typography';
 import { registerUser } from '../../Queries';
 // import { LoadingButton } from '@mui/lab';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { FilterDramaSharp } from '@mui/icons-material';
+// import { FilterDramaSharp } from '@mui/icons-material';
 // import { InputProps } from '@mui/material';
+import { RegisterTypes } from '../../../client/Interfaces';
 
 const Register = () => {
   const navigate = useNavigate();
-  const [fields, setFields] = useState({
+  const [fields, setFields] = useState<RegisterTypes>({
     firstName: '',
     lastName: '',
     username: '',
     password: '',
   });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const disabled =
     !fields.firstName ||
     !fields.lastName ||
     !fields.username ||
     !fields.password;
+
   const handleSignUp = async (): Promise<void> => {
-    const alphaSpace = /^[A-Za-z\s]*$/;
-    const alphaOnly = /[a-zA-Z]/;
+    const alphaSpace = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]*$/;
+    const alphaOnly = /[a-zA-ZÀ-ÖØ-öø-ÿ]/;
     const alphaNum = /^([0-9]|[a-z])+([0-9a-z]+)$/i;
     const firstNameCheck =
       alphaOnly.test(fields.firstName) &&
@@ -50,9 +52,14 @@ const Register = () => {
     try {
       const response = await registerUser({ ...fields });
       if (response.data.userId) navigate('/home');
-      else setError('Invalid entry');
+      else {
+        if (response.data.message === 'User [test] already exists')
+          setError('Username already exists');
+        else setError('Invalid entry');
+      }
       return setLoading(false);
-    } catch (error: any) {
+    } catch (error) {
+      console.log('Error: ', error);
       setError('There was an error logging in');
       setLoading(false);
     }
@@ -236,14 +243,18 @@ const Register = () => {
               padding: '0.5rem',
               marginTop: '1em',
               marginBottom: '7em',
+              height: '100%',
               // '@media screen and (max-width: 550px)': {
               //   marginBottom: '5em',
               // },
-              '@media screen and (max-width: 450px)': {
-                marginBottom: '4.5em',
-              },
               '@media screen and (max-height: 800px)': {
                 marginTop: '0',
+                fontSize: '0.8em',
+                marginBottom: '9em',
+              },
+              '@media screen and (max-width: 450px)': {
+                marginBottom: '4.5em',
+                fontSize: '0.8em',
               },
             }}
           >
@@ -259,11 +270,12 @@ const Register = () => {
                 margin: '0.2rem',
                 color: '#fff',
                 backgroundColor: '#2604ffb1',
-                fontSize: '0.7em',
+                fontSize: '0.9em',
                 width: '100%',
                 gap: '.5em',
                 // padding: '.1em',
                 height: '3em',
+                fontFamily: 'Verdana, Arial, sans-serif',
               }}
             >
               Sign Up
@@ -277,9 +289,10 @@ const Register = () => {
                 width: '100%',
                 height: '3em',
                 color: 'white',
-                fontSize: '0.7em',
+                fontSize: '0.9em',
                 backgroundColor: '#3a4a5b',
                 borderColor: 'white',
+                fontFamily: 'Verdana, Arial, sans-serif',
               }}
             >
               Go Back

@@ -18,7 +18,8 @@
     "moduleResolution": "Node",
     "skipLibCheck": true,
     "sourceMap": true,
-    "target": "ES2017"
+    "target": "ES2017",
+    "useUnknownInCatchVariables": false,
   },
   "include": ["src/**/*", "types/*", "src/server/index.ts", "node_modules/vite/types/*"],
   "ts-node": {

@@ -15,13 +15,17 @@ import Typography from '@mui/material/Typography';
 // import { LoadingButton } from '@mui/lab';
 import LoadingButton from '@mui/lab/LoadingButton';
 import './styles.css';
+import { LoginTypes } from '../../../client/Interfaces';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [fields, setFields] = useState({ username: '', password: '' });
+  const [fields, setFields] = useState<LoginTypes>({
+    username: '',
+    password: '',
+  });
   // * VaaS 4.0 error wasn't used, but the error handling is updated to use setError instead of disabled variable
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   // * VaaS 4.0 removed the disabled feature because it doesn't allow you to login in with autofilled credentials
   //// const disabled = !fields.username || !fields.password;
@@ -34,7 +38,7 @@ const Login = () => {
       if (!authorized.invalid) navigate('/home');
     };
     authorize();
-  }, []);
+  }, [navigate]);
 
   // Handler Functions
   const handleChange = (
@@ -65,8 +69,9 @@ const Login = () => {
         setError('Invalid username or password');
         return setLoading(false);
       }
-    } catch (error: any) {
-      setError(error.response.data.message);
+    } catch (error) {
+      console.log('Error: ', error);
+      setError('There was an error logging in');
       setLoading(false);
     }
   };
@@ -87,6 +92,8 @@ const Login = () => {
       <Box
         id="login-logo-container"
         sx={{
+          // height: '30vh',
+          // marginTop: '8vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -98,7 +105,20 @@ const Login = () => {
           className="login-icon"
           src="../../../../public/Images/v4.svg"
         />
-        <Typography className="vaas-text">VaaS</Typography>
+        <Typography
+          // sx={{
+          //   fontSize: '2.5rem',
+          //   marginTop: '0',
+          //   marginBottom: '2vh',
+          //   paddingTop: '0',
+          //   letterSpacing: '0.3rem',
+          //   color: '#fff',
+          //   cursor: 'default',
+          // }}
+          className="vaas-text"
+        >
+          VaaS
+        </Typography>
         {error ? (
           <div className="error">{error}</div>
         ) : (
@@ -139,8 +159,18 @@ const Login = () => {
             size="small"
             onKeyDown={handleEnterKeyDown}
             onChange={handleChange}
+            // margin="dense"
             name="username"
             value={fields.username}
+            // sx={{
+            //   input: { color: '#fff' },
+            //   label: { color: '#fff' },
+            //   borderBottom: '1px solid #fff',
+            //   backgroundColor: 'transparent',
+            //   borderRadius: '10px',
+            //   padding: '10px 20px',
+            //   width: '50%',
+            // }}
           />
           <TextField
             id="login-password-input"
@@ -154,16 +184,31 @@ const Login = () => {
             margin="dense"
             name="password"
             value={fields.password}
+            // sx={{
+            //   input: { color: '#fff' },
+            //   label: { color: '#fff' },
+            //   borderBottom: '1px solid #fff',
+            //   backgroundColor: 'transparent',
+            //   borderRadius: '10px',
+            //   padding: '10px 20px',
+            //   width: '50%',
+            // }}
           />
           <Box
             id="buttonContainer"
             sx={{
               width: '100%',
+              // minWidth: '250px',
+              // maxWidth: '600px',
+              // direction: 'column',
+              // textAlign: 'center',
               alignItems: 'center',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
               paddingBottom: '0.5rem',
+              // padding: '1.5rem',
+              // border: '0px solid #eaeaea',
               '@media screen and (max-height: 800px)': {
                 marginBottom: '2em',
               },
@@ -188,9 +233,11 @@ const Login = () => {
                 border: '1px solid black',
                 // },
                 margin: '0.5rem 0rem 0.6rem 0rem',
-                fontWeight: 'bold',
+                // fontWeight: 'bold',
+                fontFamily: 'Verdana, Arial, sans-serif',
+                fontSize: '1em',
                 width: '390px',
-                gap: '.5em',
+                gap: '.6em',
                 // padding: '.1em',
                 height: '2.3rem',
                 // maxWidth: '60%',
@@ -208,13 +255,15 @@ const Login = () => {
               onClick={() => navigate('/register')}
               variant="contained"
               sx={{
-                fontWeight: 'bold',
+                // fontWeight: 'bold',
                 width: '390px',
                 gap: '.5em',
                 color: 'rgba(255, 255, 255, 0.8)',
                 // padding: '.1em',
                 height: '2.3rem',
-                backgroundColor: '#2604ffb1',
+                fontFamily: 'Verdana, Arial, sans-serif',
+                fontSize: '1em',
+                backgroundColor: '#5b43f5b1',
                 border: '1px solid black',
                 // maxWidth: '60%',
                 '@media screen and (max-width: 650px)': {
