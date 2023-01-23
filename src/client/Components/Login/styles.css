@@ -25,7 +25,6 @@ body {
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(248, 245, 245, 0.5);
   border-radius: 10px;
-  transition: 500ms;
 }
 
 #error {
@@ -71,16 +70,12 @@ body {
 }
 
 #login-icon {
-  /* height: 150%; */
   overflow: none;
   height: 250px;
   margin-top: 0px;
   object-fit: none;
   object-position: 50% 20%;
   transition: 500ms;
-  /* width: 150%; */
-  /* margin: -130px; */
-  /* height: 40rem; */
 }
 
 .icon {
@@ -92,7 +87,7 @@ body {
 
 #vaas-text {
   font-size: 4rem;
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 3px;
   color: rgba(255, 255, 255, 0.735);
   font-family: Ubuntu, Arial, Helvetica, sans-serif;
@@ -106,21 +101,28 @@ body {
   background-color: rgb(175, 41, 196);
 }
 
+.oauth-text {
+  font-family: Arial;
+  font-size: 13px;
+}
+
 @media screen and (max-height: 900px) {
   #login-icon {
-    /* margin-top: 80px; */
-    height: 450px;
+    margin-top: 20px;
+    height: 280px;
+    object-position: 50% 60%;
     /* transition: 500ms; */
   }
   #vaas-text {
     margin-top: -120px;
+    margin-bottom: 10px;
     /* transition: 500ms; */
   }
 }
 
 @media screen and (max-height: 750px) {
   #login-icon {
-    /* margin-top: 150px; */
+    margin-top: 0px;
     /* height: 420px; */
     height: 350px;
     object-fit: scale-down;
@@ -130,22 +132,62 @@ body {
     font-size: 2.8rem;
     /* transition: 500ms; */
   }
+  .oauth-text {
+    display: none;
+  }
+  .oauth-btn {
+    height: 45px;
+    width: 70px;
+    margin-top: 0px;
+    padding-right: 0px;
+    padding-left: 6px;
+    text-align: center;
+  }
+  #oauth-buttons-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+  }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
+  #vaas-text {
+    margin-top: -100px;
+  }
   #login-icon {
-    height: 450px;
-    /* transition: 500ms; */
+    height: 280px;
+    object-position: 50% 55%;
+    margin-top: 0px;
   }
-  #vaas-text {
-    /* margin-top: -150px; */
-    /* transition: 500ms; */
+  .oauth-text {
+    display: none;
   }
-}
-
-@media screen and (max-width: 400px) {
-  #vaas-text {
-    margin-top: -150px;
+  .oauth-btn {
+    height: 45px;
+    width: 70px;
+    margin-top: 0px;
+    padding-right: 0px;
+    padding-left: 6px;
+    text-align: center;
+  }
+  #oauth-buttons-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+  }
+  #login-container-container .MuiInputBase-root {
+    margin-bottom: 2px;
+  }
+  #error,
+  #nonError {
+    height: 10px;
+    margin-bottom: 5px;
+  }
+  #error,
+  #nonError {
+    height: 30px;
+    margin-bottom: 5px;
+    text-align: center;
   }
 }
 
@@ -162,8 +204,6 @@ body {
     /* max-width: 400px; */
     max-width: 60vw;
     /* min-width: 280px; */
+    /* transition: 500ms; */
   }
 }
-
-/* #login-container {
-} */

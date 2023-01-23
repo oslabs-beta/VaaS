@@ -111,8 +111,6 @@ const Login = () => {
         >
           <TextField
             id="login-username-input"
-            // required
-            // fullWidth
             label="Username"
             type="username"
             autoComplete="username"
@@ -120,7 +118,6 @@ const Login = () => {
             size="small"
             onKeyDown={handleEnterKeyDown}
             onChange={handleChange}
-            // margin="dense"
             name="username"
             value={fields.username}
           />
@@ -145,8 +142,7 @@ const Login = () => {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              paddingBottom: '1rem',
-              // border: '0px solid #eaeaea',
+              paddingBottom: '0.5rem',
             }}
           >
             <LoadingButton
@@ -172,7 +168,7 @@ const Login = () => {
                 width: '390px',
                 gap: '.5em',
                 // padding: '.1em',
-                height: '2.5rem',
+                height: '2.3rem',
                 // maxWidth: '60%',
 
                 '@media screen and (max-width: 650px)': {
@@ -193,7 +189,7 @@ const Login = () => {
                 gap: '.5em',
                 color: 'rgba(255, 255, 255, 0.8)',
                 // padding: '.1em',
-                height: '2.5rem',
+                height: '2.3rem',
                 backgroundColor: '#2604ffb1',
                 border: '1px solid black',
                 // maxWidth: '60%',
@@ -211,8 +207,11 @@ const Login = () => {
               display: 'flex',
               width: '100%',
               justifyContent: 'center',
+              marginTop: '0px',
               alignItems: 'center',
-              // flexShrink: '1',
+              '@media screen and (max-width: 650px)': {
+                flexDirection: 'column',
+              },
             }}
           >
             <Button
@@ -225,14 +224,20 @@ const Login = () => {
                 marginTop: '8px',
                 paddingRight: '30px',
                 width: '185px',
-                height: '3.5em',
+                height: '2.5em',
                 margin: '8px',
                 textAlign: 'center',
                 border: '1px solid black',
+                fontFamily: 'Arial, Tahoma, Sans-serif',
+                '@media screen and (max-width: 650px)': {
+                  width: '60vw',
+                  marginBottom: '1px',
+                  paddingRight: '40px',
+                },
               }}
             >
               <FcGoogle className="icon" />
-              &nbsp;&nbsp;Sign in
+              &nbsp;&nbsp;<span className="oauth-text">Sign in</span>
             </Button>
             <Button
               variant="contained"
@@ -244,14 +249,19 @@ const Login = () => {
                 marginTop: '8px',
                 paddingRight: '30px',
                 width: '185px',
-                height: '3.5em',
+                height: '2.5em',
                 margin: '8px',
                 textAlign: 'center',
                 border: '1px solid black',
+                '@media screen and (max-width: 650px)': {
+                  width: '60vw',
+                  marginBottom: '1px',
+                  paddingRight: '40px',
+                },
               }}
             >
               <BsGithub className="icon" />
-              &nbsp;&nbsp;Sign in
+              &nbsp;&nbsp;<span className="oauth-text">Sign in</span>
             </Button>
           </Box>
         </Box>
