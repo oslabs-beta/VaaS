@@ -6,10 +6,11 @@ import { BsGithub } from 'react-icons/bs';
 // import { Box, Button, TextField, CssBaseline, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import TextField, { TextFieldProps } from '@mui/material/TextField';
+// import TextField, { TextFieldProps } from '@mui/material/TextField';
+import TextField from '@mui/material/TextField';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
-import { InputProps } from '@mui/material';
+// import { InputProps } from '@mui/material';
 
 // import { LoadingButton } from '@mui/lab';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -18,9 +19,13 @@ import './styles.css';
 const Login = () => {
   const navigate = useNavigate();
   const [fields, setFields] = useState({ username: '', password: '' });
+  // * VaaS 4.0 error wasn't used, but the error handling is updated to use setError instead of disabled variable
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const disabled = !fields.username || !fields.password;
+
+  // * VaaS 4.0 removed the disabled feature because it doesn't allow you to login in with autofilled credentials
+  //// const disabled = !fields.username || !fields.password;
+
   // We don't want users who have a cookie to go through the login process -> check for their cookie and if they have a valid one, let them in
   useEffect(() => {
     const authorize = async () => {
@@ -29,25 +34,36 @@ const Login = () => {
     };
     authorize();
   });
+
   // Handler Functions
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    // * resetting error to an empty string
     setError('');
     const {
       target: { name, value },
     } = e;
     setFields({ ...fields, [name]: value });
   };
+
   const handleLogin = async (): Promise<void> => {
+    // * updated handleLogin to check if inputs are empty to prevent a fetch call
+    // * with invalid credentails
+    // * this replaces the disabled feature
+    if (fields.username === '' || fields.password === '')
+      return setError('Invalid username or password');
     setLoading(true);
     try {
       const response = await loginUser({ ...fields });
       if (response.data.userId) {
         setError('');
         navigate('/home');
-      } else setError('Invalid username or password');
-      setLoading(false);
+      } else {
+        //* VaaS 4.0 message below will appear to notify user of invalid login credentials
+        setError('Invalid username or password');
+        return setLoading(false);
+      }
     } catch (error: any) {
       setError(error.response.data.message);
       setLoading(false);
@@ -57,15 +73,15 @@ const Login = () => {
   const handleEnterKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>
   ): void => {
-    setError('');
+    // setError('');
     if (e.key === 'Enter') {
-      // console.log('Enter key pressed');
-      if (disabled) return;
+      // if (disabled) return;
       handleLogin();
     }
   };
 
   return (
+    // * VaaS 4.0 moved a lot of the inline styling to the css page
     <div className="container" id="login-container">
       <Box
         id="login-logo-container"
@@ -150,19 +166,19 @@ const Login = () => {
               type="button"
               onClick={handleLogin}
               variant="contained"
-              disabled={disabled}
+              // disabled={disabled}
               loading={loading}
               sx={{
-                ':disabled': {
-                  backgroundColor: 'gray',
-                  color: 'rgb(37, 37, 37)',
-                  border: '1px solid black',
-                },
-                ':enabled': {
-                  backgroundColor: '#2604ffb1',
-                  color: 'rgba(255, 255, 255, 0.8)',
-                  border: '1px solid black',
-                },
+                // ':disabled': {
+                //   backgroundColor: 'gray',
+                //   color: 'rgb(37, 37, 37)',
+                //   border: '1px solid black',
+                // },
+                // ':enabled': {
+                backgroundColor: '#2604ffb1',
+                color: 'rgba(255, 255, 255, 0.8)',
+                border: '1px solid black',
+                // },
                 margin: '0.5rem 0rem 0.6rem 0rem',
                 fontWeight: 'bold',
                 width: '390px',
@@ -201,7 +217,8 @@ const Login = () => {
               Register
             </Button>
           </Box>
-          <Box
+          {/*  VaaS 4.0 oauth was not implemented so commenting out buttons until it's added*/}
+          {/* <Box
             id="oauth-buttons-container"
             sx={{
               display: 'flex',
@@ -263,7 +280,7 @@ const Login = () => {
               <BsGithub className="icon" />
               &nbsp;&nbsp;<span className="oauth-text">Sign in</span>
             </Button>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </div>
