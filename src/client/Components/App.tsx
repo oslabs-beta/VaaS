@@ -6,6 +6,8 @@ import Home from './Home/Home';
 import Register from './Login/Register';
 import Module from './Cards/Module';
 import PrivateRoute from '../Components/Login/PrivateRoute';
+import { ProSidebarProvider } from 'react-pro-sidebar';
+import WrappedPrivateRoute from './WrappedPrivateRoute';
 
 const queryClient = new QueryClient();
 
@@ -15,12 +17,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<PrivateRoute />}>
-          <Route path="/home" element={<Home />} />
-        </Route>
-        <Route path="/module" element={<PrivateRoute />}>
-          <Route path="/module" element={<Module />} />
-        </Route>
+        <Route path="/home" element={<WrappedPrivateRoute />} />
       </Routes>
     </QueryClientProvider>
   );
