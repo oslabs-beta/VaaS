@@ -1,6 +1,9 @@
 #navbar-container {
-  box-sizing: border-box;
-  padding-right: 100px;
+  box-sizing: content-box;
+  padding-right: 2em;
+  padding-left: 2em;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
   display: flex;
   flex-direction: row;
   width: 100vw;
@@ -10,6 +13,7 @@
   align-items: center;
   height: 100px;
 }
+
 .test {
   border: 10px solid red;
 }
@@ -20,16 +24,41 @@
   margin-left: 192px;
   margin-top: 25px;
 }
-#navbar-container img {
-  box-sizing: border-box;
-  height: 200px;
-  width: 200px;
-  padding-left: 20px;
-  padding-top: 35px;
+
+  #navbar-container .css-115fpqh-MuiButtonBase-root-MuiIconButton-root { 
+  align-self: center; 
+  height: 5.5vw;
+  width: 5.5vw;
+  margin-right: 1em;
+  background-color: lightslategray;
+} 
+
+#navbar-container .css-115fpqh-MuiButtonBase-root-MuiIconButton-root:hover {
+  transform: scale(1.1);
 }
+
+
+#navbar-container button {
+  height: 30vw;
+  width: 30vw;
+
+}
+
+#navbar-container .homeicon {
+  height: 5.5vw;
+  width: 5.5vw;
+  margin-left: 1em;
+  padding-top: .5em;
+}
+
+#navbar-container .homeicon:hover {
+  transform: scale(1.15);
+}
+
+
 #navbar-title {
   color: white;
-  font-size: 35px;
+  font-size: 3.5vw;
   font-weight: 100 !important;
 }
 .Kube-port {
@@ -55,6 +84,6 @@
 }
 .logoutMenuButton {
   color: white;
-  font-size: 20px;
+  font-size: 1.5vw;
   padding: 5px 10px;
 }

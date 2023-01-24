@@ -29,7 +29,11 @@ export default function NavBar(props: { refetch?: any }) {
   return (
     <div id="navbar-container">
       <a onClick={() => navigate('/home')}>
-        <img className="homeicon" src="../../../../public/Images/v4.svg" />
+        <img
+          className="homeicon"
+          src="../../../../public/Images/Vaas.png"
+          img-alt=""
+        />
       </a>
       <a id="navbar-title">VaaS</a>
 
@@ -39,11 +43,14 @@ export default function NavBar(props: { refetch?: any }) {
           aria-controls={open ? 'account-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
-          sx={{ backgroundColor: '#181A1D', marginRight: '10px' }}
+          sx={{
+            backgroundColor: '#181A1D',
+            marginRight: '2%',
+          }}
         >
           <Avatar
-            sx={{ width: 45, height: 45 }}
-            src="../../../../public/Images/prof.png"
+            sx={{ width: '5vw', height: '5vw' }}
+            src="../../../../public/Images/profile.png"
           ></Avatar>
         </IconButton>
       </Tooltip>
@@ -57,11 +64,11 @@ export default function NavBar(props: { refetch?: any }) {
           elevation: 0,
           sx: {
             backgroundColor: '#181A1D',
-            width: '200px',
+            width: '17vw',
             display: 'flex',
             justifyContent: 'center',
             overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px #2704FF)',
+            filter: 'drop-shadow(0px 2px 8px #b882d9)',
             mt: 1.5,
             '& .MuiAvatar-root': {
               width: 32,
@@ -91,7 +98,7 @@ export default function NavBar(props: { refetch?: any }) {
             handleAdminModal(true);
           }}
           className="logoutMenuButton"
-          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+          sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '2vw' }}
         >
           &#9784; SETTINGS
         </MenuItem>

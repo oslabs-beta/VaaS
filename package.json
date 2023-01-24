@@ -42,6 +42,7 @@
     "isomorphic-fetch": "^3.0.0",
     "nodemon": "^2.0.19",
     "react-icons": "^4.7.1",
+    "react-pro-sidebar": "^1.0.0",
     "serve-static": "^1.15.0",
     "ts-node": "^10.9.1"
   },
