@@ -11,22 +11,36 @@ import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { setUI } from '../../Store/actions';
 import { useFetchMetrics } from '../../Queries';
 import { Custom, Visualizer } from '../Modules';
-import {
-  Button,
-  Tooltip,
-  Modal,
-  Box,
-  CssBaseline,
-  Divider,
-} from '@mui/material';
-import {
-  Insights,
-  AddAlert,
-  ViewInAr,
-  QueryStats,
-  Functions,
-  AttachMoney,
-} from '@mui/icons-material';
+// import {
+//   Button,
+//   Tooltip,
+//   Modal,
+//   Box,
+//   CssBaseline,
+//   Divider,
+// } from '@mui/material';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
+
+// import {
+//   Insights,
+//   AddAlert,
+//   ViewInAr,
+//   QueryStats,
+//   Functions,
+//   AttachMoney,
+// } from '@mui/icons-material';
+import Insights from '@mui/icons-material/Insights';
+import AddAlert from '@mui/icons-material/AddAlert';
+import ViewInAr from '@mui/icons-material/ViewInAr';
+import QueryStats from '@mui/icons-material/QueryStats';
+import Functions from '@mui/icons-material/Functions';
+import AttachMoney from '@mui/icons-material/AttachMoney';
+
 import './styles.css';
 
 // Dashboard for each cluster which is rendered onto the home page

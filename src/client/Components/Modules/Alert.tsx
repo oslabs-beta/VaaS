@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import alertAdd from '../../Queries/Alert';
-import { Container, TextField, Button } from '@mui/material';
+// import { Container, TextField, Button } from '@mui/material';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
 import { Modules } from '../../Interfaces/ICluster';
 import path from 'path';
 import loadable from '@loadable/component';

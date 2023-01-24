@@ -12,15 +12,23 @@ import {
   changeDarkMode,
   changeRefreshRate,
 } from '../../Queries';
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Tab,
-  Tabs,
-  Typography,
-} from '@mui/material';
+// import {
+//   Box,
+//   Button,
+//   Container,
+//   TextField,
+//   Tab,
+//   Tabs,
+//   Typography,
+// } from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
+
 import './styles.css';
 
 // Define the Admin type, setting types for the properties
