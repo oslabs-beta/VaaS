@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
 // import { Box, Modal } from '@mui/material';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import axiosInstance from '../../Queries/axios';
 
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();
@@ -13,21 +14,41 @@ const Charts = (props: Modules) => {
   const [category, setCategory] = useState('');
   const [dashboardObj, setDashboardObj] = useState({});
   const [dashboard, setDashboard] = useState('');
+  const [dashboardIds, setDashboardIds] = useState<Record<string, string>>({});
   const handleClose = () => setOpen(false);
   const handleCloseSecond = () => setOpenSecond(false);
 
+  const getCharts = async () => {
+    const { data } = await axiosInstance('/graphs');
+    // const data: Record<string, string> = response.data;
+    setDashboardIds(data);
+    console.log(data);
+  };
+
+  useEffect(() => {
+    getCharts();
+  }, []);
+
   //grafana dashboard IDs are hard coded for now, but should be configured to be dynamically fetched via an API call to grafana...
-  const computingDashboard = {
-    Cluster: import.meta.env.VITE_COMPUTING_CLUSTER,
-    Nodes: import.meta.env.VITE_COMPUTING_NODES,
-    Workloads: import.meta.env.VITE_COMPUTING_WORKLOADS,
-    Pods: import.meta.env.VITE_COMPUTING_PODS,
+  const computingDashboard: Record<string, string> = {
+    // Cluster: import.meta.env.VITE_COMPUTING_CLUSTER,
+    // Nodes: import.meta.env.VITE_COMPUTING_NODES,
+    // Workloads: import.meta.env.VITE_COMPUTING_WORKLOADS,
+    // Pods: import.meta.env.VITE_COMPUTING_PODS,
+    Cluster: dashboardIds.ComputeCluster,
+    Nodes: dashboardIds.ComputeNodePods,
+    Workloads: dashboardIds.ComputeNamespaceWorkloads,
+    Pods: dashboardIds.ComputePod,
   };
   const networkingDashboard = {
-    Cluster: import.meta.env.VITE_NETWORKING_CLUSTER,
-    Namespaces: import.meta.env.VITE_NETWORKING_NAMESPACES,
-    Workloads: import.meta.env.VITE_NETWORKING_WORKLOADS,
-    Pods: import.meta.env.VITE_NETWORKING_PODS,
+    // Cluster: import.meta.env.VITE_NETWORKING_CLUSTER,
+    // Namespaces: import.meta.env.VITE_NETWORKING_NAMESPACES,
+    // Workloads: import.meta.env.VITE_NETWORKING_WORKLOADS,
+    // Pods: import.meta.env.VITE_NETWORKING_PODS,
+    Cluster: dashboardIds.NetworkingCluster,
+    Namespaces: dashboardIds.NetworkingNamespacePods,
+    Workloads: dashboardIds.NetworkingWorkload,
+    Pods: dashboardIds.NetworkingPod,
   };
   const isolatedDashboard = {
     Cluster: import.meta.env.VITE_ISOLATED_CLUSTER,
@@ -36,16 +57,24 @@ const Charts = (props: Modules) => {
     Pods: import.meta.env.VITE_ISOLATED_PODS,
   };
   const overviewDashboard = {
-    Kubelet: import.meta.env.VITE_OVERVIEW_KUBELET,
-    'USE/NODE': import.meta.env.VITE_OVERVIEW_USENODE,
-    'USE/CLUSTER': import.meta.env.VITE_OVERVIEW_USECLUSTER,
-    'Node Exporter': import.meta.env.VITE_OVERVIEW_NODEEXPORTER,
+    // Kubelet: import.meta.env.VITE_OVERVIEW_KUBELET,
+    // 'USE/NODE': import.meta.env.VITE_OVERVIEW_USENODE,
+    // 'USE/CLUSTER': import.meta.env.VITE_OVERVIEW_USECLUSTER,
+    // 'Node Exporter': import.meta.env.VITE_OVERVIEW_NODEEXPORTER,
+    kubelet: dashboardIds.Kubelet,
+    useNode: dashboardIds.NodeExporterUSEMethodNode,
+    useCluster: dashboardIds.NodeExporterUSEMethodCluster,
+    nodeExporter: dashboardIds.NodeExporterNodes,
   };
   const coreDashboard = {
-    'API Server': import.meta.env.VITE_CORE_APISERVER,
-    etcd: import.meta.env.VITE_CORE_ETCD,
-    Scheduler: import.meta.env.VITE_CORE_SCHEDULER,
-    'Controller Manager': import.meta.env.VITE_CORE_CONTROLMANAGER,
+    // 'API Server': import.meta.env.VITE_CORE_APISERVER,
+    // etcd: import.meta.env.VITE_CORE_ETCD,
+    // Scheduler: import.meta.env.VITE_CORE_SCHEDULER,
+    // 'Controller Manager': import.meta.env.VITE_CORE_CONTROLMANAGER,
+    apiServer: dashboardIds.APIserver,
+    etcd: dashboardIds.etcd,
+    scheduler: dashboardIds.Scheduler,
+    controllerManager: dashboardIds.ControllerManager,
   };
   //upon opening up a modal, this function indicates the category and selects which dashboard object we are targeting
   const handleOpen = (e: any) => {
@@ -179,7 +208,7 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
+              src={`${state[0].grafana_url}d/${dashboard}/?&kiosk=tv`}
               height="900px"
               width="1500px"
               frameBorder="0"
