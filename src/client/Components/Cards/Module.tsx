@@ -16,6 +16,7 @@ import {
 import { Visualizer, Custom } from '../Modules';
 import './styles.css';
 import '../Modules/network.css';
+import MenuSidebar from '../Home/MenuSidebar';
 
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
@@ -164,6 +165,7 @@ const Module = (props: Modules) => {
   };
   return (
     <div>
+      <MenuSidebar />
       <NavBar />
       <div className="Module-top-row">
         <div>

@@ -7,6 +7,7 @@ import { ClusterTypes, IReducers } from '../../Interfaces';
 import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
+import MenuSidebar from './MenuSidebar';
 import './styles.css';
 
 const Home = () => {
@@ -48,6 +49,7 @@ const Home = () => {
 
   return (
     <div>
+      <MenuSidebar />
       <NavBar refetch={refetch} />
       <div id="HeaderContainer">
         <div id="Home-Bar-Title">CLUSTERS</div>

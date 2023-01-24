@@ -8,18 +8,17 @@ import MenuSidebar from './Home/MenuSidebar';
 
 const WrappedPrivateRoute = () => {
   return (
-    <div>
-      <ProSidebarProvider>
-        <Routes>
-          <Route path="/home" element={<PrivateRoute />}>
-            <Route path="/home" element={<Home />} />
-          </Route>
-          <Route path="/module" element={<PrivateRoute />}>
-            <Route path="/module" element={<Module />} />
-          </Route>
-        </Routes>
-      </ProSidebarProvider>
-    </div>
+    <ProSidebarProvider>
+      <MenuSidebar />
+      <Routes>
+        <Route path="/home" element={<PrivateRoute />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
+        <Route path="/module" element={<PrivateRoute />}>
+          <Route path="/module" element={<Module />} />
+        </Route>
+      </Routes>
+    </ProSidebarProvider>
   );
 };
 
