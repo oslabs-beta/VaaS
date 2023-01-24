@@ -22,15 +22,12 @@ const Charts = (props: Modules) => {
       grafanaUrl: state[0].grafana_url,
     });
     setDashboardIds(data);
-    console.log('GRAPH DATA: ', data);
-    console.log('GRAFANA URL: ', state[0].grafana_url);
   };
 
   useEffect(() => {
     getDashboards();
   }, []);
-
-  //grafana dashboard IDs are hard coded for now, but should be configured to be dynamically fetched via an API call to grafana...
+ 
   const computingDashboard: Record<string, string> = {
     Cluster: dashboardIds.ComputeCluster,
     Nodes: dashboardIds.ComputeNodePods,
@@ -193,7 +190,7 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              src={`${state[0].grafana_url}d/${dashboard}/?&kiosk=tv`}
+              src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
               height="900px"
               width="1500px"
               frameBorder="0"
