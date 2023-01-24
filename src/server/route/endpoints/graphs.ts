@@ -6,22 +6,28 @@ import axios from 'axios';
 
 router
   .route('/graphs')
-  .get(verifyCookie, async (req: Request, res: Response) => {
-    const { data }: { data: IChart[] } = await axios.get(
-      'http://34.121.177.99/api/search'
-    );
-    const chartData: Record<string, string> = {};
-    const regex = /(\w*)(Kubernetes|Resources|\/)/g;
-    data.forEach((ele: IChart) => {
-      const title: string = ele.title
-        .replaceAll(regex, '')
-        .replaceAll(' ', '')
-        .replaceAll('(', '')
-        .replaceAll(')', '');
-      chartData[title] = ele.uid;
-    });
-    // console.log(chartData);
-    res.status(200).json(chartData);
+  .post(verifyCookie, async (req: Request, res: Response) => {
+    try {
+      const { grafanaUrl }: { grafanaUrl: string } = req.body;
+      console.log(`${grafanaUrl}api/search`);
+      const { data }: { data: IChart[] } = await axios.get(
+        `${grafanaUrl}api/search`
+      );
+      const chartData: Record<string, string> = {};
+      const regex = /(\w*)(Kubernetes|Resources|\/)/g;
+      data.forEach((ele: IChart) => {
+        const title: string = ele.title
+          .replaceAll(regex, '')
+          .replaceAll(' ', '')
+          .replaceAll('(', '')
+          .replaceAll(')', '');
+        chartData[title] = ele.uid;
+      });
+      // console.log(chartData);
+      res.status(200).json(chartData);
+    } catch (err) {
+      console.log(err);
+    }
   });
 
 export default router;

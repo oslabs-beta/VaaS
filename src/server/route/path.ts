@@ -33,7 +33,7 @@ function path(url: string): IPathRoute {
       methods: ['POST'],
     },
     '/graphs': {
-      methods: ['GET'],
+      methods: ['POST'],
     },
   };
   return allRoutes[url];
