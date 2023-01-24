@@ -165,7 +165,6 @@ const Module = (props: Modules) => {
   };
   return (
     <div>
-      <MenuSidebar />
       <NavBar />
       <div className="Module-top-row">
         <div>

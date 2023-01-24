@@ -9,13 +9,13 @@ import MenuSidebar from './Home/MenuSidebar';
 const WrappedPrivateRoute = () => {
   return (
     <ProSidebarProvider>
-      <MenuSidebar />
+      {/* <MenuSidebar /> */}
       <Routes>
-        <Route path="/home" element={<PrivateRoute />}>
-          <Route path="/home" element={<Home />} />
+        <Route path="cluster" element={<PrivateRoute />}>
+          <Route path="cluster" element={<Home />} />
         </Route>
-        <Route path="/module" element={<PrivateRoute />}>
-          <Route path="/module" element={<Module />} />
+        <Route path="module" element={<PrivateRoute />}>
+          <Route path="module" element={<Module />} />
         </Route>
       </Routes>
     </ProSidebarProvider>

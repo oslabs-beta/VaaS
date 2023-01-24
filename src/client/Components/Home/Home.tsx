@@ -49,7 +49,7 @@ const Home = () => {
 
   return (
     <div>
-      <MenuSidebar />
+      {/* <MenuSidebar /> */}
       <NavBar refetch={refetch} />
       <div id="HeaderContainer">
         <div id="Home-Bar-Title">CLUSTERS</div>

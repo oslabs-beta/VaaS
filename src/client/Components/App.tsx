@@ -17,7 +17,12 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<WrappedPrivateRoute />} />
+        <Route path="/home" element={<PrivateRoute />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
+        <Route path="/module" element={<PrivateRoute />}>
+          <Route path="/module" element={<Module />} />
+        </Route>
       </Routes>
     </QueryClientProvider>
   );
