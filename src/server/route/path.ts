@@ -32,6 +32,9 @@ function path(url: string): IPathRoute {
     '/gcheck': {
       methods: ['POST'],
     },
+    '/graphs': {
+      methods: ['POST'],
+    },
   };
   return allRoutes[url];
 }
