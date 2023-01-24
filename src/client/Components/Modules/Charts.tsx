@@ -47,16 +47,16 @@ const Charts = (props: Modules) => {
     Pods: import.meta.env.VITE_ISOLATED_PODS,
   };
   const overviewDashboard = {
-    kubelet: dashboardIds.Kubelet,
-    useNode: dashboardIds.NodeExporterUSEMethodNode,
-    useCluster: dashboardIds.NodeExporterUSEMethodCluster,
-    nodeExporter: dashboardIds.NodeExporterNodes,
+    Kubelet: dashboardIds.Kubelet,
+    'USE/Node': dashboardIds.NodeExporterUSEMethodNode,
+    'USE/Cluster': dashboardIds.NodeExporterUSEMethodCluster,
+    'Node Exporter': dashboardIds.NodeExporterNodes,
   };
   const coreDashboard = {
-    apiServer: dashboardIds.APIserver,
+    'API Server': dashboardIds.APIserver,
     etcd: dashboardIds.etcd,
-    scheduler: dashboardIds.Scheduler,
-    controllerManager: dashboardIds.ControllerManager,
+    Scheduler: dashboardIds.Scheduler,
+    'Controller Manager': dashboardIds.ControllerManager,
   };
   //upon opening up a modal, this function indicates the category and selects which dashboard object we are targeting
   const handleOpen = (e: any) => {
