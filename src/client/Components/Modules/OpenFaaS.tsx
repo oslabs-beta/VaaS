@@ -166,12 +166,14 @@ const OpenFaaS = (props: Modules) => {
         authorization: localStorage.getItem('token'),
       });
       if (response.success) {
+        console.log(response, body.functionName, 'response in handledelete');
         dispatch(
           DEL_DeployedOFFunc(
             id,
             deployedFunctions.filter((el) => el.name !== body.functionName)
           )
         );
+        console.log(deployedFunctions, 'deployed in handle delete');
         setInvokedOutput('Deployed function deleted');
       }
     } catch (error) {
@@ -271,6 +273,11 @@ const OpenFaaS = (props: Modules) => {
               <option value="" selected>
                 --Select Function to Invoke--
               </option>
+              {console.log(
+                'OpenFaaS deployed: ',
+                OFReducer,
+                Array.isArray(OFReducer)
+              )}
               {OFReducer.deployedFunctions.map((element, idx) => {
                 return (
                   <option key={idx} value={element.name}>

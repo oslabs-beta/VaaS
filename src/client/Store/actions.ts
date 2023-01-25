@@ -97,8 +97,9 @@ export const DEL_DeployedOFFunc = (
   deployedFunctions: DeployedFunctionTypes[]
 ) => ({
   type: types.DEL_DeployedOFFunc,
-  payload: {
-    clusterId,
-    deployedFunctions,
-  },
+  // payload: {
+  //   clusterId,
+  //   deployedFunctions,
+  // },
+  payload: deployedFunctions,
 });
