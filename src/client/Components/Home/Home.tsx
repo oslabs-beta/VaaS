@@ -49,28 +49,30 @@ const Home = () => {
   }, [darkMode, dispatch, navigate, userData]);
 
   return (
-    <div>
-      {/* <MenuSidebar /> */}
+    <div id="home-div">
       <NavBar refetch={refetch} />
-      <div id="HeaderContainer">
-        <div id="Home-Bar-Title">CLUSTERS</div>
-      </div>
-      <div className="Kube-port">
-        <div className="Kube-container" id="Kube-container">
-          {clustersArray?.length
-            ? clustersArray?.map((cluster, index) => (
-                <Kube
-                  isDark={darkMode} //*adding for darkmode
-                  key={index}
-                  _id={cluster._id}
-                  favorite={cluster.favorite}
-                  favoriteStatus={true}
-                  refetch={refetch}
-                />
-              ))
-            : null}
+      <MenuSidebar />
+      <div id="cluster-title-modals">
+        <div id="HeaderContainer">
+          <div id="Home-Bar-Title">CLUSTERS</div>
         </div>
-        {noClusterError}
+        <div className="Kube-port">
+          <div className="Kube-container" id="Kube-container">
+            {clustersArray?.length
+              ? clustersArray?.map((cluster, index) => (
+                  <Kube
+                    isDark={darkMode} //*adding for darkmode
+                    key={index}
+                    _id={cluster._id}
+                    favorite={cluster.favorite}
+                    favoriteStatus={true}
+                    refetch={refetch}
+                  />
+                ))
+              : null}
+          </div>
+          {noClusterError}
+        </div>
       </div>
     </div>
   );

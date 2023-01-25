@@ -4,7 +4,7 @@ import { loginUser, checkAuth } from '../../Queries';
 import { FcGoogle } from 'react-icons/fc';
 import { BsGithub } from 'react-icons/bs';
 // import { Box, Button, TextField, CssBaseline, Typography } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 // import TextField, { TextFieldProps } from '@mui/material/TextField';
 import TextField from '@mui/material/TextField';

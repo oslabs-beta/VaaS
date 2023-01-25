@@ -9,7 +9,7 @@ import { deleteCluster, editCluster } from '../../Queries';
 // import { Container } from '@mui/system';
 import Container from '@mui/system/Container';
 // import { Box, TextField, Card, Button } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';

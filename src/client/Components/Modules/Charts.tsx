@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
 // import { Box, Modal } from '@mui/material';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 
 const Charts = (props: Modules) => {
