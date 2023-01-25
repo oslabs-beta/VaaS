@@ -14,6 +14,7 @@ const Charts = (props: Modules) => {
   const [dashboardObj, setDashboardObj] = useState({});
   const [dashboard, setDashboard] = useState('');
   const [dashboardIds, setDashboardIds] = useState<Record<string, string>>({});
+  const [isGrafana, setIsGrafana] = useState<boolean>(true);
   const handleClose = () => setOpen(false);
   const handleCloseSecond = () => setOpenSecond(false);
 
@@ -27,7 +28,7 @@ const Charts = (props: Modules) => {
   useEffect(() => {
     getDashboards();
   }, []);
- 
+
   const computingDashboard: Record<string, string> = {
     Cluster: dashboardIds.ComputeCluster,
     Nodes: dashboardIds.ComputeNodePods,
@@ -58,28 +59,54 @@ const Charts = (props: Modules) => {
     Scheduler: dashboardIds.Scheduler,
     'Controller Manager': dashboardIds.ControllerManager,
   };
+  const costDashboard = {
+    Kubecost: 'http://34.29.59.36:9090/',
+  };
+
+  const emptyDashboard = {};
+
   //upon opening up a modal, this function indicates the category and selects which dashboard object we are targeting
   const handleOpen = (e: any) => {
     setCategory(e.target.getAttribute('data-value'));
     switch (e.target.getAttribute('data-value')) {
       case 'computing': {
+        setIsGrafana(true);
         setDashboardObj(computingDashboard);
         break;
       }
       case 'networking': {
+        setIsGrafana(true);
         setDashboardObj(networkingDashboard);
         break;
       }
       case 'isolated': {
+        setIsGrafana(true);
         setDashboardObj(isolatedDashboard);
         break;
       }
       case 'overview': {
+        setIsGrafana(true);
         setDashboardObj(overviewDashboard);
         break;
       }
       case 'core': {
+        setIsGrafana(true);
         setDashboardObj(coreDashboard);
+        break;
+      }
+      case 'custom': {
+        setIsGrafana(true);
+        setDashboardObj(emptyDashboard);
+        break;
+      }
+      case 'kubecost': {
+        setIsGrafana(false);
+        setDashboardObj(costDashboard);
+        break;
+      }
+      case 'openfaas': {
+        setIsGrafana(true);
+        setDashboardObj(emptyDashboard);
         break;
       }
     }
@@ -139,6 +166,9 @@ const Charts = (props: Modules) => {
         <div className="category" data-value="openfaas" onClick={handleOpen}>
           OpenFaaS
         </div>
+        <div className="category" data-value="kubecost" onClick={handleOpen}>
+          KubeCost
+        </div>
       </div>
       <Modal
         open={open}
@@ -147,7 +177,7 @@ const Charts = (props: Modules) => {
         aria-describedby="modal-modal-description"
       >
         <Box className="modal-" sx={style}>
-          <div
+          {/* <div
             data-value={Object.values(dashboardObj)[0]}
             onClick={handleDashboard}
             className="dashboard"
@@ -174,7 +204,19 @@ const Charts = (props: Modules) => {
             className="dashboard"
           >
             {Object.keys(dashboardObj)[3]}
-          </div>
+          </div> */}
+          {Object.values(dashboardObj).map((ele, index) => {
+            return (
+              <div
+                data-value={ele}
+                onClick={handleDashboard}
+                className="dashboard"
+                key={`Dashboard${index}`}
+              >
+                {Object.keys(dashboardObj)[index]}
+              </div>
+            );
+          })}
         </Box>
       </Modal>
       <Modal
@@ -190,7 +232,11 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
+              src={
+                isGrafana
+                  ? `${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`
+                  : 'http://34.29.59.36:9090/'
+              }
               height="900px"
               width="1500px"
               frameBorder="0"
