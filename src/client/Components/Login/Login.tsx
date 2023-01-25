@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, checkAuth } from '../../Queries';
-<<<<<<< HEAD
-=======
 // import { FcGoogle } from 'react-icons/fc';
 // import { BsGithub } from 'react-icons/bs';
->>>>>>> dev
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
