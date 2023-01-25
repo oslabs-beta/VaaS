@@ -91,7 +91,6 @@
     "faker": "^6.6.6",
     "findup-sync": "^5.0.0",
     "fs": "^0.0.1-security",
-    "gapi-script": "^1.2.0",
     "husky": "^8.0.2",
     "install": "^0.13.0",
     "js-yaml": "^4.1.0",
