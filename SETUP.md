@@ -1,11 +1,8 @@
-# Visualization as a Service ("VaaS"):
-
-
-## Installation / Setup Instructions
+# Installation / Setup Instructions
 
 To get started, you will need to have a Kubernetes cluster. If you are new to Kubernetes, you can create a simple single-node cluster on your local machine by using minikube. See documentation for minikube at [link](https://minikube.sigs.k8s.io/docs/start/).
 
-Follow the instructions below to install dependencies required by VaaS.
+Follow the instructions below to install dependencies required by VaaS. To have the dependencies work properly with VaaS, the service types of each application must be changed to ```LoadBalancer```.
 
 <br/>
 
@@ -131,7 +128,7 @@ kubectl -n monitoring port-forward svc/kubepromstack-grafana 3001:3000
 ```
 Accessed via http://localhost:3001:3000
 
-_The default username : password are admin : prom-operator._
+_The default ```username : password``` are ```admin : prom-operator```._
 
 <br/>
 
@@ -145,7 +142,7 @@ Accessed via http://localhost:9090
 <br/>
 
 ### OpenFaaS
-Forward the openfaas gateway service from ```port 8080``` to ```port 30001``` as it is occupied by Kube State Metrics:
+Forward the OpenFaas gateway service from ```port 8080``` to ```port 30001``` as it is occupied by Kube State Metrics:
 
 ```
 kubectl rollout status -n openfaas deploy/gateway
@@ -168,34 +165,34 @@ echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 
 <br/>
 
-## VaaS Setup
+# VaaS Setup
 
-Clone down the VaaS repo onto your machine. You can locate this clone wherever you like.
+Clone the VaaS repo from GitHub to your machine.
 
 ```
-   git clone https://github.com/oslabs-beta/VaaS.git
+git clone https://github.com/oslabs-beta/VaaS.git
 ```
 
-Now, go into the VaaS project folder and install the dependencies. _At this time, you will need to use the specific command below due to issues with some packages being deprecated._
+Now, go into the VaaS project folder and install the other dependencies. _At this time, you will need to use the specific command below due to issues with some packages being deprecated._
 
 ```
 npm install --legacy-peer-deps
 ```
 
-Create an environment variable file in the root folder of VaaS. Within the environment variable file, these are fields you would need to have:
+Create an environment variable file in the root folder of VaaS. Within the environment variable file, the required fields are:
 
-   ```
-   JWT_ACCESS_SECRET=hello
-   JWT_REFRESH_SECRET=hello
-   JWT_EXP=400000000
-   JWT_GRACE=4000000000
+```
+JWT_ACCESS_SECRET=hello
+JWT_REFRESH_SECRET=hello
+JWT_EXP=400000000
+JWT_GRACE=4000000000
 
-   MONGO_URL=@
-   MONGO_PORT=
-   MONGO_USERNAME=
-   MONGO_PASSWORD=
-   MONGO_COLLECTION=
-   ```
+MONGO_URL=@
+MONGO_PORT=
+MONGO_USERNAME=
+MONGO_PASSWORD=
+MONGO_COLLECTION=
+```
 
 You should now get your mongoDB set up. You can either use a cloud database or localhost; however, make sure to add the database URL to the 'URL' field in the .env file. Complete the remaining database fields with the appropriate information.
 
@@ -212,5 +209,3 @@ npm run dev:server
 ```
 yarn dev:server
 ```
-
-<br/>
