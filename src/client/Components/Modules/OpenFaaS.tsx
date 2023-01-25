@@ -101,7 +101,12 @@ const OpenFaaS = (props: Modules) => {
       const getFunc = openFaaSFunctions.find(
         (element) => element.name === selectedOpenFaaSFunction
       );
-      console.log('THIS IS BEFORE POST REQ', id, selectedOpenFaaSFunction);
+      console.log(
+        'THIS IS BEFORE POST REQ',
+        id,
+        selectedOpenFaaSFunction,
+        getFunc
+      );
       const body = {
         clusterId: id,
         service: selectedOpenFaaSFunction,
