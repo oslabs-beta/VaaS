@@ -97,6 +97,7 @@ export const DEL_DeployedOFFunc = (
   deployedFunctions: DeployedFunctionTypes[]
 ) => ({
   type: types.DEL_DeployedOFFunc,
+  //*VaaS 4.0 changed payload to fix delete OpenFaaS bug
   // payload: {
   //   clusterId,
   //   deployedFunctions,
