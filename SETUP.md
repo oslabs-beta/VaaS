@@ -2,7 +2,7 @@
 
 To get started, you will need to have a Kubernetes cluster. If you are new to Kubernetes, you can create a simple single-node cluster on your local machine by using minikube. See documentation for minikube at [link](https://minikube.sigs.k8s.io/docs/start/).
 
-Follow the instructions below to install dependencies required by VaaS. To have the dependencies work properly with VaaS, the service types of each application must be changed to ```LoadBalancer```.
+Follow the instructions below to install dependencies required by VaaS. To have the dependencies work properly with VaaS, the service types of each application must be changed to ```LoadBalancer```. You can learn more about service types at [Link](https://kubernetes.io/docs/concepts/services-networking/service/).
 
 <br/>
 
