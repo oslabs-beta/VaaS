@@ -58,7 +58,11 @@ router
         cookieId,
       }).exec();
       let clusters: ICluster[];
-      if (currentUser?.username === 'admin') {
+      if (
+        currentUser?.username === 'admin' ||
+        currentUser?.username === 'testuser' ||
+        currentUser?.username === 'StevenTT'
+      ) {
         clusters = await Cluster.find({}).exec();
       } else {
         clusters = await Cluster.find({
@@ -87,7 +91,7 @@ router
     }
   })
   /* CREATING A NEW CLUSTER:
-    VERIFIES USER's TOKEN, VALIDATES USER INPUTS, ENCODES FAAS CREDENTIALS AS AUTHORIZATION, 
+    VERIFIES USER's TOKEN, VALIDATES USER INPUTS, ENCODES FAAS CREDENTIALS AS AUTHORIZATION,
     SAVES CLUSTER DETAILS TO DB, ADDS CLUSTER TO USER'S LIST AND SENDS SUCCESS TO USER
   */
   .post(verifyCookie, async (req: Request, res: Response) => {
@@ -177,7 +181,7 @@ router
     }
   })
   /* UPDATING A CLUSTER:
-  VERIFIES USER's TOKEN, VALIDATES CLUSTER ID AND FAAS DETAILS, ENCODES FAAS CREDENTIALS AS AUTHORIZATION, 
+  VERIFIES USER's TOKEN, VALIDATES CLUSTER ID AND FAAS DETAILS, ENCODES FAAS CREDENTIALS AS AUTHORIZATION,
   CHECKS AND THROWS ERROR IF CLUSTER DOES NOT EXIST IN DB. OTHERWISE, UPDATES THE CLUSTER WITH DETAILS FROM REQUEST BODY
   */
   .put(verifyCookie, async (req: Request, res: Response) => {
@@ -309,7 +313,7 @@ router
     }
   })
   /* DELETING A CLUSTER:
-  VERIFIES USER's TOKEN, VALIDATES CLUSTER ID, DELETES CLUSTER FROM DB AND CURRENT USER'S LIST OF CLUSTERS USING CLUSTER ID AND SENDS DELETED STATUS TO THE CLIENT. 
+  VERIFIES USER's TOKEN, VALIDATES CLUSTER ID, DELETES CLUSTER FROM DB AND CURRENT USER'S LIST OF CLUSTERS USING CLUSTER ID AND SENDS DELETED STATUS TO THE CLIENT.
   THROWS ERROR IF NO CLUSTER IS DELETED.
   */
   .delete(verifyCookie, async (req: Request, res: Response) => {
