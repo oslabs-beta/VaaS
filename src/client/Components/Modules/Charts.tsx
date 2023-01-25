@@ -131,6 +131,7 @@ const Charts = (props: Modules) => {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    color: 'white',
   };
   const style2 = {
     position: 'absolute' as const,
@@ -177,46 +178,20 @@ const Charts = (props: Modules) => {
         aria-describedby="modal-modal-description"
       >
         <Box className="modal-" sx={style}>
-          {/* <div
-            data-value={Object.values(dashboardObj)[0]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[0]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[1]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[1]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[2]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[2]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[3]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[3]}
-          </div> */}
-          {Object.values(dashboardObj).map((ele, index) => {
-            return (
-              <div
-                data-value={ele}
-                onClick={handleDashboard}
-                className="dashboard"
-                key={`Dashboard${index}`}
-              >
-                {Object.keys(dashboardObj)[index]}
-              </div>
-            );
-          })}
+          {Object.values(dashboardObj).length
+            ? Object.values(dashboardObj).map((ele, index) => {
+                return (
+                  <div
+                    data-value={ele}
+                    onClick={handleDashboard}
+                    className="dashboard"
+                    key={`Dashboard${index}`}
+                  >
+                    {Object.keys(dashboardObj)[index]}
+                  </div>
+                );
+              })
+            : 'No dashboards to display.'}
         </Box>
       </Modal>
       <Modal
@@ -235,7 +210,7 @@ const Charts = (props: Modules) => {
               src={
                 isGrafana
                   ? `${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`
-                  : 'http://34.29.59.36:9090/'
+                  : dashboard
               }
               height="900px"
               width="1500px"
