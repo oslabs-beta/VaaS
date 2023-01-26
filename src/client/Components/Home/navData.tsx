@@ -19,7 +19,7 @@ export const navData = [
     id: 1,
     icon: <AnalyticsOutlinedIcon />,
     text: 'Dashboards',
-    link: '/home',
+    link: '/module',
   },
   {
     id: 2,
