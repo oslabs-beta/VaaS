@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { Container, Button, TextField, Typography } from '@mui/material';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { registerUser } from '../../Queries';
-// import { LoadingButton } from '@mui/lab';
 import LoadingButton from '@mui/lab/LoadingButton';
-// import { FilterDramaSharp } from '@mui/icons-material';
-// import { InputProps } from '@mui/material';
 import { RegisterTypes } from '../../../client/Interfaces';
 
 const Register = () => {

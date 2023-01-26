@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
 // import { Box, Modal } from '@mui/material';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
+import axiosInstance from '../../Queries/axios';
 
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();
@@ -13,21 +14,33 @@ const Charts = (props: Modules) => {
   const [category, setCategory] = useState('');
   const [dashboardObj, setDashboardObj] = useState({});
   const [dashboard, setDashboard] = useState('');
+  const [dashboardIds, setDashboardIds] = useState<Record<string, string>>({});
+  const [isGrafana, setIsGrafana] = useState<boolean>(true);
   const handleClose = () => setOpen(false);
   const handleCloseSecond = () => setOpenSecond(false);
 
-  //grafana dashboard IDs are hard coded for now, but should be configured to be dynamically fetched via an API call to grafana...
-  const computingDashboard = {
-    Cluster: import.meta.env.VITE_COMPUTING_CLUSTER,
-    Nodes: import.meta.env.VITE_COMPUTING_NODES,
-    Workloads: import.meta.env.VITE_COMPUTING_WORKLOADS,
-    Pods: import.meta.env.VITE_COMPUTING_PODS,
+  const getDashboards = async () => {
+    const { data } = await axiosInstance.post('/graphs', {
+      grafanaUrl: state[0].grafana_url,
+    });
+    setDashboardIds(data);
+  };
+
+  useEffect(() => {
+    getDashboards();
+  }, []);
+
+  const computingDashboard: Record<string, string> = {
+    Cluster: dashboardIds.ComputeCluster,
+    Nodes: dashboardIds.ComputeNodePods,
+    Workloads: dashboardIds.ComputeNamespaceWorkloads,
+    Pods: dashboardIds.ComputePod,
   };
   const networkingDashboard = {
-    Cluster: import.meta.env.VITE_NETWORKING_CLUSTER,
-    Namespaces: import.meta.env.VITE_NETWORKING_NAMESPACES,
-    Workloads: import.meta.env.VITE_NETWORKING_WORKLOADS,
-    Pods: import.meta.env.VITE_NETWORKING_PODS,
+    Cluster: dashboardIds.NetworkingCluster,
+    Namespaces: dashboardIds.NetworkingNamespacePods,
+    Workloads: dashboardIds.NetworkingWorkload,
+    Pods: dashboardIds.NetworkingPod,
   };
   const isolatedDashboard = {
     Cluster: import.meta.env.VITE_ISOLATED_CLUSTER,
@@ -36,39 +49,65 @@ const Charts = (props: Modules) => {
     Pods: import.meta.env.VITE_ISOLATED_PODS,
   };
   const overviewDashboard = {
-    Kubelet: import.meta.env.VITE_OVERVIEW_KUBELET,
-    'USE/NODE': import.meta.env.VITE_OVERVIEW_USENODE,
-    'USE/CLUSTER': import.meta.env.VITE_OVERVIEW_USECLUSTER,
-    'Node Exporter': import.meta.env.VITE_OVERVIEW_NODEEXPORTER,
+    Kubelet: dashboardIds.Kubelet,
+    'USE/Node': dashboardIds.NodeExporterUSEMethodNode,
+    'USE/Cluster': dashboardIds.NodeExporterUSEMethodCluster,
+    'Node Exporter': dashboardIds.NodeExporterNodes,
   };
   const coreDashboard = {
-    'API Server': import.meta.env.VITE_CORE_APISERVER,
-    etcd: import.meta.env.VITE_CORE_ETCD,
-    Scheduler: import.meta.env.VITE_CORE_SCHEDULER,
-    'Controller Manager': import.meta.env.VITE_CORE_CONTROLMANAGER,
+    'API Server': dashboardIds.APIserver,
+    etcd: dashboardIds.etcd,
+    Scheduler: dashboardIds.Scheduler,
+    'Controller Manager': dashboardIds.ControllerManager,
   };
+  const costDashboard = {
+    Kubecost: 'http://34.29.59.36:9090/',
+  };
+
+  const emptyDashboard = {};
+
   //upon opening up a modal, this function indicates the category and selects which dashboard object we are targeting
   const handleOpen = (e: any) => {
     setCategory(e.target.getAttribute('data-value'));
     switch (e.target.getAttribute('data-value')) {
       case 'computing': {
+        setIsGrafana(true);
         setDashboardObj(computingDashboard);
         break;
       }
       case 'networking': {
+        setIsGrafana(true);
         setDashboardObj(networkingDashboard);
         break;
       }
       case 'isolated': {
+        setIsGrafana(true);
         setDashboardObj(isolatedDashboard);
         break;
       }
       case 'overview': {
+        setIsGrafana(true);
         setDashboardObj(overviewDashboard);
         break;
       }
       case 'core': {
+        setIsGrafana(true);
         setDashboardObj(coreDashboard);
+        break;
+      }
+      case 'custom': {
+        setIsGrafana(true);
+        setDashboardObj(emptyDashboard);
+        break;
+      }
+      case 'kubecost': {
+        setIsGrafana(false);
+        setDashboardObj(costDashboard);
+        break;
+      }
+      case 'openfaas': {
+        setIsGrafana(true);
+        setDashboardObj(emptyDashboard);
         break;
       }
     }
@@ -93,6 +132,7 @@ const Charts = (props: Modules) => {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    color: 'white',
   };
   const style2 = {
     position: 'absolute' as const,
@@ -128,6 +168,9 @@ const Charts = (props: Modules) => {
         <div className="category" data-value="openfaas" onClick={handleOpen}>
           OpenFaaS
         </div>
+        <div className="category" data-value="kubecost" onClick={handleOpen}>
+          KubeCost
+        </div>
       </div>
       <Modal
         open={open}
@@ -136,34 +179,20 @@ const Charts = (props: Modules) => {
         aria-describedby="modal-modal-description"
       >
         <Box className="modal-" sx={style}>
-          <div
-            data-value={Object.values(dashboardObj)[0]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[0]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[1]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[1]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[2]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[2]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[3]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[3]}
-          </div>
+          {Object.values(dashboardObj).length
+            ? Object.values(dashboardObj).map((ele, index) => {
+                return (
+                  <div
+                    data-value={ele}
+                    onClick={handleDashboard}
+                    className="dashboard"
+                    key={`Dashboard${index}`}
+                  >
+                    {Object.keys(dashboardObj)[index]}
+                  </div>
+                );
+              })
+            : 'No dashboards to display.'}
         </Box>
       </Modal>
       <Modal
@@ -179,7 +208,11 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
+              src={
+                isGrafana
+                  ? `${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`
+                  : dashboard
+              }
               height="900px"
               width="1500px"
               frameBorder="0"

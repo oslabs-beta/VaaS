@@ -6,13 +6,9 @@ import { BsGithub } from 'react-icons/bs';
 // import { Box, Button, TextField, CssBaseline, Typography } from '@mui/material';
 import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
-// import TextField, { TextFieldProps } from '@mui/material/TextField';
 import TextField from '@mui/material/TextField';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
-// import { InputProps } from '@mui/material';
-
-// import { LoadingButton } from '@mui/lab';
 import LoadingButton from '@mui/lab/LoadingButton';
 import './styles.css';
 import { LoginTypes } from '../../../client/Interfaces';

@@ -4,14 +4,6 @@ import { IReducers } from '../../Interfaces/IReducers';
 import openFaasMetric from '../../Queries/OpenFaaS';
 import { useAppSelector } from '../../Store/hooks';
 import { functionCost } from '../../utils';
-// import {
-//   Container,
-//   TextField,
-//   Button,
-//   Box,
-//   FormControl,
-//   NativeSelect,
-// } from '@mui/material';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';

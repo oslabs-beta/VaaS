@@ -42,8 +42,6 @@
     "cross-env": "^7.0.3",
     "isomorphic-fetch": "^3.0.0",
     "nodemon": "^2.0.19",
-    "react-icons": "^4.7.1",
-    "react-pro-sidebar": "^1.0.0",
     "serve-static": "^1.15.0",
     "ts-node": "^10.9.1"
   },
@@ -92,7 +90,6 @@
     "faker": "^6.6.6",
     "findup-sync": "^5.0.0",
     "fs": "^0.0.1-security",
-    "gapi-script": "^1.2.0",
     "husky": "^8.0.2",
     "install": "^0.13.0",
     "js-yaml": "^4.1.0",

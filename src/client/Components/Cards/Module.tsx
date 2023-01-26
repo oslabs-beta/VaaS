@@ -3,19 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { OpenFaaS, Alert, Charts, FunctionCost } from '../Modules/index';
 import NavBar from '../Home/NavBar';
 import { Modules } from '../../Interfaces/ICluster';
-// import { Button, Tooltip, Modal } from '@mui/material';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
-// import {
-//   Insights,
-//   AddAlert,
-//   ViewInAr,
-//   QueryStats,
-//   Functions,
-//   AttachMoney,
-//   Close,
-// } from '@mui/icons-material';
 import Insights from '@mui/icons-material/Insights';
 import AddAlert from '@mui/icons-material/AddAlert';
 import ViewInAr from '@mui/icons-material/ViewInAr';

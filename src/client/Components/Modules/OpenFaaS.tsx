@@ -7,14 +7,6 @@ import { Delete, Get, Post } from '../../Services';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { GET_DeployedOFFunc, DEL_DeployedOFFunc } from '../../Store/actions';
 import { apiRoute, customFuncBody } from '../../utils';
-// import {
-//   Container,
-//   Box,
-//   TextField,
-//   Button,
-//   FormControl,
-//   NativeSelect,
-// } from '@mui/material';
 import Container from '@mui/material/Container';
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
@@ -109,7 +101,12 @@ const OpenFaaS = (props: Modules) => {
       const getFunc = openFaaSFunctions.find(
         (element) => element.name === selectedOpenFaaSFunction
       );
-      console.log('THIS IS BEFORE POST REQ', id, selectedOpenFaaSFunction);
+      console.log(
+        'THIS IS BEFORE POST REQ',
+        id,
+        selectedOpenFaaSFunction,
+        getFunc
+      );
       const body = {
         clusterId: id,
         service: selectedOpenFaaSFunction,
@@ -169,12 +166,14 @@ const OpenFaaS = (props: Modules) => {
         authorization: localStorage.getItem('token'),
       });
       if (response.success) {
+        console.log(response, body.functionName, 'response in handledelete');
         dispatch(
           DEL_DeployedOFFunc(
             id,
             deployedFunctions.filter((el) => el.name !== body.functionName)
           )
         );
+        console.log(deployedFunctions, 'deployed in handle delete');
         setInvokedOutput('Deployed function deleted');
       }
     } catch (error) {
@@ -274,6 +273,11 @@ const OpenFaaS = (props: Modules) => {
               <option value="" selected>
                 --Select Function to Invoke--
               </option>
+              {console.log(
+                'OpenFaaS deployed: ',
+                OFReducer,
+                Array.isArray(OFReducer)
+              )}
               {OFReducer.deployedFunctions.map((element, idx) => {
                 return (
                   <option key={idx} value={element.name}>
