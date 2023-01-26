@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, checkAuth } from '../../Queries';
+<<<<<<< HEAD
 // import { FcGoogle } from 'react-icons/fc';
 // import { BsGithub } from 'react-icons/bs';
 import Box from '@mui/material/Box';
+=======
+import { FcGoogle } from 'react-icons/fc';
+import { BsGithub } from 'react-icons/bs';
+import {Box} from '@mui/material';
+>>>>>>> 78f6f97 (changeofaddclusters)
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import CssBaseline from '@mui/material/CssBaseline';

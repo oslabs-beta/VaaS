@@ -1,0 +1,10 @@
+#tenOptions{
+    padding: 0px;
+    max-height: 35%;
+    max-width: 55%;
+    position:fixed;
+    justify-content: center;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }

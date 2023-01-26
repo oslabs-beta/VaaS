@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
@@ -8,10 +9,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import AddClusters from '../AddCluster/AddCluster';
 
 export default function NavBar(props: { refetch?: any }) {
   const navigate = useNavigate();
   const [adminModal, handleAdminModal] = useState(false);
+  const [AddCluster, handleAddClusters] = useState(false);
   const handleLogOut = async (): Promise<void> => {
     const res = await logOutUser();
     if (!res.data.valid) navigate('/');
@@ -94,6 +97,15 @@ export default function NavBar(props: { refetch?: any }) {
           &#9784; SETTINGS
         </MenuItem>
         <MenuItem
+         onClick={() => {
+          handleAddClusters(true);
+         }}
+         className="logoutMenuButton"
+         sx={{ fontFamily: 'Montserrat, sans-serif' }}
+         >
+          Add Clusters
+        </MenuItem>
+        <MenuItem
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
           onClick={handleLogOut}
           className="logoutMenuButton"
@@ -109,6 +121,16 @@ export default function NavBar(props: { refetch?: any }) {
       >
         <div>
           <Admin refetch={props.refetch} handleAdminModal={handleAdminModal} />
+        </div>
+      </Modal>
+      <Modal
+      open ={AddCluster}
+      onClose={() =>{
+      handleAddClusters(false);
+      }}
+      >
+        <div>
+          <AddClusters  refetch={props.refetch} handleAddClusters={handleAddClusters} />
         </div>
       </Modal>
     </div>
