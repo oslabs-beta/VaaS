@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Installation / Setup Instructions
 
 To get started, you will need to have a Kubernetes cluster. If you are new to Kubernetes, you can create a simple single-node cluster on your local machine by using minikube. See documentation for minikube at [link](https://minikube.sigs.k8s.io/docs/start/).
