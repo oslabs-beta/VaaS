@@ -401,6 +401,7 @@ const OpenFaaS = (props: Modules) => {
           rows={textAreaRows}
           sx={{
             background: textAreaStyle.color,
+            paddingTop: '10px',
             borderRadius: '5px',
             marginRight: '3px',
             marginBottom: '0px',
@@ -419,6 +420,7 @@ const OpenFaaS = (props: Modules) => {
           rows={textAreaRows}
           sx={{
             background: textAreaStyle.color,
+            paddingTop: '15px',
             borderRadius: '5px',
             marginRight: '3px',
             marginBottom: '0px',

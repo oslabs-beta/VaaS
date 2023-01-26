@@ -21,6 +21,7 @@ import '../Modules/network.css';
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
   const { state }: any = useLocation();
+  console.log(state, 'state in module');
   const navigate = useNavigate();
   const [id] = useState(props.id || state[0]._id);
   // Hooks used to indicate which module should be rendered in
