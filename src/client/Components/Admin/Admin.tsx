@@ -270,7 +270,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
           boxShadow: '1px 1px 10px .5px #403e54',
           borderRadius: '0px',
           marginBottom: '20px',
-          overflow: 'scroll',
+          overflowY: 'scroll',
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -398,7 +398,12 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                 Learn about the project
               </Button>
               <Box sx={{ textAlign: 'center' }}>
-                <h3>Developed by:</h3>
+                <h3 id="developed">Developed by:</h3>
+                <p>Brandon Muniz-Rosado</p>
+                <p>Christopher Tenario</p>
+                <p>Johanna Merluza</p>
+                <p>Terrence Granger</p>
+                <p>Steven Tong</p>
                 <p>Young Kim</p>
                 <p>Ahsan Ali </p>
                 <p>Rabea Ahmad</p>

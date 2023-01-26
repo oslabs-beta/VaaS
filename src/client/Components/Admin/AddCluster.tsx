@@ -30,22 +30,11 @@ type AddClusters = {
   //  handleAddClusters: any
 };
 
-// const containerStyle = {
-//   // width: '550px',
-//   marginTop: '15px',
-//   innerHeight: '30px',
-//   color: 'black',
-// };
-
 const textFieldStyle = {
   background: '#FFFFFF',
   borderRadius: '5px',
-  // marginBottom: '0px',
-  // width: '90%',
-  // margin: '3px 10px 3px 10px',
   fontSize: '10px',
   color: 'white',
-  // alignSelf: 'center',
   links: {
     padding: '0 50px',
     color: 'white',
@@ -73,9 +62,6 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   // React hooks to maintain local state
   const [addClusterMessage, setAddClusterMessage] = useState('');
   const [currUser, setCurrUser] = useState<AddClusters | unknown>({});
-  // const [value, setValue] = React.useState(0);
-  // const navigate = useNavigate();
-  // fetch Query
   const { data: userData, refetch } = useQuery({
     queryKey: ['user'],
     queryFn: fetchUser,
@@ -185,10 +171,8 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   ): void => {
     if (e.key === 'Enter') handleAddCluster();
   };
-  // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-  //   setValue(newValue);
-  // };
-  console.log('add cluster message', addClusterMessage);
+
+  // console.log('add cluster message', addClusterMessage);
   return (
     <>
       <Box
@@ -333,7 +317,6 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
               id="cost_Url"
               type="text"
               label="Kubecost URL"
-              defaultValue={'9090'}
               variant="filled"
               size="small"
               margin="dense"
