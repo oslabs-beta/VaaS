@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import axiosInstance from '../../Queries/axios';
 
@@ -28,7 +28,6 @@ const Charts = (props: Modules) => {
   useEffect(() => {
     getDashboards();
   }, []);
-
   const computingDashboard: Record<string, string> = {
     Cluster: dashboardIds.ComputeCluster,
     Nodes: dashboardIds.ComputeNodePods,
@@ -60,10 +59,7 @@ const Charts = (props: Modules) => {
     'Controller Manager': dashboardIds.ControllerManager,
   };
   const costDashboard = {
-    Kubecost:
-      state[0].url === 'http://34.66.162.24'
-        ? 'http://34.171.214.61:9090/'
-        : 'http://34.66.8.255:9090/',
+    Kubecost: state[0].cost_Url + ':' + state[0].cost_port,
   };
 
   const emptyDashboard = {};
@@ -104,6 +100,7 @@ const Charts = (props: Modules) => {
       }
       case 'kubecost': {
         setIsGrafana(false);
+        console.log(costDashboard, 'costdashboard');
         setDashboardObj(costDashboard);
         break;
       }
@@ -210,6 +207,7 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
+              title="graph"
               src={
                 isGrafana
                   ? `${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`
@@ -217,7 +215,7 @@ const Charts = (props: Modules) => {
               }
               height="900px"
               width="1500px"
-              frameBorder="0"
+              // frameBorder="0"
             ></iframe>
           </div>
         </Box>

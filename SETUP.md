@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Installation / Setup Instructions
 
 To get started, you will need to have a Kubernetes cluster. If you are new to Kubernetes, you can create a simple single-node cluster on your local machine by using minikube. See documentation for minikube at [link](https://minikube.sigs.k8s.io/docs/start/).
@@ -172,7 +173,7 @@ Clone the VaaS repo from GitHub to your machine.
 git clone https://github.com/oslabs-beta/VaaS.git
 ```
 
-Now, go into the VaaS project folder and install the other dependencies. _At this time, you will need to use the specific command below due to issues with some packages being deprecated._
+Install other dependencies. _At this time, you will need to use the specific command below due to issues with some packages being deprecated._
 
 ```
 npm install --legacy-peer-deps
@@ -208,3 +209,11 @@ npm run dev:server
 ```
 yarn dev:server
 ```
+
+_Run the following command if you use a Windows OS:_
+
+```
+npm run dev:windows
+```
+
+<br/>
