@@ -29,7 +29,6 @@ const Charts = (props: Modules) => {
   useEffect(() => {
     getDashboards();
   }, []);
-
   const computingDashboard: Record<string, string> = {
     Cluster: dashboardIds.ComputeCluster,
     Nodes: dashboardIds.ComputeNodePods,
@@ -61,7 +60,7 @@ const Charts = (props: Modules) => {
     'Controller Manager': dashboardIds.ControllerManager,
   };
   const costDashboard = {
-    Kubecost: 'http://34.29.59.36:9090/',
+    Kubecost: state[0].cost_Url + ':' + state[0].cost_port,
   };
 
   const emptyDashboard = {};
@@ -102,6 +101,7 @@ const Charts = (props: Modules) => {
       }
       case 'kubecost': {
         setIsGrafana(false);
+        console.log(costDashboard, 'costdashboard');
         setDashboardObj(costDashboard);
         break;
       }
@@ -208,6 +208,7 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
+              title="graph"
               src={
                 isGrafana
                   ? `${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`
@@ -215,7 +216,7 @@ const Charts = (props: Modules) => {
               }
               height="900px"
               width="1500px"
-              frameBorder="0"
+              // frameBorder="0"
             ></iframe>
           </div>
         </Box>

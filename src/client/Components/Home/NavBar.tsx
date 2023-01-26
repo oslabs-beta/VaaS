@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
@@ -8,10 +9,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
+import AddClusters from '../Admin/AddCluster';
 
 export default function NavBar(props: { refetch?: any }) {
   const navigate = useNavigate();
   const [adminModal, handleAdminModal] = useState(false);
+  const [AddCluster, handleAddClusters] = useState(false);
   const handleLogOut = async (): Promise<void> => {
     const res = await logOutUser();
     if (!res.data.valid) navigate('/');
@@ -93,8 +96,21 @@ export default function NavBar(props: { refetch?: any }) {
       >
         <MenuItem
           onClick={() => {
+            handleAddClusters(true);
+          }}
+          className="logoutMenuButton"
+          onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
+          onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
+          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+        >
+          &#9784; ADD CLUSTER
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
             handleAdminModal(true);
           }}
+          onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
+          onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
           className="logoutMenuButton"
           sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '2vw' }}
         >
@@ -103,6 +119,8 @@ export default function NavBar(props: { refetch?: any }) {
         <MenuItem
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
           onClick={handleLogOut}
+          onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
+          onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
           className="logoutMenuButton"
         >
           &#10148; LOGOUT
@@ -116,6 +134,19 @@ export default function NavBar(props: { refetch?: any }) {
       >
         <div>
           <Admin refetch={props.refetch} handleAdminModal={handleAdminModal} />
+        </div>
+      </Modal>
+      <Modal
+        open={AddCluster}
+        onClose={() => {
+          handleAddClusters(false);
+        }}
+      >
+        <div>
+          <AddClusters
+            refetch={props.refetch}
+            handleAddClusters={handleAddClusters}
+          />
         </div>
       </Modal>
     </div>

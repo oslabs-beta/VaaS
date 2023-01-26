@@ -7,7 +7,11 @@ import { ClusterTypes, IReducers } from '../../Interfaces';
 import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
+<<<<<<< HEAD
 import HomeSidebar from './HomeSidebar';
+=======
+import AddClusters from '../Admin/AddCluster';
+>>>>>>> 6d1b11fd4f96b59a236a12fb3720bc272cbc6512
 import './styles.css';
 
 const Home = () => {
@@ -74,6 +78,7 @@ const Home = () => {
           {noClusterError}
         </div>
       </div>
+      {/* <AddClusters refetch={'cash'}  handleAddClusters={AddClusters}/> */}
     </div>
   );
 };
