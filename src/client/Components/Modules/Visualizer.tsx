@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
 export default function Visualizer(props: {

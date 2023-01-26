@@ -7,7 +7,7 @@ import { functionCost } from '../../utils';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 

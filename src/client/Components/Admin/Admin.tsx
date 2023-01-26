@@ -12,7 +12,7 @@ import {
   changeDarkMode,
   changeRefreshRate,
 } from '../../Queries';
-import {Box} from '@mui/material';
+import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
