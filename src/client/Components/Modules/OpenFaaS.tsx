@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { GET_DeployedOFFunc, DEL_DeployedOFFunc } from '../../Store/actions';
 import { apiRoute, customFuncBody } from '../../utils';
 import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';

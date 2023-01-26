@@ -14,7 +14,7 @@ import { Custom, Visualizer } from '../Modules';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 

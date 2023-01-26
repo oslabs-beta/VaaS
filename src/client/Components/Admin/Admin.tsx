@@ -12,7 +12,7 @@ import {
   changeDarkMode,
   changeRefreshRate,
 } from '../../Queries';
-import Box from '@mui/material/Box';
+import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
@@ -45,7 +45,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
   // React hooks to maintain local state
   const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
-  const [addClusterMessage, setAddClusterMessage] = useState('');
+  // const [addClusterMessage, setAddClusterMessage] = useState('');
   const [currUser, setCurrUser] = useState<Admin | unknown>({});
   const darkMode = uiReducer.clusterUIState.darkmode;
   const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
@@ -65,15 +65,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
   }, [dispatch, userData]);
 
   // React query mutations used for requests other than get requests, used to get more efficient requests
-  const mutation = useMutation((data: AddClusterType) => addCluster(data), {
-    onSuccess: (response) => {
-      response.success
-        ? setAddClusterMessage('Successfully added cluster')
-        : setAddClusterMessage(response.message);
-      props.refetch();
-      props.handleAdminModal(false);
-    },
-  });
+
   const userMutation = useMutation(
     (data: { username: string; firstName: string; lastName: string }) =>
       editUser(data),
@@ -141,55 +133,6 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
     fontSize: '10px',
   };
   // handler functions
-  const handleAddCluster = async (): Promise<void> => {
-    try {
-      const body = {
-        url: (document.getElementById('cluster-url') as HTMLInputElement).value,
-        k8_port: (document.getElementById('k8_port') as HTMLInputElement).value,
-        faas_port: (document.getElementById('faas_port') as HTMLInputElement)
-          .value,
-        faas_username: (
-          document.getElementById('faas_username') as HTMLInputElement
-        ).value,
-        faas_password: (
-          document.getElementById('faas_password') as HTMLInputElement
-        ).value,
-        name: (document.getElementById('cluster-name') as HTMLInputElement)
-          .value,
-        description: (
-          document.getElementById('cluster-description') as HTMLInputElement
-        ).value,
-        faas_url: (document.getElementById('openfaas-url') as HTMLInputElement)
-          .value,
-        grafana_url: (
-          document.getElementById('grafana-url') as HTMLInputElement
-        ).value,
-        kubeview_url: (
-          document.getElementById('kubeview-url') as HTMLInputElement
-        ).value,
-      };
-      if (
-        !body.url ||
-        !body.k8_port ||
-        !body.faas_port ||
-        !body.name ||
-        !body.description ||
-        !body.faas_url ||
-        !body.grafana_url ||
-        !body.kubeview_url
-      ) {
-        setAddClusterMessage('Missing input fields');
-        return;
-      }
-      if (!body.k8_port.match(/[0-9]/g) || !body.faas_port.match(/[0-9]/g)) {
-        setAddClusterMessage('Port(s) must be numbers');
-        return;
-      }
-      mutation.mutate(body);
-    } catch (err) {
-      console.log('Add cluster failed', err);
-    }
-  };
 
   const handleUserUpdate = async (): Promise<void> => {
     try {
@@ -270,12 +213,6 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
     if (e.key === 'Enter') handleUserDelete();
   };
 
-  const handleEnterKeyDownAddCluster = (
-    e: React.KeyboardEvent<HTMLInputElement>
-  ): void => {
-    if (e.key === 'Enter') handleAddCluster();
-  };
-
   const handleEnterKeyDownRefreshRate = (
     e: React.KeyboardEvent<HTMLInputElement>
   ): void => {
@@ -333,6 +270,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
           boxShadow: '1px 1px 10px .5px #403e54',
           borderRadius: '0px',
           marginBottom: '20px',
+          overflow: 'scroll',
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -354,13 +292,6 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
               <Tab
                 label="Account Details"
                 {...a11yProps(0)}
-                sx={{
-                  color: '#FFF',
-                }}
-              />
-              <Tab
-                label="Add Cluster"
-                {...a11yProps(1)}
                 sx={{
                   color: '#FFF',
                 }}
@@ -450,122 +381,6 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
             </Container>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <Container sx={containerStyle}>
-              <TextField
-                id="cluster-url"
-                type="text"
-                label="Cluster URL"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="k8_port"
-                type="text"
-                label="Kubernetes Port"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="faas_port"
-                type="text"
-                label="FaaS Port"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="faas_username"
-                type="username"
-                label="FaaS Username"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="faas_password"
-                type="password"
-                label="FaaS Password"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="cluster-name"
-                type="text"
-                label="Cluster Name"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="cluster-description"
-                type="text"
-                label="Cluster Description"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="openfaas-url"
-                type="text"
-                label="FaaS URL"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="grafana-url"
-                type="text"
-                label="Grafana URL"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <TextField
-                id="kubeview-url"
-                type="text"
-                label="Kubeview URL"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDownAddCluster}
-                sx={textFieldStyle}
-              />
-              <div>
-                <Button
-                  variant="contained"
-                  className="btn"
-                  type="button"
-                  onClick={handleAddCluster}
-                  sx={buttonStyle}
-                >
-                  Add Cluster
-                </Button>
-                <div id="add-cluster-msg">{addClusterMessage}</div>
-              </div>
-            </Container>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
             <Container sx={containerStyle}>
               <Button
                 variant="contained"
