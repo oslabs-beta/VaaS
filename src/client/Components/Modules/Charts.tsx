@@ -60,7 +60,10 @@ const Charts = (props: Modules) => {
     'Controller Manager': dashboardIds.ControllerManager,
   };
   const costDashboard = {
-    Kubecost: 'http://34.29.59.36:9090/',
+    Kubecost:
+      state[0].url === 'http://34.66.162.24'
+        ? 'http://34.171.214.61:9090/'
+        : 'http://34.66.8.255:9090/',
   };
 
   const emptyDashboard = {};
