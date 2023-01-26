@@ -90,7 +90,6 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
       response.success
         ? setAddClusterMessage('Successfully added cluster')
         : setAddClusterMessage(response.message);
-      console.log(response, 'response in mutation');
       props.refetch();
       props.handleAddClusters(false);
     },
@@ -176,7 +175,6 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         setAddClusterMessage('Port(s) must be numbers');
         return;
       }
-      // console.log('body in handleAddCluster: ', body);
       mutation.mutate(body);
     } catch (err) {
       console.log('Add cluster failed', err);
@@ -259,7 +257,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
               id="k8_port"
               type="text"
               defaultValue={'9090'}
-              label="Prometheus port"
+              label="Prometheus Port"
               variant="filled"
               size="small"
               margin="dense"
@@ -346,6 +344,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
               id="cost_port"
               type="text"
               label="Kubecost Port"
+              defaultValue={'9090'}
               variant="filled"
               size="small"
               margin="dense"

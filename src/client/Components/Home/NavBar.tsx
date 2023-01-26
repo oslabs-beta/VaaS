@@ -96,6 +96,8 @@ export default function NavBar(props: { refetch?: any }) {
             handleAddClusters(true);
           }}
           className="logoutMenuButton"
+          onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
+          onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           &#9784; ADD CLUSTER
@@ -104,6 +106,8 @@ export default function NavBar(props: { refetch?: any }) {
           onClick={() => {
             handleAdminModal(true);
           }}
+          onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
+          onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
           className="logoutMenuButton"
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
         >
@@ -112,6 +116,8 @@ export default function NavBar(props: { refetch?: any }) {
         <MenuItem
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
           onClick={handleLogOut}
+          onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
+          onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
           className="logoutMenuButton"
         >
           &#10148; LOGOUT
