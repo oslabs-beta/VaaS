@@ -24,6 +24,8 @@ type AddClusters = {
   faas_url: string;
   grafana_url: string;
   kubeview_url: string;
+  cost_Url: string;
+  cost_port: string;
   //  refetch: any,
   //  handleAddClusters: any
 };
@@ -88,6 +90,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
       response.success
         ? setAddClusterMessage('Successfully added cluster')
         : setAddClusterMessage(response.message);
+      console.log(response, 'response in mutation');
       props.refetch();
       props.handleAddClusters(false);
     },
@@ -173,6 +176,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         setAddClusterMessage('Port(s) must be numbers');
         return;
       }
+      // console.log('body in handleAddCluster: ', body);
       mutation.mutate(body);
     } catch (err) {
       console.log('Add cluster failed', err);
@@ -219,7 +223,6 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         }}
       >
         <h1 id="add-cluster-title">Add New Cluster</h1>
-        {/* <div id="add-cluster-text-fields"> */}
         <Grid container spacing={3} direction="row" justifyContent="center">
           <Grid container item xs={5} direction="column">
             {/* <div className="one"> */}
@@ -352,7 +355,6 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
             {/* </div> */}
           </Grid>
         </Grid>
-        {/* </div> */}
 
         <Button
           variant="contained"
