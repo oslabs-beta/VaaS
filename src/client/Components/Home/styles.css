@@ -23,8 +23,8 @@
   font-size: 20px;
   width: 300px;
   color: white;
-  margin-left: 192px;
-  margin-top: 25px;
+  /* margin-left: 192px;
+  margin-top: 25px; */
 }
 
   #navbar-container .css-115fpqh-MuiButtonBase-root-MuiIconButton-root { 
@@ -58,12 +58,10 @@
 }
 
 #cluster-title-modals{
-  /* position: absolute;
-  width: 100%; */
   display: inline-flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 #navbar-title {
@@ -73,8 +71,8 @@
 }
 
 .Kube-port {
-  position: static;
-  left: 200px;
+  position: relative;
+  left: 150px;
   width: 100%;
   display: inline-flex;
   justify-content: center;
@@ -96,7 +94,8 @@
 }
 .Header-Bar-Title {
   display: flex;
-  j
+  justify-content: center;
+  align-items: center;
   width: 300px;
   margin-top: 10px;
   margin-left: 100px;
@@ -116,6 +115,8 @@
   position: relative;
   top: 0px;
   display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
   justify-content: flex-start;
   width: 250px;
   transition: width 0.3s ease-in-out;
@@ -125,14 +126,9 @@
 }
 .sidenavClosed {
   composes: sidenav;
+  display: inline-flex;
   transition: width 0.3s ease-in-out;
-  width: 60px
-}
-
-.sidenav{
-  display: flex-inline;
-  flex-direction: column;
-  align-items: flex-end;
+  width: 200px
 }
 
 .menuCollapse {
@@ -143,6 +139,16 @@
 
 .menuButtons {
   display: column;
+  width: 200px
+}
+
+.menuButtonsClosed {
+  display: inline-flex;
+  transition: width 0.3s ease-in-out;
+}
+
+#moduleMenubuttons {
+  display: inline-flex;
 }
 
 .sideitem {

@@ -1,12 +1,61 @@
 .Module-top-row {
-  width: 100%;
+  width: 75%;
   margin-top: 15px;
   margin-bottom: 45px;
-  display: flex;
+  display: inline-flex;
   justify-content: space-around;
 }
 .Cluster-Kube-Box {
   margin-top: 20px;
+}
+
+#module-content {
+  display: inline-flex;
+  width: 60%
+  
+}
+.chartsBackground {
+  display: inline-flex;
+}
+
+.ModuleSidenav {
+  display: inline-flex;
+  flex-direction: column;
+  color: white;
+  position: relative;
+  top: 0px;
+  justify-content: flex-start;
+  width: 250px;
+  transition: width 0.3s ease-in-out;
+  height: 100vh;
+  background-color: rgb(10,25,41);
+  padding-top: 28px;
+}
+
+.ModuleSidenavClosed {
+  composes: sidenav;
+  transition: width 0.3s ease-in-out;
+  width: 100px
+}
+
+.sidebarMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.menuCollapse {
+  display: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.menuButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
 
 .closeButton {

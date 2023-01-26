@@ -1,13 +1,14 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles.css';
 import { NavLink } from 'react-router-dom';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { navData } from './navData';
+import { Modules } from 'src/client/Interfaces';
 
-const MenuSidebar = () => {
+const HomeSidebar = (props: Modules) => {
   const [open, setOpen] = useState(true);
+
   const toggleOpen = () => {
     setOpen(!open);
   };
@@ -24,7 +25,7 @@ const MenuSidebar = () => {
           )}
         </button>
       </div>
-      <div className="menuButtons">
+      <div className={open ? 'menuButtons' : 'menuButtonsClosed'}>
         {navData.map((item) => {
           return (
             <NavLink key={item.id} className="sideitem" to={item.link}>
@@ -38,4 +39,4 @@ const MenuSidebar = () => {
   );
 };
 
-export default MenuSidebar;
+export default HomeSidebar;

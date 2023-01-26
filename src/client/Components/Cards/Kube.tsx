@@ -25,7 +25,7 @@ import QueryStats from '@mui/icons-material/QueryStats';
 import Functions from '@mui/icons-material/Functions';
 import AttachMoney from '@mui/icons-material/AttachMoney';
 
-import './styles.css';
+import './CardsStyles.css';
 
 // Dashboard for each cluster which is rendered onto the home page
 const Kube = (props: ClusterTypes) => {

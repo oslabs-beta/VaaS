@@ -1,90 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { OpenFaaS, Alert, Charts, FunctionCost } from '../Modules/index';
-import NavBar from '../Home/NavBar';
-import { Modules } from '../../Interfaces/ICluster';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import Modal from '@mui/material/Modal';
-import Insights from '@mui/icons-material/Insights';
-import AddAlert from '@mui/icons-material/AddAlert';
-import ViewInAr from '@mui/icons-material/ViewInAr';
-import QueryStats from '@mui/icons-material/QueryStats';
-import Functions from '@mui/icons-material/Functions';
-import AttachMoney from '@mui/icons-material/AttachMoney';
-import Close from '@mui/icons-material/Close';
-
-import { Visualizer, Custom } from '../Modules';
 import './CardsStyles.css';
-import '../Modules/network.css';
-import ModuleSidebar from './ModuleSidebar';
+import { NavLink } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
+import { Modules } from 'src/client/Interfaces';
+import Button from '@mui/material/Button';
+import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
+import ViewInAr from '@mui/icons-material/ViewInAr';
+import Modal from '@mui/material/Modal';
+import { Visualizer, Custom } from '../Modules';
+import QueryStats from '@mui/icons-material/QueryStats';
+import NotificationImportantOutlinedIcon from '@mui/icons-material/NotificationImportantOutlined';
+import FunctionsOutlined from '@mui/icons-material/Functions';
+import AttachMoneyOutlined from '@mui/icons-material/AttachMoney';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
-// needs to be chnaged to redux, under UI reducer ?
-const Module = (props: Modules) => {
+const ModuleSidebar = (props: Modules) => {
   const { state }: any = useLocation();
-  const navigate = useNavigate();
   const [id] = useState(props.id || state[0]._id);
-  // Hooks used to indicate which module should be rendered in
-  const [currentModule, setCurrentModule] = useState('module');
-  const [faas, setFaaS] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(true);
   const [currModal, setCurrModal] = useState('');
+  const [openModal, setOpenModal] = useState(false);
+  const [faas, setFaaS] = useState(true);
+  const [currentModule, setCurrentModule] = useState('module');
   const [functionCost, setFunctionCost] = useState(false);
   const [alert, setAlert] = useState(false);
   const [charts, setCharts] = useState(false);
-  // Handlers for modals
+
   const handleCloseModal = () => {
     setOpenModal(false);
   };
 
-  const [style, setStyle] = useState(
-    props.isDark
-      ? {
-          color: '#c0c0c0',
-          minHeight: '100%',
-          minWidth: '100%',
-          display: 'flex',
-          textAlign: 'left',
-          backgroundImage: 'linear-gradient(#2f3136, #7f7f7f)',
-          overflow: 'auto',
-        }
-      : {
-          color: 'white',
-          minHeight: '100%',
-          minWidth: '100%',
-          display: 'flex',
-          textAlign: 'left',
-          backgroundImage: 'linear-gradient(#1f3a4b, #AFAFAF)',
-          overflow: 'auto',
-        }
-  );
-  const [buttonStyle, setButtonStyle] = useState(
-    props.isDark
-      ? {
-          color: '#c0c0c0',
-          width: '1px',
-        }
-      : {
-          color: 'white',
-          width: '1px',
-        }
-  );
+  const toggleOpen = () => {
+    setOpen(!open);
+  };
 
   useEffect(() => {
     if (!props.nested) {
-      setStyle({
-        color: 'black',
-        minHeight: '92vh',
-        minWidth: '100%',
-        display: 'flex',
-        textAlign: 'left',
-        backgroundImage: '',
-        overflow: 'auto',
-      });
-      setButtonStyle({
-        ...buttonStyle,
-        color: '#3a4a5b',
-      });
       if (state) {
         switch (state[1]) {
           case 'faas':
@@ -159,44 +112,37 @@ const Module = (props: Modules) => {
     setAlert(false);
     setCurrentModule('functionCost');
   };
+
   const customBox = {
     overflow: 'scroll',
     maxHeight: '100%',
     display: 'inline',
   };
+
   return (
-    <div>
-      <NavBar />
-      <ModuleSidebar />
-      <div className="Module-top-row">
-        <div>
-          {faas && (
-            <div className="Header-Bar-Title">OPENFAAS: {state[0].name}</div>
-          )}
-          {charts && (
-            <div className="Header-Bar-Title">GRAPHS: {state[0].name}</div>
-          )}
-          {functionCost && (
-            <div className="Header-Bar-Title">FAAS COST: {state[0].name}</div>
-          )}
-          {alert && (
-            <div className="Header-Bar-Title">ALERTS: {state[0].name}</div>
-          )}
+    <div className={open ? 'ModuleSidenav' : 'ModuleSidenavClosed'}>
+      <div className="sidebarMenu">
+        <div className="menuCollapse">
+          <button className="menuBtn" onClick={toggleOpen}>
+            Click Me
+            {open ? (
+              <KeyboardDoubleArrowLeftIcon />
+            ) : (
+              <KeyboardDoubleArrowRightIcon />
+            )}
+          </button>
         </div>
-        <Tooltip title="Graphs">
+        <div className="menuButtons">
           <Button
-            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
             onClick={handleChartsButton}
           >
-            <Insights />
+            <AnalyticsOutlinedIcon />
+            Dashboards
           </Button>
-        </Tooltip>
-        <Tooltip title="Cluster Map">
           <Button
-            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
@@ -206,11 +152,9 @@ const Module = (props: Modules) => {
             }}
           >
             <ViewInAr />
+            Cluster Map
           </Button>
-        </Tooltip>
-        <Tooltip title="Queries">
           <Button
-            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
@@ -220,68 +164,45 @@ const Module = (props: Modules) => {
             }}
           >
             <QueryStats />
+            Queries
           </Button>
-        </Tooltip>
-        <Tooltip title="Alerts">
           <Button
-            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
             onClick={handleAlertButton}
           >
-            <AddAlert />
+            <NotificationImportantOutlinedIcon />
+            Alerts
           </Button>
-        </Tooltip>
-        <Tooltip title="OpenFaaS">
           <Button
-            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
             onClick={handleFaaSButton}
           >
-            <Functions />
+            <FunctionsOutlined />
+            OpenFaas
           </Button>
-        </Tooltip>
-        <Tooltip title="FaaS Cost">
           <Button
-            sx={buttonStyle}
             variant="text"
             id="basic-button"
             className="module-button"
             onClick={handleFunctionCostButton}
           >
-            <AttachMoney />
+            <AttachMoneyOutlined />
+            OpenFaas Cost
           </Button>
-        </Tooltip>
-
-        {!props.nested && (
-          <Tooltip title="Exit to Home">
-            <Button
-              sx={{
-                ...buttonStyle,
-                marginRight: '-9px',
-              }}
-              variant="text"
-              id="basic-button"
-              className="module-button"
-              onClick={() => navigate('/home', { state: [id, currentModule] })}
-            >
-              <Close />
-            </Button>
-          </Tooltip>
-        )}
-      </div>
-      <div id="module-content">
-        {faas && (
-          <OpenFaaS isDark={props.isDark} id={id} nested={props.nested} />
-        )}
-        {charts && <Charts id={id} nested={props.nested} />}
-        {functionCost && (
-          <FunctionCost isDark={props.isDark} id={id} nested={props.nested} />
-        )}
-        {alert && <Alert id={id} nested={props.nested} />}
+          <Button
+            variant="text"
+            id="basic-button"
+            className="module-button"
+            onClick={handleFunctionCostButton}
+          >
+            <InfoOutlinedIcon />
+            About
+          </Button>
+        </div>
       </div>
       <Modal
         open={openModal}
@@ -310,4 +231,4 @@ const Module = (props: Modules) => {
   );
 };
 
-export default Module;
+export default ModuleSidebar;
