@@ -141,55 +141,56 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
     fontSize: '10px',
   };
   // handler functions
-  const handleAddCluster = async (): Promise<void> => {
-    try {
-      const body = {
-        url: (document.getElementById('cluster-url') as HTMLInputElement).value,
-        k8_port: (document.getElementById('k8_port') as HTMLInputElement).value,
-        faas_port: (document.getElementById('faas_port') as HTMLInputElement)
-          .value,
-        faas_username: (
-          document.getElementById('faas_username') as HTMLInputElement
-        ).value,
-        faas_password: (
-          document.getElementById('faas_password') as HTMLInputElement
-        ).value,
-        name: (document.getElementById('cluster-name') as HTMLInputElement)
-          .value,
-        description: (
-          document.getElementById('cluster-description') as HTMLInputElement
-        ).value,
-        faas_url: (document.getElementById('openfaas-url') as HTMLInputElement)
-          .value,
-        grafana_url: (
-          document.getElementById('grafana-url') as HTMLInputElement
-        ).value,
-        kubeview_url: (
-          document.getElementById('kubeview-url') as HTMLInputElement
-        ).value,
-      };
-      if (
-        !body.url ||
-        !body.k8_port ||
-        !body.faas_port ||
-        !body.name ||
-        !body.description ||
-        !body.faas_url ||
-        !body.grafana_url ||
-        !body.kubeview_url
-      ) {
-        setAddClusterMessage('Missing input fields');
-        return;
-      }
-      if (!body.k8_port.match(/[0-9]/g) || !body.faas_port.match(/[0-9]/g)) {
-        setAddClusterMessage('Port(s) must be numbers');
-        return;
-      }
-      mutation.mutate(body);
-    } catch (err) {
-      console.log('Add cluster failed', err);
-    }
-  };
+
+  // const handleAddCluster = async (): Promise<void> => {
+  //   try {
+  //     const body = {
+  //       url: (document.getElementById('cluster-url') as HTMLInputElement).value,
+  //       k8_port: (document.getElementById('k8_port') as HTMLInputElement).value,
+  //       faas_port: (document.getElementById('faas_port') as HTMLInputElement)
+  //         .value,
+  //       faas_username: (
+  //         document.getElementById('faas_username') as HTMLInputElement
+  //       ).value,
+  //       faas_password: (
+  //         document.getElementById('faas_password') as HTMLInputElement
+  //       ).value,
+  //       name: (document.getElementById('cluster-name') as HTMLInputElement)
+  //         .value,
+  //       description: (
+  //         document.getElementById('cluster-description') as HTMLInputElement
+  //       ).value,
+  //       faas_url: (document.getElementById('openfaas-url') as HTMLInputElement)
+  //         .value,
+  //       grafana_url: (
+  //         document.getElementById('grafana-url') as HTMLInputElement
+  //       ).value,
+  //       kubeview_url: (
+  //         document.getElementById('kubeview-url') as HTMLInputElement
+  //       ).value,
+  //     };
+  //     if (
+  //       !body.url ||
+  //       !body.k8_port ||
+  //       !body.faas_port ||
+  //       !body.name ||
+  //       !body.description ||
+  //       !body.faas_url ||
+  //       !body.grafana_url ||
+  //       !body.kubeview_url
+  //     ) {
+  //       setAddClusterMessage('Missing input fields');
+  //       return;
+  //     }
+  //     if (!body.k8_port.match(/[0-9]/g) || !body.faas_port.match(/[0-9]/g)) {
+  //       setAddClusterMessage('Port(s) must be numbers');
+  //       return;
+  //     }
+  //     mutation.mutate(body);
+  //   } catch (err) {
+  //     console.log('Add cluster failed', err);
+  //   }
+  // };
 
   const handleUserUpdate = async (): Promise<void> => {
     try {
@@ -270,11 +271,11 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
     if (e.key === 'Enter') handleUserDelete();
   };
 
-  const handleEnterKeyDownAddCluster = (
-    e: React.KeyboardEvent<HTMLInputElement>
-  ): void => {
-    if (e.key === 'Enter') handleAddCluster();
-  };
+  // const handleEnterKeyDownAddCluster = (
+  //   e: React.KeyboardEvent<HTMLInputElement>
+  // ): void => {
+  //   if (e.key === 'Enter') handleAddCluster();
+  // };
 
   const handleEnterKeyDownRefreshRate = (
     e: React.KeyboardEvent<HTMLInputElement>
@@ -333,6 +334,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
           boxShadow: '1px 1px 10px .5px #403e54',
           borderRadius: '0px',
           marginBottom: '20px',
+          overflow: 'scroll',
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -358,13 +360,13 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                   color: '#FFF',
                 }}
               />
-              <Tab
+              {/* <Tab
                 label="Add Cluster"
                 {...a11yProps(1)}
                 sx={{
                   color: '#FFF',
                 }}
-              />
+              /> */}
               <Tab
                 label="About"
                 {...a11yProps(2)}
@@ -449,7 +451,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
               </div>
             </Container>
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          {/* <TabPanel value={value} index={1}>
             <Container sx={containerStyle}>
               <TextField
                 id="cluster-url"
@@ -550,8 +552,8 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                 margin="dense"
                 onKeyDown={handleEnterKeyDownAddCluster}
                 sx={textFieldStyle}
-              />
-              <div>
+              /> */}
+          {/* <div>
                 <Button
                   variant="contained"
                   className="btn"
@@ -562,10 +564,10 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                   Add Cluster
                 </Button>
                 <div id="add-cluster-msg">{addClusterMessage}</div>
-              </div>
-            </Container>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
+              </div> */}
+          {/* </Container> */}
+          {/* </TabPanel> */}
+          <TabPanel value={value} index={1}>
             <Container sx={containerStyle}>
               <Button
                 variant="contained"

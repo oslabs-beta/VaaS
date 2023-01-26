@@ -9,7 +9,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import AddClusters from '../AddCluster/AddCluster';
+import AddClusters from '../Admin/AddCluster';
 
 export default function NavBar(props: { refetch?: any }) {
   const navigate = useNavigate();
@@ -30,7 +30,11 @@ export default function NavBar(props: { refetch?: any }) {
   return (
     <div id="navbar-container">
       <a onClick={() => navigate('/home')}>
-        <img className="homeicon" src="../../../../public/Images/v4.svg" />
+        <img
+          alt="vaas logo"
+          className="homeicon"
+          src="../../../../public/Images/v4.svg"
+        />
       </a>
       <a id="navbar-title">VaaS</a>
 
@@ -89,21 +93,21 @@ export default function NavBar(props: { refetch?: any }) {
       >
         <MenuItem
           onClick={() => {
+            handleAddClusters(true);
+          }}
+          className="logoutMenuButton"
+          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+        >
+          &#9784; ADD CLUSTER
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
             handleAdminModal(true);
           }}
           className="logoutMenuButton"
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
         >
           &#9784; SETTINGS
-        </MenuItem>
-        <MenuItem
-         onClick={() => {
-          handleAddClusters(true);
-         }}
-         className="logoutMenuButton"
-         sx={{ fontFamily: 'Montserrat, sans-serif' }}
-         >
-          Add Clusters
         </MenuItem>
         <MenuItem
           sx={{ fontFamily: 'Montserrat, sans-serif' }}
@@ -124,13 +128,16 @@ export default function NavBar(props: { refetch?: any }) {
         </div>
       </Modal>
       <Modal
-      open ={AddCluster}
-      onClose={() =>{
-      handleAddClusters(false);
-      }}
+        open={AddCluster}
+        onClose={() => {
+          handleAddClusters(false);
+        }}
       >
         <div>
-          <AddClusters  refetch={props.refetch} handleAddClusters={handleAddClusters} />
+          <AddClusters
+            refetch={props.refetch}
+            handleAddClusters={handleAddClusters}
+          />
         </div>
       </Modal>
     </div>

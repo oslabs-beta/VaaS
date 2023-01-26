@@ -7,7 +7,7 @@ import { ClusterTypes, IReducers } from '../../Interfaces';
 import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
-import AddClusters from '../AddCluster/AddCluster';
+import AddClusters from '../Admin/AddCluster';
 import './styles.css';
 
 const Home = () => {
