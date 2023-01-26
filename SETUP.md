@@ -52,7 +52,6 @@ helm install kubecost cost-analyzer \
 --set prometheus.nodeExporter.enabled=false \
 --set prometheus.serviceAccounts.nodeExporter.create=false \
 --set prometheus.kubeStateMetrics.enabled=false
-
 ```
 
 <br/>
