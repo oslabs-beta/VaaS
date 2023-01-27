@@ -10,12 +10,22 @@
 }
 
 #module-content {
+  position: relative;
+  top: 20px;
   display: inline-flex;
-  width: 60%
+  
+  width: 100%
   
 }
 .chartsBackground {
   display: inline-flex;
+  
+  width: 100%
+}
+
+.categoryList {
+display: inline-flex;
+width: 100%
 }
 
 .ModuleSidenav {

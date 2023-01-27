@@ -5,19 +5,28 @@ import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArro
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import { navData } from './navData';
 import { Modules } from 'src/client/Interfaces';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import { Box } from '@mui/material';
 
 const HomeSidebar = (props: Modules) => {
   const [open, setOpen] = useState(true);
+  const [btnText, setBtnText] = useState('Collapse');
 
   const toggleOpen = () => {
     setOpen(!open);
+    if (btnText === 'Collapse') {
+      setBtnText('Expand');
+    } else setBtnText('Collapse');
   };
 
   return (
     <div className={open ? 'sidenav' : 'sidenavClosed'}>
       <div className="menuCollapse">
-        <button className="menuBtn" onClick={toggleOpen}>
-          Click Me
+        <button className="menuBtn" onClick={toggleOpen} text={`${btnText}`}>
           {open ? (
             <KeyboardDoubleArrowLeftIcon />
           ) : (
@@ -26,15 +35,35 @@ const HomeSidebar = (props: Modules) => {
         </button>
       </div>
       <div className={open ? 'menuButtons' : 'menuButtonsClosed'}>
-        {navData.map((item) => {
-          return (
-            <NavLink key={item.id} className="sideitem" to={item.link}>
-              {item.icon}
-              <span>{item.text}</span>
-            </NavLink>
-          );
-        })}
+        <PopupState variant="popover" popupId="demo-popup-menu">
+          {(popupState) => (
+            <React.Fragment>
+              <Button variant="contained" {...bindTrigger(popupState)}>
+                Clusters
+              </Button>
+              <Menu {...bindMenu(popupState)}>
+                <MenuItem onClick={popupState.close}>Add Cluster</MenuItem>
+                <MenuItem onClick={popupState.close}>Favorites</MenuItem>
+                <MenuItem onClick={popupState.close}>All</MenuItem>
+              </Menu>
+            </React.Fragment>
+          )}
+        </PopupState>
       </div>
+      <Box
+        component="form"
+        sx={{
+          '& > :not(style)': { m: 2, width: '15vw' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+        <TextField
+          id="outlined-basic"
+          label="Cluster name"
+          variant="outlined"
+        />
+      </Box>
     </div>
   );
 };

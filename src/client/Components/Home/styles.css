@@ -125,8 +125,8 @@
   padding-top: 28px;
 }
 .sidenavClosed {
-  composes: sidenav;
   display: inline-flex;
+  flex-direction: column;
   transition: width 0.3s ease-in-out;
   width: 200px
 }
@@ -139,12 +139,18 @@
 
 .menuButtons {
   display: column;
-  width: 200px
+  width: 207px
 }
 
 .menuButtonsClosed {
   display: inline-flex;
-  transition: width 0.3s ease-in-out;
+  flex-direction: column;
+  width: 10px
+}
+
+#outlined-basic {
+  height: 3px;
+  background-color: grey;
 }
 
 #moduleMenubuttons {
@@ -153,10 +159,11 @@
 
 .sideitem {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  width: 100%;
   padding: 10px 20px;
   cursor: pointer;
-  color: #B2BAC2;
+  color: #b9b2c2;
   text-decoration: none;
   overflow: hidden;
 }
@@ -166,14 +173,13 @@
 
 .sideitem:hover {
   background-color: #244f7d1c;
-
 }
 .menuBtn {
   display: flex;
   justify-content: center;
   align-self: flex-start;  
-  color: #B2BAC2;
-  /* background-color: transparent; */
+  color: black;
+  background-color: #380fa0;
   border: none;
   cursor: pointer;
   padding-left: 20px;
