@@ -52,8 +52,8 @@ body {
 }
 
 #root {
-  background-image: url('./svg/trippy2.svg');
-  background-color: blue;
+  /* background-image: url('./svg/trippy2.svg'); */
+  background-color: rgb(42 46 53);
   width: 100%;
   background-repeat: no-repeat;
   background-position: center;

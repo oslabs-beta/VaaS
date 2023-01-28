@@ -1,5 +1,8 @@
+* {
+  box-sizing: border-box;
+}
+
 #navbar-container {
-  box-sizing: content-box;
   padding-right: 2em;
   padding-left: 2em;
   margin-left: 1.5em;
@@ -11,9 +14,22 @@
   justify-content: space-between;
   background-color: rgb(16, 16, 16);
   align-items: center;
-  height: 100px;
   box-shadow: 0px 5px 5px rgb(69, 69, 69);
-  /* z-index: 99 !important; */
+}
+
+.mainContent {
+  display: flex;
+}
+
+.contentWrapper{
+  padding-top: 40px;
+  margin-top: 5px;
+  width: 100%;
+  padding-left: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
 }
 
 .test {
@@ -21,7 +37,6 @@
 }
 #Home-Bar-Title {
   font-size: 20px;
-  width: 300px;
   color: white;
   /* margin-left: 192px;
   margin-top: 25px; */
@@ -58,10 +73,12 @@
 }
 
 #cluster-title-modals{
-  display: inline-flex;
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  justify-content: flex-end;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
 }
 
 #navbar-title {
@@ -70,35 +87,14 @@
   font-weight: 100 !important;
 }
 
-.Kube-port {
-  position: relative;
-  left: 150px;
-  width: 100%;
-  display: inline-flex;
-  justify-content: center;
-  margin: 0;
-}
 .Kube-container {
   margin-bottom: 20px;
-  display: inline-flex;
-  flex-direction: column;
   margin: 0;
-  align-items: center;
-  width: 60%;
-  gap: 5em;
+  width: 100%;
 }
 
-#HeaderContainer {
-  display: flex;
-  
-}
 .Header-Bar-Title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  margin-top: 10px;
-  margin-left: 100px;
+  width: 100%;
   color: white;
   font-size: 20px;
 }
@@ -111,6 +107,7 @@
 
 /* NEW SIDEBAR */
 .sidenav {
+  margin-top: 5px;
   color: white;
   position: relative;
   top: 0px;

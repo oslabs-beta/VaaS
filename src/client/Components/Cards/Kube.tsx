@@ -95,7 +95,6 @@ const Kube = (props: ClusterTypes) => {
         color: 'white',
         width: '60%',
         minWidth: '500px',
-        maxWidth: '1500px',
         minHeight: '350px',
         height: '30vh',
         maxHeight: '450px',

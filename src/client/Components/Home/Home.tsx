@@ -51,30 +51,34 @@ const Home = () => {
 
   return (
     <div id="home-div">
-      <NavBar refetch={refetch} />
-      <HomeSidebar />
-      <div id="cluster-title-modals">
-        <div id="HeaderContainer">
-          <div id="Home-Bar-Title">CLUSTERS</div>
-        </div>
-        <div className="Kube-port">
-          <div className="Kube-container" id="Kube-container">
-            {clustersArray?.length
-              ? clustersArray?.map((cluster, index) => (
-                  <Kube
-                    isDark={darkMode} //*adding for darkmode
-                    key={index}
-                    _id={cluster._id}
-                    favorite={cluster.favorite}
-                    favoriteStatus={true}
-                    refetch={refetch}
-                  />
-                ))
-              : null}
+      <header>
+        <NavBar refetch={refetch} />
+      </header>
+      <section className="mainContent">
+        <aside>
+          <HomeSidebar />
+        </aside>
+        <section className="contentWrapper">
+          <div id="cluster-title-modals">
+            <div id="Home-Bar-Title">CLUSTERS</div>
+            <div className="Kube-container" id="Kube-container">
+              {clustersArray?.length
+                ? clustersArray?.map((cluster, index) => (
+                    <Kube
+                      isDark={darkMode} //*adding for darkmode
+                      key={index}
+                      _id={cluster._id}
+                      favorite={cluster.favorite}
+                      favoriteStatus={true}
+                      refetch={refetch}
+                    />
+                  ))
+                : null}
+            </div>
+            {noClusterError}
           </div>
-          {noClusterError}
-        </div>
-      </div>
+        </section>
+      </section>
       {/* <AddClusters refetch={'cash'}  handleAddClusters={AddClusters}/> */}
     </div>
   );

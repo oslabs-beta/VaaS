@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './styles.css';
-import { NavLink } from 'react-router-dom';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import { navData } from './navData';
 import { Modules } from 'src/client/Interfaces';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -11,9 +9,12 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Box } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import AddClusters from '../Admin/AddCluster';
 
 const HomeSidebar = (props: Modules) => {
   const [open, setOpen] = useState(true);
+  const [AddCluster, handleAddClusters] = useState(false);
   const [btnText, setBtnText] = useState('Collapse');
 
   const toggleOpen = () => {
@@ -42,7 +43,13 @@ const HomeSidebar = (props: Modules) => {
                 Clusters
               </Button>
               <Menu {...bindMenu(popupState)}>
-                <MenuItem onClick={popupState.close}>Add Cluster</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    handleAddClusters(true);
+                  }}
+                >
+                  Add Cluster
+                </MenuItem>
                 <MenuItem onClick={popupState.close}>Favorites</MenuItem>
                 <MenuItem onClick={popupState.close}>All</MenuItem>
               </Menu>
@@ -64,6 +71,19 @@ const HomeSidebar = (props: Modules) => {
           variant="outlined"
         />
       </Box>
+      <Modal
+        open={AddCluster}
+        onClose={() => {
+          handleAddClusters(false);
+        }}
+      >
+        <div>
+          <AddClusters
+            refetch={props.refetch}
+            handleAddClusters={handleAddClusters}
+          />
+        </div>
+      </Modal>
     </div>
   );
 };
