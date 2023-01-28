@@ -10,42 +10,14 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import { Box } from '@mui/material';
 import './styles.css';
-
-// Define the Admin type, setting types for the properties
-// Associated with Admin accounts
-type AddClusters = {
-  url: string;
-  k8_port: number;
-  faas_port: number;
-  faas_password: string;
-  faas_username: string;
-  name: string;
-  cluster_description: string;
-  faas_url: string;
-  grafana_url: string;
-  kubeview_url: string;
-  cost_Url: string;
-  cost_port: string;
-  //  refetch: any,
-  //  handleAddClusters: any
-};
-
-// const containerStyle = {
-//   // width: '550px',
-//   marginTop: '15px',
-//   innerHeight: '30px',
-//   color: 'black',
-// };
+import { idText } from 'typescript';
+import { type } from 'os';
 
 const textFieldStyle = {
   background: '#FFFFFF',
   borderRadius: '5px',
-  // marginBottom: '0px',
-  // width: '90%',
-  // margin: '3px 10px 3px 10px',
   fontSize: '10px',
   color: 'white',
-  // alignSelf: 'center',
   links: {
     padding: '0 50px',
     color: 'white',
@@ -55,6 +27,7 @@ const textFieldStyle = {
     },
   },
 };
+
 const buttonStyle = {
   background: '#3a4a5b',
   borderRadius: '5px',
@@ -64,25 +37,53 @@ const buttonStyle = {
   alignSelf: 'center',
 };
 
+const textFields: {
+  id: string;
+  type?: string;
+  label: string;
+  errMsg?: string;
+  regex?: RegExp;
+}[] = [
+  { id: 'name', label: 'Cluster Name' },
+  { id: 'description', label: 'Cluster Description' },
+  { id: 'url', label: 'Prometheus URL' },
+  { id: 'k8_port', label: 'Prometheus Port', regex: /[0-9]/g },
+  { id: 'faas_username', type: 'username', label: 'FaaS Username' },
+  { id: 'faas_password', type: 'password', label: 'FaaS Password' },
+  { id: 'faas_url', label: 'Faas URL' },
+  { id: 'faas_port', label: 'Faas Port', regex: /[0-9]/g },
+  { id: 'grafana_url', label: 'Grafana URL' },
+  { id: 'kubeview_url', label: 'Kubeview URL' },
+  { id: 'cost_url', label: 'Kubecost URL' },
+  { id: 'cost_port', label: 'Kubecost Port ', regex: /[0-9]/g },
+];
+
 const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   // Dispatch hook to dispatch actions to the store
   const dispatch = useAppDispatch();
   // Select the uiReducer from the store
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
-
   // React hooks to maintain local state
   const [addClusterMessage, setAddClusterMessage] = useState('');
-  const [currUser, setCurrUser] = useState<AddClusters | unknown>({});
-  // const [value, setValue] = React.useState(0);
-  // const navigate = useNavigate();
-  // fetch Query
-  const { data: userData, refetch } = useQuery({
-    queryKey: ['user'],
-    queryFn: fetchUser,
-  });
-  useEffect(() => {
-    setCurrUser(userData);
-  }, [userData]);
+  const initialFormData: AddClusterType = {
+    url: '',
+    k8_port: '',
+    faas_port: '',
+    faas_username: '',
+    faas_password: '',
+    name: '',
+    description: '',
+    faas_url: '',
+    grafana_url: '',
+    kubeview_url: '',
+    cost_url: '',
+    cost_port: '',
+  };
+
+  const [formData, setFormData] = useState<any>(initialFormData);
+  const [formErrors, setFormErrors] = useState<boolean[]>(
+    textFields.map((ele) => false)
+  );
 
   // React query mutations used for requests other than get requests, used to get more efficient requests
   const mutation = useMutation((data: AddClusterType) => addCluster(data), {
@@ -98,84 +99,30 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   // handler functions
   const handleAddCluster = async (): Promise<void> => {
     try {
-      const body = {
-        url: (document.getElementById('cluster-url') as HTMLInputElement).value,
-        k8_port: (document.getElementById('k8_port') as HTMLInputElement).value,
-        faas_port: (document.getElementById('faas_port') as HTMLInputElement)
-          .value,
-        faas_username: (
-          document.getElementById('faas_username') as HTMLInputElement
-        ).value,
-        faas_password: (
-          document.getElementById('faas_password') as HTMLInputElement
-        ).value,
-        name: (document.getElementById('cluster-name') as HTMLInputElement)
-          .value,
-        description: (
-          document.getElementById('cluster-description') as HTMLInputElement
-        ).value,
-        faas_url: (document.getElementById('openfaas-url') as HTMLInputElement)
-          .value,
-        grafana_url: (
-          document.getElementById('grafana-url') as HTMLInputElement
-        ).value,
-        kubeview_url: (
-          document.getElementById('kubeview-url') as HTMLInputElement
-        ).value,
-        cost_Url: (document.getElementById('cost_Url') as HTMLInputElement)
-          .value,
-        cost_port: (document.getElementById('cost_port') as HTMLInputElement)
-          .value,
-      };
-      const arr: string[] = [
-        body.url,
-        body.k8_port,
-        body.faas_port,
-        body.name,
-        body.description,
-        body.faas_url,
-        body.grafana_url,
-        body.kubeview_url,
-      ];
-      if (
-        !body.url ||
-        !body.k8_port ||
-        !body.faas_port ||
-        !body.name ||
-        !body.description ||
-        !body.faas_url ||
-        !body.grafana_url ||
-        !body.kubeview_url ||
-        !body.cost_Url ||
-        !body.cost_port
-      ) {
-        setAddClusterMessage('Missing input fields');
-        return;
+      const newFormErrors = [...formErrors];
+      let isValidInput = true;
+      textFields.forEach((field, index) => {
+        // If a field is missing set the status of that form to error status and display error message
+        if (!formData[field.id]) {
+          newFormErrors[index] = true;
+          isValidInput = false;
+          field.errMsg = `${field.label} is required.`;
+          // If a port field is not a number, set that form to error status and display error message
+        } else if (field.regex && !formData[field.id].match(field.regex)) {
+          newFormErrors[index] = true;
+          isValidInput = false;
+          field.errMsg = `Ports should be a number.`;
+          // Set all properly filled forms to normal status
+        } else {
+          newFormErrors[index] = false;
+          field.errMsg = undefined;
+        }
+      });
+      setFormErrors(newFormErrors);
+      // Only post data to server if all forms are properly filled out
+      if (isValidInput) {
+        mutation.mutate(formData);
       }
-
-      if (body.url[body.url.length - 1] === '/')
-        body.url = body.url.substring(0, body.url.length - 1);
-
-      if (body.faas_url[body.faas_url.length - 1] === '/')
-        body.faas_url = body.faas_url.substring(0, body.faas_url.length - 1);
-
-      if (body.grafana_url[body.grafana_url.length - 1] === '/')
-        body.grafana_url = body.grafana_url.substring(
-          0,
-          body.grafana_url.length - 1
-        );
-      if (body.cost_Url[body.cost_Url.length - 1] === '/')
-        body.cost_Url = body.cost_Url.substring(0, body.cost_Url.length - 1);
-
-      if (
-        !body.k8_port.match(/[0-9]/g) ||
-        !body.faas_port.match(/[0-9]/g) ||
-        !body.cost_port.match(/[0-9]/g)
-      ) {
-        setAddClusterMessage('Port(s) must be numbers');
-        return;
-      }
-      mutation.mutate(body);
     } catch (err) {
       console.log('Add cluster failed', err);
     }
@@ -185,10 +132,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   ): void => {
     if (e.key === 'Enter') handleAddCluster();
   };
-  // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-  //   setValue(newValue);
-  // };
-  console.log('add cluster message', addClusterMessage);
+
   return (
     <>
       <Box
@@ -213,7 +157,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
           fontSize: '1em',
           width: '600px',
           gap: '.6em',
-          height: '480px',
+          height: 'fit-content',
           '@media screen and (max-width: 650px)': {
             maxWidth: '80vw',
             height: '510px',
@@ -221,138 +165,36 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         }}
       >
         <h1 id="add-cluster-title">Add New Cluster</h1>
-        <Grid container spacing={3} direction="row" justifyContent="center">
-          <Grid container item xs={5} direction="column">
-            {/* <div className="one"> */}
-            <TextField
-              id="cluster-name"
-              type="text"
-              label="Cluster Name"
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="cluster-description"
-              type="text"
-              label="Cluster Description"
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="cluster-url"
-              type="text"
-              label="Prometheus URL"
-              variant="filled"
-              size="small"
-              margin="dense"
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="k8_port"
-              type="text"
-              defaultValue={'9090'}
-              label="Prometheus Port"
-              variant="filled"
-              size="small"
-              margin="dense"
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="faas_username"
-              type="username"
-              label="FaaS Username"
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-
-            <TextField
-              id="faas_password"
-              type="password"
-              label="FaaS Password"
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            {/* </div> */}
-          </Grid>
-          <Grid container item xs={5} direction="column">
-            {/* <div className="Two"> */}
-            <TextField
-              id="openfaas-url"
-              type="text"
-              label="FaaS URL"
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="faas_port"
-              type="text"
-              label="FaaS Port"
-              defaultValue={'8080'}
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="grafana-url"
-              type="text"
-              label="Grafana URL"
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="kubeview-url"
-              type="text"
-              label="Kubeview URL"
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="cost_Url"
-              type="text"
-              label="Kubecost URL"
-              defaultValue={'9090'}
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            <TextField
-              id="cost_port"
-              type="text"
-              label="Kubecost Port"
-              defaultValue={'9090'}
-              variant="filled"
-              size="small"
-              margin="dense"
-              onKeyDown={handleEnterKeyDownAddCluster}
-              sx={textFieldStyle}
-            />
-            {/* </div> */}
-          </Grid>
+        <Grid
+          component="form"
+          id="add-cluster-form"
+          container
+          justifyContent="center"
+          rowSpacing={1}
+          columnSpacing={2}
+        >
+          {textFields.map(({ id, type, label, errMsg }, index) => {
+            return (
+              <Grid item>
+                <TextField
+                  id={id}
+                  type={type || 'text'}
+                  label={label}
+                  variant="filled"
+                  size="small"
+                  // margin="dense"
+                  helperText={formErrors[index] ? errMsg : null}
+                  error={formErrors[index]}
+                  onChange={(e) =>
+                    setFormData({ ...formData, [id]: e.target.value })
+                  }
+                  onKeyDown={handleEnterKeyDownAddCluster}
+                  sx={textFieldStyle}
+                  key={`TextField ${index}`}
+                />
+              </Grid>
+            );
+          })}
         </Grid>
 
         <Button

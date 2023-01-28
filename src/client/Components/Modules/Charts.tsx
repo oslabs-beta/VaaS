@@ -59,7 +59,7 @@ const Charts = (props: Modules) => {
     'Controller Manager': dashboardIds.ControllerManager,
   };
   const costDashboard = {
-    Kubecost: state[0].cost_Url + ':' + state[0].cost_port,
+    Kubecost: state[0].cost_url + ':' + state[0].cost_port,
   };
 
   const emptyDashboard = {};
@@ -100,6 +100,7 @@ const Charts = (props: Modules) => {
       }
       case 'kubecost': {
         setIsGrafana(false);
+        console.log(state[0], 'state');
         console.log(costDashboard, 'costdashboard');
         setDashboardObj(costDashboard);
         break;

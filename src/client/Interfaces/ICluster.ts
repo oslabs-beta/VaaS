@@ -31,7 +31,7 @@ export interface AddClusterType {
   faas_url: string;
   grafana_url: string;
   kubeview_url: string;
-  cost_Url?: string;
+  cost_url?: string;
   cost_port?: string;
 }
 

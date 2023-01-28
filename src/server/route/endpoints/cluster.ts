@@ -131,7 +131,7 @@ router
         grafana_url,
         kubeview_url,
         cost_port,
-        cost_Url,
+        cost_url,
       } = req.body;
       const { cookieId } = req.cookies;
       terminal(`Searching for cluster [${name}] in MongoDB`);
@@ -164,7 +164,7 @@ router
         grafana_url,
         kubeview_url,
         cost_port,
-        cost_Url,
+        cost_url,
       });
       const newCluster = await attempt.save();
       await User.updateOne(
