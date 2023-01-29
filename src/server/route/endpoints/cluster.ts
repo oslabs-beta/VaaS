@@ -226,6 +226,8 @@ router
         faas_url,
         grafana_url,
         kubeview_url,
+        cost_url,
+        cost_port,
       } = req.body;
       // Check to see if cluster exists
       terminal(`Searching for cluster [${name}] in MongoDB`);
@@ -240,69 +242,42 @@ router
         terminal(`Fail: ${error.message}`);
         return res.status(error.status).json(error);
       }
-      let authorization;
+      const updateData: Record<any, any> = {
+        url,
+        k8_port,
+        faas_port,
+        name,
+        description,
+        faas_url,
+        grafana_url,
+        kubeview_url,
+        cost_url,
+        cost_port,
+      };
       if (faas_username && faas_password) {
         const encodeAuth = Buffer.from(
           `${faas_username}:${faas_password}`
         ).toString('base64');
-        authorization = `Basic ${encodeAuth}`;
+        updateData.authorization = `Basic ${encodeAuth}`;
       }
+    
       switch (req.body.favorite) {
         case true: {
-          await Cluster.updateOne(
-            { _id: clusterId },
-            {
-              url: url,
-              k8_port: k8_port,
-              faas_port: faas_port,
-              authorization: authorization,
-              name: name,
-              description: description,
-              faas_url,
-              grafana_url,
-              kubeview_url,
-            }
-          );
+          await Cluster.updateOne({ _id: clusterId }, updateData);
           terminal(
             `Success: Cluster [${req.body.clusterId}] added to favorites`
           );
           return res.status(201).json({ success: true });
         }
         case false: {
-          await Cluster.updateOne(
-            { _id: clusterId },
-            {
-              url: url,
-              k8_port: k8_port,
-              faas_port: faas_port,
-              authorization: authorization,
-              name: name,
-              description: description,
-              faas_url,
-              grafana_url,
-              kubeview_url,
-            }
-          );
+          await Cluster.updateOne({ _id: clusterId }, updateData);
           terminal(
             `Success: Cluster [${req.body.clusterId}] removed from favorites`
           );
           return res.status(201).json({ success: true });
         }
         case undefined: {
-          await Cluster.updateOne(
-            { _id: clusterId },
-            {
-              url: url,
-              k8_port: k8_port,
-              faas_port: faas_port,
-              authorization: authorization,
-              name: name,
-              description: description,
-              faas_url,
-              grafana_url,
-              kubeview_url,
-            }
-          );
+          await Cluster.updateOne({ _id: clusterId }, updateData);
           terminal(`Success: Cluster [${req.body.clusterId}] document updated`);
           return res.status(201).json({ success: true });
         }

@@ -18,6 +18,8 @@ export interface ClusterTypes {
   grafana_url?: string;
   kubeview_url?: string;
   refetch?: any;
+  cost_url?: string;
+  cost_port?: number;
 }
 
 export interface AddClusterType {

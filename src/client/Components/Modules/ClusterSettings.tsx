@@ -7,10 +7,11 @@ import { Modules } from '../../Interfaces/ICluster';
 import { IReducers } from '../../Interfaces/IReducers';
 import { deleteCluster, editCluster } from '../../Queries';
 import Container from '@mui/system/Container';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
+import { AlignHorizontalCenter } from '@mui/icons-material';
 
 const ClusterSettings = (props: Modules) => {
   // Use reducers to pull in things from global state
@@ -24,7 +25,9 @@ const ClusterSettings = (props: Modules) => {
     (element) => element._id === props.id
   );
 
-  const [clusterData, setClusterData] = useState({
+  console.log(dbData);
+
+  const [clusterData, setClusterData] = useState<Record<any, any>>({
     url: dbData?.url,
     k8_port: dbData?.k8_port,
     faas_port: dbData?.faas_port,
@@ -35,8 +38,13 @@ const ClusterSettings = (props: Modules) => {
     faas_url: dbData?.faas_url || '',
     grafana_url: dbData?.grafana_url || '',
     kubeview_url: dbData?.kubeview_url || '',
+    cost_url: dbData?.cost_url || '',
+    cost_port: dbData?.cost_port || '',
   });
   const [updateClusterError, setUpdateClusterError] = useState('');
+  const [formErrors, setFormErrors] = useState<boolean[]>(
+    Object.values(clusterData).map((ele) => false)
+  );
 
   const deleteClusterMutation = useMutation(
     (body: { clusterId: string | undefined }) => deleteCluster(body),
@@ -67,6 +75,57 @@ const ClusterSettings = (props: Modules) => {
     width: '300px',
   };
 
+  const textFields: {
+    name: string;
+    id: string;
+    label: string;
+    regex?: RegExp;
+    errMsg?: string;
+    notRequired?: boolean;
+  }[] = [
+    { name: 'url', id: 'update-cluster-url', label: 'Cluster URL' },
+    {
+      name: 'k8_port',
+      id: 'update-cluster-k8',
+      label: 'Kubernetes Port',
+      regex: /[0-9]/g,
+    },
+    {
+      name: 'faas_port',
+      id: 'update-cluster-faas',
+      label: 'Faas Port',
+      regex: /[0-9]/g,
+    },
+    {
+      name: 'faas_username',
+      id: 'update-cluster-faas-username',
+      label: 'FaaS Username',
+      notRequired: true
+    },
+    {
+      name: 'faas_password',
+      id: 'update-cluster-faas-password',
+      label: 'FaaS Password',
+      notRequired: true
+    },
+    { name: 'name', id: 'update-cluster-name', label: 'Cluster Name' },
+    {
+      name: 'description',
+      id: 'update-cluster-description',
+      label: 'Cluster Description',
+    },
+    { name: 'faas_url', id: 'openfaas-url', label: 'Faas URL' },
+    { name: 'grafana_url', id: 'grafana-url', label: 'Grafana URL' },
+    { name: 'kubeview_url', id: 'kubeview-url', label: 'Kubeview URL' },
+    { name: 'cost_url', id: 'kubecost-url', label: 'Kubecost URL' },
+    {
+      name: 'cost_port',
+      id: 'kubecost-port',
+      label: 'Kubecost Port',
+      regex: /[0-9]/g,
+    },
+  ];
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -74,6 +133,7 @@ const ClusterSettings = (props: Modules) => {
       target: { name, value },
     } = e;
     setClusterData({ ...clusterData, [name]: value });
+    console.log(clusterData);
   };
 
   const handleDeleteCluster = async () => {
@@ -88,38 +148,34 @@ const ClusterSettings = (props: Modules) => {
 
   const handleUpdateCluster = async () => {
     try {
-      const payload = { ...clusterData, clusterId: props.id };
-      if (
-        payload.url === dbData?.url &&
-        payload.k8_port === dbData?.k8_port &&
-        payload.faas_port === dbData?.faas_port &&
-        !payload.faas_username &&
-        !payload.faas_password &&
-        payload.name === dbData?.name &&
-        payload.description === dbData?.description &&
-        payload.faas_url === dbData?.faas_url &&
-        payload.grafana_url === dbData?.grafana_url &&
-        payload.kubeview_url === dbData?.kubeview_url
-      ) {
-        setUpdateClusterError('Nothing to update!');
-        return;
+      const newFormErrors = [...formErrors];
+      let isValidInput = true;
+      textFields.forEach((field, index) => {
+        // If a field is missing set the status of that form to error status and display error message
+        if (!field.notRequired && !clusterData[field.name]) {
+          newFormErrors[index] = true;
+          isValidInput = false;
+          field.errMsg = `${field.label} is required.`;
+          // If a port field is not a number, set that form to error status and display error message
+        } else if (
+          field.regex &&
+          !clusterData[field.name].toString().match(field.regex)
+        ) {
+          newFormErrors[index] = true;
+          isValidInput = false;
+          field.errMsg = `Ports should be a number.`;
+          // Set all properly filled forms to normal status
+        } else {
+          newFormErrors[index] = false;
+          field.errMsg = undefined;
+        }
+      });
+      setFormErrors(newFormErrors);
+      // Only post data to server if all forms are properly filled out
+      if (isValidInput) {
+        const payload = { ...clusterData, clusterId: props.id };
+        editClusterMutation.mutate(payload);
       }
-      if (!payload.faas_username || !payload.faas_password) {
-        setUpdateClusterError('Both OpenFaaS credentials required');
-        return;
-      }
-      if (
-        !payload.k8_port?.toString().match(/[0-9]/g) ||
-        !payload.faas_port?.toString().match(/[0-9]/g)
-      ) {
-        setUpdateClusterError('Port(s) must be numbers');
-        return;
-      }
-      if (payload.name === dbData?.name) {
-        setUpdateClusterError('Cluster name already exists. Try another name.');
-        return;
-      }
-      editClusterMutation.mutate(payload);
     } catch (err) {
       console.log('Update cluster error:', err);
     }
@@ -130,219 +186,87 @@ const ClusterSettings = (props: Modules) => {
   ): void => {
     if (e.key === 'Enter') handleUpdateCluster();
   };
+  console.log('cluster data: ', clusterData);
 
   return (
-    <div>
-      <Container
-        className="module-container"
-        component={Card}
+    <Container
+      maxWidth='md'
+      className="module-container"
+      component={Card}
+      sx={{
+        color: 'white',
+        height: '500px',
+        backgroundColor: 'rgb(0,0,0)',
+        boxShadow: '1px 1px 10px .5px #403e54',
+        borderRadius: '10px',
+        marginBottom: '20px',
+        overflow: 'scroll',
+      }}
+    >
+      <div className="Module-top-row" style={{ marginBottom: '20px' }}>
+        <div className="module-title noselect">
+          Cluster Settings: {props.name}
+        </div>
+      </div>
+      <Grid
+        container
         sx={{
-          color: 'white',
-          minHeight: '100%',
-          minWidth: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          backgroundColor: 'rgb(0,0,0)',
-          boxShadow: '1px 1px 10px .5px #403e54',
-          borderRadius: '0px',
-          marginBottom: '20px',
+          textAlign: 'center',
+          maxWidth: '650px'
         }}
       >
-        <div className="Module-top-row" style={{ marginBottom: '20px' }}>
-          <div className="module-title noselect">
-            Cluster Settings: {props.name}
-          </div>
-        </div>
-        <div id="module-content">
-          <Container
-            sx={{
-              width: '100%',
-              textAlign: 'center',
-            }}
-          >
-            <div>
+        {textFields.map(({ name, id, label }, index) => {
+          return (
+            <Grid item xs={12} md={12} xl={6}>
               <TextField
                 onKeyDown={handleEnterKeyDown}
                 onChange={handleInputChange}
-                name=""
-                value={clusterData?.url}
-                id="update-cluster-url"
+                name={name}
+                value={clusterData[name]}
+                id={id}
+                label={label}
+                error={formErrors[index]}
                 type="text"
-                label="Cluster URL"
                 variant="filled"
                 size="small"
                 margin="dense"
                 sx={settingsField}
+                key={`ChangeField${index}`}
               />
-            </div>
-            <div>
-              <TextField
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="k8_port"
-                value={clusterData?.k8_port}
-                id="update-cluster-k8"
-                type="text"
-                label="Kubernetes Port"
-                variant="filled"
-                size="small"
-                margin="dense"
-                sx={settingsField}
-              />
-            </div>
-            <div>
-              <TextField
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="faas_port"
-                value={clusterData?.faas_port}
-                id="update-cluster-faas"
-                type="text"
-                label="FaaS Port"
-                variant="filled"
-                size="small"
-                margin="dense"
-                sx={settingsField}
-              />
-            </div>
-            <div>
-              <TextField
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="faas_username"
-                value={clusterData?.faas_username}
-                id="update-cluster-faas-username"
-                type="text"
-                label="FaaS Username"
-                variant="filled"
-                size="small"
-                margin="dense"
-                sx={settingsField}
-              />
-            </div>
-            <div>
-              <TextField
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="faas_password"
-                value={clusterData?.faas_password}
-                id="update-cluster-faas-password"
-                type="text"
-                label="FaaS Password"
-                variant="filled"
-                size="small"
-                margin="dense"
-                sx={settingsField}
-              />
-            </div>
-            <div>
-              <TextField
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="name"
-                value={clusterData?.name}
-                id="update-cluster-name"
-                type="text"
-                label="Cluster Name"
-                variant="filled"
-                size="small"
-                margin="dense"
-                sx={settingsField}
-              />
-            </div>
-            <div>
-              <TextField
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="description"
-                value={clusterData?.description}
-                id="update-cluster-description"
-                type="text"
-                label="Cluster Description"
-                variant="filled"
-                size="small"
-                margin="dense"
-                sx={settingsField}
-              />
-            </div>
-            <div>
-              <TextField
-                id="openfaas-url"
-                type="text"
-                label="FaaS URL"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="faas_url"
-                value={clusterData?.faas_url}
-                sx={settingsField}
-              />
-            </div>
-            <div>
-              <TextField
-                id="grafana-url"
-                type="text"
-                label="Grafana URL"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="grafana_url"
-                value={clusterData?.grafana_url}
-                sx={settingsField}
-              />
-            </div>
-            <div>
-              <TextField
-                id="kubeview-url"
-                type="text"
-                label="Kubeview URL"
-                variant="filled"
-                size="small"
-                margin="dense"
-                onKeyDown={handleEnterKeyDown}
-                onChange={handleInputChange}
-                name="kubeview_url"
-                value={clusterData?.kubeview_url}
-                sx={settingsField}
-              />
-            </div>
-            <div>{updateClusterError}</div>
-          </Container>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-evenly',
-              marginBottom: '7px',
-            }}
-          >
-            <Button
-              sx={{
-                ':hover': { backgroundColor: 'red' },
-              }}
-              variant="text"
-              id="basic-button"
-              className="full-screen-button"
-              onClick={handleDeleteCluster}
-            >
-              Delete
-            </Button>
-            <Button
-              className="full-screen-button"
-              variant="text"
-              id="basic-button"
-              onClick={handleUpdateCluster}
-              sx={{ ':hover': { backgroundColor: 'green' } }}
-            >
-              Update
-            </Button>
-          </Box>
-        </div>
-      </Container>
-    </div>
+            </Grid>
+          );
+        })}
+        <div>{updateClusterError}</div>
+      </Grid>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          marginBottom: '7px',
+        }}
+      >
+        <Button
+          sx={{
+            ':hover': { backgroundColor: 'red' },
+          }}
+          variant="text"
+          id="basic-button"
+          className="full-screen-button"
+          onClick={handleDeleteCluster}
+        >
+          Delete
+        </Button>
+        <Button
+          className="full-screen-button"
+          variant="text"
+          id="basic-button"
+          onClick={handleUpdateCluster}
+          sx={{ ':hover': { backgroundColor: 'green' } }}
+        >
+          Update
+        </Button>
+      </Box>
+    </Container>
   );
 };
 
