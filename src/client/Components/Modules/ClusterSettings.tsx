@@ -9,12 +9,63 @@ import { deleteCluster, editCluster } from '../../Queries';
 import Container from '@mui/system/Container';
 import { Box, Grid } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
-import { AlignHorizontalCenter } from '@mui/icons-material';
+
+const textFields: {
+  name: string;
+  id: string;
+  label: string;
+  regex?: RegExp;
+  errMsg?: string;
+  notRequired?: boolean;
+}[] = [
+  { name: 'url', id: 'update-cluster-url', label: 'Cluster URL' },
+  {
+    name: 'k8_port',
+    id: 'update-cluster-k8',
+    label: 'Kubernetes Port',
+    regex: /[0-9]/g,
+  },
+  {
+    name: 'faas_port',
+    id: 'update-cluster-faas',
+    label: 'Faas Port',
+    regex: /[0-9]/g,
+  },
+  {
+    name: 'faas_username',
+    id: 'update-cluster-faas-username',
+    label: 'FaaS Username',
+    notRequired: true
+  },
+  {
+    name: 'faas_password',
+    id: 'update-cluster-faas-password',
+    label: 'FaaS Password',
+    notRequired: true
+  },
+  { name: 'name', id: 'update-cluster-name', label: 'Cluster Name' },
+  {
+    name: 'description',
+    id: 'update-cluster-description',
+    label: 'Cluster Description',
+  },
+  { name: 'faas_url', id: 'openfaas-url', label: 'Faas URL' },
+  { name: 'grafana_url', id: 'grafana-url', label: 'Grafana URL' },
+  { name: 'kubeview_url', id: 'kubeview-url', label: 'Kubeview URL' },
+  { name: 'cost_url', id: 'kubecost-url', label: 'Kubecost URL' },
+  {
+    name: 'cost_port',
+    id: 'kubecost-port',
+    label: 'Kubecost Port',
+    regex: /[0-9]/g,
+  },
+];
 
 const ClusterSettings = (props: Modules) => {
   // Use reducers to pull in things from global state
+  
+
   const clusterReducer = useAppSelector(
     (state: IReducers) => state.clusterReducer
   );
@@ -24,8 +75,6 @@ const ClusterSettings = (props: Modules) => {
   const dbData = apiReducer.clusterDbData.find(
     (element) => element._id === props.id
   );
-
-  console.log(dbData);
 
   const [clusterData, setClusterData] = useState<Record<any, any>>({
     url: dbData?.url,
@@ -75,57 +124,6 @@ const ClusterSettings = (props: Modules) => {
     width: '300px',
   };
 
-  const textFields: {
-    name: string;
-    id: string;
-    label: string;
-    regex?: RegExp;
-    errMsg?: string;
-    notRequired?: boolean;
-  }[] = [
-    { name: 'url', id: 'update-cluster-url', label: 'Cluster URL' },
-    {
-      name: 'k8_port',
-      id: 'update-cluster-k8',
-      label: 'Kubernetes Port',
-      regex: /[0-9]/g,
-    },
-    {
-      name: 'faas_port',
-      id: 'update-cluster-faas',
-      label: 'Faas Port',
-      regex: /[0-9]/g,
-    },
-    {
-      name: 'faas_username',
-      id: 'update-cluster-faas-username',
-      label: 'FaaS Username',
-      notRequired: true
-    },
-    {
-      name: 'faas_password',
-      id: 'update-cluster-faas-password',
-      label: 'FaaS Password',
-      notRequired: true
-    },
-    { name: 'name', id: 'update-cluster-name', label: 'Cluster Name' },
-    {
-      name: 'description',
-      id: 'update-cluster-description',
-      label: 'Cluster Description',
-    },
-    { name: 'faas_url', id: 'openfaas-url', label: 'Faas URL' },
-    { name: 'grafana_url', id: 'grafana-url', label: 'Grafana URL' },
-    { name: 'kubeview_url', id: 'kubeview-url', label: 'Kubeview URL' },
-    { name: 'cost_url', id: 'kubecost-url', label: 'Kubecost URL' },
-    {
-      name: 'cost_port',
-      id: 'kubecost-port',
-      label: 'Kubecost Port',
-      regex: /[0-9]/g,
-    },
-  ];
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -133,7 +131,6 @@ const ClusterSettings = (props: Modules) => {
       target: { name, value },
     } = e;
     setClusterData({ ...clusterData, [name]: value });
-    console.log(clusterData);
   };
 
   const handleDeleteCluster = async () => {
@@ -156,6 +153,7 @@ const ClusterSettings = (props: Modules) => {
           newFormErrors[index] = true;
           isValidInput = false;
           field.errMsg = `${field.label} is required.`;
+          console.log(textFields);
           // If a port field is not a number, set that form to error status and display error message
         } else if (
           field.regex &&
@@ -186,16 +184,14 @@ const ClusterSettings = (props: Modules) => {
   ): void => {
     if (e.key === 'Enter') handleUpdateCluster();
   };
-  console.log('cluster data: ', clusterData);
 
   return (
     <Container
-      maxWidth='md'
       className="module-container"
-      component={Card}
+      maxWidth="md"
       sx={{
         color: 'white',
-        height: '500px',
+        maxHeight: '650px',
         backgroundColor: 'rgb(0,0,0)',
         boxShadow: '1px 1px 10px .5px #403e54',
         borderRadius: '10px',
@@ -212,12 +208,13 @@ const ClusterSettings = (props: Modules) => {
         container
         sx={{
           textAlign: 'center',
-          maxWidth: '650px'
+          maxWidth: '650px',
         }}
       >
-        {textFields.map(({ name, id, label }, index) => {
+        {textFields.map(({ name, id, label, errMsg }, index) => {
+          console.log(errMsg);
           return (
-            <Grid item xs={12} md={12} xl={6}>
+            <Grid item xs={12} xl={6}>
               <TextField
                 onKeyDown={handleEnterKeyDown}
                 onChange={handleInputChange}
@@ -225,11 +222,11 @@ const ClusterSettings = (props: Modules) => {
                 value={clusterData[name]}
                 id={id}
                 label={label}
+                helperText={formErrors[index] ? errMsg : null}
                 error={formErrors[index]}
                 type="text"
                 variant="filled"
                 size="small"
-                margin="dense"
                 sx={settingsField}
                 key={`ChangeField${index}`}
               />

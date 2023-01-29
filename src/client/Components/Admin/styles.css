@@ -58,3 +58,10 @@
   margin-bottom: 20px;
   font-size: 0.8em;
 }
+
+#tenOptions {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

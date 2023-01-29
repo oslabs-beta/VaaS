@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
 import { AddClusterType, IReducers } from '../../Interfaces';
 import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { addCluster, fetchUser } from '../../Queries';
@@ -8,24 +7,13 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import { Box } from '@mui/material';
 import './styles.css';
-import { idText } from 'typescript';
-import { type } from 'os';
 
-const textFieldStyle = {
-  background: '#FFFFFF',
+const settingsField = {
+  background: 'white',
   borderRadius: '5px',
-  fontSize: '10px',
-  color: 'white',
-  links: {
-    padding: '0 50px',
-    color: 'white',
-    '&:hover': {
-      textDecorationColor: 'green',
-      cursor: 'pointer',
-    },
-  },
+  marginBlock: '7px',
+  width: '300px',
 };
 
 const buttonStyle = {
@@ -134,82 +122,66 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   };
 
   return (
-    <>
-      <Box
-        id="tenOptions"
-        sx={{
-          padding: '0px',
-          display: 'flex',
-          position: 'fixed',
-          top: '40%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          backgroundColor: 'rgb(0,0,0)',
-          borderRadius: '10px',
-          color: 'black',
-          border: '1px solid black',
-          margin: '0.5rem 0rem 0.6rem 0rem',
-          fontWeight: 'bold',
-          fontFamily: 'Verdana, Arial, sans-serif',
-          boxShadow: '1px 1px 10px 5px #403e54',
-          fontSize: '1em',
-          width: '600px',
-          gap: '.6em',
-          height: 'fit-content',
-          '@media screen and (max-width: 650px)': {
-            maxWidth: '80vw',
-            height: '510px',
-          },
-        }}
+    <Container
+      id="tenOptions"
+      maxWidth="md"
+      sx={{
+        color: 'white',
+        maxHeight: '650px',
+        backgroundColor: 'rgb(0,0,0)',
+        boxShadow: '1px 1px 10px .5px #403e54',
+        borderRadius: '10px',
+        marginBottom: '20px',
+        overflow: 'scroll',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: 'auto',
+      }}
+    >
+      <h1 id="add-cluster-title">Add New Cluster</h1>
+      <Grid
+        id="add-cluster-form"
+        container
+        textAlign="center"
+        marginY="20px"
+        sx={{ maxWidth: '650px' }}
       >
-        <h1 id="add-cluster-title">Add New Cluster</h1>
-        <Grid
-          component="form"
-          id="add-cluster-form"
-          container
-          justifyContent="center"
-          rowSpacing={1}
-          columnSpacing={2}
-        >
-          {textFields.map(({ id, type, label, errMsg }, index) => {
-            return (
-              <Grid item>
-                <TextField
-                  id={id}
-                  type={type || 'text'}
-                  label={label}
-                  variant="filled"
-                  size="small"
-                  // margin="dense"
-                  helperText={formErrors[index] ? errMsg : null}
-                  error={formErrors[index]}
-                  onChange={(e) =>
-                    setFormData({ ...formData, [id]: e.target.value })
-                  }
-                  onKeyDown={handleEnterKeyDownAddCluster}
-                  sx={textFieldStyle}
-                  key={`TextField ${index}`}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
+        {textFields.map(({ id, type, label, errMsg }, index) => {
+          return (
+            <Grid item xs={12} xl={6}>
+              <TextField
+                id={id}
+                type={type || 'text'}
+                label={label}
+                variant="filled"
+                size="small"
+                helperText={formErrors[index] ? errMsg : null}
+                error={formErrors[index]}
+                onChange={(e) =>
+                  setFormData({ ...formData, [id]: e.target.value })
+                }
+                onKeyDown={handleEnterKeyDownAddCluster}
+                sx={settingsField}
+                key={`TextField ${index}`}
+              />
+            </Grid>
+          );
+        })}
+      </Grid>
 
-        <Button
-          variant="contained"
-          className="btn"
-          type="button"
-          onClick={handleAddCluster}
-          sx={buttonStyle}
-        >
-          Add Cluster
-        </Button>
+      <Button
+        variant="contained"
+        className="btn"
+        type="button"
+        onClick={handleAddCluster}
+        sx={buttonStyle}
+      >
+        Add Cluster
+      </Button>
 
-        <div id="add-cluster-msg">{addClusterMessage}</div>
-      </Box>
-    </>
+      <div id="add-cluster-msg">{addClusterMessage}</div>
+    </Container>
   );
 };
 export default AddClusters;
