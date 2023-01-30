@@ -15,6 +15,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
+  console.log(uiReducer.clusterUIState, 'uiReducer variable');
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState<ClusterTypes[]>([]);
   const darkMode = uiReducer.clusterUIState.darkmode;
@@ -49,6 +50,28 @@ const Home = () => {
       : (document.body.style.backgroundColor = '#3a4a5b');
   }, [darkMode, dispatch, navigate, userData]);
 
+  const resetClusterArray = () => {
+    dispatch(storeClusterDbData(data));
+    setClustersArray(data);
+  };
+
+  const handleFindCluster = (value: any) => {
+    const renderingArr = [];
+    //clustersArray, each element for name
+    console.log(value, 'handlefindcluster value in home');
+    for (let i = 0; i < clustersArray.length; i++) {
+      if (clustersArray[i].name?.toLowerCase().includes(value.toLowerCase())) {
+        renderingArr.push(clustersArray[i]);
+      }
+      if (value === null || value === undefined) {
+        resetClusterArray();
+      }
+    }
+    setClustersArray(renderingArr);
+  };
+
+  console.log('cluster Array', clustersArray);
+
   return (
     <div id="home-div">
       <header>
@@ -56,7 +79,10 @@ const Home = () => {
       </header>
       <section className="mainContent">
         <aside>
-          <HomeSidebar />
+          <HomeSidebar
+            handleFindCluster={handleFindCluster}
+            resetClusterArray={resetClusterArray}
+          />
         </aside>
         <section className="contentWrapper">
           <div id="cluster-title-modals">
@@ -66,7 +92,7 @@ const Home = () => {
                 ? clustersArray?.map((cluster, index) => (
                     <Kube
                       isDark={darkMode} //*adding for darkmode
-                      key={index}
+                      key={`clusterarray${index}`}
                       _id={cluster._id}
                       favorite={cluster.favorite}
                       favoriteStatus={true}

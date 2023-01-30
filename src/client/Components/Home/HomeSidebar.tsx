@@ -12,17 +12,63 @@ import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import AddClusters from '../Admin/AddCluster';
 
-const HomeSidebar = (props: Modules) => {
+
+const textFieldStyle = {
+  background: '#FFFFFF',
+  borderRadius: '5px',
+  // marginBottom: '0px',
+  // width: '90%',
+  // margin: '3px 10px 3px 10px',
+  fontSize: '10px',
+  color: 'white',
+  // alignSelf: 'center',
+  links: {
+    padding: '0 50px',
+    color: 'white',
+    '&:hover': {
+      textDecorationColor: 'green',
+      cursor: 'pointer',
+    },
+  },
+};
+
+const HomeSidebar = (props: {
+  handleFindCluster: any;
+  resetClusterArray: any;
+}) => {
   const [open, setOpen] = useState(true);
   const [AddCluster, handleAddClusters] = useState(false);
   const [btnText, setBtnText] = useState('Collapse');
-
+  const [searchCluster, setSearchCluster] = useState('');
   const toggleOpen = () => {
     setOpen(!open);
     if (btnText === 'Collapse') {
       setBtnText('Expand');
     } else setBtnText('Collapse');
   };
+
+  const handleFindCluster = props.handleFindCluster;
+  const resetClusterArray = props.resetClusterArray;
+
+  const handleChangeCluster = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    handleFindCluster(searchCluster);
+    console.log(searchCluster, 'handlechangecluster here value');
+    setSearchCluster(e.target.value);
+  };
+
+  const handleEnterKeyDownFindCluster = (
+    e: React.KeyboardEvent<HTMLInputElement>
+  ): void => {
+    //need to update argument in handlefindcluster;
+    if (e.key) handleFindCluster(searchCluster);
+  };
+
+  // handleFindCluster = () => {
+  //   //find the cluster - reference the State, search cluster array
+  //   //update the state of Home
+  // };
 
   return (
     <div className={open ? 'sidenav' : 'sidenavClosed'}>
@@ -51,13 +97,31 @@ const HomeSidebar = (props: Modules) => {
                   Add Cluster
                 </MenuItem>
                 <MenuItem onClick={popupState.close}>Favorites</MenuItem>
-                <MenuItem onClick={popupState.close}>All</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    popupState.close;
+                    resetClusterArray();
+                  }}
+                >
+                  All
+                </MenuItem>
               </Menu>
             </React.Fragment>
           )}
         </PopupState>
       </div>
-      <Box
+      <TextField
+        id="cluster-findName"
+        type="text"
+        label="Cluster name"
+        variant="filled"
+        size="small"
+        margin="dense"
+        onChange={handleChangeCluster}
+        onKeyDown={handleEnterKeyDownFindCluster}
+        sx={textFieldStyle}
+      />
+      {/* <Box
         component="form"
         sx={{
           '& > :not(style)': { m: 2, width: '15vw' },
@@ -70,7 +134,7 @@ const HomeSidebar = (props: Modules) => {
           label="Cluster name"
           variant="outlined"
         />
-      </Box>
+      </Box> */}
       <Modal
         open={AddCluster}
         onClose={() => {
@@ -86,6 +150,6 @@ const HomeSidebar = (props: Modules) => {
       </Modal>
     </div>
   );
-};
+};;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 export default HomeSidebar;
