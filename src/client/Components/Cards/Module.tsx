@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { OpenFaaS, Alert, Charts, FunctionCost } from '../Modules/index';
 import NavBar from '../Home/NavBar';
 import { Modules } from '../../Interfaces/ICluster';
@@ -21,6 +21,7 @@ import '../Modules/network.css';
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
   const { state }: any = useLocation();
+  if (state === null) return <Navigate to={'/home'} />;
   const navigate = useNavigate();
   const [id] = useState(props.id || state[0]._id);
   // Hooks used to indicate which module should be rendered in

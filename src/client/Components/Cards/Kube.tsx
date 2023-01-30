@@ -145,6 +145,7 @@ const Kube = (props: ClusterTypes) => {
             id="Graphs-Button"
             fullWidth={true}
             startIcon={<Insights />}
+            sx={{ color: 'white' }}
             onClick={() =>
               navigate('/module', {
                 state: [dbData, 'charts', true],
@@ -158,6 +159,7 @@ const Kube = (props: ClusterTypes) => {
             id="Cluster-Map-Button"
             fullWidth={true}
             startIcon={<ViewInAr />}
+            sx={{ color: 'white' }}
             onClick={() => {
               setCurrModal('visualizer');
               setOpenModal(true);
@@ -170,6 +172,7 @@ const Kube = (props: ClusterTypes) => {
             id="Queries-Button"
             fullWidth={true}
             startIcon={<QueryStats />}
+            sx={{ color: 'white' }}
             onClick={() => {
               setCurrModal('custom');
               setOpenModal(true);
@@ -182,6 +185,7 @@ const Kube = (props: ClusterTypes) => {
             id="Alerts-Button"
             fullWidth={true}
             startIcon={<AddAlert />}
+            sx={{ color: 'white' }}
             onClick={() =>
               navigate('/module', { state: [dbData, 'alert', true] })
             }
@@ -207,6 +211,7 @@ const Kube = (props: ClusterTypes) => {
             id="OpenFaaS-Button"
             fullWidth={true}
             startIcon={<Functions />}
+            sx={{ color: 'white' }}
             onClick={() =>
               navigate('/module', { state: [dbData, 'faas', true] })
             }
@@ -218,6 +223,7 @@ const Kube = (props: ClusterTypes) => {
             id="FaaSCost-Button"
             fullWidth={true}
             startIcon={<AttachMoney />}
+            sx={{ color: 'white' }}
             onClick={() =>
               navigate('/module', {
                 state: [dbData, 'functionCost', true],
@@ -368,7 +374,7 @@ const Kube = (props: ClusterTypes) => {
         }}
         sx={{ border: 'none' }}
       >
-        <Box className="Settings-Modal-Container" sx={{ border: 'none'}}>
+        <Box className="Settings-Modal-Container" sx={{ border: 'none' }}>
           <ClusterSettings
             refetch={props?.refetch}
             id={dbData?._id}
