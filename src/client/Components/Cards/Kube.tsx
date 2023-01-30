@@ -322,7 +322,7 @@ const Kube = (props: ClusterTypes) => {
                 nrOfLevels={30}
                 colors={['green', '#FF5F6D']}
                 arcWidth={0.1}
-                percent={(cpuLoad || 0) / 100}
+                percent={(Number(cpuLoad) || 0) / 100}
                 style={{
                   width: '90px',
                   height: '2px',
@@ -368,21 +368,13 @@ const Kube = (props: ClusterTypes) => {
         }}
         sx={{ border: 'none' }}
       >
-        <Box className="Settings-Modal-Container" sx={{ border: 'none' }}>
+        <Box className="Settings-Modal-Container" sx={{ border: 'none'}}>
           <ClusterSettings
             refetch={props?.refetch}
             id={dbData?._id}
             name={dbData?.name}
             handleModal={handleSettingsModal}
           />
-          <Button
-            id="closeButton"
-            onClick={() => {
-              handleSettingsModal(false);
-            }}
-          >
-            {'Close Settings'}
-          </Button>
         </Box>
       </Modal>
       <Modal

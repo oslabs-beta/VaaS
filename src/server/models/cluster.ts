@@ -18,7 +18,7 @@ const clusterSchema: Schema<ICluster> = new Schema<ICluster>({
   grafana_url: String,
   kubeview_url: String,
   cost_port: String,
-  cost_Url: String,
+  cost_url: String,
 });
 
 // THIRD PARAMETER DEFINES DEFAULT COLLECTION NAME
