@@ -8,6 +8,7 @@ import Module from './Cards/Module';
 import PrivateRoute from '../Components/Login/PrivateRoute';
 import { ProSidebarProvider } from 'react-pro-sidebar';
 import WrappedPrivateRoute from './WrappedPrivateRoute';
+import About from './Admin/About';
 
 const queryClient = new QueryClient();
 

@@ -11,8 +11,9 @@ import TextField from '@mui/material/TextField';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import AddClusters from '../Admin/AddCluster';
+import About from '../Admin/About';
 
-
+// formatting for the search bar
 const textFieldStyle = {
   background: '#FFFFFF',
   borderRadius: '5px',
@@ -38,8 +39,11 @@ const HomeSidebar = (props: {
 }) => {
   const [open, setOpen] = useState(true);
   const [AddCluster, handleAddClusters] = useState(false);
+  const [aboutPage, openAboutPage] = useState(false);
   const [btnText, setBtnText] = useState('Collapse');
   const [searchCluster, setSearchCluster] = useState('');
+
+  //for sidebar menu expand and contract
   const toggleOpen = () => {
     setOpen(!open);
     if (btnText === 'Collapse') {
@@ -47,13 +51,23 @@ const HomeSidebar = (props: {
     } else setBtnText('Collapse');
   };
 
+  //reassiging props from Home
   const handleFindCluster = props.handleFindCluster;
   const resetClusterArray = props.resetClusterArray;
 
+  //search to find cluser occurs after each key stroke
+  useEffect(
+    (props): void => {
+      handleFindCluster(searchCluster);
+    },
+    [searchCluster]
+  );
+
+  //resets searchCluster state on each key
   const handleChangeCluster = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    handleFindCluster(searchCluster);
+    // handleFindCluster(searchCluster);
     console.log(searchCluster, 'handlechangecluster here value');
     setSearchCluster(e.target.value);
   };
@@ -64,11 +78,6 @@ const HomeSidebar = (props: {
     //need to update argument in handlefindcluster;
     if (e.key) handleFindCluster(searchCluster);
   };
-
-  // handleFindCluster = () => {
-  //   //find the cluster - reference the State, search cluster array
-  //   //update the state of Home
-  // };
 
   return (
     <div className={open ? 'sidenav' : 'sidenavClosed'}>
@@ -96,6 +105,13 @@ const HomeSidebar = (props: {
                 >
                   Add Cluster
                 </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    openAboutPage(true);
+                  }}
+                >
+                  About
+                </MenuItem>
                 <MenuItem onClick={popupState.close}>Favorites</MenuItem>
                 <MenuItem
                   onClick={() => {
@@ -121,20 +137,13 @@ const HomeSidebar = (props: {
         onKeyDown={handleEnterKeyDownFindCluster}
         sx={textFieldStyle}
       />
-      {/* <Box
-        component="form"
-        sx={{
-          '& > :not(style)': { m: 2, width: '15vw' },
+      <Button
+        onClick={() => {
+          openAboutPage(true);
         }}
-        noValidate
-        autoComplete="off"
       >
-        <TextField
-          id="outlined-basic"
-          label="Cluster name"
-          variant="outlined"
-        />
-      </Box> */}
+        About
+      </Button>
       <Modal
         open={AddCluster}
         onClose={() => {
@@ -148,8 +157,18 @@ const HomeSidebar = (props: {
           />
         </div>
       </Modal>
+      <Modal
+        open={aboutPage}
+        onClose={() => {
+          openAboutPage(false);
+        }}
+      >
+        <div>
+          <About refetch={props.refetch} openAboutPage={openAboutPage} />
+        </div>
+      </Modal>
     </div>
   );
-};;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+};;
 
 export default HomeSidebar;

@@ -296,13 +296,13 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                   color: '#FFF',
                 }}
               />
-              <Tab
+              {/* <Tab
                 label="About"
                 {...a11yProps(2)}
                 sx={{
                   color: '#FFF',
                 }}
-              />
+              /> */}
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
@@ -380,7 +380,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
               </div>
             </Container>
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          {/* <TabPanel value={value} index={1}>
             <Container sx={containerStyle}>
               <Button
                 variant="contained"
@@ -415,7 +415,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                 <p>Irvin Ie</p>
               </Box>
             </Container>
-          </TabPanel>
+          </TabPanel> */}
         </Box>
       </Container>
     </div>

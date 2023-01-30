@@ -55,16 +55,14 @@ const Home = () => {
     setClustersArray(data);
   };
 
-  const handleFindCluster = (value: any) => {
+  const handleFindCluster = (value: string) => {
     const renderingArr = [];
     //clustersArray, each element for name
+    if (value === '') return resetClusterArray();
     console.log(value, 'handlefindcluster value in home');
     for (let i = 0; i < clustersArray.length; i++) {
       if (clustersArray[i].name?.toLowerCase().includes(value.toLowerCase())) {
         renderingArr.push(clustersArray[i]);
-      }
-      if (value === null || value === undefined) {
-        resetClusterArray();
       }
     }
     setClustersArray(renderingArr);
