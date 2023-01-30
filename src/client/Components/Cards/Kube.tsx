@@ -375,14 +375,6 @@ const Kube = (props: ClusterTypes) => {
             name={dbData?.name}
             handleModal={handleSettingsModal}
           />
-          <Button
-            id="closeButton"
-            onClick={() => {
-              handleSettingsModal(false);
-            }}
-          >
-            {'Close Settings'}
-          </Button>
         </Box>
       </Modal>
       <Modal

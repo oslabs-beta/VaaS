@@ -109,7 +109,12 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
       setFormErrors(newFormErrors);
       // Only post data to server if all forms are properly filled out
       if (isValidInput) {
-        mutation.mutate(formData);
+        const payload = { ...formData };
+        Object.entries(payload).forEach(([key, value]) => {
+          if (typeof value === 'string' && value?.slice(-1) === '/')
+            payload[key] = value.slice(0, -1);
+        });
+        mutation.mutate(payload);
       }
     } catch (err) {
       console.log('Add cluster failed', err);
@@ -124,7 +129,6 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   return (
     <Container
       id="tenOptions"
-      maxWidth="md"
       sx={{
         color: 'white',
         maxHeight: '650px',
@@ -145,11 +149,12 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         container
         textAlign="center"
         marginY="20px"
-        sx={{ maxWidth: '650px' }}
+        columns={12}
+        sx={{ maxWidth: { xs: '350px', xl: '650px' } }}
       >
         {textFields.map(({ id, type, label, errMsg }, index) => {
           return (
-            <Grid item xs={12} xl={6}>
+            <Grid item xs={12} xl={6} key={`TextField ${index}`}>
               <TextField
                 id={id}
                 type={type || 'text'}
@@ -163,7 +168,6 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
                 }
                 onKeyDown={handleEnterKeyDownAddCluster}
                 sx={settingsField}
-                key={`TextField ${index}`}
               />
             </Grid>
           );

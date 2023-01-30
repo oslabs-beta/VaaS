@@ -15,17 +15,25 @@ const textFields: {
   name: string;
   id: string;
   label: string;
+  type?: string;
   regex?: RegExp;
   errMsg?: string;
   notRequired?: boolean;
 }[] = [
-  { name: 'url', id: 'update-cluster-url', label: 'Cluster URL' },
+  { name: 'name', id: 'update-cluster-name', label: 'Cluster Name' },
+  {
+    name: 'description',
+    id: 'update-cluster-description',
+    label: 'Cluster Description',
+  },
+  { name: 'url', id: 'update-cluster-url', label: 'Prometheus URL' },
   {
     name: 'k8_port',
     id: 'update-cluster-k8',
-    label: 'Kubernetes Port',
+    label: 'Prometheus Port',
     regex: /[0-9]/g,
   },
+  { name: 'faas_url', id: 'openfaas-url', label: 'Faas URL' },
   {
     name: 'faas_port',
     id: 'update-cluster-faas',
@@ -36,21 +44,15 @@ const textFields: {
     name: 'faas_username',
     id: 'update-cluster-faas-username',
     label: 'FaaS Username',
-    notRequired: true
+    notRequired: true,
   },
   {
     name: 'faas_password',
     id: 'update-cluster-faas-password',
     label: 'FaaS Password',
-    notRequired: true
+    type: 'password',
+    notRequired: true,
   },
-  { name: 'name', id: 'update-cluster-name', label: 'Cluster Name' },
-  {
-    name: 'description',
-    id: 'update-cluster-description',
-    label: 'Cluster Description',
-  },
-  { name: 'faas_url', id: 'openfaas-url', label: 'Faas URL' },
   { name: 'grafana_url', id: 'grafana-url', label: 'Grafana URL' },
   { name: 'kubeview_url', id: 'kubeview-url', label: 'Kubeview URL' },
   { name: 'cost_url', id: 'kubecost-url', label: 'Kubecost URL' },
@@ -64,7 +66,6 @@ const textFields: {
 
 const ClusterSettings = (props: Modules) => {
   // Use reducers to pull in things from global state
-  
 
   const clusterReducer = useAppSelector(
     (state: IReducers) => state.clusterReducer
@@ -172,6 +173,11 @@ const ClusterSettings = (props: Modules) => {
       // Only post data to server if all forms are properly filled out
       if (isValidInput) {
         const payload = { ...clusterData, clusterId: props.id };
+        Object.entries(payload).forEach(([key, value]) => {
+          if (typeof value === 'string' && value?.slice(-1) === '/')
+            //@ts-ignore
+            payload[key] = value.slice(0, -1);
+        });
         editClusterMutation.mutate(payload);
       }
     } catch (err) {
@@ -188,7 +194,6 @@ const ClusterSettings = (props: Modules) => {
   return (
     <Container
       className="module-container"
-      maxWidth="md"
       sx={{
         color: 'white',
         maxHeight: '650px',
@@ -208,13 +213,12 @@ const ClusterSettings = (props: Modules) => {
         container
         sx={{
           textAlign: 'center',
-          maxWidth: '650px',
+          maxWidth: { xs: '350px', xl: '650px' },
         }}
       >
-        {textFields.map(({ name, id, label, errMsg }, index) => {
-          console.log(errMsg);
+        {textFields.map(({ name, id, label, errMsg, type }, index) => {
           return (
-            <Grid item xs={12} xl={6}>
+            <Grid item xs={12} xl={6} key={`ChangeField${index}`}>
               <TextField
                 onKeyDown={handleEnterKeyDown}
                 onChange={handleInputChange}
@@ -224,11 +228,10 @@ const ClusterSettings = (props: Modules) => {
                 label={label}
                 helperText={formErrors[index] ? errMsg : null}
                 error={formErrors[index]}
-                type="text"
+                type={type || 'text'}
                 variant="filled"
                 size="small"
                 sx={settingsField}
-                key={`ChangeField${index}`}
               />
             </Grid>
           );
