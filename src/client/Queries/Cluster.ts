@@ -23,9 +23,9 @@ export const addCluster = async (payload: AddClusterType) => {
 
 export const deleteCluster = async (
   payload:
-    | AxiosRequestConfig<{
+    | {
         clusterId: string | undefined;
-      }>
+      }
     | undefined
 ) => {
   const data = await axiosInstance.delete('/cluster', { data: payload });
