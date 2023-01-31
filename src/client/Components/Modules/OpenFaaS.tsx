@@ -13,19 +13,15 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import './styles.css';
 
 // need to convert to redux for selected/ deployed function
 const OpenFaaS = (props: Modules) => {
   const dispatch = useAppDispatch();
-  // const apiReducer = useAppSelector((state: IReducers) => state.apiReducer);
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
-  // const [dbData] = useState(apiReducer.clusterDbData.find(element => element._id === props.id));
   const { state }: any = useLocation();
   const [id] = useState(props.id || state[0]?._id);
-  // const [deployedFunctions, setDeployedFunctions] = useState<DeployedFunctionTypes[]>([]);
-  // const openFaaSDeployed = OFReducer.clusterOpenFaaSData[id].deployedFunctions || null;
   const deployedFunctions = OFReducer.deployedFunctions || [];
-  // OFReducer.clusterOpenFaaSData[id].deployedFunctions
   const [openFaaSFunctions, setOpenFaaSFunctions] = useState<FunctionTypes[]>(
     []
   );
@@ -36,7 +32,8 @@ const OpenFaaS = (props: Modules) => {
   const [invokedOutput, setInvokedOutput] = useState('');
   const [renderFunctions, setRenderFunctions] = useState(false);
   const [reqBody, setRegBody] = useState('');
-  const [invoked, setInvoked] = useState(false);
+  // const [invoked, setInvoked] = useState(false);
+  const [invokeCount, setInvokeCount] = useState(0);
   const [dropdownStyle] = useState({
     background: 'white',
     borderRadius: '5px',
@@ -60,14 +57,16 @@ const OpenFaaS = (props: Modules) => {
       console.log('id is', id);
       const funcs = await Get(apiRoute.getRoute(`faas`), { id });
       if (funcs.message) {
-        // setDeployedFunctions([]);
-        console.log('HITTING and setting state to empty array');
-        console.log('ERROR IS ', funcs.message);
         dispatch(GET_DeployedOFFunc([]));
       } else {
         console.log('funcs is: ', funcs);
-        dispatch(GET_DeployedOFFunc(funcs));
-        console.log('UPDATED REDUX STATE');
+        dispatch(
+          GET_DeployedOFFunc(
+            funcs.sort((a: { name: string }, b: { name: string }) =>
+              a.name.localeCompare(b.name)
+            )
+          )
+        );
       }
     } catch (error) {
       console.log('Error in fetching deployed OpenFaaS Functions', error);
@@ -94,7 +93,7 @@ const OpenFaaS = (props: Modules) => {
 
     openFaaSFunctions();
     fetchFunctions();
-  }, [renderFunctions]);
+  }, [renderFunctions, invokeCount]);
 
   const handleDeployOpenFaaS = async () => {
     try {
@@ -126,7 +125,7 @@ const OpenFaaS = (props: Modules) => {
   };
 
   const handleInvoke = async () => {
-    setInvoked(true);
+    // setInvoked(true);
     try {
       const functionName = selectedDeployedFunction;
       if (functionName in customFuncBody) {
@@ -135,9 +134,10 @@ const OpenFaaS = (props: Modules) => {
           functionName: functionName,
         };
         const res = await Post(apiRoute.getRoute('faas/invoke'), body);
-        setInvokedOutput(res);
-        sessionStorage.setItem('openFaasResBody', res);
-        setInvoked(false);
+        setInvokedOutput(res.result);
+        sessionStorage.setItem('openFaasResBody', res.result);
+        setInvokeCount(res.count);
+        // setInvoked(false);
       } else {
         console.log('requestBody', reqBody);
         const body = {
@@ -146,15 +146,16 @@ const OpenFaaS = (props: Modules) => {
           data: reqBody,
         };
         const res = await Post(apiRoute.getRoute('faas/invoke'), body);
-        setInvokedOutput(res);
-        sessionStorage.setItem('openFaasResBody', res);
+        setInvokedOutput(res.result);
+        res.count !== undefined ? setInvokeCount(res.count) : setInvokeCount(0);
+        sessionStorage.setItem('openFaasResBody', res.result);
       }
     } catch (error) {
       console.log('Error in handleInvoke', error);
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: React.MouseEvent<HTMLElement>) => {
     try {
       console.log('DeployedFunc is: ', deployedFunctions);
 
@@ -173,7 +174,9 @@ const OpenFaaS = (props: Modules) => {
             deployedFunctions.filter((el) => el.name !== body.functionName)
           )
         );
-        console.log(deployedFunctions, 'deployed in handle delete');
+        // console.log(deployedFunctions, 'deployed in handle delete');
+        // console.dir(e.target.parentElement.previousSibling);
+
         setInvokedOutput('Deployed function deleted');
       }
     } catch (error) {
@@ -181,8 +184,20 @@ const OpenFaaS = (props: Modules) => {
     }
   };
 
+  const findFuncFromRedux = (name: string) => {
+    const funcObj = deployedFunctions.find((el) => el.name === name);
+    return funcObj;
+  };
+
   const handleDeployedFunctionChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedDeployedFunction(e.target.value);
+    const funcObj = findFuncFromRedux(e.target.value);
+
+    if (typeof funcObj === 'object' && funcObj.invocationCount) {
+      setInvokeCount(funcObj.invocationCount);
+    } else {
+      setInvokeCount(0);
+    }
   };
 
   const localStore = () => {
@@ -197,10 +212,6 @@ const OpenFaaS = (props: Modules) => {
     sessionStorage.clear();
   };
 
-  const findFuncFromRedux = (name: string) => {
-    const funcObj = deployedFunctions.find((el) => el.name === name);
-    return funcObj;
-  };
   return (
     <Container>
       <Box
@@ -210,6 +221,11 @@ const OpenFaaS = (props: Modules) => {
           marginLeft: '-1rem',
           marginTop: '8px',
           justifyContent: 'center',
+          '@media screen and (max-width: 820px)': {
+            flexDirection: 'column',
+            gap: '0.5rem',
+            alignItems: 'center',
+          },
         }}
       >
         <Box sx={inputStyle}>
@@ -351,40 +367,54 @@ const OpenFaaS = (props: Modules) => {
       </Box>
       <Box
         sx={{
-          background: textAreaStyle.color,
-          color: 'black',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           width: '100%',
-          height: '70px',
-          overflow: 'scroll',
-          borderRadius: '15px',
-          textAlign: 'left',
-          fontSize: '16px',
         }}
       >
         <Box
           sx={{
-            margin: '4px',
-            marginLeft: '10px',
-            height: '30px',
+            background: textAreaStyle.color,
+            color: 'black',
+            width: '100%',
+            height: '70px',
+            overflow: 'scroll',
+            borderRadius: '15px',
+            textAlign: 'left',
+            fontSize: '16px',
+            '@media screen and (max-width: 820px)': {
+              width: '55%',
+            },
           }}
         >
-          <b>Function Information</b>
-          {selectedDeployedFunction && (
-            <div>
-              <span>
-                {`
+          <Box
+            sx={{
+              margin: '4px',
+              marginLeft: '10px',
+              height: '40px',
+            }}
+          >
+            <b>Function Information</b>
+            {selectedDeployedFunction && (
+              <div id="func-div">
+                <span>
+                  {`
                 Function Name: ${selectedDeployedFunction}
-                Invocation count: ${
-                  findFuncFromRedux(selectedDeployedFunction)
-                    ?.invocationCount || 0
-                }
                 `}
-              </span>
-            </div>
-          )}
+                </span>
+                <span className="func-info">
+                  {
+                    `Invocation count: ${invokeCount}`
+                    // `Invocation count: ${
+                    //   findFuncFromRedux(selectedDeployedFunction)
+                    //     ?.invocationCount || 0}`
+                  }
+                </span>
+              </div>
+            )}
+          </Box>
         </Box>
-      </Box>
-      <div>
         <TextField
           onChange={(newReqBody) => {
             setRegBody(newReqBody.target.value);
@@ -407,6 +437,9 @@ const OpenFaaS = (props: Modules) => {
             marginBottom: '0px',
             width: '100%',
             fontSize: '10px',
+            '@media screen and (max-width: 820px)': {
+              width: '55%',
+            },
           }}
         />
         <TextField
@@ -423,12 +456,15 @@ const OpenFaaS = (props: Modules) => {
             paddingTop: '15px',
             borderRadius: '5px',
             marginRight: '3px',
-            marginBottom: '0px',
+            marginBottom: '20px',
             width: '100%',
             fontSize: '10px',
+            '@media screen and (max-width: 820px)': {
+              width: '55%',
+            },
           }}
         />
-      </div>
+      </Box>
     </Container>
   );
 };
