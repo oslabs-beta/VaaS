@@ -1,0 +1,58 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+.costContainer {
+    display: flex;
+    flex-direction: column;
+    min-width: 1080px;
+    border: red solid 5px;
+    justify-content: start;
+}
+
+.actualDisplay {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.xivContainers {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    min-width: 1080px;
+    border: black solid 5px;
+    justify-content: space-between;
+}
+
+.center {
+    justify-self: center;
+    font-size: 0.9rem;
+}
+
+.verticalLeft {
+    display: flex;
+    flex-direction: column;
+}
+
+.verticalLeft span {
+    font-size: 0.8rem;
+}
+
+.verticalCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.verticalCenter span {
+    font-size: 0.8rem;
+}
+
+.inputField {
+    width: 80%;
+    height: 80%;
+    align-self: center;
+    font-size: 0.8rem;
+}

@@ -6,6 +6,7 @@ import Home from './Home/Home';
 import Register from './Login/Register';
 import Module from './Cards/Module';
 import PrivateRoute from '../Components/Login/PrivateRoute';
+import CostMain from './CostCalc/CostMain';
 
 const queryClient = new QueryClient();
 
@@ -14,6 +15,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/cost" element={<CostMain />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<PrivateRoute />}>
           <Route path="/home" element={<Home />} />
