@@ -7,6 +7,7 @@ import { ClusterTypes, IReducers } from '../../Interfaces';
 import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
+import HomeSidebar from './HomeSidebar';
 import AddClusters from '../Admin/AddCluster';
 import './styles.css';
 
@@ -14,6 +15,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
+  console.log(uiReducer.clusterUIState, 'uiReducer variable');
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState<ClusterTypes[]>([]);
   const darkMode = uiReducer.clusterUIState.darkmode;
@@ -48,29 +50,59 @@ const Home = () => {
       : (document.body.style.backgroundColor = '#3a4a5b');
   }, [darkMode, dispatch, navigate, userData]);
 
+  const resetClusterArray = () => {
+    dispatch(storeClusterDbData(data));
+    setClustersArray(data);
+  };
+
+  const handleFindCluster = (value: string) => {
+    const renderingArr = [];
+    //clustersArray, each element for name
+    if (value === '') return resetClusterArray();
+    console.log(value, 'handlefindcluster value in home');
+    for (let i = 0; i < clustersArray.length; i++) {
+      if (clustersArray[i].name?.toLowerCase().includes(value.toLowerCase())) {
+        renderingArr.push(clustersArray[i]);
+      }
+    }
+    setClustersArray(renderingArr);
+  };
+
+  console.log('cluster Array', clustersArray);
+
   return (
-    <div>
-      <NavBar refetch={refetch} />
-      <div id="HeaderContainer">
-        <div id="Home-Bar-Title">CLUSTERS</div>
-      </div>
-      <div className="Kube-port">
-        <div className="Kube-container" id="Kube-container">
-          {clustersArray?.length
-            ? clustersArray?.map((cluster, index) => (
-                <Kube
-                  isDark={darkMode} //*adding for darkmode
-                  key={index}
-                  _id={cluster._id}
-                  favorite={cluster.favorite}
-                  favoriteStatus={true}
-                  refetch={refetch}
-                />
-              ))
-            : null}
-        </div>
-        {noClusterError}
-      </div>
+    <div id="home-div">
+      <header>
+        <NavBar refetch={refetch} />
+      </header>
+      <section className="mainContent">
+        <aside>
+          <HomeSidebar
+            handleFindCluster={handleFindCluster}
+            resetClusterArray={resetClusterArray}
+          />
+        </aside>
+        <section className="contentWrapper">
+          <div id="cluster-title-modals">
+            <div id="Home-Bar-Title">CLUSTERS</div>
+            <div className="Kube-container" id="Kube-container">
+              {clustersArray?.length
+                ? clustersArray?.map((cluster, index) => (
+                    <Kube
+                      isDark={darkMode} //*adding for darkmode
+                      key={`clusterarray${index}`}
+                      _id={cluster._id}
+                      favorite={cluster.favorite}
+                      favoriteStatus={true}
+                      refetch={refetch}
+                    />
+                  ))
+                : null}
+            </div>
+            {noClusterError}
+          </div>
+        </section>
+      </section>
       {/* <AddClusters refetch={'cash'}  handleAddClusters={AddClusters}/> */}
     </div>
   );

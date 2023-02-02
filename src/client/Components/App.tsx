@@ -7,6 +7,9 @@ import Register from './Login/Register';
 import Module from './Cards/Module';
 import PrivateRoute from '../Components/Login/PrivateRoute';
 import CostMain from './CostCalc/CostMain';
+import { ProSidebarProvider } from 'react-pro-sidebar';
+import WrappedPrivateRoute from './WrappedPrivateRoute';
+
 
 const queryClient = new QueryClient();
 

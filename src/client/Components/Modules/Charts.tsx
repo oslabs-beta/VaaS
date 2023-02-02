@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
+// import { Box, Modal } from '@mui/material';
 import { Box } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import axiosInstance from '../../Queries/axios';
@@ -59,7 +60,7 @@ const Charts = (props: Modules) => {
     'Controller Manager': dashboardIds.ControllerManager,
   };
   const costDashboard = {
-    Kubecost: state[0].cost_Url + ':' + state[0].cost_port,
+    Kubecost: state[0].cost_url + ':' + state[0].cost_port,
   };
 
   const emptyDashboard = {};
@@ -100,6 +101,7 @@ const Charts = (props: Modules) => {
       }
       case 'kubecost': {
         setIsGrafana(false);
+        console.log(state[0], 'state');
         console.log(costDashboard, 'costdashboard');
         setDashboardObj(costDashboard);
         break;

@@ -77,14 +77,15 @@
   width: 100%;
 }
 .category {
-  height: 20vh;
-  width: 20vw;
+  height: 15vh;
+  width: 15vw;
   border: 3px solid #15161d;
   box-shadow: 1px 1px 10px 0.5px #403e54;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 30px;
+  font-size: 1.5vw;
   color: white;
   background-color: #181a1d;
   cursor: pointer;
@@ -92,12 +93,12 @@
 .category:hover {
   transform: scale(1.15);
   transition: 0.1s;
-  box-shadow: 4px 4px 15px 0.5px #837fb3;
+  box-shadow: 4px 4px 15px 0.5px #2705ff;
 }
 .categoryList {
   display: flex;
   flex-wrap: wrap;
-  gap: 60px;
+  gap: 20px;
   justify-content: center;
 }
 

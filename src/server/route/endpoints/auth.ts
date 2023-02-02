@@ -37,6 +37,7 @@ router
       await attempt.save();
       terminal(`Success: New user [${userId}] stored in MongoDB collection`);
       // SET x-auth-token IN RESPONSE HEADER TO BE JWT token
+      console.log('line 39 userID', userId);
       return res
         .status(201)
         .header('x-auth-token', jwt.token)
@@ -64,6 +65,7 @@ router
         { cookieId: jwt.token },
         { new: true }
       ).exec();
+      console.log('Line 68 userID', userId);
       terminal('Success: User login information authenticated');
       return res.status(201).header('x-auth-token', jwt.token).json({ userId });
     } catch (err) {

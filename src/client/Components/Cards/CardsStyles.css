@@ -1,12 +1,117 @@
-.Module-top-row {
-  width: 100%;
-  margin-top: 15px;
-  margin-bottom: 45px;
+.mainWrapper {
   display: flex;
-  justify-content: space-around;
+  flex-direction: row;
+  height: 100vw;
 }
+
+.rightContent{
+  margin-top: 15px;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Module-top-row {
+  width: 170px;
+  height: 110%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.Module-top-row button {
+  width:auto
+}
+
 .Cluster-Kube-Box {
   margin-top: 20px;
+}
+
+.clusterTitle {
+  margin-bottom: 15px;
+}
+
+.Header-Bar-Title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: auto !important;
+}
+#module-content {
+  margin-top: 10px;
+  width: 100%;
+  
+}
+.chartsBackground {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%
+}
+
+.categoryList {
+display: inline-flex;
+width: 100%
+}
+
+.ModuleSidenav {
+  color: white;
+  width: 250px;
+  transition: width 0.3s ease-in-out;
+  height: 100vw;
+  background-color: #2a2e36;
+  padding-top: 28px;
+  border-right: #7986CB;
+  border-style: solid;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-width: 2px;
+}
+
+.ModuleSidenavClosed {
+  transition: width 0.3s ease-in-out;
+  width: 100px;
+  padding-top: 28px;
+  border-right: #7986CB;
+  border-style: solid;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-width: 2px;
+  height: 100%;
+}
+
+.sidebarMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  /* width: 200px; */
+}
+
+.menuCollapse {
+  display: flex;
+  margin-right: 0px; !important
+  width: 60%;
+  color: black;
+}
+
+.menuExpand {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.menuButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100px; !important
 }
 
 .closeButton {
@@ -120,10 +225,6 @@ dd {
 }
 
 .Cluster-Buttons {
-  padding: 0;
-  margin: 0;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
   color: white;
   font-weight: 400;
 }
@@ -176,7 +277,7 @@ dd {
 .Cluster-Kube-Box:hover {
   transform: scale(1.03);
   transition: 0.2s;
-  box-shadow: 1px 1px 10px 0.5px #837fb3;
+  box-shadow: 1px 1px 10px 0.5px #2705ff;
 }
 
 .Cluster-Information {
@@ -185,13 +286,40 @@ dd {
   justify-content: space-between;
   margin-inline: 12px;
 }
+.closeBtn {
+  color: black;
+  display: flex;
+  background-color: #A1A9B5;
+  cursor: pointer;
+  border: 0px;
+  width: 100%;
+}
+.openBtn {
+  display: flex;
+  background-color: #A1A9B5;
+  border: 0px;
+}
+
+.menuButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 10px;
+  width: 250px
+}
+
+.menuButtonsClosed {
+  display: none;
+  width: 100px
+}
 
 /* Settings Modal styling */
 
 .Settings-Modal-Container {
   position: fixed;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 /*280 > 198
+
