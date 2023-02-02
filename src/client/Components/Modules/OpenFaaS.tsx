@@ -44,6 +44,9 @@ const OpenFaaS = (props: Modules) => {
   });
   const [inputStyle] = useState({
     width: '45%',
+    '@media screen and (max-width: 820px)': {
+      width: '75%',
+    },
   });
 
   const [textAreaRows, setTextAreaRows] = useState(4);
@@ -160,6 +163,7 @@ const OpenFaaS = (props: Modules) => {
 
   const handleDelete = async () => {
     try {
+      console.log(optionRef, 'inside handle delete');
       console.log('DeployedFunc is: ', deployedFunctions);
 
       const body = {
@@ -177,8 +181,6 @@ const OpenFaaS = (props: Modules) => {
             deployedFunctions.filter((el) => el.name !== body.functionName)
           )
         );
-        // console.log(deployedFunctions, 'deployed in handle delete');
-        // console.dir(e.target.parentElement.previousSibling);
 
         setInvokedOutput('Deployed function deleted');
       }
@@ -287,6 +289,7 @@ const OpenFaaS = (props: Modules) => {
                 name: 'Deployed Functions',
                 id: 'uncontrolled-native',
               }}
+              ref={optionRef}
               onChange={handleDeployedFunctionChange}
             >
               <option value="" selected>
@@ -387,7 +390,7 @@ const OpenFaaS = (props: Modules) => {
             textAlign: 'left',
             fontSize: '16px',
             '@media screen and (max-width: 820px)': {
-              width: '55%',
+              width: '80%',
             },
           }}
         >
@@ -441,7 +444,7 @@ const OpenFaaS = (props: Modules) => {
             width: '100%',
             fontSize: '10px',
             '@media screen and (max-width: 820px)': {
-              width: '55%',
+              width: '80%',
             },
           }}
         />
@@ -463,7 +466,7 @@ const OpenFaaS = (props: Modules) => {
             width: '100%',
             fontSize: '10px',
             '@media screen and (max-width: 820px)': {
-              width: '55%',
+              width: '80%',
             },
           }}
         />
