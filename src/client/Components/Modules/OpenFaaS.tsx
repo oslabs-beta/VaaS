@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
 import { FunctionTypes } from '../../Interfaces/IFunction';
@@ -51,6 +51,9 @@ const OpenFaaS = (props: Modules) => {
     color: '#F0F0F0',
     height: '140px',
   });
+
+  const optionRef = useRef();
+
   const fetchFunctions = async () => {
     console.log(id);
     try {
@@ -100,12 +103,12 @@ const OpenFaaS = (props: Modules) => {
       const getFunc = openFaaSFunctions.find(
         (element) => element.name === selectedOpenFaaSFunction
       );
-      console.log(
-        'THIS IS BEFORE POST REQ',
-        id,
-        selectedOpenFaaSFunction,
-        getFunc
-      );
+      // console.log(
+      //   'THIS IS BEFORE POST REQ',
+      //   id,
+      //   selectedOpenFaaSFunction,
+      //   getFunc
+      // );
       const body = {
         clusterId: id,
         service: selectedOpenFaaSFunction,
@@ -155,7 +158,7 @@ const OpenFaaS = (props: Modules) => {
     }
   };
 
-  const handleDelete = async (e: React.MouseEvent<HTMLElement>) => {
+  const handleDelete = async () => {
     try {
       console.log('DeployedFunc is: ', deployedFunctions);
 
@@ -190,9 +193,9 @@ const OpenFaaS = (props: Modules) => {
   };
 
   const handleDeployedFunctionChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    console.log('delete triggers this');
     setSelectedDeployedFunction(e.target.value);
     const funcObj = findFuncFromRedux(e.target.value);
-
     if (typeof funcObj === 'object' && funcObj.invocationCount) {
       setInvokeCount(funcObj.invocationCount);
     } else {
