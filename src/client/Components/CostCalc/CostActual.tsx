@@ -2,141 +2,73 @@ import React, { useState, useEffect, useReducer } from 'react';
 import './costStyle.css';
 import InfoBox from './InfoBox';
 import MonthContainer from './MonthContainer';
+import RowTotal from './RowTotal';
 import SideLabel from './SideLabel';
 
-const ACTIONS = {
+export const ACTIONS = {
   LOADDATA: 'load_data',
   CHANGEMULTI: 'change_multi',
 };
 
 function reducer(load, action) {
   switch (action.type) {
-    case ACTIONS.LOADDATA:
-      return {
-        ...load,
-        cpu: [
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-          action.payload[0],
-        ],
-        gpu: [
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-          action.payload[1],
-        ],
-        network: [
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-          action.payload[2],
-        ],
-        lb: [
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-          action.payload[3],
-        ],
-        pv: [
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-          action.payload[4],
-        ],
-        ram: [
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-          action.payload[5],
-        ],
-        shared: [
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-          action.payload[6],
-        ],
-        external: [
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-          action.payload[7],
-        ],
-      };
-    case ACTIONS.CHANGEMULTI:
-      break;
+    case ACTIONS.LOADDATA: {
+      const newLoad = { ...load };
+      for (let i = 0; i <= 11; i++) {
+        const colTotal =
+          action.payload[0] * load.multi[i] +
+          action.payload[1] * load.multi[i] +
+          action.payload[2] * load.multi[i] +
+          action.payload[3] * load.multi[i] +
+          action.payload[4] * load.multi[i] +
+          action.payload[5] * load.multi[i] +
+          action.payload[6] * load.multi[i] +
+          action.payload[7] * load.multi[i];
+        newLoad.tag.push(i);
+        newLoad.cpu.push(action.payload[0] * load.multi[i]);
+        newLoad.gpu.push(action.payload[1] * load.multi[i]);
+        newLoad.network.push(action.payload[2] * load.multi[i]);
+        newLoad.lb.push(action.payload[3] * load.multi[i]);
+        newLoad.pv.push(action.payload[4] * load.multi[i]);
+        newLoad.ram.push(action.payload[5] * load.multi[i]);
+        newLoad.shared.push(action.payload[6] * load.multi[i]);
+        newLoad.external.push(action.payload[7] * load.multi[i]);
+        newLoad.total.push(colTotal);
+      }
+      return newLoad;
+    }
+    case ACTIONS.CHANGEMULTI: {
+      const newLoad = { ...load };
+      newLoad.multi[action.payload[0]] = action.payload[1];
+      newLoad.cpu[action.payload[0]] = Math.round(
+        newLoad.cpu[action.payload[0]] * action.payload[1]
+      );
+      newLoad.gpu[action.payload[0]] = Math.round(
+        newLoad.gpu[action.payload[0]] * action.payload[1]
+      );
+      newLoad.network[action.payload[0]] = Math.round(
+        newLoad.network[action.payload[0]] * action.payload[1]
+      );
+      newLoad.lb[action.payload[0]] = Math.round(
+        newLoad.lb[action.payload[0]] * action.payload[1]
+      );
+      newLoad.pv[action.payload[0]] = Math.round(
+        newLoad.pv[action.payload[0]] * action.payload[1]
+      );
+      newLoad.ram[action.payload[0]] = Math.round(
+        newLoad.ram[action.payload[0]] * action.payload[1]
+      );
+      newLoad.shared[action.payload[0]] = Math.round(
+        newLoad.shared[action.payload[0]] * action.payload[1]
+      );
+      newLoad.external[action.payload[0]] = Math.round(
+        newLoad.external[action.payload[0]] * action.payload[1]
+      );
+      newLoad.total[action.payload[0]] = Math.round(
+        newLoad.total[action.payload[0]] * action.payload[1]
+      );
+      return newLoad;
+    }
     case 'default':
       return load;
   }
@@ -145,7 +77,8 @@ function reducer(load, action) {
 export default function CostActual() {
   const [data, setData] = useState([]);
   const [load, dispatch] = useReducer(reducer, {
-    multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    tag: [],
     cpu: [],
     gpu: [],
     network: [],
@@ -154,6 +87,7 @@ export default function CostActual() {
     ram: [],
     shared: [],
     external: [],
+    total: [],
   });
 
   const fetchData = async () => {
@@ -256,22 +190,31 @@ export default function CostActual() {
   }
 
   const actualInfoArr = [];
-  for (let i = 1; i <= 13; i++) {
-    if (i === 1) actualInfoArr.push(<SideLabel />);
-    actualInfoArr.push(
-      <InfoBox
-        cpu={load.cpu[i - 1]}
-        gpu={load.gpu[i - 1]}
-        network={load.network[i - 1]}
-        lb={load.lb[i - 1]}
-        pv={load.pv[i - 1]}
-        ram={load.ram[i - 1]}
-        shared={load.shared[i - 1]}
-        external={load.external[i - 1]}
-        dispatch={dispatch}
-        reducer={reducer}
-      />
-    );
+  for (let i = 1; i <= 14; i++) {
+    if (i === 1) {
+      actualInfoArr.push(<SideLabel key={i} />);
+      continue;
+    }
+    if (i === 14) actualInfoArr.push(<RowTotal key={i} load={load} />);
+    else {
+      actualInfoArr.push(
+        <InfoBox
+          key={i}
+          tag={load.tag[i - 2]}
+          cpu={load.cpu[i - 2]}
+          gpu={load.gpu[i - 2]}
+          network={load.network[i - 2]}
+          lb={load.lb[i - 2]}
+          pv={load.pv[i - 2]}
+          ram={load.ram[i - 2]}
+          shared={load.shared[i - 2]}
+          external={load.external[i - 2]}
+          total={load.total[i - 2]}
+          dispatch={dispatch}
+          reducer={reducer}
+        />
+      );
+    }
   }
   return (
     <div className="actualDisplay">

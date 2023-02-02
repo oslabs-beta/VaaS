@@ -12,6 +12,7 @@ export default function SideLabel() {
       <span>RAM</span>
       <span>Shared</span>
       <span>External</span>
+      <span>Total</span>
     </div>
   );
 }

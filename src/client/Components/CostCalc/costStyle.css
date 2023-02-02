@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+.chartArea {
+    height: 30%;
+}
+
 .costContainer {
     display: flex;
     flex-direction: column;
@@ -52,7 +56,7 @@
 
 .inputField {
     width: 80%;
-    height: 15%;
+    height: 10%;
     text-align: center;
     font-size: 0.8rem;
 }
