@@ -270,7 +270,6 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
           boxShadow: '1px 1px 10px .5px #403e54',
           borderRadius: '0px',
           marginBottom: '20px',
-          overflowY: 'scroll',
         }}
       >
         <Box sx={{ width: '100%' }}>

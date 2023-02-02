@@ -19,7 +19,6 @@ import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrow
 import { Visualizer, Custom } from '../Modules';
 import './CardsStyles.css';
 import '../Modules/network.css';
-import ModuleSidebar from './ModuleSidebar';
 
 // needs to be chnaged to redux, under UI reducer ?
 const Module = (props: Modules) => {
@@ -29,6 +28,7 @@ const Module = (props: Modules) => {
   // Hooks used to indicate which module should be rendered in
   const [currentModule, setCurrentModule] = useState('module');
   const [open, setOpen] = useState(true);
+  const [btnText, setBtnText] = useState('Collapse');
   const [faas, setFaaS] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [currModal, setCurrModal] = useState('');
@@ -42,6 +42,9 @@ const Module = (props: Modules) => {
 
   const toggleOpen = () => {
     setOpen(!open);
+    if (btnText === 'Collapse') {
+      setBtnText('Expand');
+    } else setBtnText('Collapse');
   };
 
   const [style, setStyle] = useState(
@@ -194,8 +197,10 @@ const Module = (props: Modules) => {
         <div className={open ? 'ModuleSidenav' : 'ModuleSidenavClosed'}>
           <div className="sidebarMenu">
             <div className="menuCollapse">
-              <button className="menuBtn" onClick={toggleOpen}>
-                Click Me
+              <button
+                className={open ? 'closeBtn' : 'openBtn'}
+                onClick={toggleOpen}
+              >
                 {open ? (
                   <KeyboardDoubleArrowLeftIcon />
                 ) : (
@@ -203,7 +208,7 @@ const Module = (props: Modules) => {
                 )}
               </button>
             </div>
-            <div className="Module-top-row">
+            <div className={open ? 'menuButtons' : 'menuButtonsClosed'}>
               <Button
                 sx={buttonStyle}
                 variant="text"

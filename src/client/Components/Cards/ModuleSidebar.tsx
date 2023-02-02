@@ -22,6 +22,7 @@ const ModuleSidebar = (props: Modules) => {
   const [open, setOpen] = useState(true);
   const [currModal, setCurrModal] = useState('');
   const [openModal, setOpenModal] = useState(false);
+  const [btnText, setBtnText] = useState('Collapse');
   const [faas, setFaaS] = useState(true);
   const [currentModule, setCurrentModule] = useState('module');
   const [functionCost, setFunctionCost] = useState(false);
@@ -34,6 +35,9 @@ const ModuleSidebar = (props: Modules) => {
 
   const toggleOpen = () => {
     setOpen(!open);
+    if (btnText === 'Collapse') {
+      setBtnText('Expand');
+    } else setBtnText('Collapse');
   };
 
   useEffect(() => {
@@ -123,8 +127,10 @@ const ModuleSidebar = (props: Modules) => {
     <div className={open ? 'ModuleSidenav' : 'ModuleSidenavClosed'}>
       <div className="sidebarMenu">
         <div className="menuCollapse">
-          <button className="menuBtn" onClick={toggleOpen}>
-            Click Me
+          <button
+            className={open ? 'closeBtn' : 'openBtn'}
+            onClick={toggleOpen}
+          >
             {open ? (
               <KeyboardDoubleArrowLeftIcon />
             ) : (
@@ -132,7 +138,7 @@ const ModuleSidebar = (props: Modules) => {
             )}
           </button>
         </div>
-        <div className="menuButtons">
+        <div className={open ? 'menuButtons' : 'menuButtonsClosed'}>
           <Button
             variant="text"
             id="basic-button"

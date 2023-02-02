@@ -14,11 +14,14 @@
   justify-content: space-between;
   background-color: rgb(16, 16, 16);
   align-items: center;
-  box-shadow: 0px 5px 5px rgb(69, 69, 69);
+  border-bottom: #7986CB;
+  border-top: 1px;
+  border-style: solid;
 }
 
 .mainContent {
   display: flex;
+  background-color: ;
 }
 
 .contentWrapper{
@@ -107,42 +110,76 @@
 
 /* NEW SIDEBAR */
 .sidenav {
-  margin-top: 5px;
   color: white;
   position: relative;
   top: 0px;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-start;
   width: 250px;
   transition: width 0.3s ease-in-out;
-  height: 100vh;
-  background-color: rgb(10,25,41);
+  height: 100%;
+  background-color: #2a2e36;
   padding-top: 28px;
+  border-right: #7986CB;
+  border-style: solid;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-width: 2px;
 }
 .sidenavClosed {
-  display: inline-flex;
-  flex-direction: column;
   transition: width 0.3s ease-in-out;
-  width: 200px
+  width: 100px;
+  padding-top: 28px;
+  border-right: #7986CB;
+  border-style: solid;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-width: 2px;
+  height: 100%;
 }
 
 .menuCollapse {
-  display: inline-flex;
+  display: flex;
+  margin-right: 0px; !important
+  width: 60%;
+  color: black;
+}
+
+.menuExpand {
+  display: flex;
   justify-content: flex-end;
-  align-items: flex-end;
 }
 
 .menuButtons {
-  display: column;
-  width: 207px
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 10px;
+  width: 250px
+}
+
+.menuButtons button {
+  display: flex;
+  width: 190px;
 }
 
 .menuButtonsClosed {
-  display: inline-flex;
-  flex-direction: column;
-  width: 10px
+  display: none;
+  width: 100px
+}
+
+.clusterButton {
+  margin-top: 25px;
+  background-color: #A1A9B5 ;
+}
+
+.search {
+  display: flex;
+  margin-top: 25px;
+  flex-direction: row;
+  align-items: center;
 }
 
 #outlined-basic {
@@ -171,13 +208,16 @@
 .sideitem:hover {
   background-color: #244f7d1c;
 }
-.menuBtn {
-  display: flex;
-  justify-content: center;
-  align-self: flex-start;  
+.closeBtn {
   color: black;
-  background-color: #380fa0;
-  border: none;
+  display: flex;
+  background-color: #A1A9B5;
   cursor: pointer;
-  padding-left: 20px;
+  border: 0px;
+  width: 100%;
+}
+.openBtn {
+  display: flex;
+  background-color: #A1A9B5;
+  border: 0px;
 }

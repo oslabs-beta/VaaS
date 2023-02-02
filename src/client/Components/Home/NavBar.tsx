@@ -14,7 +14,6 @@ import AddClusters from '../Admin/AddCluster';
 export default function NavBar(props: { refetch?: any }) {
   const navigate = useNavigate();
   const [adminModal, handleAdminModal] = useState(false);
-  const [AddCluster, handleAddClusters] = useState(false);
   const handleLogOut = async (): Promise<void> => {
     const res = await logOutUser();
     if (!res.data.valid) navigate('/');
@@ -96,17 +95,6 @@ export default function NavBar(props: { refetch?: any }) {
       >
         <MenuItem
           onClick={() => {
-            handleAddClusters(true);
-          }}
-          className="logoutMenuButton"
-          onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
-          onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
-          sx={{ fontFamily: 'Montserrat, sans-serif' }}
-        >
-          &#9784; ADD CLUSTER
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
             handleAdminModal(true);
           }}
           onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
@@ -136,19 +124,6 @@ export default function NavBar(props: { refetch?: any }) {
           <Admin refetch={props.refetch} handleAdminModal={handleAdminModal} />
         </div>
       </Modal>
-      <Modal
-        open={AddCluster}
-        onClose={() => {
-          handleAddClusters(false);
-        }}
-      >
-        <div>
-          <AddClusters
-            refetch={props.refetch}
-            handleAddClusters={handleAddClusters}
-          />
-        </div>
-      </Modal>
     </div>
   );
-}
+};
