@@ -179,20 +179,6 @@ const Module = (props: Modules) => {
       <header>
         <NavBar />
       </header>
-      {/* <div className="clusterTitle">
-        {faas && (
-          <div className="Header-Bar-Title">OPENFAAS: {state[0].name}</div>
-        )}
-        {charts && (
-          <div className="Header-Bar-Title">GRAPHS: {state[0].name}</div>
-        )}
-        {functionCost && (
-          <div className="Header-Bar-Title">FAAS COST: {state[0].name}</div>
-        )}
-        {alert && (
-          <div className="Header-Bar-Title">ALERTS: {state[0].name}</div>
-        )}
-      </div> */}
       <section className="mainWrapper">
         <div className={open ? 'ModuleSidenav' : 'ModuleSidenavClosed'}>
           <div className="sidebarMenu">
@@ -210,7 +196,10 @@ const Module = (props: Modules) => {
             </div>
             <div className={open ? 'menuButtons' : 'menuButtonsClosed'}>
               <Button
-                sx={buttonStyle}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
                 variant="text"
                 id="basic-button"
                 className="module-button"
@@ -221,7 +210,10 @@ const Module = (props: Modules) => {
               </Button>
 
               <Button
-                sx={buttonStyle}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
                 variant="text"
                 id="basic-button"
                 className="module-button"
@@ -235,7 +227,10 @@ const Module = (props: Modules) => {
               </Button>
 
               <Button
-                sx={buttonStyle}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
                 variant="text"
                 id="basic-button"
                 className="module-button"
@@ -249,7 +244,10 @@ const Module = (props: Modules) => {
               </Button>
 
               <Button
-                sx={buttonStyle}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
                 variant="text"
                 id="basic-button"
                 className="module-button"
@@ -260,7 +258,10 @@ const Module = (props: Modules) => {
               </Button>
 
               <Button
-                sx={buttonStyle}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
                 variant="text"
                 id="basic-button"
                 className="module-button"
@@ -271,7 +272,10 @@ const Module = (props: Modules) => {
               </Button>
 
               <Button
-                sx={buttonStyle}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
                 variant="text"
                 id="basic-button"
                 className="module-button"

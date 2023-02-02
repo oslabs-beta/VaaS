@@ -142,9 +142,11 @@
 
 .menuCollapse {
   display: flex;
+  justify-content: flex-end;
   margin-right: 0px; !important
   width: 60%;
-  color: black;
+  color: #101010;
+  border-radius: 5px, 0px, 0px, 5px;
 }
 
 .menuExpand {
@@ -215,9 +217,11 @@
   cursor: pointer;
   border: 0px;
   width: 100%;
+  border-radius: 5px 0px 0px 5px;
 }
 .openBtn {
   display: flex;
   background-color: #A1A9B5;
   border: 0px;
+  border-radius: 0px 5px 5px 0px;
 }

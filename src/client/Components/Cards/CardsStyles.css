@@ -5,7 +5,8 @@
 }
 
 .rightContent{
-  margin-top: 5px;
+  margin-top: 15px;
+  width: 70%;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -31,7 +32,7 @@
 }
 
 .clusterTitle {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .Header-Bar-Title {
@@ -43,7 +44,7 @@
 }
 #module-content {
   margin-top: 10px;
-  width: 70%
+  width: 100%;
   
 }
 .chartsBackground {
@@ -90,7 +91,7 @@ width: 100%
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
-  width: 220px;
+  /* width: 200px; */
 }
 
 .menuCollapse {
@@ -109,7 +110,8 @@ width: 100%
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: flex-start;
+  width: 100px; !important
 }
 
 .closeButton {
@@ -223,10 +225,6 @@ dd {
 }
 
 .Cluster-Buttons {
-  padding: 0;
-  margin: 0;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
   color: white;
   font-weight: 400;
 }
@@ -279,7 +277,7 @@ dd {
 .Cluster-Kube-Box:hover {
   transform: scale(1.03);
   transition: 0.2s;
-  box-shadow: 1px 1px 10px 0.5px #837fb3;
+  box-shadow: 1px 1px 10px 0.5px #2705ff;
 }
 
 .Cluster-Information {

@@ -93,7 +93,7 @@
 .category:hover {
   transform: scale(1.15);
   transition: 0.1s;
-  box-shadow: 4px 4px 15px 0.5px #837fb3;
+  box-shadow: 4px 4px 15px 0.5px #2705ff;
 }
 .categoryList {
   display: flex;
