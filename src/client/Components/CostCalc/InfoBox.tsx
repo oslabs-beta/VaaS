@@ -1,17 +1,17 @@
 import React from 'react';
 
-export default function InfoBox() {
+export default function InfoBox(props) {
   return (
     <div className="verticalCenter">
       <input className="inputField"></input>
-      <span>CPU</span>
-      <span>GPU</span>
-      <span>Network</span>
-      <span>Load Balancer</span>
-      <span>Persistent Volume</span>
-      <span>RAM</span>
-      <span>Shared</span>
-      <span>External</span>
+      <span>{props.cpu}</span>
+      <span>{props.gpu}</span>
+      <span>{props.network}</span>
+      <span>{props.lb}</span>
+      <span>{props.pv}</span>
+      <span>{props.ram}</span>
+      <span>{props.shared}</span>
+      <span>{props.external}</span>
     </div>
   );
 }

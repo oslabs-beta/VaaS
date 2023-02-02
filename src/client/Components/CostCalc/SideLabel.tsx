@@ -8,7 +8,7 @@ export default function SideLabel() {
       <span>GPU</span>
       <span>Network</span>
       <span>Load Balancer</span>
-      <span>Persistent Volume</span>
+      <span>Persistent Vol.</span>
       <span>RAM</span>
       <span>Shared</span>
       <span>External</span>

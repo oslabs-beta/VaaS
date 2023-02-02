@@ -52,7 +52,7 @@
 
 .inputField {
     width: 80%;
-    height: 80%;
-    align-self: center;
+    height: 15%;
+    text-align: center;
     font-size: 0.8rem;
 }
