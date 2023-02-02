@@ -25,7 +25,7 @@ import QueryStats from '@mui/icons-material/QueryStats';
 import Functions from '@mui/icons-material/Functions';
 import AttachMoney from '@mui/icons-material/AttachMoney';
 
-import './styles.css';
+import './CardsStyles.css';
 
 // Dashboard for each cluster which is rendered onto the home page
 const Kube = (props: ClusterTypes) => {
@@ -93,13 +93,13 @@ const Kube = (props: ClusterTypes) => {
         display: 'flex',
         backgroundColor: '#181A1D',
         color: 'white',
-        width: '60%',
+        width: '50%',
         minWidth: '500px',
-        maxWidth: '1500px',
-        minHeight: '350px',
+        minHeight: '325px',
         height: '30vh',
         maxHeight: '450px',
         border: '2px solid #15161d',
+        borderRadius: '10px',
         boxShadow: '1px 1px 10px .5px #403e54',
       }}
     >
@@ -111,7 +111,7 @@ const Kube = (props: ClusterTypes) => {
           flexDirection: 'column',
           margin: '0',
           padding: '0',
-          minWidth: '150px',
+          minWidth: '167px',
           borderRight: '2px solid #15161d',
         }}
       >
@@ -124,6 +124,8 @@ const Kube = (props: ClusterTypes) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            paddingLeft: '15px',
+            paddingRight: '10px',
           }}
         >
           {dbData?.name}
@@ -134,16 +136,23 @@ const Kube = (props: ClusterTypes) => {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '10px',
+            justifyContent: 'flex-start',
+            alignContent: 'flex-end',
+            gap: '5px',
+            padding: '0px',
+            paddingLeft: '10px',
             paddingTop: '10px',
-            paddingBottom: '10px',
           }}
         >
           <Button
             className="Cluster-Buttons"
             id="Graphs-Button"
             fullWidth={true}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              pr: '0px',
+            }}
             startIcon={<Insights />}
             sx={{ color: 'white' }}
             onClick={() =>
@@ -157,6 +166,11 @@ const Kube = (props: ClusterTypes) => {
           <Button
             className="Cluster-Buttons"
             id="Cluster-Map-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              pr: '0px',
+            }}
             fullWidth={true}
             startIcon={<ViewInAr />}
             sx={{ color: 'white' }}
@@ -170,6 +184,11 @@ const Kube = (props: ClusterTypes) => {
           <Button
             className="Cluster-Buttons"
             id="Queries-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              pr: '0px',
+            }}
             fullWidth={true}
             startIcon={<QueryStats />}
             sx={{ color: 'white' }}
@@ -183,6 +202,11 @@ const Kube = (props: ClusterTypes) => {
           <Button
             className="Cluster-Buttons"
             id="Alerts-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              pr: '0px',
+            }}
             fullWidth={true}
             startIcon={<AddAlert />}
             sx={{ color: 'white' }}
@@ -193,23 +217,29 @@ const Kube = (props: ClusterTypes) => {
             Alerts
           </Button>
         </Box>
-        <Divider />
+        <Divider sx={{ pt: '10px' }} />
         <Box
           className="Cluster-Kube-Box-Modules-Faas"
           sx={{
-            height: '200px',
+            height: '75px',
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '10px',
+            padding: '0px',
+            gap: '5px',
+            paddingLeft: '10px',
           }}
         >
           <Button
             className="Cluster-Buttons"
             id="OpenFaaS-Button"
             fullWidth={true}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+            }}
             startIcon={<Functions />}
             sx={{ color: 'white' }}
             onClick={() =>
@@ -221,6 +251,10 @@ const Kube = (props: ClusterTypes) => {
           <Button
             className="Cluster-Buttons"
             id="FaaSCost-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+            }}
             fullWidth={true}
             startIcon={<AttachMoney />}
             sx={{ color: 'white' }}
@@ -238,7 +272,7 @@ const Kube = (props: ClusterTypes) => {
         className="Cluster-Kube-Box-Right"
         sx={{
           width: '100%',
-          height: '100%',
+          height: '200px',
           display: 'flex',
           flexDirection: 'column',
           padding: '0',
@@ -254,6 +288,7 @@ const Kube = (props: ClusterTypes) => {
             maxHeight: '60px',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <div className="Cluster-Information">
