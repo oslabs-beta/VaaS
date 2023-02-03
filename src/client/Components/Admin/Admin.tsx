@@ -270,7 +270,6 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
           boxShadow: '1px 1px 10px .5px #403e54',
           borderRadius: '0px',
           marginBottom: '20px',
-          overflow: 'scroll',
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -296,13 +295,13 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                   color: '#FFF',
                 }}
               />
-              <Tab
+              {/* <Tab
                 label="About"
                 {...a11yProps(2)}
                 sx={{
                   color: '#FFF',
                 }}
-              />
+              /> */}
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
@@ -380,7 +379,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
               </div>
             </Container>
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          {/* <TabPanel value={value} index={1}>
             <Container sx={containerStyle}>
               <Button
                 variant="contained"
@@ -398,7 +397,12 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                 Learn about the project
               </Button>
               <Box sx={{ textAlign: 'center' }}>
-                <h3>Developed by:</h3>
+                <h3 id="developed">Developed by:</h3>
+                <p>Brandon Muniz-Rosado</p>
+                <p>Christopher Tenario</p>
+                <p>Johanna Merluza</p>
+                <p>Terrence Granger</p>
+                <p>Steven Tong</p>
                 <p>Young Kim</p>
                 <p>Ahsan Ali </p>
                 <p>Rabea Ahmad</p>
@@ -415,7 +419,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
                 <p>Irvin Ie</p>
               </Box>
             </Container>
-          </TabPanel>
+          </TabPanel> */}
         </Box>
       </Container>
     </div>

@@ -1,0 +1,15 @@
+.func-info{
+  padding-left: 20px;
+}
+
+
+
+@media screen and (max-width: 820px) {
+  #func-div{
+    display: flex;
+    flex-direction: column;
+  }
+  .func-info{
+  padding-left: 0px;
+}
+}

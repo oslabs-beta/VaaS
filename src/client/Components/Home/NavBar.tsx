@@ -14,7 +14,6 @@ import AddClusters from '../Admin/AddCluster';
 export default function NavBar(props: { refetch?: any }) {
   const navigate = useNavigate();
   const [adminModal, handleAdminModal] = useState(false);
-  const [AddCluster, handleAddClusters] = useState(false);
   const handleLogOut = async (): Promise<void> => {
     const res = await logOutUser();
     if (!res.data.valid) navigate('/');
@@ -31,9 +30,9 @@ export default function NavBar(props: { refetch?: any }) {
     <div id="navbar-container">
       <a onClick={() => navigate('/home')}>
         <img
-          alt="vaas logo"
           className="homeicon"
-          src="../../../../public/Images/v4.svg"
+          src="../../../../public/Images/Vaas.png"
+          img-alt=""
         />
       </a>
       <a id="navbar-title">VaaS</a>
@@ -44,11 +43,14 @@ export default function NavBar(props: { refetch?: any }) {
           aria-controls={open ? 'account-menu' : undefined}
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
-          sx={{ backgroundColor: '#181A1D', marginRight: '10px' }}
+          sx={{
+            backgroundColor: '#181A1D',
+            marginRight: '2%',
+          }}
         >
           <Avatar
-            sx={{ width: 45, height: 45 }}
-            src="../../../../public/Images/prof.png"
+            sx={{ width: '70px', height: '70px' }}
+            src="../../../../public/Images/profile.png"
           ></Avatar>
         </IconButton>
       </Tooltip>
@@ -62,11 +64,11 @@ export default function NavBar(props: { refetch?: any }) {
           elevation: 0,
           sx: {
             backgroundColor: '#181A1D',
-            width: '200px',
+            width: '17vw',
             display: 'flex',
             justifyContent: 'center',
             overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px #2704FF)',
+            filter: 'drop-shadow(0px 2px 8px #b882d9)',
             mt: 1.5,
             '& .MuiAvatar-root': {
               width: 32,
@@ -93,23 +95,12 @@ export default function NavBar(props: { refetch?: any }) {
       >
         <MenuItem
           onClick={() => {
-            handleAddClusters(true);
-          }}
-          className="logoutMenuButton"
-          onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
-          onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
-          sx={{ fontFamily: 'Montserrat, sans-serif' }}
-        >
-          &#9784; ADD CLUSTER
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
             handleAdminModal(true);
           }}
           onMouseEnter={(e) => (e.target.style.color = 'rgb(186, 176, 255)')}
           onMouseLeave={(e) => (e.target.style.color = '#ffffff')}
           className="logoutMenuButton"
-          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+          sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '2vw' }}
         >
           &#9784; SETTINGS
         </MenuItem>
@@ -133,19 +124,6 @@ export default function NavBar(props: { refetch?: any }) {
           <Admin refetch={props.refetch} handleAdminModal={handleAdminModal} />
         </div>
       </Modal>
-      <Modal
-        open={AddCluster}
-        onClose={() => {
-          handleAddClusters(false);
-        }}
-      >
-        <div>
-          <AddClusters
-            refetch={props.refetch}
-            handleAddClusters={handleAddClusters}
-          />
-        </div>
-      </Modal>
     </div>
   );
-}
+};
