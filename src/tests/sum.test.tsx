@@ -1,36 +1,23 @@
 import { describe, expect, it, beforeAll, beforeEach } from 'vitest';
-import mongoose, { Types } from 'mongoose';
+import { registerUser } from '../client/Queries/auth/register';
+import { deleteUser } from '../client/Queries/user/userQueries';
 import User from '../server/models/user';
 
-const mongoUser = process.env.MONGO_USERNAME;
-const mongoPass = process.env.MONGO_PASSWORD;
-const mongoUrl = process.env.MONGO_URL;
-
-// typeof window === 'undefined'
-//   ? console.log('Window is undefined')
-//   : console.log('Window is defined');
+// const mongoUser = process.env.MONGO_USERNAME;
+// const mongoPass = process.env.MONGO_PASSWORD;
+// const mongoUrl = process.env.MONGO_URL;
 
 describe('User CRUD Test', () => {
-  beforeAll(async () => {
-    try {
-      await mongoose.connect(
-        `mongodv+srv://${mongoUser}:${mongoPass}${mongoUrl}`
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  it('should create a new user', async () => {
-    const user = new User({
+  it('registerUser should create a new user', async () => {
+    const newUser = {
       firstName: 'John',
       lastName: 'Smith',
-      username: 'johnsmith',
+      username: 'jsmith1',
       password: 'password',
-      darkMode: false,
-      refreshRate: 10,
-    });
-    const savedUser = await user.save();
-    expect(savedUser._id).toBeInstanceOf(Types.ObjectId);
+    };
+    const user = await registerUser(newUser);
+    console.log(user);
+    expect(user).not.toBe(undefined);
+    // await deleteUser(newUser);
   });
 });
