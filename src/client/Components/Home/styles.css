@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: row;
   width: 100vw;
+  height: 100px;
   overflow: hidden;
   justify-content: space-between;
   background-color: rgb(16, 16, 16);
@@ -47,8 +48,8 @@
 
   #navbar-container .css-115fpqh-MuiButtonBase-root-MuiIconButton-root { 
   align-self: center; 
-  height: 5.5vw;
-  width: 5.5vw;
+  height: 75px;
+  width: 75px;
   margin-right: 1em;
   background-color: lightslategray;
 } 
@@ -59,14 +60,14 @@
 
 
 #navbar-container button {
-  height: 30vw;
-  width: 30vw;
+  height: 80px;
+  width: 80px;
 
 }
 
 #navbar-container .homeicon {
-  height: 5.5vw;
-  width: 5.5vw;
+  height: 80px;
+  width: 80px;
   margin-left: 1em;
   padding-top: .5em;
 }
@@ -86,7 +87,7 @@
 
 #navbar-title {
   color: white;
-  font-size: 3.5vw;
+  font-size: 40px;
   font-weight: 100 !important;
 }
 

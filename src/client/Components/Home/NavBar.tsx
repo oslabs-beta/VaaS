@@ -49,7 +49,7 @@ export default function NavBar(props: { refetch?: any }) {
           }}
         >
           <Avatar
-            sx={{ width: '5vw', height: '5vw' }}
+            sx={{ width: '70px', height: '70px' }}
             src="../../../../public/Images/profile.png"
           ></Avatar>
         </IconButton>
