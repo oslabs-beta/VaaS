@@ -18,9 +18,6 @@ const OFReducer = (state: IOFReducer = initialState, action: IOFAction) => {
       };
     }
     case types.GET_DeployedOFFunc: {
-      console.log('adding this to deployed func: ', action.payload);
-      console.log('THIS IS OG STATE: ', state);
-      // if (state.clusterOpenFaaSData[action.payload.clusterId as string]) {
       return {
         ...state,
         deployedFunctions: action.payload,
