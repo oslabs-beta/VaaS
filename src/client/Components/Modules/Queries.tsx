@@ -3,7 +3,7 @@ import React from 'react';
 import { Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
-const Custom = (props: {
+const Queries = (props: {
   handleCustomClose: any;
   customBox: any;
   dbData?: any;
@@ -18,7 +18,7 @@ const Custom = (props: {
         </button>
         <iframe
           src={`${urlOrigin.grafana_url}/dashboard/new?orgId=1&edit`}
-          height="1000px"
+          height="800px"
           width="1250px"
           className="custom-graf"
           frameBorder="0"

@@ -84,194 +84,195 @@ const Login = () => {
 
   return (
     // * VaaS 4.0 moved a lot of the inline styling to the css page
-    <div className="container" id="login-container">
-      <Box
-        id="login-logo-container"
-        sx={{
-          // height: '30vh',
-          // marginTop: '8vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <img
-          alt="login icon"
-          className="login-icon"
-          src="../../../../public/Images/v4.svg"
-        />
-        <Typography
-          // sx={{
-          //   fontSize: '2.5rem',
-          //   marginTop: '0',
-          //   marginBottom: '2vh',
-          //   paddingTop: '0',
-          //   letterSpacing: '0.3rem',
-          //   color: '#fff',
-          //   cursor: 'default',
-          // }}
-          className="vaas-text"
-        >
-          VaaS
-        </Typography>
-        {error ? (
-          <div className="error">{error}</div>
-        ) : (
-          <div className="nonError"> </div>
-        )}
-      </Box>
-      <Box
-        sx={{
-          minWidth: '100%',
-          justifyContent: 'center',
-          display: 'flex',
-          direction: 'column',
-          textAlign: 'center',
-          alignItems: 'center',
-          // backgroundSize: 'cover',
-          // backgroundRepeat: 'no-repeat',
-        }}
-        className="backdrop"
-      >
-        <CssBaseline />
+    <div className="loginPage">
+      <div className="container" id="login-container">
         <Box
-          id="login-container-container"
+          id="login-logo-container"
           sx={{
+            // height: '30vh',
+            // marginTop: '8vh',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            paddingBottom: '2rem',
-            width: '100%',
           }}
         >
-          <TextField
-            id="login-username-input"
-            label="Username"
-            type="username"
-            autoComplete="current-username"
-            variant="filled"
-            size="small"
-            onKeyDown={handleEnterKeyDown}
-            onChange={handleChange}
-            // margin="dense"
-            name="username"
-            value={fields.username}
-            // sx={{
-            //   input: { color: '#fff' },
-            //   label: { color: '#fff' },
-            //   borderBottom: '1px solid #fff',
-            //   backgroundColor: 'transparent',
-            //   borderRadius: '10px',
-            //   padding: '10px 20px',
-            //   width: '50%',
-            // }}
+          <img
+            alt="login icon"
+            className="login-icon"
+            src="../../../../public/Images/v4.svg"
           />
-          <TextField
-            id="login-password-input"
-            label="Password"
-            type="password"
-            autoComplete="current-password"
-            variant="filled"
-            size="small"
-            onKeyDown={handleEnterKeyDown}
-            onChange={handleChange}
-            margin="dense"
-            name="password"
-            value={fields.password}
+          <Typography
             // sx={{
-            //   input: { color: '#fff' },
-            //   label: { color: '#fff' },
-            //   borderBottom: '1px solid #fff',
-            //   backgroundColor: 'transparent',
-            //   borderRadius: '10px',
-            //   padding: '10px 20px',
-            //   width: '50%',
+            //   fontSize: '2.5rem',
+            //   marginTop: '0',
+            //   marginBottom: '2vh',
+            //   paddingTop: '0',
+            //   letterSpacing: '0.3rem',
+            //   color: '#fff',
+            //   cursor: 'default',
             // }}
-          />
+            className="vaas-text"
+          >
+            VaaS
+          </Typography>
+          {error ? (
+            <div className="error">{error}</div>
+          ) : (
+            <div className="nonError"> </div>
+          )}
+        </Box>
+        <Box
+          sx={{
+            minWidth: '100%',
+            justifyContent: 'center',
+            display: 'flex',
+            direction: 'column',
+            textAlign: 'center',
+            alignItems: 'center',
+            // backgroundSize: 'cover',
+            // backgroundRepeat: 'no-repeat',
+          }}
+          className="backdrop"
+        >
+          <CssBaseline />
           <Box
-            id="buttonContainer"
+            id="login-container-container"
             sx={{
-              width: '100%',
-              // minWidth: '250px',
-              // maxWidth: '600px',
-              // direction: 'column',
-              // textAlign: 'center',
-              alignItems: 'center',
               display: 'flex',
               flexDirection: 'column',
+              alignItems: 'center',
               justifyContent: 'center',
-              paddingBottom: '0.5rem',
-              // padding: '1.5rem',
-              // border: '0px solid #eaeaea',
-              '@media screen and (max-height: 800px)': {
-                marginBottom: '2em',
-              },
+              paddingBottom: '2rem',
+              width: '100%',
             }}
           >
-            <LoadingButton
-              className="btn"
-              type="button"
-              onClick={handleLogin}
-              variant="contained"
-              // disabled={disabled}
-              loading={loading}
+            <TextField
+              id="login-username-input"
+              label="Username"
+              type="username"
+              autoComplete="current-username"
+              variant="filled"
+              size="small"
+              onKeyDown={handleEnterKeyDown}
+              onChange={handleChange}
+              // margin="dense"
+              name="username"
+              value={fields.username}
+              // sx={{
+              //   input: { color: '#fff' },
+              //   label: { color: '#fff' },
+              //   borderBottom: '1px solid #fff',
+              //   backgroundColor: 'transparent',
+              //   borderRadius: '10px',
+              //   padding: '10px 20px',
+              //   width: '50%',
+              // }}
+            />
+            <TextField
+              id="login-password-input"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              variant="filled"
+              size="small"
+              onKeyDown={handleEnterKeyDown}
+              onChange={handleChange}
+              margin="dense"
+              name="password"
+              value={fields.password}
+              // sx={{
+              //   input: { color: '#fff' },
+              //   label: { color: '#fff' },
+              //   borderBottom: '1px solid #fff',
+              //   backgroundColor: 'transparent',
+              //   borderRadius: '10px',
+              //   padding: '10px 20px',
+              //   width: '50%',
+              // }}
+            />
+            <Box
+              id="buttonContainer"
               sx={{
-                // ':disabled': {
-                //   backgroundColor: 'gray',
-                //   color: 'rgb(37, 37, 37)',
-                //   border: '1px solid black',
-                // },
-                // ':enabled': {
-                backgroundColor: '#2604ffb1',
-                color: 'rgba(255, 255, 255, 0.8)',
-                border: '1px solid black',
-                // },
-                margin: '0.5rem 0rem 0.6rem 0rem',
-                // fontWeight: 'bold',
-                fontFamily: 'Verdana, Arial, sans-serif',
-                fontSize: '1em',
-                width: '390px',
-                gap: '.6em',
-                // padding: '.1em',
-                height: '2.3rem',
-                // maxWidth: '60%',
+                width: '100%',
+                // minWidth: '250px',
+                // maxWidth: '600px',
+                // direction: 'column',
+                // textAlign: 'center',
+                alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                paddingBottom: '0.5rem',
+                // padding: '1.5rem',
+                // border: '0px solid #eaeaea',
+                '@media screen and (max-height: 800px)': {
+                  marginBottom: '2em',
+                },
+              }}
+            >
+              <LoadingButton
+                className="btn"
+                type="button"
+                onClick={handleLogin}
+                variant="contained"
+                // disabled={disabled}
+                loading={loading}
+                sx={{
+                  // ':disabled': {
+                  //   backgroundColor: 'gray',
+                  //   color: 'rgb(37, 37, 37)',
+                  //   border: '1px solid black',
+                  // },
+                  // ':enabled': {
+                  backgroundColor: '#2604ffb1',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  border: '1px solid black',
+                  // },
+                  margin: '0.5rem 0rem 0.6rem 0rem',
+                  // fontWeight: 'bold',
+                  fontFamily: 'Verdana, Arial, sans-serif',
+                  fontSize: '1em',
+                  width: '390px',
+                  gap: '.6em',
+                  // padding: '.1em',
+                  height: '2.3rem',
+                  // maxWidth: '60%',
 
-                '@media screen and (max-width: 650px)': {
-                  maxWidth: '60vw',
-                },
-              }}
-            >
-              Login
-            </LoadingButton>
-            <Button
-              className="btn1"
-              type="button"
-              onClick={() => navigate('/register')}
-              variant="contained"
-              sx={{
-                // fontWeight: 'bold',
-                width: '390px',
-                gap: '.5em',
-                color: 'rgba(255, 255, 255, 0.8)',
-                // padding: '.1em',
-                height: '2.3rem',
-                fontFamily: 'Verdana, Arial, sans-serif',
-                fontSize: '1em',
-                backgroundColor: '#5b43f5b1',
-                border: '1px solid black',
-                // maxWidth: '60%',
-                '@media screen and (max-width: 650px)': {
-                  maxWidth: '60vw',
-                },
-              }}
-            >
-              Register
-            </Button>
-          </Box>
-          {/*  VaaS 4.0 oauth was not implemented so commenting out buttons until it's added*/}
-          {/* <Box
+                  '@media screen and (max-width: 650px)': {
+                    maxWidth: '60vw',
+                  },
+                }}
+              >
+                Login
+              </LoadingButton>
+              <Button
+                className="btn1"
+                type="button"
+                onClick={() => navigate('/register')}
+                variant="contained"
+                sx={{
+                  // fontWeight: 'bold',
+                  width: '390px',
+                  gap: '.5em',
+                  color: 'rgba(255, 255, 255, 0.8)',
+                  // padding: '.1em',
+                  height: '2.3rem',
+                  fontFamily: 'Verdana, Arial, sans-serif',
+                  fontSize: '1em',
+                  backgroundColor: '#5b43f5b1',
+                  border: '1px solid black',
+                  // maxWidth: '60%',
+                  '@media screen and (max-width: 650px)': {
+                    maxWidth: '60vw',
+                  },
+                }}
+              >
+                Register
+              </Button>
+            </Box>
+            {/*  VaaS 4.0 oauth was not implemented so commenting out buttons until it's added*/}
+            {/* <Box
             id="oauth-buttons-container"
             sx={{
               display: 'flex',
@@ -334,8 +335,9 @@ const Login = () => {
               &nbsp;&nbsp;<span className="oauth-text">Sign in</span>
             </Button>
           </Box> */}
+          </Box>
         </Box>
-      </Box>
+      </div>
     </div>
   );
 };
