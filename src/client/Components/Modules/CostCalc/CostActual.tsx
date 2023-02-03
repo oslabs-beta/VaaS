@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useReducer } from 'react';
+import { useLocation } from 'react-router-dom';
 import './costStyle.css';
 import InfoBox from './InfoBox';
+import InfoBoxStart from './InfoBoxStart';
 import MonthContainer from './MonthContainer';
 import RowTotal from './RowTotal';
 import SideLabel from './SideLabel';
@@ -89,10 +91,14 @@ export default function CostActual() {
     external: [],
     total: [],
   });
+  const { state } = useLocation();
+  const costURL = state[0]['cost_url'];
+  const costPort = state[0]['cost_port'];
+  console.log('this is costurl and port', costURL, costPort);
 
   const fetchData = async () => {
     const response = await fetch(
-      'http://34.171.214.61:9090/model/allocation?window=30d&aggregate=cluster&accumulate=false&shareIdle=false'
+      `${costURL}:${costPort}/model/allocation?window=30d&aggregate=cluster&accumulate=false&shareIdle=false`
     );
     const parsed = await response.json();
     setData(parsed.data);
@@ -194,9 +200,26 @@ export default function CostActual() {
     if (i === 1) {
       actualInfoArr.push(<SideLabel key={i} />);
       continue;
-    }
-    if (i === 14) actualInfoArr.push(<RowTotal key={i} load={load} />);
-    else {
+    } else if (i === 14) actualInfoArr.push(<RowTotal key={i} load={load} />);
+    else if (i === 2) {
+      actualInfoArr.push(
+        <InfoBoxStart
+          key={i}
+          tag={load.tag[i - 2]}
+          cpu={load.cpu[i - 2]}
+          gpu={load.gpu[i - 2]}
+          network={load.network[i - 2]}
+          lb={load.lb[i - 2]}
+          pv={load.pv[i - 2]}
+          ram={load.ram[i - 2]}
+          shared={load.shared[i - 2]}
+          external={load.external[i - 2]}
+          total={load.total[i - 2]}
+          dispatch={dispatch}
+          reducer={reducer}
+        />
+      );
+    } else {
       actualInfoArr.push(
         <InfoBox
           key={i}

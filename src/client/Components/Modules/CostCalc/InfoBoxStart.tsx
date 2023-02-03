@@ -1,7 +1,6 @@
 import React from 'react';
-import { ACTIONS } from './CostActual';
 
-export default function InfoBox(props) {
+export default function InfoBoxStart(props) {
   const cpu: number = props.cpu ? props.cpu : 0;
   const gpu: number = props.gpu ? props.gpu : 0;
   const network: number = props.network ? props.network : 0;
@@ -12,21 +11,9 @@ export default function InfoBox(props) {
   const external: number = props.external ? props.external : 0;
   const total: number = props.total ? props.total : 0;
 
-  function changeMulti(value: number) {
-    props.dispatch({
-      type: ACTIONS.CHANGEMULTI,
-      payload: [props.tag, value],
-    });
-  }
   return (
     <div className="verticalCenter">
-      <input
-        className="inputField"
-        placeholder="1.00"
-        onChange={(e) => {
-          changeMulti(Number(e.target.value));
-        }}
-      ></input>
+      <br />
       <span>${cpu}</span>
       <span>${gpu}</span>
       <span>${network}</span>
