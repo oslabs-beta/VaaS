@@ -292,11 +292,6 @@ const OpenFaaS = (props: Modules) => {
               <option value="" selected>
                 --Select Function to Invoke--
               </option>
-              {console.log(
-                'OpenFaaS deployed: ',
-                OFReducer,
-                Array.isArray(OFReducer)
-              )}
               {OFReducer.deployedFunctions.map((element, idx) => {
                 return (
                   <option key={idx} value={element.name}>
@@ -327,14 +322,14 @@ const OpenFaaS = (props: Modules) => {
                       color: '#1f2022',
                       borderRadius: '5px',
                       marginBottom: '20px',
-                      width: '30%',
+                      width: '32%',
                       fontSize: '10px',
                     }
                   : {
                       background: '#3a4a5b',
                       borderRadius: '5px',
                       marginBottom: '20px',
-                      width: '30%',
+                      width: '32%',
                       fontSize: '10px',
                     }
               }
@@ -351,7 +346,7 @@ const OpenFaaS = (props: Modules) => {
                 background: '#3a4a5b',
                 borderRadius: '5px',
                 marginBottom: '20px',
-                width: '30%',
+                width: '32%',
                 fontSize: '10px',
               }}
             >
