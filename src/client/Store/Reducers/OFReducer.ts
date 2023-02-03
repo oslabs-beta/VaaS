@@ -18,7 +18,6 @@ const OFReducer = (state: IOFReducer = initialState, action: IOFAction) => {
       };
     }
     case types.GET_DeployedOFFunc: {
-      console.log('inside reducer: ', action.payload);
       return {
         ...state,
         deployedFunctions: action.payload,
