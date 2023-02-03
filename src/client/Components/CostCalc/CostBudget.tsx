@@ -1,5 +1,3 @@
-import { NewReleasesOutlined } from '@mui/icons-material';
-import load from 'postcss-load-config';
 import React, { useReducer } from 'react';
 import BudgetInput from './BudgetInput';
 import './costStyle.css';
@@ -18,15 +16,53 @@ function reducer(budget, action) {
     case ACTIONS.LOADBUDGET: {
       const newBudget = { ...budget };
       for (let i = 0; i <= 11; i++) {
-        newBudget.tag.push(i);
-        newBudget[action.payload[0]].push(
-          action.payload[1] * newBudget.multi[i]
-        );
+        newBudget[action.payload[0]][i] =
+          action.payload[1] * newBudget.multi[i];
+        const cpu = newBudget.cpu[i] ? newBudget.cpu[i] : 0;
+        const gpu = newBudget.gpu[i] ? newBudget.gpu[i] : 0;
+        const network = newBudget.network[i] ? newBudget.network[i] : 0;
+        const lb = newBudget.lb[i] ? newBudget.lb[i] : 0;
+        const pv = newBudget.pv[i] ? newBudget.pv[i] : 0;
+        const ram = newBudget.ram[i] ? newBudget.ram[i] : 0;
+        const shared = newBudget.shared[i] ? newBudget.shared[i] : 0;
+        const external = newBudget.external[i] ? newBudget.external[i] : 0;
+        const colTotal =
+          cpu + gpu + network + lb + pv + ram + shared + external;
+        newBudget.total[i] = colTotal;
       }
       return newBudget;
     }
     case ACTIONS.CHANGEMULTI: {
-      break;
+      const newBudget = { ...budget };
+      newBudget.multi[action.payload[0]] = action.payload[1];
+      newBudget.cpu[action.payload[0]] = Math.round(
+        newBudget.cpu[0] * action.payload[1]
+      );
+      newBudget.gpu[action.payload[0]] = Math.round(
+        newBudget.gpu[0] * action.payload[1]
+      );
+      newBudget.network[action.payload[0]] = Math.round(
+        newBudget.network[0] * action.payload[1]
+      );
+      newBudget.lb[action.payload[0]] = Math.round(
+        newBudget.lb[0] * action.payload[1]
+      );
+      newBudget.pv[action.payload[0]] = Math.round(
+        newBudget.pv[0] * action.payload[1]
+      );
+      newBudget.ram[action.payload[0]] = Math.round(
+        newBudget.ram[0] * action.payload[1]
+      );
+      newBudget.shared[action.payload[0]] = Math.round(
+        newBudget.shared[0] * action.payload[1]
+      );
+      newBudget.external[action.payload[0]] = Math.round(
+        newBudget.external[0] * action.payload[1]
+      );
+      newBudget.total[action.payload[0]] = Math.round(
+        newBudget.total[0] * action.payload[1]
+      );
+      return newBudget;
     }
     case 'default':
       return budget;
@@ -36,7 +72,7 @@ function reducer(budget, action) {
 export default function CostBudget() {
   const [budget, dispatch] = useReducer(reducer, {
     multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    tag: [],
+    tag: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     cpu: [],
     gpu: [],
     network: [],
@@ -55,7 +91,7 @@ export default function CostBudget() {
       continue;
     }
     if (i === 2) {
-      budgetInfoArr.push(<BudgetInput dispatch={dispatch} />);
+      budgetInfoArr.push(<BudgetInput budget={budget} dispatch={dispatch} />);
       continue;
     }
     if (i === 14) budgetInfoArr.push(<RowTotal key={i} budget={budget} />);
@@ -63,16 +99,17 @@ export default function CostBudget() {
       budgetInfoArr.push(
         <InfoBox
           key={i}
-          tag={budget.tag[i - 1]}
-          cpu={budget.cpu[i - 1]}
-          gpu={budget.gpu[i - 1]}
-          network={budget.network[i - 1]}
-          lb={budget.lb[i - 1]}
-          pv={budget.pv[i - 1]}
-          ram={budget.ram[i - 1]}
-          shared={budget.shared[i - 1]}
-          external={budget.external[i - 1]}
-          total={budget.total[i - 1]}
+          tag={budget.tag[i - 3]}
+          cpu={budget.cpu[i - 3]}
+          gpu={budget.gpu[i - 3]}
+          network={budget.network[i - 3]}
+          lb={budget.lb[i - 3]}
+          pv={budget.pv[i - 3]}
+          ram={budget.ram[i - 3]}
+          shared={budget.shared[i - 3]}
+          external={budget.external[i - 3]}
+          total={budget.total[i - 3]}
+          dispatch={dispatch}
           reducer={reducer}
         />
       );

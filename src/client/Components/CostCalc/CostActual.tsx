@@ -41,31 +41,31 @@ function reducer(load, action) {
       const newLoad = { ...load };
       newLoad.multi[action.payload[0]] = action.payload[1];
       newLoad.cpu[action.payload[0]] = Math.round(
-        newLoad.cpu[action.payload[0]] * action.payload[1]
+        newLoad.cpu[0] * action.payload[1]
       );
       newLoad.gpu[action.payload[0]] = Math.round(
-        newLoad.gpu[action.payload[0]] * action.payload[1]
+        newLoad.gpu[0] * action.payload[1]
       );
       newLoad.network[action.payload[0]] = Math.round(
-        newLoad.network[action.payload[0]] * action.payload[1]
+        newLoad.network[0] * action.payload[1]
       );
       newLoad.lb[action.payload[0]] = Math.round(
-        newLoad.lb[action.payload[0]] * action.payload[1]
+        newLoad.lb[0] * action.payload[1]
       );
       newLoad.pv[action.payload[0]] = Math.round(
-        newLoad.pv[action.payload[0]] * action.payload[1]
+        newLoad.pv[0] * action.payload[1]
       );
       newLoad.ram[action.payload[0]] = Math.round(
-        newLoad.ram[action.payload[0]] * action.payload[1]
+        newLoad.ram[0] * action.payload[1]
       );
       newLoad.shared[action.payload[0]] = Math.round(
-        newLoad.shared[action.payload[0]] * action.payload[1]
+        newLoad.shared[0] * action.payload[1]
       );
       newLoad.external[action.payload[0]] = Math.round(
-        newLoad.external[action.payload[0]] * action.payload[1]
+        newLoad.external[0] * action.payload[1]
       );
       newLoad.total[action.payload[0]] = Math.round(
-        newLoad.total[action.payload[0]] * action.payload[1]
+        newLoad.total[0] * action.payload[1]
       );
       return newLoad;
     }
