@@ -12,6 +12,7 @@ import ViewInAr from '@mui/icons-material/ViewInAr';
 import QueryStats from '@mui/icons-material/QueryStats';
 import Functions from '@mui/icons-material/Functions';
 import AttachMoney from '@mui/icons-material/AttachMoney';
+import CostMain from '../CostCalc/CostMain';
 import Close from '@mui/icons-material/Close';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
@@ -36,6 +37,7 @@ const Module = (props: Modules) => {
   const [functionCost, setFunctionCost] = useState(false);
   const [alert, setAlert] = useState(false);
   const [charts, setCharts] = useState(false);
+  const [kubacus, setKubacus] = useState(false);
   // Handlers for modals
   const handleCloseModal = () => {
     setOpenModal(false);
@@ -103,36 +105,49 @@ const Module = (props: Modules) => {
             setFunctionCost(false);
             setCharts(false);
             setAlert(false);
+            setKubacus(false);
             break;
           case 'visualizer':
             setFaaS(false);
             setFunctionCost(false);
             setCharts(false);
             setAlert(false);
+            setKubacus(false);
             break;
           case 'custom':
             setFaaS(false);
             setFunctionCost(false);
             setCharts(false);
             setAlert(false);
+            setKubacus(false);
             break;
           case 'charts':
             setFaaS(false);
             setFunctionCost(false);
             setCharts(true);
             setAlert(false);
+            setKubacus(false);
             break;
           case 'alert':
             setAlert(true);
             setFaaS(false);
             setFunctionCost(false);
             setCharts(false);
+            setKubacus(false);
             break;
           case 'functionCost':
             setAlert(false);
             setFaaS(false);
             setFunctionCost(true);
             setCharts(false);
+            setKubacus(false);
+            break;
+          case 'kubacus':
+            setAlert(false);
+            setFaaS(false);
+            setFunctionCost(false);
+            setCharts(false);
+            setKubacus(true);
             break;
         }
       }
@@ -145,6 +160,7 @@ const Module = (props: Modules) => {
     setFunctionCost(false);
     setCharts(false);
     setAlert(false);
+    setKubacus(false);
   };
 
   const handleChartsButton = () => {
@@ -153,6 +169,7 @@ const Module = (props: Modules) => {
     setFunctionCost(false);
     setCurrentModule('charts');
     setAlert(false);
+    setKubacus(false);
   };
 
   const handleAlertButton = () => {
@@ -161,6 +178,7 @@ const Module = (props: Modules) => {
     setCharts(false);
     setFunctionCost(false);
     setAlert(true);
+    setKubacus(false);
   };
 
   const handleFunctionCostButton = () => {
@@ -168,7 +186,16 @@ const Module = (props: Modules) => {
     setCharts(false);
     setFunctionCost(true);
     setAlert(false);
+    setKubacus(false);
     setCurrentModule('functionCost');
+  };
+  const handleKubacusButton = () => {
+    setFaaS(false);
+    setCharts(false);
+    setFunctionCost(false);
+    setAlert(false);
+    setKubacus(true);
+    setCurrentModule('kubacus');
   };
   const customBox = {
     overflow: 'scroll',
@@ -286,6 +313,20 @@ const Module = (props: Modules) => {
                 OpenFaas Cost
               </Button>
 
+              <Button
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                }}
+                variant="text"
+                id="basic-button"
+                className="module-button"
+                onClick={handleKubacusButton}
+              >
+                <AttachMoney />
+                Kubacus
+              </Button>
+
               {/* {!props.nested && ( )} */}
             </div>
           </div>
@@ -319,6 +360,7 @@ const Module = (props: Modules) => {
                 nested={props.nested}
               />
             )}
+            {kubacus && <CostMain />}
             {alert && <Alert id={id} nested={props.nested} />}
           </div>
         </section>

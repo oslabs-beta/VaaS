@@ -117,9 +117,10 @@ export default function CostBudget() {
   }
   return (
     <div className="actualDisplay">
-      <h2>Monthly Budget</h2>
+      <h2 className="bold">Monthly Budget</h2>
       <MonthContainer />
-      <div className="xivContainers">{budgetInfoArr}</div>
+      <div className="xivContainers costBorder">{budgetInfoArr}</div>
+      <button className="costButton">Save budget settings</button>
     </div>
   );
 }

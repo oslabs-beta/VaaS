@@ -14,6 +14,7 @@ export default function BudgetInput(props) {
       <input
         id="cpu"
         className="inputField"
+        placeholder="$0"
         onChange={(e) => {
           loadBudget(e.target.id, Number(e.target.value));
         }}
@@ -21,6 +22,7 @@ export default function BudgetInput(props) {
       <input
         id="gpu"
         className="inputField"
+        placeholder="$0"
         onChange={(e) => {
           loadBudget(e.target.id, Number(e.target.value));
         }}
@@ -28,6 +30,7 @@ export default function BudgetInput(props) {
       <input
         id="network"
         className="inputField"
+        placeholder="$0"
         onChange={(e) => {
           loadBudget(e.target.id, Number(e.target.value));
         }}
@@ -35,6 +38,7 @@ export default function BudgetInput(props) {
       <input
         id="lb"
         className="inputField"
+        placeholder="$0"
         onChange={(e) => {
           loadBudget(e.target.id, Number(e.target.value));
         }}
@@ -42,6 +46,7 @@ export default function BudgetInput(props) {
       <input
         id="pv"
         className="inputField"
+        placeholder="$0"
         onChange={(e) => {
           loadBudget(e.target.id, Number(e.target.value));
         }}
@@ -49,6 +54,7 @@ export default function BudgetInput(props) {
       <input
         id="ram"
         className="inputField"
+        placeholder="$0"
         onChange={(e) => {
           loadBudget(e.target.id, Number(e.target.value));
         }}
@@ -56,6 +62,7 @@ export default function BudgetInput(props) {
       <input
         id="shared"
         className="inputField"
+        placeholder="$0"
         onChange={(e) => {
           loadBudget(e.target.id, Number(e.target.value));
         }}
@@ -63,11 +70,14 @@ export default function BudgetInput(props) {
       <input
         id="external"
         className="inputField"
+        placeholder="$0"
         onChange={(e) => {
           loadBudget(e.target.id, Number(e.target.value));
         }}
       ></input>
-      <span>{props.budget.total[0]}</span>
+      <span className="bold topBorder">
+        ${props.budget.total[0] ? props.budget.total[0] : 0}
+      </span>
     </div>
   );
 }
