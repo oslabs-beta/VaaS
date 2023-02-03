@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import './styles.css';
 
 const FunctionCost = (props: Modules) => {
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);

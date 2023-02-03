@@ -13,3 +13,10 @@
   padding-left: 0px;
 }
 }
+
+#cost-container {
+   border-radius: 5px;
+}
+.renderCustom {
+  height: 100%;
+}
