@@ -152,9 +152,9 @@ const Kube = (props: ClusterTypes) => {
               display: 'flex',
               justifyContent: 'flex-start',
               pr: '0px',
+              color: 'white',
             }}
             startIcon={<Insights />}
-            sx={{ color: 'white' }}
             onClick={() =>
               navigate('/module', {
                 state: [dbData, 'charts', true],
@@ -170,10 +170,10 @@ const Kube = (props: ClusterTypes) => {
               display: 'flex',
               justifyContent: 'flex-start',
               pr: '0px',
+              color: 'white',
             }}
             fullWidth={true}
             startIcon={<ViewInAr />}
-            sx={{ color: 'white' }}
             onClick={() => {
               setCurrModal('visualizer');
               setOpenModal(true);
@@ -188,10 +188,10 @@ const Kube = (props: ClusterTypes) => {
               display: 'flex',
               justifyContent: 'flex-start',
               pr: '0px',
+              color: 'white',
             }}
             fullWidth={true}
             startIcon={<QueryStats />}
-            sx={{ color: 'white' }}
             onClick={() => {
               setCurrModal('custom');
               setOpenModal(true);
@@ -206,10 +206,10 @@ const Kube = (props: ClusterTypes) => {
               display: 'flex',
               justifyContent: 'flex-start',
               pr: '0px',
+              color: 'white',
             }}
             fullWidth={true}
             startIcon={<AddAlert />}
-            sx={{ color: 'white' }}
             onClick={() =>
               navigate('/module', { state: [dbData, 'alert', true] })
             }

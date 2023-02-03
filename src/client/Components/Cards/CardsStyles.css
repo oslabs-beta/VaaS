@@ -1,7 +1,7 @@
 .mainWrapper {
   display: flex;
   flex-direction: row;
-  height: 100vw;
+  height: 100%;
 }
 
 .rightContent{
@@ -64,7 +64,7 @@ width: 100%
   color: white;
   width: 250px;
   transition: width 0.3s ease-in-out;
-  height: 100vw;
+  height: 100%;
   background-color: #2a2e36;
   padding-top: 28px;
   border-right: #7986CB;
