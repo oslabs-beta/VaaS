@@ -16,7 +16,7 @@ export default {
   prom,
   faas,
   gateway,
-  alert,
+  // alert,
   github,
   gcheck,
   graphs,
