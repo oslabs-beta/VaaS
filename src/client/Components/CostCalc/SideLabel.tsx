@@ -7,12 +7,12 @@ export default function SideLabel() {
       <span>CPU</span>
       <span>GPU</span>
       <span>Network</span>
-      <span>Load Balancer</span>
-      <span>Persistent Vol.</span>
+      <span>Load Bal.</span>
+      <span>Persist. Vol.</span>
       <span>RAM</span>
       <span>Shared</span>
       <span>External</span>
-      <span>Total</span>
+      <span className="bold topBorderLeft">Total</span>
     </div>
   );
 }

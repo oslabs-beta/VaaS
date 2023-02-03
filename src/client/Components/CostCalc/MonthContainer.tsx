@@ -30,5 +30,5 @@ export default function MonthContainer() {
     }
   }
 
-  return <div className="xivContainers">{displayArr}</div>;
+  return <div className="xivContainers monthBorder">{displayArr}</div>;
 }

@@ -218,9 +218,10 @@ export default function CostActual() {
   }
   return (
     <div className="actualDisplay">
-      <h2>Monthly Cost</h2>
+      <h2 className="bold">Monthly Cost</h2>
       <MonthContainer />
-      <div className="xivContainers">{actualInfoArr}</div>
+      <div className="xivContainers costBorder">{actualInfoArr}</div>
+      <button className="costButton">Save cost settings</button>
     </div>
   );
 }

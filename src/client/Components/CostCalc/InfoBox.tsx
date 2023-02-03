@@ -27,15 +27,15 @@ export default function InfoBox(props) {
           changeMulti(Number(e.target.value));
         }}
       ></input>
-      <span>{cpu}</span>
-      <span>{gpu}</span>
-      <span>{network}</span>
-      <span>{lb}</span>
-      <span>{pv}</span>
-      <span>{ram}</span>
-      <span>{shared}</span>
-      <span>{external}</span>
-      <span>{total}</span>
+      <span>${cpu}</span>
+      <span>${gpu}</span>
+      <span>${network}</span>
+      <span>${lb}</span>
+      <span>${pv}</span>
+      <span>${ram}</span>
+      <span>${shared}</span>
+      <span>${external}</span>
+      <span className="bold topBorder">${total}</span>
     </div>
   );
 }

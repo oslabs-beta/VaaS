@@ -5,45 +5,90 @@
 }
 
 .chartArea {
-    height: 30%;
+    height: 1%;
 }
 
 .costContainer {
     display: flex;
     flex-direction: column;
     min-width: 1080px;
-    border: red solid 5px;
-    justify-content: start;
+    justify-content: center;
+    align-items: start;
+    padding: 0px 0px 0px 100px;
 }
 
 .actualDisplay {
     display: flex;
     flex-direction: column;
     justify-content: start;
+    background-color: rgb(16, 16, 16);
+    margin-bottom: 31px;
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
 }
 
 .xivContainers {
     display: grid;
     grid-template-columns: repeat(14, 1fr);
     min-width: 1080px;
-    border: black solid 5px;
     justify-content: space-between;
     color: white;
+}
+
+.monthBorder {
+    border-top: white 1px solid;
+    border-bottom: white 1px solid;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.costBorder {
+    border-bottom: white 1px solid;
+}
+
+.topBorder {
+    border-top: white 1px solid;
+    width: 100%;
+    text-align: center;
+    margin-top: 8px;
+    padding: 3px;
+}
+
+.topBorderBlack {
+    border-top: black 1px solid;
+    width: 100%;
+    text-align: center;
+    margin-top: 8px;
+    padding: 3px;
+}
+
+.topBorderLeft {
+    border-top: white 1px solid;
+    width: 100%;
+    margin-top: 8px;
+    padding: 3px;
 }
 
 .center {
     justify-self: center;
     font-size: 0.9rem;
+    font-weight: 800;
 }
 
 .verticalLeft {
     display: flex;
     flex-direction: column;
     color: white;
+    padding: 8px 0px 0px 0px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .verticalLeft span {
     font-size: 0.8rem;
+    font-weight: 800;
+    overflow: hidden;
 }
 
 .verticalCenter {
@@ -51,10 +96,21 @@
     flex-direction: column;
     align-items: center;
     color: white;
+    padding: 8px 0px 0px 0px;
 }
 
 .verticalCenter span {
     font-size: 0.8rem;
+}
+
+.totalColumn {
+    background-color: #7986CB;
+    color: black;
+    border-radius: 5px;
+}
+
+.totalColumn span {
+    font-weight: 800;
 }
 
 .inputField {
@@ -62,4 +118,18 @@
     height: 10%;
     text-align: center;
     font-size: 0.8rem;
+    border-radius: 5px;
+}
+
+.bold {
+    font-weight: 800;
+}
+
+.costButton {
+    background-color: #A1A9B5;
+    border-radius: 5px;
+    width: 15%;
+    margin-top: 20px;
+    font-size: 0.73rem;
+    font-weight: 800;
 }

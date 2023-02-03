@@ -22,17 +22,17 @@ export default function RowTotal(props) {
   const total = props[input].total.reduce((a: number, b: number) => a + b, 0);
 
   return (
-    <div className="verticalCenter">
+    <div className="verticalCenter totalColumn">
       <br />
-      <span>{cpuTotal}</span>
-      <span>{gpuTotal}</span>
-      <span>{networkTotal}</span>
-      <span>{lbTotal}</span>
-      <span>{pvTotal}</span>
-      <span>{ramTotal}</span>
-      <span>{sharedTotal}</span>
-      <span>{externalTotal}</span>
-      <span>{total}</span>
+      <span>${cpuTotal}</span>
+      <span>${gpuTotal}</span>
+      <span>${networkTotal}</span>
+      <span>${lbTotal}</span>
+      <span>${pvTotal}</span>
+      <span>${ramTotal}</span>
+      <span>${sharedTotal}</span>
+      <span>${externalTotal}</span>
+      <span className="topBorderBlack">${total}</span>
     </div>
   );
 }
