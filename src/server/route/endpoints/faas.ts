@@ -105,7 +105,7 @@ router
     const { id } = req.headers;
     try {
       // get single cluster using id
-      const cluster = await Cluster.findOne({ id }).exec();
+      const cluster = await Cluster.findOne({ _id: id }).exec();
       if (cluster) {
         // destructure cluster info and fetch all OpenFaaS functions from OpenFaaS custom url
         const { faas_url, faas_port, authorization } = cluster;
@@ -294,8 +294,30 @@ router
             },
           }
         ).then((res) => res.text());
+        const invokeCount = await fetch(
+          `${faas_url}:${faas_port}/system/functions`,
+          {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              Authorization: authorization,
+            },
+          }
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            let count = 0;
+            for (const faasFunc of res) {
+              if (faasFunc.name === functionName) {
+                count = faasFunc.invocationCount;
+                break;
+              }
+            }
+            return count;
+          });
         terminal(`Success: OpenFaaS function [${functionName}] invoked`);
-        return res.status(200).json(func);
+        return res.status(200).json({ result: func, count: invokeCount });
       } else {
         const error: IError = {
           status: 401,
