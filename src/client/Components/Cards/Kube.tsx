@@ -239,9 +239,9 @@ const Kube = (props: ClusterTypes) => {
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',
+              color: 'white',
             }}
             startIcon={<Functions />}
-            sx={{ color: 'white' }}
             onClick={() =>
               navigate('/module', { state: [dbData, 'faas', true] })
             }
@@ -254,10 +254,10 @@ const Kube = (props: ClusterTypes) => {
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',
+              color: 'white',
             }}
             fullWidth={true}
             startIcon={<AttachMoney />}
-            sx={{ color: 'white' }}
             onClick={() =>
               navigate('/module', {
                 state: [dbData, 'functionCost', true],
