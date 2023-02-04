@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import { useLocation } from 'react-router-dom';
-import './costStyle.css';
 import InfoBox from './InfoBox';
 import InfoBoxStart from './InfoBoxStart';
 import MonthContainer from './MonthContainer';
 import RowTotal from './RowTotal';
 import SideLabel from './SideLabel';
+import CostGraph from './CostGraph';
 
 export const ACTIONS = {
   LOADDATA: 'load_data',
@@ -76,7 +76,7 @@ function reducer(load, action) {
   }
 }
 
-export default function CostActual() {
+export default function CostActual(props) {
   const [data, setData] = useState([]);
   const [load, dispatch] = useReducer(reducer, {
     multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -91,10 +91,10 @@ export default function CostActual() {
     external: [],
     total: [],
   });
+
   const { state } = useLocation();
   const costURL = state[0]['cost_url'];
   const costPort = state[0]['cost_port'];
-  console.log('this is costurl and port', costURL, costPort);
 
   const fetchData = async () => {
     const response = await fetch(
@@ -204,7 +204,7 @@ export default function CostActual() {
     else if (i === 2) {
       actualInfoArr.push(
         <InfoBoxStart
-          key={i}
+          key={`actual${i}`}
           tag={load.tag[i - 2]}
           cpu={load.cpu[i - 2]}
           gpu={load.gpu[i - 2]}
@@ -242,7 +242,12 @@ export default function CostActual() {
   return (
     <div className="actualDisplay">
       <h2 className="bold">Monthly Cost</h2>
-      <MonthContainer />
+      <div className="costGraph">
+        <div className="subGraph">
+          <CostGraph load={load} monthArr={props.monthArr} />
+        </div>
+      </div>
+      <MonthContainer month={props.month} />
       <div className="xivContainers costBorder">{actualInfoArr}</div>
       <button className="costButton">Save cost settings</button>
     </div>

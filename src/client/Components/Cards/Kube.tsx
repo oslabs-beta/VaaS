@@ -266,6 +266,24 @@ const Kube = (props: ClusterTypes) => {
           >
             FaaS Cost
           </Button>
+          <Button
+            className="Cluster-Buttons"
+            id="FaaSCost-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              color: 'white',
+            }}
+            fullWidth={true}
+            startIcon={<AttachMoney />}
+            onClick={() =>
+              navigate('/module', {
+                state: [dbData, 'kubacus', true],
+              })
+            }
+          >
+            Kubacus
+          </Button>
         </Box>
       </Box>
       <Box

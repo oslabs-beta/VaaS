@@ -2,15 +2,25 @@ import React from 'react';
 import { ACTIONS } from './CostActual';
 
 export default function InfoBox(props) {
-  const cpu: number = props.cpu ? props.cpu : 0;
-  const gpu: number = props.gpu ? props.gpu : 0;
-  const network: number = props.network ? props.network : 0;
-  const lb: number = props.lb ? props.lb : 0;
-  const pv: number = props.pv ? props.pv : 0;
-  const ram: number = props.ram ? props.ram : 0;
-  const shared: number = props.shared ? props.shared : 0;
-  const external: number = props.external ? props.external : 0;
-  const total: number = props.total ? props.total : 0;
+  let cpu: number | string = props.cpu ? props.cpu : 0;
+  let gpu: number | string = props.gpu ? props.gpu : 0;
+  let network: number | string = props.network ? props.network : 0;
+  let lb: number | string = props.lb ? props.lb : 0;
+  let pv: number | string = props.pv ? props.pv : 0;
+  let ram: number | string = props.ram ? props.ram : 0;
+  let shared: number | string = props.shared ? props.shared : 0;
+  let external: number | string = props.external ? props.external : 0;
+  let total: number | string = props.total ? props.total : 0;
+
+  cpu = cpu.toLocaleString();
+  gpu = gpu.toLocaleString();
+  network = network.toLocaleString();
+  lb = lb.toLocaleString();
+  pv = pv.toLocaleString();
+  ram = ram.toLocaleString();
+  shared = shared.toLocaleString();
+  external = external.toLocaleString();
+  total = total.toLocaleString();
 
   function changeMulti(value: number) {
     props.dispatch({

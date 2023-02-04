@@ -5,6 +5,7 @@ import InfoBox from './InfoBox';
 import MonthContainer from './MonthContainer';
 import RowTotal from './RowTotal';
 import SideLabel from './SideLabel';
+import CostGraph from './CostGraph';
 
 export const ACTIONS = {
   LOADBUDGET: 'load_budget',
@@ -69,7 +70,7 @@ function reducer(budget, action) {
   }
 }
 
-export default function CostBudget() {
+export default function CostBudget(props) {
   const [budget, dispatch] = useReducer(reducer, {
     multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     tag: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -98,7 +99,7 @@ export default function CostBudget() {
     else {
       budgetInfoArr.push(
         <InfoBox
-          key={i}
+          key={`budget${i}`}
           tag={budget.tag[i - 3]}
           cpu={budget.cpu[i - 3]}
           gpu={budget.gpu[i - 3]}
@@ -117,8 +118,13 @@ export default function CostBudget() {
   }
   return (
     <div className="actualDisplay">
-      <h2 className="bold">Monthly Budget</h2>
-      <MonthContainer />
+      <h2 className="bold">Monthly Budget ***BETA***</h2>
+      <div className="costGraph">
+        <div className="subGraph">
+          <CostGraph budget={budget} monthArr={props.monthArr} />
+        </div>
+      </div>
+      <MonthContainer month={props.month} />
       <div className="xivContainers costBorder">{budgetInfoArr}</div>
       <button className="costButton">Save budget settings</button>
     </div>
