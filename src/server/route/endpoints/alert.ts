@@ -4,10 +4,11 @@ import { IError } from '../../interfaces/IError';
 import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 import { execSync } from 'child_process';
-
 import yaml from 'js-yaml';
-import fs from 'fs';
 import findup from 'findup-sync';
+
+const fs = require('fs');
+
 
 router
   .route('/alert')
