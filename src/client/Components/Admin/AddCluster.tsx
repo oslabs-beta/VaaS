@@ -48,7 +48,7 @@ const textFields: {
   { id: 'cost_port', label: 'Kubecost Port ', regex: /[0-9]/g },
 ];
 
-const AddClusters = ({ refetch, handleAddClusters }) => {
+const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   // Dispatch hook to dispatch actions to the store
   const dispatch = useAppDispatch();
   // Select the uiReducer from the store
@@ -79,8 +79,8 @@ const AddClusters = ({ refetch, handleAddClusters }) => {
   // React query mutations used for requests other than get requests, used to get more efficient requests
   const mutation = useMutation((data: AddClusterType) => addCluster(data), {
     onSuccess: (response) => {
-      refetch();
-      handleAddClusters(false);
+      props.refetch();
+      props.handleAddClusters(false);
       response.success
         ? setAddClusterMessage('Successfully added cluster')
         : setAddClusterMessage(response.message);
