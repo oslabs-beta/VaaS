@@ -101,7 +101,6 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
     (data: { refreshRate: number }) => changeRefreshRate(data),
     {
       onSuccess: (response) => {
-        console.log(response, 'responseresponseresponseresponseresponse');
         if (response.success) {
           refetch();
           setUpdateRefreshRateMessage(

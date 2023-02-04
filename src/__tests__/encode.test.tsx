@@ -5,8 +5,6 @@ import { encodeSession, decodeSession } from '../server/services/jwt';
 // const mongoPass = process.env.MONGO_PASSWORD;
 // const mongoUrl = process.env.MONGO_URL;
 
-console.log('environment: ', process.env.NODE_ENV);
-
 describe('JWT encoding / decoding tests', () => {
   const payload = { id: 'bar', username: 'foo' };
   const secret = process.env.JWT_ACCESS_SECRET;

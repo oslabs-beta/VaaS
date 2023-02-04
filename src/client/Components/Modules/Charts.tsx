@@ -102,8 +102,6 @@ const Charts = (props: Modules) => {
       }
       case 'kubecost': {
         setIsGrafana(false);
-        console.log(state[0], 'state');
-        console.log(costDashboard, 'costdashboard');
         setDashboardObj(costDashboard);
         break;
       }

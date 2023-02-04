@@ -25,7 +25,6 @@ router
     }
     // id = cluster id, q = query string, type = type of query/function cost to calculate
     const { id, q, type } = req.query;
-    console.log('q', q);
 
     try {
       const cluster = await Cluster.findOne({ _id: id }).exec();
