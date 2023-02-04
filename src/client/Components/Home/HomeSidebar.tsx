@@ -68,7 +68,6 @@ const HomeSidebar = (props: {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     // handleFindCluster(searchCluster);
-    console.log(searchCluster, 'handlechangecluster here value');
     setSearchCluster(e.target.value);
   };
 

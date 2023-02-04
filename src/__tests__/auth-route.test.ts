@@ -78,7 +78,6 @@ describe('/auth route', (): void => {
     beforeAll(async (): Promise<void> => {
       const response = await request(app).post('/api/auth').send(testUser);
       cookieHeader = response.headers['set-cookie'];
-      console.log(response.status);
     });
 
     describe('given a valid cookie', (): void => {

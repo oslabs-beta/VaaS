@@ -20,9 +20,7 @@ router
     terminal(`URL IS ${req.url}`);
     const { id, ns, q, expr, dur } = req.query;
     try {
-      console.log('enters alert');
       const fileLoc = findup('alert-rules.yaml');
-      console.log('fileloc', fileLoc);
       const doc: any = yaml.load(fs.readFileSync(`${fileLoc}`, 'utf8'));
       doc['additionalPrometheusRulesMap']['custom-rules']['groups'][0][
         'rules'
