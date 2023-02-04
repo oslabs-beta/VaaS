@@ -1,8 +1,9 @@
-import { display } from '@mui/system';
 import React from 'react';
+import CostActual from './CostActual';
+import CostBudget from './CostBudget';
 import './costStyle.css';
 
-export default function MonthContainer() {
+export default function CostMain() {
   const month = [
     'JAN',
     'FEB',
@@ -17,8 +18,18 @@ export default function MonthContainer() {
     'NOV',
     'DEC',
   ];
-  const displayArr = [];
+
   const currentMonth: number = new Date().getMonth();
+
+  const monthArr = [];
+  let monthCount = 1;
+  for (let i = currentMonth; monthCount <= 12; i++) {
+    if (i > 11) i = 0;
+    monthArr.push(month[i]);
+    monthCount++;
+  }
+
+  const displayArr = [];
   let count = 1;
   for (let i = currentMonth; count <= 13; count++) {
     if (count === 1) displayArr.push(<div></div>);
@@ -30,5 +41,10 @@ export default function MonthContainer() {
     }
   }
 
-  return <div className="xivContainers monthBorder">{displayArr}</div>;
+  return (
+    <div className="costContainer">
+      <CostActual month={displayArr} monthArr={monthArr} />
+      <CostBudget month={displayArr} monthArr={monthArr} />
+    </div>
+  );
 }

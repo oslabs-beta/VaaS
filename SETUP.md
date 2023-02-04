@@ -2,7 +2,7 @@
 
 To get started, you will need to have a Kubernetes cluster. If you are new to Kubernetes, you can create a simple single-node cluster on your local machine by using minikube. See documentation for minikube at [link](https://minikube.sigs.k8s.io/docs/start/).
 
-Follow the instructions below to install dependencies required by VaaS. To have the dependencies work properly with VaaS, the service types of each application must be changed to ```LoadBalancer```. You can learn more about service types at [Link](https://kubernetes.io/docs/concepts/services-networking/service/).
+Follow the instructions below to install dependencies required by VaaS. To have the dependencies work properly with VaaS, the service types of each application must be changed to ```LoadBalancer```. You can learn more about service types at [link](https://kubernetes.io/docs/concepts/services-networking/service/).
 
 <br/>
 
@@ -42,7 +42,7 @@ helm install kubepromstack prometheus-community/kube-prometheus-stack --namespac
 
 ### OpenCost/KubeCost Community Version
 
-OpenCost/KubeCost is a Kubernetes cost monitoring tool upon which VaaS's budget and forecasting features are built upon. See documentation at [Link](https://docs.kubecost.com/).
+OpenCost/KubeCost is a Kubernetes cost monitoring tool upon which VaaS's budget and forecasting features are built upon. See documentation at [link](https://docs.kubecost.com/).
 
 ```
 helm install kubecost cost-analyzer \
@@ -127,7 +127,7 @@ kubectl -n monitoring port-forward svc/kubepromstack-grafana 3001:3000
 ```
 Accessed via http://localhost:3001:3000
 
-_The default ```username : password``` are ```admin : prom-operator```._
+_The default ```username:password``` are ```admin:prom-operator```._
 
 <br/>
 

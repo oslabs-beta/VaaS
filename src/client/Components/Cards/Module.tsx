@@ -12,7 +12,7 @@ import ViewInAr from '@mui/icons-material/ViewInAr';
 import QueryStats from '@mui/icons-material/QueryStats';
 import Functions from '@mui/icons-material/Functions';
 import AttachMoney from '@mui/icons-material/AttachMoney';
-import CostMain from '../CostCalc/CostMain';
+import CostMain from '../Modules/CostCalc/CostMain';
 import Close from '@mui/icons-material/Close';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
