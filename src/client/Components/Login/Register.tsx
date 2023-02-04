@@ -62,7 +62,7 @@ const Register = () => {
       }
       return setLoading(false);
     } catch (error) {
-      //console.log('Error: ', error);
+      console.log('Error: ', error);
       setError('There was an error logging in');
       setLoading(false);
     }

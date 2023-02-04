@@ -9,7 +9,7 @@ router.route('/gcheck').post((req: Request, res: Response) => {
 
   User.find({ username: username })
     .then((response) => {
-      //console.log(response);
+      console.log(response);
       if (response[0]) res.status(200).json(true);
       else res.status(200).json(false);
     })

@@ -10,7 +10,7 @@ export default function Visualizer(props: {
 }) {
   const { state } = useLocation();
   const urlOrigin = props.dbData || state[0];
-  //console.log(props.dbData, 'props.dataDATTAAAAA');
+  console.log(props.dbData, 'props.dataDATTAAAAA');
   return (
     <Box className="customBox" sx={props.customBox}>
       <div className="renderCustom">

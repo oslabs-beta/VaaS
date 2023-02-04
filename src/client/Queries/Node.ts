@@ -8,7 +8,7 @@ const nodeMetric = {
       const metric = await Query(clusterId, ns, query);
       return parseInt(metric.data.result[0].value[1]);
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   memoryLoad: async (
@@ -21,7 +21,7 @@ const nodeMetric = {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result[0].value[1];
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   nodePods: async (clusterId: string, ns: string, node: string) => {
@@ -30,7 +30,7 @@ const nodeMetric = {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   podCapacity: async (clusterId: string, ns: string) => {
@@ -39,7 +39,7 @@ const nodeMetric = {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result[0].value[1];
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   networkUtilization: async (clusterId: string, ns: string) => {
@@ -53,7 +53,7 @@ const nodeMetric = {
           parseInt(metric2.data.result[0].value[1]) / 1024
       );
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   networkErrors: async (clusterId: string, ns: string) => {
@@ -68,7 +68,7 @@ const nodeMetric = {
           1024
       );
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
 };

@@ -19,9 +19,9 @@ router
     terminal(`URL IS ${req.url}`);
     const { id, ns, q, expr, dur } = req.query;
     try {
-      //console.log('enters alert');
+      console.log('enters alert');
       const fileLoc = findup('alert-rules.yaml');
-      //console.log('fileloc', fileLoc);
+      console.log('fileloc', fileLoc);
       const doc: any = yaml.load(fs.readFileSync(`${fileLoc}`, 'utf8'));
       doc['additionalPrometheusRulesMap']['custom-rules']['groups'][0][
         'rules'
@@ -35,8 +35,8 @@ router
 
       fs.writeFile(`${fileLoc}`, yaml.dump(doc), (err) => {
         if (err) {
-          //console.log('error with overwriting the yaml file');
-          //console.log(err);
+          console.log('error with overwriting the yaml file');
+          console.log(err);
         }
         const term = execSync(
           `helm upgrade --reuse-values -f ${fileLoc} prometheus prometheus-community/kube-prometheus-stack -n monitor`,

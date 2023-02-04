@@ -140,7 +140,7 @@ const ClusterSettings = (props: Modules) => {
         clusterId: props.id,
       });
     } catch (err) {
-      //console.log('Delete cluster error:', err);
+      console.log('Delete cluster error:', err);
     }
   };
 
@@ -154,7 +154,7 @@ const ClusterSettings = (props: Modules) => {
           newFormErrors[index] = true;
           isValidInput = false;
           field.errMsg = `${field.label} is required.`;
-          //console.log(textFields);
+          console.log(textFields);
           // If a port field is not a number, set that form to error status and display error message
         } else if (
           field.regex &&
@@ -181,7 +181,7 @@ const ClusterSettings = (props: Modules) => {
         editClusterMutation.mutate(payload);
       }
     } catch (err) {
-      //console.log('Update cluster error:', err);
+      console.log('Update cluster error:', err);
     }
   };
 

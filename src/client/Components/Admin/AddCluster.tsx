@@ -48,7 +48,7 @@ const textFields: {
   { id: 'cost_port', label: 'Kubecost Port ', regex: /[0-9]/g },
 ];
 
-const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
+const AddClusters = ({ refetch, handleAddClusters }) => {
   // Dispatch hook to dispatch actions to the store
   const dispatch = useAppDispatch();
   // Select the uiReducer from the store
@@ -79,11 +79,11 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   // React query mutations used for requests other than get requests, used to get more efficient requests
   const mutation = useMutation((data: AddClusterType) => addCluster(data), {
     onSuccess: (response) => {
+      refetch();
+      handleAddClusters(false);
       response.success
         ? setAddClusterMessage('Successfully added cluster')
         : setAddClusterMessage(response.message);
-      props.refetch();
-      props.handleAddClusters(false);
     },
   });
 
@@ -120,7 +120,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         mutation.mutate(payload);
       }
     } catch (err) {
-      //console.log('Add cluster failed', err);
+      console.log('Add cluster failed', err);
     }
   };
   const handleEnterKeyDownAddCluster = (
@@ -181,6 +181,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         variant="contained"
         className="btn"
         type="button"
+        data-cy="add-cluster-button"
         onClick={handleAddCluster}
         sx={buttonStyle}
       >

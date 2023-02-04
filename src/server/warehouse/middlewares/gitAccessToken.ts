@@ -42,7 +42,7 @@ export default async (
         Authorization: authHeader,
       },
     }).then((res) => res.json());
-    //console.log(`USER DATA IS : `, gitHubData);
+    console.log(`USER DATA IS : `, gitHubData);
 
     // set up acct info and return next
     // eslint-disable-next-line prefer-const
@@ -67,7 +67,7 @@ export default async (
     // { username } is Javascript property value shorthand for { username: username }
     const user = await User.find({ username });
     terminal(`Success: MongoDB query executed [${username}]`);
-    //console.log(user);
+    console.log(user);
     // IF USER EXISTS, STORE hasAcct AND user FOR NEXT MIDDLEWARE
     if (user[0]) {
       terminal(`Success: User [${username}] found in DB`);

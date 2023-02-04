@@ -13,7 +13,7 @@ class Database {
   }
   //connect function RETURNS INSTANCE OF MONGOOSE
   connect(): Mongoose {
-    //console.log('Attempting to connect to MongoDB cluster!');
+    console.log('Attempting to connect to MongoDB cluster!');
     const {
       mongodb: { url, port, collection, password, username },
     } = this._config;
@@ -33,7 +33,7 @@ class Database {
     const db: Connection = this._mongo.connection;
     db.on('error', console.error.bind(console, 'Connection error:'));
     db.once('open', () => {
-      //console.log(`Successfully connected to MongoDB cluster: ${uri}`);
+      console.log(`Successfully connected to MongoDB cluster: ${uri}`);
     });
     return mongoose;
   }

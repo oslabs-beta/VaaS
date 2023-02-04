@@ -58,7 +58,7 @@ export const clusterMetric = {
       // return the average
       return average;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   memoryLoad: async (clusterId: string | undefined, ns: string) => {
@@ -72,7 +72,7 @@ export const clusterMetric = {
       // extract needed result from api call
       return metric.data.data.result[0].value[0];
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   totalDeployments: async (clusterId: string | undefined, ns: string) => {
@@ -85,7 +85,7 @@ export const clusterMetric = {
       // extract needed data from api call
       return metric.data.data.result.length;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   totalPods: async (clusterId: string | unknown, ns: string) => {
@@ -98,7 +98,7 @@ export const clusterMetric = {
       // extract needed data from api call
       return metric.data.data.result[0].value[1];
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   allServices: async (clusterId: string | undefined, ns: string) => {
@@ -111,7 +111,7 @@ export const clusterMetric = {
       // extract needed data from api call
       return metric.data.data.result.length;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   allNamespaces: async (clusterId: string | undefined, ns: string) => {
@@ -124,7 +124,7 @@ export const clusterMetric = {
       // extract needed result from api call
       return metric.data.data.result;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   allNodes: async (clusterId: string | undefined, ns: string) => {
@@ -142,7 +142,7 @@ export const clusterMetric = {
         }
       );
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
 };

@@ -9,7 +9,7 @@ export default async (
 ): Promise<void | Response<any, Record<string, any>>> => {
   terminal(`Received ${req.method} request at 'gitAuthUser' middleware`);
   const { firstName, lastName, username, password } = res.locals.newAcctInfo;
-  //console.log('PASSWORD IS : ', password);
+  console.log('PASSWORD IS : ', password);
   try {
     // if user has an account
     if (res.locals.hasAcct === true) {

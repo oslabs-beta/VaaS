@@ -4,7 +4,7 @@ export function terminal(message: string | object | number | unknown): void {
     if (typeof message === 'object') {
       console.table(message);
     } else {
-      //console.log(message);
+      console.log(message);
     }
   }
 }

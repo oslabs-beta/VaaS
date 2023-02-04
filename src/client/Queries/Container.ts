@@ -11,7 +11,7 @@ const containerMetric = {
         }
       );
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   cpuUsage: async (clusterId: string, ns: string, container: string) => {
@@ -20,7 +20,7 @@ const containerMetric = {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result[0].value;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   rangeContainerCpuUsage: async (
@@ -35,7 +35,7 @@ const containerMetric = {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result[0].values;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   rangeContainerCpuSaturation: async (
@@ -50,7 +50,7 @@ const containerMetric = {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result.length === 0 ? 0 : metric.data.result[0].values;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   rangeContainerMemoryUsage: async (
@@ -65,7 +65,7 @@ const containerMetric = {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result[0].values;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
   rangeContainerMemorySaturation: async (
@@ -80,7 +80,7 @@ const containerMetric = {
       const metric = await Query(clusterId, ns, query);
       return metric.data.result.length === 0 ? 0 : metric.data.result[0].values;
     } catch (err) {
-      //console.log(err);
+      console.log(err);
     }
   },
 };
