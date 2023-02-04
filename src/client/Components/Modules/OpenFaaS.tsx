@@ -521,6 +521,6 @@ const OpenFaaS = (props: Modules) => {
       </Box>
     </Container>
   );
-};;;;;;;;
+}
 
 export default OpenFaaS;
