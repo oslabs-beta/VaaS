@@ -29,6 +29,7 @@ const Charts = (props: Modules) => {
   useEffect(() => {
     getDashboards();
   }, []);
+  
   const computingDashboard: Record<string, string> = {
     Cluster: dashboardIds.ComputeCluster,
     Nodes: dashboardIds.ComputeNodePods,
