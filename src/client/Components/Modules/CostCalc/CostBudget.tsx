@@ -91,7 +91,9 @@ export default function CostBudget(props) {
       continue;
     }
     if (i === 2) {
-      budgetInfoArr.push(<BudgetInput budget={budget} dispatch={dispatch} />);
+      budgetInfoArr.push(
+        <BudgetInput key={`budget${i}`} budget={budget} dispatch={dispatch} />
+      );
       continue;
     }
     if (i === 14)
