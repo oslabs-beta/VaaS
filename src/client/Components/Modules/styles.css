@@ -1,5 +1,5 @@
 .func-info{
-  padding-left: 20px;
+  padding-left: 30px;
 }
 
 
@@ -12,4 +12,17 @@
   .func-info{
   padding-left: 0px;
 }
+}
+
+#cost-container {
+   border-radius: 5px;
+}
+.renderCustom {
+  height: 100%;
+}
+
+#func-title{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }

@@ -2,6 +2,13 @@
 
 body {
   margin: 0px;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  height: 100%;
 }
 
 #outer {
@@ -50,6 +57,16 @@ body {
   z-index: 3;
   color: white;
 }
+.loginPage {
+  height: 100%;
+  width: 100%;
+  color: rgb(42 46 53);
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  margin: 0;
+}
 
 #root {
   /* background-image: url('./svg/trippy2.svg'); */
@@ -62,6 +79,7 @@ body {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+  -webkit-font-smoothing: antialiased !important;
 }
 
 .input-error-text {

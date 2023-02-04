@@ -278,7 +278,7 @@ NasdaqVolkswagenBoxNetAppEventbrite
 © 2023 Udemy, Inc.
         <iframe
           src={`${urlOrigin.grafana_url}/dashboard/new?orgId=1&edit`}
-          height="1000px"
+          height="800px"
           width="1250px"
           className="custom-graf"
           frameBorder="0"
