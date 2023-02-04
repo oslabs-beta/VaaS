@@ -20,8 +20,9 @@ export default function CostMain() {
   ];
 
   const currentMonth: number = new Date().getMonth();
-  let monthCount = 1;
+
   const monthArr = [];
+  let monthCount = 1;
   for (let i = currentMonth; monthCount <= 12; i++) {
     if (i > 11) i = 0;
     monthArr.push(month[i]);

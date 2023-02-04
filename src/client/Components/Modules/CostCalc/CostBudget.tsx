@@ -1,6 +1,5 @@
 import React, { useReducer } from 'react';
 import BudgetInput from './BudgetInput';
-import './costStyle.css';
 import InfoBox from './InfoBox';
 import MonthContainer from './MonthContainer';
 import RowTotal from './RowTotal';
@@ -88,14 +87,14 @@ export default function CostBudget(props) {
   const budgetInfoArr = [];
   for (let i = 1; i <= 14; i++) {
     if (i === 1) {
-      budgetInfoArr.push(<SideLabel key={i} />);
+      budgetInfoArr.push(<SideLabel key={`budget${i}`} />);
       continue;
     }
     if (i === 2) {
       budgetInfoArr.push(<BudgetInput budget={budget} dispatch={dispatch} />);
       continue;
     }
-    if (i === 14) budgetInfoArr.push(<RowTotal key={i} budget={budget} />);
+    if (i === 14) budgetInfoArr.push(<RowTotal key={`budget${i}`} budget={budget} />);
     else {
       budgetInfoArr.push(
         <InfoBox
@@ -111,7 +110,6 @@ export default function CostBudget(props) {
           external={budget.external[i - 3]}
           total={budget.total[i - 3]}
           dispatch={dispatch}
-          reducer={reducer}
         />
       );
     }

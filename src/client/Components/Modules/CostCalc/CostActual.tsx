@@ -198,9 +198,9 @@ export default function CostActual(props) {
   const actualInfoArr = [];
   for (let i = 1; i <= 14; i++) {
     if (i === 1) {
-      actualInfoArr.push(<SideLabel key={i} />);
+      actualInfoArr.push(<SideLabel key={`actual${i}`} />);
       continue;
-    } else if (i === 14) actualInfoArr.push(<RowTotal key={i} load={load} />);
+    } else if (i === 14) actualInfoArr.push(<RowTotal key={`actual${i}`} load={load} />);
     else if (i === 2) {
       actualInfoArr.push(
         <InfoBoxStart
@@ -222,7 +222,7 @@ export default function CostActual(props) {
     } else {
       actualInfoArr.push(
         <InfoBox
-          key={i}
+          key={`actual${i}`}
           tag={load.tag[i - 2]}
           cpu={load.cpu[i - 2]}
           gpu={load.gpu[i - 2]}
@@ -234,7 +234,6 @@ export default function CostActual(props) {
           external={load.external[i - 2]}
           total={load.total[i - 2]}
           dispatch={dispatch}
-          reducer={reducer}
         />
       );
     }
