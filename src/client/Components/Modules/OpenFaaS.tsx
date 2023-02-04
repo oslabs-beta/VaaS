@@ -86,11 +86,11 @@ const OpenFaaS = (props: Modules) => {
     name: string,
     store?: boolean
   ): FunctionTypes | DeployedFunctionTypes | undefined => {
-    console.log('name in findfunc', name);
+    //console.log('name in findfunc', name);
     if (store) {
       const funcTypeObj: FunctionTypes | undefined = openFaaSFunctionList.find(
         (el) => {
-          console.log('el.name: ', el.name, el.name === name);
+          //console.log('el.name: ', el.name, el.name === name);
           return el.name === name;
         }
       );
@@ -98,7 +98,7 @@ const OpenFaaS = (props: Modules) => {
     }
     const depTypeObj: DeployedFunctionTypes | undefined =
       deployedFunctions.find((el) => {
-        console.log('el.name: ', el.name, el.name === name);
+        //console.log('el.name: ', el.name, el.name === name);
         return el.name === name;
       });
     return depTypeObj;
@@ -114,9 +114,9 @@ const OpenFaaS = (props: Modules) => {
   };
 
   const fetchFunctions = async () => {
-    // console.log(id);
+    // //console.log(id);
     try {
-      // console.log('id is', id);
+      // //console.log('id is', id);
       const funcs = await Get(apiRoute.getRoute(`faas`), { id });
       if (funcs.message) {
         dispatch(GET_DeployedOFFunc([]));
@@ -129,9 +129,9 @@ const OpenFaaS = (props: Modules) => {
           )
         );
       }
-      console.log('func in fetchfunctions', funcs);
+      //console.log('func in fetchfunctions', funcs);
     } catch (error) {
-      console.log('Error in fetching deployed OpenFaaS Functions', error);
+      //console.log('Error in fetching deployed OpenFaaS Functions', error);
     }
   };
 
@@ -149,7 +149,7 @@ const OpenFaaS = (props: Modules) => {
         const funcs = await Get(apiRoute.getRoute('faas?OpenFaaSStore=true'));
         setOpenFaaSFunctions(funcs.functions);
       } catch (error) {
-        console.log('Error in fetching OpenFaaS Functions', error);
+        //console.log('Error in fetching OpenFaaS Functions', error);
       }
     };
     openFaaSFunctions();
@@ -175,13 +175,13 @@ const OpenFaaS = (props: Modules) => {
         const funcObj: DeployedFunctionTypes | undefined = findFuncFromRedux(
           selectedOpenFaaSFunction.name
         );
-        console.log(
+        //console.log(
           'funcobj in dandly: ',
           funcObj,
           selectedOpenFaaSFunction.name
         );
         if (funcObj) {
-          console.log('you did it!!');
+          //console.log('you did it!!');
           setSelectedDeployedFunction(funcObj);
           setInvokeCount(funcObj.invocationCount);
           setFuncDescription(selectedOpenFaaSFunction.description);
@@ -192,11 +192,11 @@ const OpenFaaS = (props: Modules) => {
           });
           setInvokeCount(0);
           setFuncDescription(selectedOpenFaaSFunction.description);
-          console.log('you loser: ', deployedFunctions);
+          //console.log('you loser: ', deployedFunctions);
         }
       }
     } catch (error) {
-      console.log('Error in handleDeployOpenFaaS', error);
+      //console.log('Error in handleDeployOpenFaaS', error);
     }
   };
 
@@ -216,13 +216,13 @@ const OpenFaaS = (props: Modules) => {
   const handleCount = async (): Promise<void> => {
     await fetchFunctions();
     setDeployedFunctions(OFReducer.deployedFunctions);
-    // console.log(selectedDeployedFunction, 'inside handle count');
+    // //console.log(selectedDeployedFunction, 'inside handle count');
     const funcObj: DeployedFunctionTypes | undefined = findFuncFromRedux(
       selectedDeployedFunction.name
     );
-    console.log('funcObj in handlecount: ', funcObj);
+    //console.log('funcObj in handlecount: ', funcObj);
     if (funcObj) setSelectedDeployedFunction(funcObj);
-    console.log(funcObj?.invocationCount, 'handlecount count');
+    //console.log(funcObj?.invocationCount, 'handlecount count');
     setInvokeCount(funcObj?.invocationCount || 0);
   };
 
@@ -241,10 +241,10 @@ const OpenFaaS = (props: Modules) => {
         await fetchFunctions();
         setDeployedFunctions(OFReducer.deployedFunctions);
         setInvokeCount(res.count);
-        console.log(deployedFunctions, 'depfunc in handleinvoke');
+        //console.log(deployedFunctions, 'depfunc in handleinvoke');
         // setInvoked(false);
       } else {
-        console.log('requestBody', reqBody);
+        //console.log('requestBody', reqBody);
         const body = {
           clusterId: id,
           functionName: functionName,
@@ -255,12 +255,12 @@ const OpenFaaS = (props: Modules) => {
         setInvokeCount(res.count);
         await fetchFunctions();
         setDeployedFunctions(OFReducer.deployedFunctions);
-        console.log(deployedFunctions, 'depfunc in handleinvoke in else');
+        //console.log(deployedFunctions, 'depfunc in handleinvoke in else');
         res.count !== undefined ? setInvokeCount(res.count) : setInvokeCount(0);
         sessionStorage.setItem('openFaasResBody', res.result);
       }
     } catch (error) {
-      console.log('Error in handleInvoke', error);
+      //console.log('Error in handleInvoke', error);
     }
   };
 
@@ -282,7 +282,7 @@ const OpenFaaS = (props: Modules) => {
         );
         await fetchFunctions();
         setDeployedFunctions(OFReducer.deployedFunctions);
-        console.log(deployedFunctions, 'in delete');
+        //console.log(deployedFunctions, 'in delete');
         setInvokedOutput('Deployed function deleted');
         setSelectedDeployedFunction({
           name: '',
@@ -292,7 +292,7 @@ const OpenFaaS = (props: Modules) => {
         });
       }
     } catch (error) {
-      console.log('Error in handleInvoke', error);
+      //console.log('Error in handleInvoke', error);
     }
   };
 

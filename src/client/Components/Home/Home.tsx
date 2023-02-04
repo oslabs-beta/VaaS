@@ -15,7 +15,7 @@ const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
-  console.log(uiReducer.clusterUIState, 'uiReducer variable');
+  //console.log(uiReducer.clusterUIState, 'uiReducer variable');
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState<ClusterTypes[]>([]);
   const darkMode = uiReducer.clusterUIState.darkmode;
@@ -59,7 +59,7 @@ const Home = () => {
     const renderingArr = [];
     //clustersArray, each element for name
     if (value === '') return resetClusterArray();
-    console.log(value, 'handlefindcluster value in home');
+    //console.log(value, 'handlefindcluster value in home');
     for (let i = 0; i < clustersArray.length; i++) {
       if (clustersArray[i].name?.toLowerCase().includes(value.toLowerCase())) {
         renderingArr.push(clustersArray[i]);
@@ -68,7 +68,7 @@ const Home = () => {
     setClustersArray(renderingArr);
   };
 
-  console.log('cluster Array', clustersArray);
+  //console.log('cluster Array', clustersArray);
 
   return (
     <div id="home-div">

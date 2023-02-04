@@ -97,7 +97,7 @@ async function createServer(
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
     } catch (e: any) {
       !isProd && vite.ssrFixStacktrace(e);
-      console.log(e.stack);
+      //console.log(e.stack);
       // If an error is caught, let Vite fix the stack trace so it maps back to
       // your actual source code.
       vite.ssrFixStacktrace(e);
@@ -110,7 +110,7 @@ async function createServer(
   db.connect();
   const port: number = Number(process.env.EXPRESS_PORT) || 3020;
   app.listen(Number(port), '0.0.0.0', () => {
-    console.log(`\u001b[32;1mVaaS is awake on http://localhost:${port}`);
+    //console.log(`\u001b[32;1mVaaS is awake on http://localhost:${port}`);
   });
 }
 

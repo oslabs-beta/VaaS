@@ -17,7 +17,7 @@ export function encodeSession(
   partialSession: IPartialSession
 ): IEncodeResult {
   //SPECIFYING ALGORITHM TO USE FOR ENCODING
-  console.log('made it to encodesession');
+  //console.log('made it to encodesession');
   const algo: TAlgorithm = 'HS512';
   // iat = ISSUED AT
   const iat = Date.now(),
@@ -31,11 +31,11 @@ export function encodeSession(
     eat: eat,
   };
 
-  console.log('what is session: ', session);
+  //console.log('what is session: ', session);
   const encodedObject = {
     token: encode(session, accessSecret, algo),
   };
-  console.log(encodedObject, 'encodedObject');
+  //console.log(encodedObject, 'encodedObject');
   return encodedObject;
 }
 

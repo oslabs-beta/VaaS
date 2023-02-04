@@ -30,7 +30,7 @@ export default async (
       if (authorized.type === 'valid') {
         // CHECK TOKEN EXPIRATION STATUS
         const tokenStatus = checkExpStatus(authorized.session);
-        // console.log(tokenStatus, 'tokenStatus');
+        // //console.log(tokenStatus, 'tokenStatus');
         if (tokenStatus === 'grace' && baseUrl === '/api' && url === '/auth') {
           // RENEW TOKEN SO SESSION TIME CAN START ALL OVER
           const token = await editSession(user, process.env.JWT_ACCESS_SECRET);

@@ -60,7 +60,7 @@ const FunctionCost = (props: Modules) => {
     }
   }, []);
   useEffect(() => {
-    console.log('DATA IS: ', data);
+    //console.log('DATA IS: ', data);
   }, [data]);
 
   // pick the function we want to see
@@ -71,7 +71,7 @@ const FunctionCost = (props: Modules) => {
   // fetch data from prom: time it takes for exection, invocation amount
   const handleFunctionData = async () => {
     try {
-      console.log('CLICKEDDDDD');
+      //console.log('CLICKEDDDDD');
       const type = 'avg';
       const query = `gateway_functions_seconds_sum{function_name="${selectedDeployedFunction}.openfaas-fn"}/gateway_function_invocation_total{function_name="${selectedDeployedFunction}.openfaas-fn"}`;
       const data = await openFaasMetric.avgTimePerInvoke(
@@ -84,17 +84,17 @@ const FunctionCost = (props: Modules) => {
         data.value = `The average time needed to invoke function is ${Number(
           data.value
         ).toFixed(4)} seconds`;
-        console.log(data.vlaue);
+        //console.log(data.vlaue);
         setData(data);
         setRetrived(true);
       } else {
         data.value = 'Please invoke function first!';
-        console.log(data.vlaue);
+        //console.log(data.vlaue);
         setData(data);
         setRetrived(true);
       }
     } catch (error) {
-      console.log('ERROR IN handleFunctionData: ', error);
+      //console.log('ERROR IN handleFunctionData: ', error);
     }
   };
 
@@ -116,30 +116,30 @@ const FunctionCost = (props: Modules) => {
             (invokeAmount - functionCost.lambdaFreeRequests) *
             (invokeTime / 1000);
           const computeInsec = Math.max(requestTimesTime, 0);
-          // console.log(computeInsec);
+          // //console.log(computeInsec);
           const totalComputeGBSeconds = computeInsec * (memory / 1024);
-          // console.log('total seconds:', totalComputeGBSeconds);
+          // //console.log('total seconds:', totalComputeGBSeconds);
           const billableCompute = Math.max(
             totalComputeGBSeconds - functionCost.lambdaFreeTier,
             0
           );
           const bill = billableCompute * functionCost.lambdaChargeGBSecond;
-          console.log('BILL WITH SECONDS IS', bill);
-          // console.log('functionCost', functionCost.lambdaRequestCharge)
+          //console.log('BILL WITH SECONDS IS', bill);
+          // //console.log('functionCost', functionCost.lambdaRequestCharge)
           const requestCharge: number =
             (invokeAmount - functionCost.lambdaFreeRequests) *
             (functionCost.lambdaRequestCharge / 1000000);
-          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
-          // console.log('REQ CHARGE TOT:' , requestCharge)
+          // //console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
+          // //console.log('REQ CHARGE TOT:' , requestCharge)
           const totalCost: string = (requestCharge + bill).toFixed(2);
           const result = {
             requestCharge: requestCharge,
             computeCost: bill,
             total: totalCost,
           };
-          console.log('THIS IS THE RESULT', result);
-          // console.log(totalCost);
-          // console.log('****************');
+          //console.log('THIS IS THE RESULT', result);
+          // //console.log(totalCost);
+          // //console.log('****************');
           switch (resultType) {
             case 'reqCharge': {
               return result.requestCharge.toFixed(2);
@@ -160,7 +160,7 @@ const FunctionCost = (props: Modules) => {
             (invokeAmount - functionCost.azureFreeRequests) *
             (invokeTime / 1000);
           const computeInsec = Math.max(requestTimesTime, 0);
-          console.log('Azure:', computeInsec);
+          //console.log('Azure:', computeInsec);
 
           const totalComputeGBSeconds = computeInsec * (memory / 1024);
           const billableCompute = Math.max(
@@ -203,11 +203,11 @@ const FunctionCost = (props: Modules) => {
             0
           );
           const googCPU: number = googleGBGHzMap[memory];
-          console.log(googCPU, 'IT IS');
+          //console.log(googCPU, 'IT IS');
           let bill = null;
           if (!googCPU) {
             bill = billableCompute * functionCost.googleChargeGBSecond;
-            console.log('HELLO');
+            //console.log('HELLO');
           } else {
             const totalComputeGHzSeconds =
               totalComputeGBSeconds * (googCPU / 1000);
@@ -262,7 +262,7 @@ const FunctionCost = (props: Modules) => {
 
           const bill = billableCompute * functionCost.ibmChargeGBSecond;
 
-          console.log(
+          //console.log(
             'invoke amount:',
             invokeAmount,
             'freeReqs',
@@ -275,7 +275,7 @@ const FunctionCost = (props: Modules) => {
             (functionCost.ibmRequestCharge / 1000000);
 
           const totalCost: string = (requestCharge + bill).toFixed(2);
-          console.log('ibm requestCharge:', requestCharge);
+          //console.log('ibm requestCharge:', requestCharge);
           const result = {
             requestCharge: requestCharge,
             computeCost: bill,

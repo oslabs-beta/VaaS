@@ -120,7 +120,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         mutation.mutate(payload);
       }
     } catch (err) {
-      console.log('Add cluster failed', err);
+      //console.log('Add cluster failed', err);
     }
   };
   const handleEnterKeyDownAddCluster = (

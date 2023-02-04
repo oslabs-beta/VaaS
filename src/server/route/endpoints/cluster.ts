@@ -79,7 +79,7 @@ router
       terminal(
         `Success: All cluster documents for user retrieved from MongoDB collection`
       );
-      // console.log(clusters, 'clusters');
+      // //console.log(clusters, 'clusters');
       return res.status(200).json(clusters);
     } catch (err) {
       const error: IError = {

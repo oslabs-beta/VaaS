@@ -50,9 +50,9 @@ const Alert = (props: Modules) => {
         'k8',
         allinputs as object
       );
-      console.log(outputQuery);
+      //console.log(outputQuery);
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 

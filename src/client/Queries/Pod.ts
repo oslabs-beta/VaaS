@@ -13,7 +13,7 @@ const podMetric = {
         return result.metric.pod;
       });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
   infoList: async (clusterId: string, ns: string, node: string) => {
@@ -42,7 +42,7 @@ const podMetric = {
         }
       );
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
   podInfoList: async (clusterId: string, ns: string, pod: string) => {
@@ -64,7 +64,7 @@ const podMetric = {
       //   };
       // });
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
   podMem: async (clusterId: string, ns: string, pod: string) => {
@@ -75,7 +75,7 @@ const podMetric = {
         metric: metric,
       };
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
   podStart: async (clusterId: string, ns: string, pod: string) => {
@@ -87,7 +87,7 @@ const podMetric = {
         metric: metric,
       };
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
   podDeployed: async (clusterId: string, ns: string, pod: string) => {
@@ -98,7 +98,7 @@ const podMetric = {
         metric: metric,
       };
     } catch (err) {
-      console.log(err);
+      //console.log(err);
     }
   },
 };

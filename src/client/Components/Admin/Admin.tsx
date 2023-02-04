@@ -93,7 +93,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
       onSuccess: (response) => {
         response.success
           ? dispatch(setDarkMode(!darkMode))
-          : console.log('Dark mode could not be enabled');
+          : //console.log('Dark mode could not be enabled');
       },
     }
   );
@@ -101,7 +101,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
     (data: { refreshRate: number }) => changeRefreshRate(data),
     {
       onSuccess: (response) => {
-        console.log(response, 'responseresponseresponseresponseresponse');
+        //console.log(response, 'responseresponseresponseresponseresponse');
         if (response.success) {
           refetch();
           setUpdateRefreshRateMessage(
@@ -157,7 +157,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
 
       userMutation.mutate(body);
     } catch (err) {
-      console.log('Update request to server failed', err);
+      //console.log('Update request to server failed', err);
     }
   };
 
@@ -171,7 +171,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
       };
       userDeleteMutation.mutate(userBody);
     } catch (err) {
-      console.log('Delete request to server failed', err);
+      //console.log('Delete request to server failed', err);
     }
   };
 
@@ -182,7 +182,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
       };
       darkModeMutation.mutate(body);
     } catch (err) {
-      console.log('Update request to server failed', err);
+      //console.log('Update request to server failed', err);
     }
   };
 
@@ -197,7 +197,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
       };
       refreshRateMutation.mutate(body);
     } catch (err) {
-      console.log('Update request to server failed', err);
+      //console.log('Update request to server failed', err);
     }
   };
 
