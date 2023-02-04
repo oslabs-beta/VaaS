@@ -62,29 +62,27 @@ const OpenFaaS = (props: Modules) => {
   const [invokeCount, setInvokeCount] = useState<number>(
     selectedDeployedFunction.invocationCount
   );
-  const [dropdownStyle] = useState({
+
+  //styling for mui components below
+  const dropdownStyle = {
     background: 'white',
     borderRadius: '5px',
     padding: '0.5rem',
     marginBottom: '0px',
     width: '100%',
     fontSize: '10px',
-  });
-  const [inputStyle] = useState({
+  };
+  const inputStyle = {
     width: '45%',
     '@media screen and (max-width: 820px)': {
       width: '75%',
     },
-  });
+  };
 
-  const [textAreaRows, setTextAreaRows] = useState(4);
-  const [textAreaStyle, setTextAreaStyle] = useState({
-    color: '#F0F0F0',
-    height: '140px',
-  });
-
+  //variable to store the selected deployed function from dropdown
   const optionRef = useRef();
 
+  //function that passes in the openfaas function name and returns the function object from the state
   const findStoreFuncFromRedux = (name: string): FunctionTypes | undefined => {
     const funcTypeObj: FunctionTypes | undefined = openFaaSFunctionList.find(
       (el) => {
@@ -94,6 +92,7 @@ const OpenFaaS = (props: Modules) => {
     return funcTypeObj;
   };
 
+  //function that passes in the deployed function and returns function object from state
   const findFuncFromRedux = (
     name: string
   ): DeployedFunctionTypes | undefined => {
@@ -104,6 +103,7 @@ const OpenFaaS = (props: Modules) => {
     return depTypeObj;
   };
 
+  // function that passing in function and and finds the function description from openfaas function list
   const getDescription = (name: string): void => {
     const funcObj: FunctionTypes | undefined = openFaaSFunctionList.find(
       (func) => {
@@ -113,6 +113,8 @@ const OpenFaaS = (props: Modules) => {
     setFuncDescription(funcObj?.description || '');
   };
 
+  //function that sends a get request to openfaas and receives a response of all the deployed functions
+  //stored in the current cluster
   const fetchFunctions = async () => {
     try {
       const funcs = await Get(apiRoute.getRoute(`faas`), { id });
@@ -139,6 +141,7 @@ const OpenFaaS = (props: Modules) => {
   };
 
   useEffect(() => {
+    //function gets all openfaas functions from openfaas store
     const openFaaSFunctions = async () => {
       try {
         const funcs = await Get(apiRoute.getRoute('faas?OpenFaaSStore=true'));
@@ -151,6 +154,7 @@ const OpenFaaS = (props: Modules) => {
     fetchFunctions();
   }, [renderFunctions]);
 
+  //event listener that will deploy openfaas function to current cluster
   const handleDeployOpenFaaS = async () => {
     try {
       const getFunc = openFaaSFunctionList.find(
@@ -184,6 +188,7 @@ const OpenFaaS = (props: Modules) => {
     }
   };
 
+  //event listener that will update state with selected openfaas function
   const handleOpenFaaSFunctionsChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const funcObj: FunctionTypes | undefined = findStoreFuncFromRedux(
       e.target.value
@@ -196,10 +201,12 @@ const OpenFaaS = (props: Modules) => {
       });
   };
 
+  //event listener when update count is clicked, this will trigger useeffect to run
   const handleCount = async (): Promise<void> => {
     setRenderFunctions(!renderFunctions);
   };
 
+  //event listener when invoke button is clicked, this will invoke selected function
   const handleInvoke = async () => {
     // setInvoked(true);
     try {
@@ -228,6 +235,7 @@ const OpenFaaS = (props: Modules) => {
     }
   };
 
+  //event listener when delete function is clicked, this will send a delete request to remove function from current cluster
   const handleDelete = async () => {
     try {
       const body = {
@@ -259,6 +267,7 @@ const OpenFaaS = (props: Modules) => {
     }
   };
 
+  //event listener when deployed function is selected that will update state
   const handleDeployedFunctionChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const funcObj = findFuncFromRedux(e.target.value);
     if (funcObj) {
@@ -268,6 +277,7 @@ const OpenFaaS = (props: Modules) => {
     setRenderFunctions(!renderFunctions);
   };
 
+  //stores request body in session storage
   const localStore = () => {
     sessionStorage.setItem(
       'openFaasReqBody',
@@ -511,6 +521,6 @@ const OpenFaaS = (props: Modules) => {
       </Box>
     </Container>
   );
-};
+};;;;;;;;
 
 export default OpenFaaS;
