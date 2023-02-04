@@ -66,7 +66,7 @@ describe('Cluster route testing', () => {
         expect(response.body).toHaveProperty('success', true);
       });
 
-      it('should add a cluster to the database with correct info', async () => {
+      it('should add a cluster to the database', async () => {
         const newCluster = await Cluster.findOne({ testClusterOne });
         expect(newCluster).toBeDefined();
         expect(newCluster).not.toBeNull();
@@ -86,6 +86,11 @@ describe('Cluster route testing', () => {
 
     it('should respond with status 400', () => {
       expect(response.status).toBe(400);
+    });
+
+    it('should not add a new cluster to the database', async () => {
+      const cluster = await Cluster.findOne({ testClusterOne });
+      expect(cluster).toBeNull();
     });
   });
 
