@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import './costStyle.css';
+import { useLocation } from 'react-router-dom';
 import InfoBox from './InfoBox';
+import InfoBoxStart from './InfoBoxStart';
 import MonthContainer from './MonthContainer';
 import RowTotal from './RowTotal';
 import SideLabel from './SideLabel';
+import CostGraph from './CostGraph';
 
 export const ACTIONS = {
   LOADDATA: 'load_data',
   CHANGEMULTI: 'change_multi',
 };
 
-function reducer(load, action) {
+function reducer(load: any, action: any) {
   switch (action.type) {
     case ACTIONS.LOADDATA: {
       const newLoad = { ...load };
@@ -74,7 +76,7 @@ function reducer(load, action) {
   }
 }
 
-export default function CostActual() {
+export default function CostActual(props: any) {
   const [data, setData] = useState([]);
   const [load, dispatch] = useReducer(reducer, {
     multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -90,9 +92,13 @@ export default function CostActual() {
     total: [],
   });
 
+  const { state } = useLocation();
+  const costURL = state[0]['cost_url'];
+  const costPort = state[0]['cost_port'];
+
   const fetchData = async () => {
     const response = await fetch(
-      'http://34.171.214.61:9090/model/allocation?window=30d&aggregate=cluster&accumulate=false&shareIdle=false'
+      `${costURL}:${costPort}/model/allocation?window=30d&aggregate=cluster&accumulate=false&shareIdle=false`
     );
     const parsed = await response.json();
     setData(parsed.data);
@@ -192,14 +198,14 @@ export default function CostActual() {
   const actualInfoArr = [];
   for (let i = 1; i <= 14; i++) {
     if (i === 1) {
-      actualInfoArr.push(<SideLabel key={i} />);
+      actualInfoArr.push(<SideLabel key={`actual${i}`} />);
       continue;
-    }
-    if (i === 14) actualInfoArr.push(<RowTotal key={i} load={load} />);
-    else {
+    } else if (i === 14)
+      actualInfoArr.push(<RowTotal key={`actual${i}`} load={load} />);
+    else if (i === 2) {
       actualInfoArr.push(
-        <InfoBox
-          key={i}
+        <InfoBoxStart
+          key={`actual${i}`}
           tag={load.tag[i - 2]}
           cpu={load.cpu[i - 2]}
           gpu={load.gpu[i - 2]}
@@ -214,12 +220,34 @@ export default function CostActual() {
           reducer={reducer}
         />
       );
+    } else {
+      actualInfoArr.push(
+        <InfoBox
+          key={`actual${i}`}
+          tag={load.tag[i - 2]}
+          cpu={load.cpu[i - 2]}
+          gpu={load.gpu[i - 2]}
+          network={load.network[i - 2]}
+          lb={load.lb[i - 2]}
+          pv={load.pv[i - 2]}
+          ram={load.ram[i - 2]}
+          shared={load.shared[i - 2]}
+          external={load.external[i - 2]}
+          total={load.total[i - 2]}
+          dispatch={dispatch}
+        />
+      );
     }
   }
   return (
     <div className="actualDisplay">
       <h2 className="bold">Monthly Cost</h2>
-      <MonthContainer />
+      <div className="costGraph">
+        <div className="subGraph">
+          <CostGraph load={load} monthArr={props.monthArr} />
+        </div>
+      </div>
+      <MonthContainer month={props.month} />
       <div className="xivContainers costBorder">{actualInfoArr}</div>
       <button className="costButton">Save cost settings</button>
     </div>

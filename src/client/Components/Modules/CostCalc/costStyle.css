@@ -14,18 +14,28 @@
     min-width: 1080px;
     justify-content: center;
     align-items: start;
-    padding: 0px 0px 0px 100px;
 }
 
 .actualDisplay {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: center;
     background-color: rgb(16, 16, 16);
     margin-bottom: 31px;
     border-radius: 10px;
     padding: 20px;
     color: white;
+}
+
+.costGraph {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.subGraph {
+    width: 88%;
+    margin-right: 2.3%;
 }
 
 .xivContainers {
@@ -132,4 +142,14 @@
     margin-top: 20px;
     font-size: 0.73rem;
     font-weight: 800;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number]{
+    -moz-appearance: textfield;
 }

@@ -107,7 +107,7 @@
     "path": "^0.12.7",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
-    "react-chartjs-2": "^5.0.1",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-gauge-chart": "^0.4.0",
     "react-graph-vis": "^1.0.7",
