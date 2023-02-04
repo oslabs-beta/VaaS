@@ -79,11 +79,11 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   // React query mutations used for requests other than get requests, used to get more efficient requests
   const mutation = useMutation((data: AddClusterType) => addCluster(data), {
     onSuccess: (response) => {
+      props.refetch();
+      props.handleAddClusters(false);
       response.success
         ? setAddClusterMessage('Successfully added cluster')
         : setAddClusterMessage(response.message);
-      props.refetch();
-      props.handleAddClusters(false);
     },
   });
 
@@ -181,6 +181,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         variant="contained"
         className="btn"
         type="button"
+        data-cy="add-cluster-button"
         onClick={handleAddCluster}
         sx={buttonStyle}
       >

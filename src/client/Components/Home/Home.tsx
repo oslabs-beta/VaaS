@@ -80,6 +80,7 @@ const Home = () => {
           <HomeSidebar
             handleFindCluster={handleFindCluster}
             resetClusterArray={resetClusterArray}
+            refetch={refetch}
           />
         </aside>
         <section className="contentWrapper">

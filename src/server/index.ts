@@ -16,7 +16,9 @@ const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD;
 
 const resolve = (p: string) => path.resolve(__dirname, p);
 
-async function createServer(isProd = process.env.NODE_ENV === 'production') {
+async function createServer(
+  isProd = process.env.NODE_ENV === 'production'
+) {
   const app = express();
 
   // Create Vite server in middleware mode and configure the app type as
