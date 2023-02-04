@@ -8,7 +8,7 @@ export default async function Alert(
 ): Promise<any> {
   return await Get(
     apiRoute.getRoute(
-      `/alert?id=${clusterId}&ns=${ns}&q=${query.name}&expr=${query.expression}&dur=${query.duration}`
+      `alert?id=${clusterId}&ns=${ns}&q=${query.name}&expr=${query.expression}&dur=${query.duration}`
     )
   );
 }
