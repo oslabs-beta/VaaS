@@ -94,7 +94,8 @@ export default function CostBudget(props) {
       budgetInfoArr.push(<BudgetInput budget={budget} dispatch={dispatch} />);
       continue;
     }
-    if (i === 14) budgetInfoArr.push(<RowTotal key={`budget${i}`} budget={budget} />);
+    if (i === 14)
+      budgetInfoArr.push(<RowTotal key={`budget${i}`} budget={budget} />);
     else {
       budgetInfoArr.push(
         <InfoBox
