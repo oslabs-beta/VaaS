@@ -11,7 +11,7 @@ export const ACTIONS = {
   CHANGEMULTI: 'change_multi',
 };
 
-function reducer(budget, action) {
+function reducer(budget: any, action: any) {
   switch (action.type) {
     case ACTIONS.LOADBUDGET: {
       const newBudget = { ...budget };
@@ -69,7 +69,7 @@ function reducer(budget, action) {
   }
 }
 
-export default function CostBudget(props) {
+export default function CostBudget(props: any) {
   const [budget, dispatch] = useReducer(reducer, {
     multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     tag: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -102,16 +102,16 @@ export default function CostBudget(props) {
       budgetInfoArr.push(
         <InfoBox
           key={`budget${i}`}
-          tag={budget.tag[i - 3]}
-          cpu={budget.cpu[i - 3]}
-          gpu={budget.gpu[i - 3]}
-          network={budget.network[i - 3]}
-          lb={budget.lb[i - 3]}
-          pv={budget.pv[i - 3]}
-          ram={budget.ram[i - 3]}
-          shared={budget.shared[i - 3]}
-          external={budget.external[i - 3]}
-          total={budget.total[i - 3]}
+          tag={budget.tag[i - 2]}
+          cpu={budget.cpu[i - 2]}
+          gpu={budget.gpu[i - 2]}
+          network={budget.network[i - 2]}
+          lb={budget.lb[i - 2]}
+          pv={budget.pv[i - 2]}
+          ram={budget.ram[i - 2]}
+          shared={budget.shared[i - 2]}
+          external={budget.external[i - 2]}
+          total={budget.total[i - 2]}
           dispatch={dispatch}
         />
       );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function RowTotal(props) {
+export default function RowTotal(props: any) {
   const input: string = props.load ? 'load' : 'budget';
   let cpuTotal: number | string = props[input].cpu.reduce(
     (a: number, b: number) => a + b,

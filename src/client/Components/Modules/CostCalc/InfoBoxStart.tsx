@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function InfoBoxStart(props) {
+export default function InfoBoxStart(props: any) {
   const cpu: number = props.cpu ? props.cpu : 0;
   const gpu: number = props.gpu ? props.gpu : 0;
   const network: number = props.network ? props.network : 0;

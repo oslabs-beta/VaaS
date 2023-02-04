@@ -1,7 +1,7 @@
 import React from 'react';
 import { ACTIONS } from './CostActual';
 
-export default function InfoBox(props) {
+export default function InfoBox(props: any) {
   let cpu: number | string = props.cpu ? props.cpu : 0;
   let gpu: number | string = props.gpu ? props.gpu : 0;
   let network: number | string = props.network ? props.network : 0;

@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function MonthContainer(props) {
+export default function MonthContainer(props: any) {
   return <div className="xivContainers monthBorder">{props.month}</div>;
 }

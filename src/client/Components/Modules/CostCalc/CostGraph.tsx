@@ -19,7 +19,7 @@ ChartJS.register(
   Colors
 );
 
-export default function CostGraph(props) {
+export default function CostGraph(props: any) {
   const input = props.load ? 'load' : 'budget';
   const data = {
     labels: props.monthArr,

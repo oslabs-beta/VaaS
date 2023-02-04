@@ -1,7 +1,7 @@
 import React from 'react';
 import { ACTIONS } from './CostBudget';
 
-export default function BudgetInput(props) {
+export default function BudgetInput(props: any) {
   function loadBudget(id: string, value: number) {
     props.dispatch({
       type: ACTIONS.LOADBUDGET,

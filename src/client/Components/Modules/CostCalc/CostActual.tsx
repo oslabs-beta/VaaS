@@ -12,7 +12,7 @@ export const ACTIONS = {
   CHANGEMULTI: 'change_multi',
 };
 
-function reducer(load, action) {
+function reducer(load: any, action: any) {
   switch (action.type) {
     case ACTIONS.LOADDATA: {
       const newLoad = { ...load };
@@ -76,7 +76,7 @@ function reducer(load, action) {
   }
 }
 
-export default function CostActual(props) {
+export default function CostActual(props: any) {
   const [data, setData] = useState([]);
   const [load, dispatch] = useReducer(reducer, {
     multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -200,7 +200,8 @@ export default function CostActual(props) {
     if (i === 1) {
       actualInfoArr.push(<SideLabel key={`actual${i}`} />);
       continue;
-    } else if (i === 14) actualInfoArr.push(<RowTotal key={`actual${i}`} load={load} />);
+    } else if (i === 14)
+      actualInfoArr.push(<RowTotal key={`actual${i}`} load={load} />);
     else if (i === 2) {
       actualInfoArr.push(
         <InfoBoxStart
