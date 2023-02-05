@@ -31,7 +31,7 @@ const Charts = (props: Modules) => {
   useEffect(() => {
     getDashboards();
     window.innerHeight < 700
-      ? setIframeHeight(600)
+      ? setIframeHeight(window.innerHeight)
       : setIframeHeight(window.innerHeight * 0.75);
     window.innerWidth < 600
       ? setIframeWidth(window.innerWidth)
@@ -47,7 +47,7 @@ const Charts = (props: Modules) => {
         window.innerHeight
       );
       window.innerHeight < 700
-        ? setIframeHeight(600)
+        ? setIframeHeight(window.innerHeight)
         : setIframeHeight(window.innerHeight * 0.75);
       window.innerWidth < 600
         ? setIframeWidth(window.innerWidth)
