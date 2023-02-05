@@ -30,7 +30,6 @@ router
       const cluster = await Cluster.findOne({ _id: id }).exec();
       if (cluster) {
         const { url, k8_port } = cluster;
-
         const data = await fetch(`${url}:${k8_port}/api/v1/query?query=${q}`, {
           method: 'GET',
           headers: {

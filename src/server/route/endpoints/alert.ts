@@ -9,7 +9,6 @@ import findup from 'findup-sync';
 
 const fs = require('fs');
 
-
 router
   .route('/alert')
   .get(verifyCookie, async (req: Request, res: Response) => {
@@ -32,7 +31,7 @@ router
         'rules'
       ][0]['for'] = dur;
 
-      fs.writeFile(`${fileLoc}`, yaml.dump(doc), (err) => {
+      fs.writeFile(`${fileLoc}`, yaml.dump(doc), (err: unknown) => {
         if (err) {
           console.log('error with overwriting the yaml file');
           console.log(err);
