@@ -326,5 +326,8 @@ dd {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-/*280 > 198
+
+.cluster-description{
+  width: 100%;
+}
 

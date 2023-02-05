@@ -117,6 +117,11 @@ const Kube = (props: ClusterTypes) => {
       >
         <Box
           className="Cluster-Kube-Box-Title"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
           sx={{
             borderBottom: '2px solid #15161d',
             minHeight: '60px',
@@ -310,7 +315,16 @@ const Kube = (props: ClusterTypes) => {
           }}
         >
           <div className="Cluster-Information">
-            {dbData?.description}
+            <div
+              className="cluster-description"
+              onClick={() =>
+                navigate('/module', {
+                  state: [dbData, 'charts', true],
+                })
+              }
+            >
+              {dbData?.description}
+            </div>
             <Tooltip title="Cluster Settings">
               <div
                 id="settingButton"
@@ -324,7 +338,14 @@ const Kube = (props: ClusterTypes) => {
             </Tooltip>
           </div>
         </Box>
-        <Box className="Basic-Descriptors">
+        <Box
+          className="Basic-Descriptors"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
+        >
           <Box
             className="Cluster-Nodes-Box"
             sx={{
@@ -365,7 +386,14 @@ const Kube = (props: ClusterTypes) => {
             <div>{totalPods || 0}</div>
           </Box>
         </Box>
-        <Box className="Gauges-Descriptors">
+        <Box
+          className="Gauges-Descriptors"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
+        >
           <Box
             className="Cluster-CPU-Box"
             sx={{

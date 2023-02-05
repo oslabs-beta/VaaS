@@ -234,7 +234,7 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              title="graph"
+              title="grafana graph"
               src={
                 isGrafana
                   ? `${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`
