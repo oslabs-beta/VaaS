@@ -481,7 +481,7 @@ const OpenFaaS = (props: Modules) => {
           id="func-req-body"
           label="Request Body"
           variant="filled"
-          defaultValue={sessionStorage.getItem('openFaasReqBody') || ''}
+          value={sessionStorage.getItem('openFaasReqBody') || ''}
           size="small"
           margin="dense"
           multiline
