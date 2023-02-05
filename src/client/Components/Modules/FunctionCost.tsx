@@ -10,9 +10,12 @@ import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import { useLocation } from 'react-router-dom';
 import './styles.css';
 
 const FunctionCost = (props: Modules) => {
+  const { state } = useLocation();
+  console.log('state is: ', state);
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
   const deployedFunctions = OFReducer.deployedFunctions || [];
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
@@ -80,7 +83,7 @@ const FunctionCost = (props: Modules) => {
         type,
         query
       );
-
+      console.log('data is: ', data, selectedDeployedFunction);
       if (!isNaN(Number(data.value))) {
         data.value = `The average time needed to invoke function is ${Number(
           data.value
@@ -633,6 +636,12 @@ const FunctionCost = (props: Modules) => {
           </div>
         </Box>
       </Box>
+      {/* <iframe
+        src={`${state[0].cost_url}:${state[0].cost_port}/grafana/d-solo/at-cost-analysis-namespace2/namespace-utilization-metrics?var-namespace=openfaas-fn&orgId=1&refresh=10s&from=1675558728616&to=1675559628616&panelId=73`}
+        width="600"
+        height="300"
+        frameborder="0"
+      ></iframe> */}
     </Container>
   );
 };
