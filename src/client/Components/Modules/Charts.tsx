@@ -40,12 +40,6 @@ const Charts = (props: Modules) => {
 
   useEffect(() => {
     window.addEventListener('resize', () => {
-      console.log(
-        'window resized to:',
-        window.innerWidth,
-        'x',
-        window.innerHeight
-      );
       window.innerHeight < 700
         ? setIframeHeight(window.innerHeight)
         : setIframeHeight(window.innerHeight * 0.75);
