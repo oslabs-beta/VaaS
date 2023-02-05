@@ -14,7 +14,6 @@ router
       `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
     );
     terminal(req.query);
-    console.log('req.query in gateway', req.query);
     if (!req.query.id || !req.query.q) {
       const error: IError = {
         status: 500,
@@ -31,10 +30,6 @@ router
       const cluster = await Cluster.findOne({ _id: id }).exec();
       if (cluster) {
         const { url, k8_port } = cluster;
-        console.log(
-          'url in gateway',
-          `${url}:${k8_port}/api/v1/query?query=${q}`
-        );
         const data = await fetch(`${url}:${k8_port}/api/v1/query?query=${q}`, {
           method: 'GET',
           headers: {
@@ -42,7 +37,6 @@ router
             'Content-Type': 'application/json',
           },
         }).then((res) => res.json());
-        console.log('data after fetch', data, type);
         terminal(`Success: PromQL query [${q}] executed`);
         // cleaning up the data send back to front end according to type of query it is
         if (type === 'avg') {
