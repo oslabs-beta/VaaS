@@ -25,8 +25,9 @@ class Database {
     const uri =
       username && password
         ? // MODIFY URI SYNTAX BASED ON ADMIN INPUT
-          `${protocol}${username}:${password}${url}`
+          `${protocol}${username}:${password}${url}/${collection}?retryWrites=true&w=majority`
         : `${protocol}${url}:${port}/${collection}`;
+    console.log(uri);
     // INITIATE CONNECTION TO MONGODB
     this._mongo.connect(uri);
     // ASSIGN MONGOOSE CONNECTION TO db
