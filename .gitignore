@@ -42,4 +42,6 @@ Thumbs.db
 # Ignore built ts files
 dist/**/*
 
-
+# Ignore cypress videos and screenshots
+cypress/videos/*
+cypress/screenshots/*
