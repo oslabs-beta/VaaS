@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
@@ -35,7 +34,11 @@ export default function NavBar(props: { refetch?: any }) {
           alt="home icon"
         />
       </a>
-      <img id="navbar-title" src="../../../../public/Images/logoText.png" />
+      <img
+        alt="logo"
+        id="navbar-title"
+        src="../../../../public/Images/logoText.png"
+      />
 
       <Tooltip title="Account settings">
         <IconButton
@@ -126,4 +129,4 @@ export default function NavBar(props: { refetch?: any }) {
       </Modal>
     </div>
   );
-};
+}
