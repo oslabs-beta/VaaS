@@ -7,10 +7,10 @@ export const config: IConfig = {
     port: Number(process.env.MONGO_PORT),
     username: process.env.MONGO_USERNAME,
     password: process.env.MONGO_PASSWORD,
-    database:
+    collection:
       process.env.NODE_ENV === 'test'
-        ? process.env.MONGO_DATABASE_TEST
-        : process.env.MONGO_DATABASE,
+        ? process.env.MONGO_COLLECTION_TEST
+        : process.env.MONGO_COLLECTION,
   },
   jwt: {
     access: process.env.JWT_ACCESS_SECRET,
