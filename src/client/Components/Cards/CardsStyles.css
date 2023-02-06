@@ -88,7 +88,7 @@ width: 100%
   border-top: 0px;
   border-bottom: 0px;
   border-width: 2px;
-  height: 100vh;
+  /* height: 100%; */
 }
 
 .sidebarMenu {
