@@ -37,6 +37,3 @@ Thumbs.db
 
 # Ignore built ts files
 dist/**/*
-
-# Lock files
-package-lock.json
