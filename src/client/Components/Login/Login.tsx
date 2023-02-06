@@ -95,14 +95,15 @@ const Login = () => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            marginBottom: '20px',
           }}
         >
           <img
             alt="login icon"
             className="login-icon"
-            src="../../../../public/Images/v4.svg"
+            src="../../../../public/Images/image0.png"
           />
-          <Typography
+          {/* <Typography
             // sx={{
             //   fontSize: '2.5rem',
             //   marginTop: '0',
@@ -115,7 +116,7 @@ const Login = () => {
             className="vaas-text"
           >
             VaaS
-          </Typography>
+          </Typography> */}
           {error ? (
             <div className="error">{error}</div>
           ) : (
@@ -225,7 +226,7 @@ const Login = () => {
                   //   border: '1px solid black',
                   // },
                   // ':enabled': {
-                  backgroundColor: '#2604ffb1',
+                  backgroundColor: '#28eea0',
                   color: 'rgba(255, 255, 255, 0.8)',
                   border: '1px solid black',
                   // },
@@ -260,7 +261,7 @@ const Login = () => {
                   height: '2.3rem',
                   fontFamily: 'Verdana, Arial, sans-serif',
                   fontSize: '1em',
-                  backgroundColor: '#5b43f5b1',
+                  backgroundColor: '#02a4f7',
                   border: '1px solid black',
                   // maxWidth: '60%',
                   '@media screen and (max-width: 650px)': {

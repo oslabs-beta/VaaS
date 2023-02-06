@@ -16,6 +16,8 @@ const Charts = (props: Modules) => {
   const [dashboard, setDashboard] = useState('');
   const [dashboardIds, setDashboardIds] = useState<Record<string, string>>({});
   const [isGrafana, setIsGrafana] = useState<boolean>(true);
+  const [iframeHeight, setIframeHeight] = useState<number>(600);
+  const [iframeWidth, setIframeWidth] = useState<number>(600);
   const handleClose = () => setOpen(false);
   const handleCloseSecond = () => setOpenSecond(false);
 
@@ -28,8 +30,25 @@ const Charts = (props: Modules) => {
 
   useEffect(() => {
     getDashboards();
+    window.innerHeight < 700
+      ? setIframeHeight(window.innerHeight)
+      : setIframeHeight(window.innerHeight * 0.75);
+    window.innerWidth < 600
+      ? setIframeWidth(window.innerWidth)
+      : setIframeWidth(window.innerWidth * 0.8);
   }, []);
-  
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      window.innerHeight < 700
+        ? setIframeHeight(window.innerHeight)
+        : setIframeHeight(window.innerHeight * 0.75);
+      window.innerWidth < 600
+        ? setIframeWidth(window.innerWidth)
+        : setIframeWidth(window.innerWidth * 0.8);
+    });
+  });
+
   const computingDashboard: Record<string, string> = {
     Cluster: dashboardIds.ComputeCluster,
     Nodes: dashboardIds.ComputeNodePods,
@@ -144,6 +163,7 @@ const Charts = (props: Modules) => {
     flexWrap: 'wrap',
     justifyContent: 'center',
   };
+
   return (
     <div className="chartsBackground">
       <div className="categoryList">
@@ -208,14 +228,15 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              title="graph"
+              title="grafana graph"
               src={
                 isGrafana
                   ? `${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`
                   : dashboard
               }
-              height="900px"
-              width="1500px"
+              height={`${iframeHeight}px`}
+              width={`${iframeWidth}px`}
+
               // frameBorder="0"
             ></iframe>
           </div>

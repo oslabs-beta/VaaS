@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logOutUser } from '../../Queries';
@@ -9,7 +8,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import AddClusters from '../Admin/AddCluster';
+// import AddClusters from '../Admin/AddCluster';
 
 export default function NavBar(props: { refetch?: any }) {
   const navigate = useNavigate();
@@ -31,11 +30,15 @@ export default function NavBar(props: { refetch?: any }) {
       <a onClick={() => navigate('/home')}>
         <img
           className="homeicon"
-          src="../../../../public/Images/Vaas.png"
-          img-alt=""
+          src="../../../../public/Images/image1.png"
+          alt="home icon"
         />
       </a>
-      <a id="navbar-title">VaaS</a>
+      <img
+        alt="logo"
+        id="navbar-title"
+        src="../../../../public/Images/logoText.png"
+      />
 
       <Tooltip title="Account settings">
         <IconButton
@@ -50,7 +53,7 @@ export default function NavBar(props: { refetch?: any }) {
         >
           <Avatar
             sx={{ width: '70px', height: '70px' }}
-            src="../../../../public/Images/profile.png"
+            src="../../../../public/Images/image1.png"
           ></Avatar>
         </IconButton>
       </Tooltip>
@@ -126,4 +129,4 @@ export default function NavBar(props: { refetch?: any }) {
       </Modal>
     </div>
   );
-};
+}

@@ -45,7 +45,7 @@ const OpenFaaS = (props: Modules) => {
   //stores all deployed openfaas functions from the openfaas store
   const [selectedDeployedFunction, setSelectedDeployedFunction] =
     useState<DeployedFunctionTypes>({
-      name: '',
+      name: 'none',
       replicas: 0,
       invocationCount: 0,
       image: '',
@@ -113,33 +113,6 @@ const OpenFaaS = (props: Modules) => {
     setFuncDescription(funcObj?.description || '');
   };
 
-  //function that sends a get request to openfaas and receives a response of all the deployed functions
-  //stored in the current cluster
-  const fetchFunctions = async () => {
-    try {
-      const funcs = await Get(apiRoute.getRoute(`faas`), { id });
-      if (funcs.message) {
-        dispatch(GET_DeployedOFFunc([]));
-      } else {
-        dispatch(
-          GET_DeployedOFFunc(
-            funcs.sort((a: { name: string }, b: { name: string }) =>
-              a.name.localeCompare(b.name)
-            )
-          )
-        );
-        setDeployedFunctions(funcs);
-        const funcObj = findFuncFromRedux(selectedDeployedFunction.name);
-        if (funcObj) {
-          setSelectedDeployedFunction(funcObj);
-          setInvokeCount(funcObj.invocationCount || 0);
-        }
-      }
-    } catch (error) {
-      console.log('Error in fetching deployed OpenFaaS Functions', error);
-    }
-  };
-
   useEffect(() => {
     //function gets all openfaas functions from openfaas store
     const openFaaSFunctions = async () => {
@@ -151,6 +124,34 @@ const OpenFaaS = (props: Modules) => {
       }
     };
     openFaaSFunctions();
+  }, []);
+
+  useEffect(() => {
+    //function gets all deployed functions from openfaas store
+    const fetchFunctions = async () => {
+      try {
+        const funcs = await Get(apiRoute.getRoute(`faas`), { id });
+        if (funcs.message) {
+          dispatch(GET_DeployedOFFunc([]));
+        } else {
+          dispatch(
+            GET_DeployedOFFunc(
+              funcs.sort((a: { name: string }, b: { name: string }) =>
+                a.name.localeCompare(b.name)
+              )
+            )
+          );
+          setDeployedFunctions(funcs);
+          const funcObj = findFuncFromRedux(selectedDeployedFunction.name);
+          if (funcObj) {
+            setSelectedDeployedFunction(funcObj);
+            setInvokeCount(funcObj.invocationCount || 0);
+          }
+        }
+      } catch (error) {
+        console.log('Error in fetching deployed OpenFaaS Functions', error);
+      }
+    };
     fetchFunctions();
   }, [renderFunctions]);
 
@@ -174,6 +175,7 @@ const OpenFaaS = (props: Modules) => {
         if (funcObj) {
           setSelectedDeployedFunction(funcObj);
           setFuncDescription(selectedOpenFaaSFunction.description);
+          setInvokeCount(funcObj.invocationCount || 0);
         } else {
           setSelectedDeployedFunction({
             ...selectedDeployedFunction,
@@ -181,6 +183,7 @@ const OpenFaaS = (props: Modules) => {
             invocationCount: 0,
           });
           setFuncDescription(selectedOpenFaaSFunction.description);
+          setInvokeCount(0);
         }
       }
     } catch (error) {
@@ -354,7 +357,7 @@ const OpenFaaS = (props: Modules) => {
               ref={optionRef}
               onChange={handleDeployedFunctionChange}
             >
-              <option value="">--Select Function to Invoke--</option>
+              <option value="none">--Select Function to Invoke--</option>
               {OFReducer.deployedFunctions.map((element, idx) => {
                 return (
                   <option key={idx} value={element.name}>
@@ -478,7 +481,7 @@ const OpenFaaS = (props: Modules) => {
           id="func-req-body"
           label="Request Body"
           variant="filled"
-          defaultValue={sessionStorage.getItem('openFaasReqBody') || ''}
+          value={sessionStorage.getItem('openFaasReqBody') || ''}
           size="small"
           margin="dense"
           multiline
@@ -521,6 +524,5 @@ const OpenFaaS = (props: Modules) => {
       </Box>
     </Container>
   );
-};;;;;;;;
-
+};
 export default OpenFaaS;
