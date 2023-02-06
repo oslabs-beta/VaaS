@@ -31,11 +31,11 @@ export default function NavBar(props: { refetch?: any }) {
       <a onClick={() => navigate('/home')}>
         <img
           className="homeicon"
-          src="../../../../public/Images/Vaas.png"
+          src="../../../../public/Images/image1.png"
           alt="home icon"
         />
       </a>
-      <a id="navbar-title">VaaS</a>
+      <img id="navbar-title" src="../../../../public/Images/logoText.png" />
 
       <Tooltip title="Account settings">
         <IconButton
@@ -50,7 +50,7 @@ export default function NavBar(props: { refetch?: any }) {
         >
           <Avatar
             sx={{ width: '70px', height: '70px' }}
-            src="../../../../public/Images/profile.png"
+            src="../../../../public/Images/image1.png"
           ></Avatar>
         </IconButton>
       </Tooltip>
