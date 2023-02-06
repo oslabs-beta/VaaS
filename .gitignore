@@ -13,10 +13,6 @@ logs
 results
 tmp
 
-# Lock files
-yarn.lock
-package-lock.json
-
 # Build
 public/css/main.css
 
@@ -42,6 +38,6 @@ Thumbs.db
 # Ignore built ts files
 dist/**/*
 
-# Ignore cypress videos and screenshots
-cypress/videos/*
-cypress/screenshots/*
+# Lock files
+yarn.lock
+package-lock.json
