@@ -32,7 +32,7 @@ router
         };
         return res.status(error.status).json(error);
       }
-      await Cluster.updateOne({ _id: clusterId }, multi);
+      await Cluster.updateOne({ _id: clusterId }, { multi: multi });
       return res.status(201).json({ success: true });
     } catch (err) {
       const error: IError = {

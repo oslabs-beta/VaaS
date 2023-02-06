@@ -96,6 +96,7 @@ export default function CostActual(props: any) {
   const { state } = useLocation();
   const costURL = state[0]['cost_url'];
   const costPort = state[0]['cost_port'];
+  console.log('this is state', state);
 
   const fetchData = async () => {
     const response = await fetch(
