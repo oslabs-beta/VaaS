@@ -239,9 +239,14 @@ export default function CostActual(props: any) {
       );
     }
   }
+
+  function saveCost() {
+
+  }
+
   return (
     <div className="actualDisplay">
-      <h2 className="bold">Monthly Cost</h2>
+      <h2 className="bold">Monthly Cost Forecasts</h2>
       <div className="costGraph">
         <div className="subGraph">
           <CostGraph load={load} monthArr={props.monthArr} />
@@ -249,7 +254,14 @@ export default function CostActual(props: any) {
       </div>
       <MonthContainer month={props.month} />
       <div className="xivContainers costBorder">{actualInfoArr}</div>
-      <button className="costButton">Save cost settings</button>
+      <button
+        className="costButton"
+        onClick={() => {
+          saveCost();
+        }}
+      >
+        Save cost settings
+      </button>
     </div>
   );
 }

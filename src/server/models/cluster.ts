@@ -19,6 +19,7 @@ const clusterSchema: Schema<ICluster> = new Schema<ICluster>({
   kubeview_url: String,
   cost_port: String,
   cost_url: String,
+  multi: [Number],
 });
 
 // THIRD PARAMETER DEFINES DEFAULT COLLECTION NAME

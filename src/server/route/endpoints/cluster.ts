@@ -259,7 +259,7 @@ router
         ).toString('base64');
         updateData.authorization = `Basic ${encodeAuth}`;
       }
-    
+
       switch (req.body.favorite) {
         case true: {
           await Cluster.updateOne({ _id: clusterId }, updateData);
