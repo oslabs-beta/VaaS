@@ -35,6 +35,9 @@ function path(url: string): IPathRoute {
     '/graphs': {
       methods: ['POST'],
     },
+    '/cost': {
+      methods: ['GET', 'PUT'],
+    },
   };
   return allRoutes[url];
 }

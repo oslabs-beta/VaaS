@@ -6,6 +6,7 @@ import MonthContainer from './MonthContainer';
 import RowTotal from './RowTotal';
 import SideLabel from './SideLabel';
 import CostGraph from './CostGraph';
+import axiosInstance from '../../../Queries/axios';
 
 export const ACTIONS = {
   LOADDATA: 'load_data',
@@ -240,8 +241,18 @@ export default function CostActual(props: any) {
     }
   }
 
-  function saveCost() {
-
+  async function saveCost() {
+    await axiosInstance.put('/cost', {
+      clusterId: state[0]['_id'],
+      multi: load.multi,
+    });
+    // await fetch('api/cost', {
+    //   method: 'PUT',
+    //   headers: {
+    //     'Content-Type': 'applicatin/json',
+    //   },
+    //   body: JSON.stringify({ clusterId: state[0]['_id'], multi: load.multi }),
+    // });
   }
 
   return (

@@ -9,13 +9,11 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import './styles.css';
 
-
 const settingsField = {
   background: 'white',
   borderRadius: '5px',
   marginBlock: '7px',
   width: '300px',
-
 };
 
 const buttonStyle = {
