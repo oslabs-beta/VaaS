@@ -158,7 +158,7 @@ const HomeSidebar = (props: {
             color: '#A1A9B5',
           }}
         >
-          <InfoOutlinedIcon />
+          <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
           About
         </Button>
       </div>

@@ -67,7 +67,7 @@
 }
 
 #navbar-container .homeicon {
-  height: 80px;
+  height: 85px;
   width: 80px;
   margin-left: 1em;
   padding-top: .5em;
@@ -87,9 +87,11 @@
 }
 
 #navbar-title {
-  color: white;
+  /* color: white;
   font-size: 40px;
-  font-weight: 100 !important;
+  font-weight: 100 !important; */
+  height: 100px;
+  width: 100px;
 }
 
 .Kube-container {
