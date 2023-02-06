@@ -38,10 +38,10 @@ const textFields: {
   { id: 'description', label: 'Cluster Description' },
   { id: 'url', label: 'Prometheus URL' },
   { id: 'k8_port', label: 'Prometheus Port', regex: /[0-9]/g },
-  { id: 'faas_username', type: 'username', label: 'FaaS Username' },
-  { id: 'faas_password', type: 'password', label: 'FaaS Password' },
-  { id: 'faas_url', label: 'Faas URL' },
-  { id: 'faas_port', label: 'Faas Port', regex: /[0-9]/g },
+  { id: 'faas_username', type: 'username', label: 'OpenFaaS Username' },
+  { id: 'faas_password', type: 'password', label: 'OpenFaaS Password' },
+  { id: 'faas_url', label: 'OpenFaaS URL' },
+  { id: 'faas_port', label: 'OpenFaaS Port', regex: /[0-9]/g },
   { id: 'grafana_url', label: 'Grafana URL' },
   { id: 'kubeview_url', label: 'Kubeview URL' },
   { id: 'cost_url', label: 'Kubecost URL' },
@@ -79,11 +79,11 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   // React query mutations used for requests other than get requests, used to get more efficient requests
   const mutation = useMutation((data: AddClusterType) => addCluster(data), {
     onSuccess: (response) => {
+      props.refetch();
+      props.handleAddClusters(false);
       response.success
         ? setAddClusterMessage('Successfully added cluster')
         : setAddClusterMessage(response.message);
-      props.refetch();
-      props.handleAddClusters(false);
     },
   });
 
@@ -181,6 +181,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         variant="contained"
         className="btn"
         type="button"
+        data-cy="add-cluster-button"
         onClick={handleAddCluster}
         sx={buttonStyle}
       >

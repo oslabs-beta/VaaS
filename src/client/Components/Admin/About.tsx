@@ -73,6 +73,11 @@ const About = (props: { openAboutPage: any }) => {
         </Button>
         <Box sx={{ textAlign: 'center' }}>
           <h3>Developed by:</h3>
+          <p>Brandon Muniz-Rosado</p>
+          <p>Christopher Tenario</p>
+          <p>Johanna Merluza</p>
+          <p>Terrence Granger</p>
+          <p>Steven Tong</p>
           <p>Young Kim</p>
           <p>Ahsan Ali </p>
           <p>Rabea Ahmad</p>

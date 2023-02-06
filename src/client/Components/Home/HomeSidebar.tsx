@@ -38,6 +38,7 @@ const textFieldStyle = {
 const HomeSidebar = (props: {
   handleFindCluster: any;
   resetClusterArray: any;
+  refetch: any;
 }) => {
   const [open, setOpen] = useState(true);
   const [AddCluster, handleAddClusters] = useState(false);
@@ -58,19 +59,15 @@ const HomeSidebar = (props: {
   const resetClusterArray = props.resetClusterArray;
 
   //search to find cluser occurs after each key stroke
-  useEffect(
-    (props): void => {
-      handleFindCluster(searchCluster);
-    },
-    [searchCluster]
-  );
+  useEffect((): void => {
+    handleFindCluster(searchCluster);
+  }, [searchCluster]);
 
   //resets searchCluster state on each key
   const handleChangeCluster = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     // handleFindCluster(searchCluster);
-    console.log(searchCluster, 'handlechangecluster here value');
     setSearchCluster(e.target.value);
   };
 

@@ -11,7 +11,6 @@ export default async (
   next: NextFunction
 ): Promise<void | Response> => {
   terminal(`Received ${req.method} request at 'bcrypt' middleware`);
-  console.log(res.locals.newAcctInfo);
 
   let { password } = req.body;
   /* IF newAcctInfo (from previous github middleware) exists on locals, set password to be newAcctInfo.password */

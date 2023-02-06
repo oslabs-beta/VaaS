@@ -33,23 +33,23 @@ const textFields: {
     label: 'Prometheus Port',
     regex: /[0-9]/g,
   },
-  { name: 'faas_url', id: 'openfaas-url', label: 'Faas URL' },
+  { name: 'faas_url', id: 'openfaas-url', label: 'OpenFaaS URL' },
   {
     name: 'faas_port',
     id: 'update-cluster-faas',
-    label: 'Faas Port',
+    label: 'OpenFaaS Port',
     regex: /[0-9]/g,
   },
   {
     name: 'faas_username',
     id: 'update-cluster-faas-username',
-    label: 'FaaS Username',
+    label: 'OpenFaaS Username',
     notRequired: true,
   },
   {
     name: 'faas_password',
     id: 'update-cluster-faas-password',
-    label: 'FaaS Password',
+    label: 'OpenFaaS Password',
     type: 'password',
     notRequired: true,
   },
@@ -154,7 +154,6 @@ const ClusterSettings = (props: Modules) => {
           newFormErrors[index] = true;
           isValidInput = false;
           field.errMsg = `${field.label} is required.`;
-          console.log(textFields);
           // If a port field is not a number, set that form to error status and display error message
         } else if (
           field.regex &&

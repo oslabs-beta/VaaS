@@ -10,9 +10,11 @@ import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
+import { useLocation } from 'react-router-dom';
 import './styles.css';
 
 const FunctionCost = (props: Modules) => {
+  const { state } = useLocation();
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
   const deployedFunctions = OFReducer.deployedFunctions || [];
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
@@ -80,7 +82,6 @@ const FunctionCost = (props: Modules) => {
         type,
         query
       );
-
       if (!isNaN(Number(data.value))) {
         data.value = `The average time needed to invoke function is ${Number(
           data.value
@@ -138,7 +139,7 @@ const FunctionCost = (props: Modules) => {
             computeCost: bill,
             total: totalCost,
           };
-          console.log('THIS IS THE RESULT', result);
+          // console.log('THIS IS THE RESULT', result);
           // console.log(totalCost);
           // console.log('****************');
           switch (resultType) {
@@ -161,7 +162,7 @@ const FunctionCost = (props: Modules) => {
             (invokeAmount - functionCost.azureFreeRequests) *
             (invokeTime / 1000);
           const computeInsec = Math.max(requestTimesTime, 0);
-          console.log('Azure:', computeInsec);
+          // console.log('Azure:', computeInsec);
 
           const totalComputeGBSeconds = computeInsec * (memory / 1024);
           const billableCompute = Math.max(
@@ -204,11 +205,10 @@ const FunctionCost = (props: Modules) => {
             0
           );
           const googCPU: number = googleGBGHzMap[memory];
-          console.log(googCPU, 'IT IS');
+          // console.log(googCPU, 'IT IS');
           let bill = null;
           if (!googCPU) {
             bill = billableCompute * functionCost.googleChargeGBSecond;
-            console.log('HELLO');
           } else {
             const totalComputeGHzSeconds =
               totalComputeGBSeconds * (googCPU / 1000);
@@ -263,20 +263,20 @@ const FunctionCost = (props: Modules) => {
 
           const bill = billableCompute * functionCost.ibmChargeGBSecond;
 
-          console.log(
-            'invoke amount:',
-            invokeAmount,
-            'freeReqs',
-            functionCost.ibmFreeRequests,
-            'ibmReqCharge:',
-            functionCost.ibmRequestCharge
-          );
+          // console.log(
+          //   'invoke amount:',
+          //   invokeAmount,
+          //   'freeReqs',
+          //   functionCost.ibmFreeRequests,
+          //   'ibmReqCharge:',
+          //   functionCost.ibmRequestCharge
+          // );
           const requestCharge: number =
             (invokeAmount - functionCost.ibmFreeRequests) *
             (functionCost.ibmRequestCharge / 1000000);
 
           const totalCost: string = (requestCharge + bill).toFixed(2);
-          console.log('ibm requestCharge:', requestCharge);
+          // console.log('ibm requestCharge:', requestCharge);
           const result = {
             requestCharge: requestCharge,
             computeCost: bill,
@@ -633,6 +633,12 @@ const FunctionCost = (props: Modules) => {
           </div>
         </Box>
       </Box>
+      {/* <iframe
+        src={`${state[0].cost_url}:${state[0].cost_port}/grafana/d-solo/at-cost-analysis-namespace2/namespace-utilization-metrics?var-namespace=openfaas-fn&orgId=1&refresh=10s&from=1675558728616&to=1675559628616&panelId=73`}
+        width="600"
+        height="300"
+        frameborder="0"
+      ></iframe> */}
     </Container>
   );
 };

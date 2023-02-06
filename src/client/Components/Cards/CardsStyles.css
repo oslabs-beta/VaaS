@@ -46,7 +46,7 @@
 #module-content {
   margin-top: 10px;
   width: 100%;
-  
+
 }
 .chartsBackground {
   display: flex;
@@ -65,7 +65,7 @@ width: 100%
   color: white;
   width: 220px;
   transition: width 0.3s ease-in-out;
-  height: 60vw;
+  height: 100vh;
   min-height: 800px;
   background-color: #2a2e36;
   padding-top: 28px;
@@ -80,7 +80,7 @@ width: 100%
 .ModuleSidenavClosed {
   transition: width 0.3s ease-in-out;
   width: 70px;
-  height: 60vw;
+  /* height: 60vw; */
   min-height: 800px;
   padding-top: 28px;
   border-right: #7986CB;
@@ -326,5 +326,8 @@ dd {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-/*280 > 198
+
+.cluster-description{
+  width: 100%;
+}
 

@@ -93,11 +93,11 @@ const Kube = (props: ClusterTypes) => {
         display: 'flex',
         backgroundColor: '#181A1D',
         color: 'white',
-        width: '50%',
-        minWidth: '500px',
+        // width: '50%',
+        width: '500px',
         minHeight: '325px',
-        height: '30vh',
-        maxHeight: '450px',
+        height: '350px',
+        // maxHeight: '450px',
         border: '2px solid #15161d',
         borderRadius: '10px',
         boxShadow: '1px 1px 10px .5px #403e54',
@@ -117,6 +117,11 @@ const Kube = (props: ClusterTypes) => {
       >
         <Box
           className="Cluster-Kube-Box-Title"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
           sx={{
             borderBottom: '2px solid #15161d',
             minHeight: '60px',
@@ -266,6 +271,24 @@ const Kube = (props: ClusterTypes) => {
           >
             FaaS Cost
           </Button>
+          <Button
+            className="Cluster-Buttons"
+            id="FaaSCost-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              color: 'white',
+            }}
+            fullWidth={true}
+            startIcon={<AttachMoney />}
+            onClick={() =>
+              navigate('/module', {
+                state: [dbData, 'kubacus', true],
+              })
+            }
+          >
+            Kubacus
+          </Button>
         </Box>
       </Box>
       <Box
@@ -292,7 +315,16 @@ const Kube = (props: ClusterTypes) => {
           }}
         >
           <div className="Cluster-Information">
-            {dbData?.description}
+            <div
+              className="cluster-description"
+              onClick={() =>
+                navigate('/module', {
+                  state: [dbData, 'charts', true],
+                })
+              }
+            >
+              {dbData?.description}
+            </div>
             <Tooltip title="Cluster Settings">
               <div
                 id="settingButton"
@@ -306,7 +338,14 @@ const Kube = (props: ClusterTypes) => {
             </Tooltip>
           </div>
         </Box>
-        <Box className="Basic-Descriptors">
+        <Box
+          className="Basic-Descriptors"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
+        >
           <Box
             className="Cluster-Nodes-Box"
             sx={{
@@ -347,7 +386,14 @@ const Kube = (props: ClusterTypes) => {
             <div>{totalPods || 0}</div>
           </Box>
         </Box>
-        <Box className="Gauges-Descriptors">
+        <Box
+          className="Gauges-Descriptors"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
+        >
           <Box
             className="Cluster-CPU-Box"
             sx={{

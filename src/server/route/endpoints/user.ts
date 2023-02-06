@@ -54,7 +54,6 @@ router
           exists: false,
         };
         terminal(`Fail: ${error.message}`);
-        console.log('FAILED');
         return res.status(error.status).json(error);
       }
       terminal(

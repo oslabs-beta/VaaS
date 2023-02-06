@@ -1,5 +1,5 @@
 .func-info{
-  padding-left: 20px;
+  padding-left: 30px;
 }
 
 
@@ -19,4 +19,10 @@
 }
 .renderCustom {
   height: 100%;
+}
+
+#func-title{
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
 }

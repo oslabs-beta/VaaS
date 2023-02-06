@@ -1,17 +1,17 @@
 import React, { useReducer } from 'react';
 import BudgetInput from './BudgetInput';
-import './costStyle.css';
 import InfoBox from './InfoBox';
 import MonthContainer from './MonthContainer';
 import RowTotal from './RowTotal';
 import SideLabel from './SideLabel';
+import CostGraph from './CostGraph';
 
 export const ACTIONS = {
   LOADBUDGET: 'load_budget',
   CHANGEMULTI: 'change_multi',
 };
 
-function reducer(budget, action) {
+function reducer(budget: any, action: any) {
   switch (action.type) {
     case ACTIONS.LOADBUDGET: {
       const newBudget = { ...budget };
@@ -69,7 +69,7 @@ function reducer(budget, action) {
   }
 }
 
-export default function CostBudget() {
+export default function CostBudget(props: any) {
   const [budget, dispatch] = useReducer(reducer, {
     multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     tag: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -87,38 +87,45 @@ export default function CostBudget() {
   const budgetInfoArr = [];
   for (let i = 1; i <= 14; i++) {
     if (i === 1) {
-      budgetInfoArr.push(<SideLabel key={i} />);
+      budgetInfoArr.push(<SideLabel key={`budget${i}`} />);
       continue;
     }
     if (i === 2) {
-      budgetInfoArr.push(<BudgetInput budget={budget} dispatch={dispatch} />);
+      budgetInfoArr.push(
+        <BudgetInput key={`budget${i}`} budget={budget} dispatch={dispatch} />
+      );
       continue;
     }
-    if (i === 14) budgetInfoArr.push(<RowTotal key={i} budget={budget} />);
+    if (i === 14)
+      budgetInfoArr.push(<RowTotal key={`budget${i}`} budget={budget} />);
     else {
       budgetInfoArr.push(
         <InfoBox
-          key={i}
-          tag={budget.tag[i - 3]}
-          cpu={budget.cpu[i - 3]}
-          gpu={budget.gpu[i - 3]}
-          network={budget.network[i - 3]}
-          lb={budget.lb[i - 3]}
-          pv={budget.pv[i - 3]}
-          ram={budget.ram[i - 3]}
-          shared={budget.shared[i - 3]}
-          external={budget.external[i - 3]}
-          total={budget.total[i - 3]}
+          key={`budget${i}`}
+          tag={budget.tag[i - 2]}
+          cpu={budget.cpu[i - 2]}
+          gpu={budget.gpu[i - 2]}
+          network={budget.network[i - 2]}
+          lb={budget.lb[i - 2]}
+          pv={budget.pv[i - 2]}
+          ram={budget.ram[i - 2]}
+          shared={budget.shared[i - 2]}
+          external={budget.external[i - 2]}
+          total={budget.total[i - 2]}
           dispatch={dispatch}
-          reducer={reducer}
         />
       );
     }
   }
   return (
     <div className="actualDisplay">
-      <h2 className="bold">Monthly Budget</h2>
-      <MonthContainer />
+      <h2 className="bold">Monthly Budget ***BETA***</h2>
+      <div className="costGraph">
+        <div className="subGraph">
+          <CostGraph budget={budget} monthArr={props.monthArr} />
+        </div>
+      </div>
+      <MonthContainer month={props.month} />
       <div className="xivContainers costBorder">{budgetInfoArr}</div>
       <button className="costButton">Save budget settings</button>
     </div>
