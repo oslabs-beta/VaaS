@@ -7,14 +7,19 @@
   font-weight: bold;
 }
 
-.Admin-Modal-Container {
-  padding: 0px;
-  max-height: 60%;
-  max-width: 25%;
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+#update-user-err {
+  font-size: 15px;
+  align-self: center;
+  justify-self: center;
+  height: 30px;
+}
+
+#delete-password-err {
+  font-size: 15px;
+  align-self: center;
+  justify-self: center;
+  height: 30px;
+  color: rgb(227, 78, 78);
 }
 
 #close-Button {
@@ -28,6 +33,12 @@
   cursor: pointer;
   padding: 10px 25px;
   margin-bottom: 10px;
+}
+
+#account-details {
+  align-self: center;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
 #add-cluster-msg {

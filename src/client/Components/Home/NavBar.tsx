@@ -125,7 +125,7 @@ export default function NavBar(props: { refetch?: any; open: any }) {
           className="logoutMenuButton"
           sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '20px' }}
         >
-          &#9784; SETTINGS
+          &#9784; ACCOUNT
         </MenuItem>
         <MenuItem
           sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '20px' }}
