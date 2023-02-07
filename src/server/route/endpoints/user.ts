@@ -125,7 +125,6 @@ router
       terminal(
         `Received ${req.method} request at terminal '${req.baseUrl}${req.url}' endpoint`
       );
-      console.log(req.body, 'req body in delete');
       try {
         const response = await User.deleteOne({ username: req.body.username });
         if (response.deletedCount === 0) {
