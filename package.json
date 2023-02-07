@@ -14,6 +14,7 @@
     "build:client": "vite build --outDir dist/client --ssrManifest",
     "build:server": "vite build --ssr src/client/entry-server.tsx --outDir dist/server",
     "test": "NODE_ENV=test vitest --environment jsdom",
+    "test:windows": "set NODE_ENV=test && vitest --environment jsdom",
     "test:server": "NODE_ENV=test nodemon --watch src/server/ --watch src/server --exec 'ts-node src/server/index.ts'",
     "test:watch": "NODE_ENV=testvitest --watch",
     "coverage": "NODE_ENV=testvitest --coverage",
