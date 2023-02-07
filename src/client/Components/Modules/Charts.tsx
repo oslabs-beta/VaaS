@@ -146,7 +146,7 @@ const Charts = (props: Modules) => {
     width: 400,
     bgcolor: '#181A1D',
     border: '2px solid #15161d',
-    boxShadow: '1px 1px 10px .5px #403e54',
+    boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
     p: 7,
     display: 'flex',
     flexWrap: 'wrap',

@@ -2,19 +2,36 @@
   display: flex;
   flex-direction: row;
   height: 100%;
+  margin: 80px auto 0 auto;
+  /* justify-content: center; */
 }
 
 .rightContent {
-  margin-top: 15px;
+  margin: 30px auto 0 auto;
   width: 70%;
   display: flex;
-  margin-left: 10vw;
+  margin-left: 0 auto;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
 }
 
-.Module-top-row {
+@media screen and (max-width: 900px) {
+  .rightContent {
+    width: 100%;
+  }
+}
+
+.module-boxes {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  /* margin-top: 20px; */
+}
+
+/* .Module-top-row {
   width: 170px;
   height: 110%;
   margin-top: 15px;
@@ -22,11 +39,11 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-}
+} */
 
-.Module-top-row button {
+/* .Module-top-row button {
   width: auto;
-}
+} */
 
 .Cluster-Kube-Box {
   margin-top: 20px;
@@ -61,39 +78,45 @@
 }
 
 .ModuleSidenav {
-  color: white;
-  width: 220px;
-  position: -webkit-sticky;
-  position: sticky;
+  color: #f5f5f5;
+  position: -webkit-fixed;
+  position: fixed;
   top: 0px;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 230px;
   transition: width 0.3s ease-in-out;
+  /* height: 100%; */
   height: 100vh;
-  /* min-height: 800px; */
-  background-color: #2a2e36;
+  background-color: #061320;
   padding-top: 28px;
-  border-right: #7986cb;
+  border-right: #030a11;
   border-style: solid;
   border-top: 0px;
   border-bottom: 0px;
-  border-width: 2px;
   border-left: 0px;
+  border-width: 5px;
 }
 
 .ModuleSidenavClosed {
-  transition: width 0.3s ease-in-out;
-  position: -webkit-sticky;
-  position: sticky;
+  position: -webkit-fixed;
+  position: fixed;
   top: 0px;
-  width: 70px;
-  height: 100vh;
-  /* min-height: 800px; */
+  z-index: 99;
+  transition: width 0.3s ease-in-out;
+  width: 0px;
   padding-top: 28px;
-  border-right: #7986cb;
+  border-right: #030a11;
+  background-color: #061320;
   border-style: solid;
   border-top: 0px;
   border-bottom: 0px;
-  border-width: 2px;
+  border-width: 0px;
   /* height: 100%; */
+  height: 100vh;
 }
 
 .sidebarMenu {
@@ -106,9 +129,9 @@
 
 .menuCollapse {
   display: flex;
-  margin-right: 0px !important;
+  /* margin-right: 0px !important; */
   /* width: 60%; */
-  color: black;
+  /* color: black; */
 }
 
 .menuExpand {
@@ -122,13 +145,14 @@
   justify-content: flex-start;
   align-items: flex-start;
   margin-top: 20px;
+  width: 100%;
 }
 
 .closeButton {
   z-index: 3;
   display: block;
   margin: 0 auto;
-  background-color: #2704ff;
+  background-color: #0f9595;
   color: white;
   border-radius: 7px;
   border: none;
@@ -167,7 +191,7 @@ dd {
   flex-direction: column;
   margin-top: 10px;
   height: 600px;
-  box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(0, 0, 0, 0.05);
+  box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(248, 245, 245, 0.5);
 }
 
 .cluster-title {
@@ -260,9 +284,9 @@ dd {
   font-size: 1.3em;
 }
 
-#basic-button {
+/* #basic-button {
   color: white;
-}
+} */
 
 .Cluster-Memory-Gauge {
   display: flex;
@@ -286,7 +310,7 @@ dd {
 .Cluster-Kube-Box:hover {
   transform: scale(1.03);
   transition: 0.2s;
-  box-shadow: 1px 1px 10px 0.5px #2705ff;
+  box-shadow: 0 0 25px 0 #0f9595;
 }
 
 .Cluster-Information {

@@ -1,13 +1,13 @@
-  #add-cluster-title{
-    color: whitesmoke;
-    align-self: center;
-    justify-self: center;
-    /* width: 100%; */
-    margin: 10px auto 0px;
-    font-weight: bold;
-  }
+#add-cluster-title {
+  color: whitesmoke;
+  align-self: center;
+  justify-self: center;
+  /* width: 100%; */
+  margin: 10px auto 0px;
+  font-weight: bold;
+}
 
-  .Admin-Modal-Container {
+.Admin-Modal-Container {
   padding: 0px;
   max-height: 60%;
   max-width: 25%;
@@ -21,7 +21,7 @@
   z-index: 1;
   display: block;
   margin: 0 auto;
-  background-color: #2704ff;
+  background-color: #0f9595;
   color: white;
   border-radius: 7px;
   border: none;
@@ -30,7 +30,7 @@
   margin-bottom: 10px;
 }
 
-#add-cluster-msg{
+#add-cluster-msg {
   height: 15px;
   color: whitesmoke;
   text-align: center;
