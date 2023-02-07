@@ -11,21 +11,16 @@ import './styles.css';
 // Styles
 const containerStyle = {
   width: '350px',
-  marginTop: '-10px',
+  marginTop: '30px',
 };
-const textFieldStyle = {
-  background: 'blue',
-  borderRadius: '5px',
-  marginBottom: '0px',
-  width: '100%',
-  fontSize: '10px',
-};
+
 const buttonStyle = {
-  background: '#3a4a5b',
+  background: '#858585',
   borderRadius: '5px',
-  marginBottom: '0px',
+  marginBottom: '20px',
   width: '100%',
-  fontSize: '10px',
+  fontSize: '15px',
+  fontWeight: 'bold',
 };
 
 const About = (props: { openAboutPage: any }) => {
@@ -33,30 +28,21 @@ const About = (props: { openAboutPage: any }) => {
     <Box
       id="tenOptions"
       sx={{
-        padding: '0px',
+        color: '#f5f5f5',
+        height: '600px',
+        backgroundColor: '#0b171e',
+        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+        borderRadius: '10px',
+        marginBottom: '20px',
+        overflow: 'scroll',
         display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '350px',
         position: 'fixed',
-        top: '40%',
+        top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        backgroundColor: 'black',
-        borderRadius: '10px',
-        color: 'white',
-        border: '1px solid black',
-        margin: '0.5rem 0rem 0.6rem 0rem',
-        fontWeight: 'bold',
-        fontFamily: 'Verdana, Arial, sans-serif',
-        boxShadow: '1px 1px 10px 5px rgba(248, 245, 245, 0.5)',
-        fontSize: '1em',
-        width: '600px',
-        gap: '.6em',
-        height: '800px',
-        '@media screen and (max-width: 650px)': {
-          maxWidth: '80vw',
-          height: '510px',
-        },
       }}
     >
       <Container sx={containerStyle}>
@@ -72,12 +58,12 @@ const About = (props: { openAboutPage: any }) => {
           Learn more about VaaS
         </Button>
         <Box sx={{ textAlign: 'center' }}>
-          <h3>Developed by:</h3>
+          <h2 id="developed">Developed by:</h2>
           <p>Brandon Muniz-Rosado</p>
-          <p>Christopher Tenario</p>
+          <p>Christopher Tenorio</p>
           <p>Johanna Merluza</p>
-          <p>Terrence Granger</p>
           <p>Steven Tong</p>
+          <p>Terrence Granger</p>
           <p>Young Kim</p>
           <p>Ahsan Ali </p>
           <p>Rabea Ahmad</p>
