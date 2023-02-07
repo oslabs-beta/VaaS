@@ -170,6 +170,37 @@ Additional Grafana configurations are required for the graphical interfaces to r
 
 <br/>
 
+# Cypress Testing Configuration
+
+To utilize Cypress, create a ```cypress.env.json``` file with your cluster's configuration:
+
+```
+{
+   "mongodb": {
+      "uri": "",
+      "database": "",
+      "collection": ""
+   },
+   "testCluster": {
+      "name": "",
+      "desc": "",
+      "promUrl": "",
+      "faasUrl": "",
+      "faasPort": "",
+      "grafanaUrl": "",
+      "kubeUrl": "",
+      "faasUser": "",
+      "faasPw": "",
+      "costUrl": "",
+      "costPort": "",
+   }
+}
+```
+
+To learn more about Cypress E2E testing, visit [the official Cypress documentation](https://docs.cypress.io/guides/overview/why-cypress).
+
+<br/>
+
 # VaaS Setup
 
 Clone the VaaS repo from GitHub to your machine.
@@ -184,7 +215,7 @@ Install other dependencies. _At this time, you will need to use the specific com
 npm install --legacy-peer-deps
 ```
 
-A mongoDB database is required to sign into VaaS and utilize its functionalities. Create a .env file in the root folder of VaaS with the following fields:
+A mongoDB database is required to sign into VaaS and utilize its functionalities. Create a ```.env``` file in the root folder of VaaS with the following fields:
 
 ```
 JWT_ACCESS_SECRET=hello
