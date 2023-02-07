@@ -36,6 +36,6 @@ describe('register page', () => {
 
     cy.log('clicking go back button');
     cy.contains('Go Back').click();
-    cy.url().should('not.include', '/login');
+    cy.url().should('not.include', '/register');
   });
 });

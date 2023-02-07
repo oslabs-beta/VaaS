@@ -33,7 +33,7 @@ describe('test', () => {
   });
 
   it('should have clusters button', () => {
-    cy.contains('button', 'Clusters').click();
+    cy.get('[data-cy=hamburger]').click();
     cy.contains('Add Cluster').click();
     cy.get('#name').type(name);
     cy.get('#description').type(desc);
@@ -47,7 +47,9 @@ describe('test', () => {
     cy.get('#kubeview_url').type(kubeUrl);
     cy.get('#cost_url').type(costUrl);
     cy.get('#cost_port').type(costPort);
-    cy.get('[data-cy=add-cluster-button').click();
+    cy.get('[data-cy=add-cluster-button]').click();
+    cy.contains(name);
+    cy.contains(desc);
   });
 
   after(() => {
