@@ -317,7 +317,7 @@ const Login = () => {
               className="oauth-btn"
               sx={{
                 color: 'white',
-                backgroundColor: '#2704ffb1',
+                backgroundColor: '#0f9595',
                 borderColor: 'white',
                 marginTop: '8px',
                 paddingRight: '30px',
