@@ -37,7 +37,7 @@ const uiReducer = (
       };
     }
     case types.SET_DarkMode: {
-      console.log('darkMode currently:', state.clusterUIState.darkmode);
+      // console.log('darkMode currently:', state.clusterUIState.darkmode);
       return {
         ...state,
         clusterUIState: {

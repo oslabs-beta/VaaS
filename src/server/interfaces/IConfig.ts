@@ -8,7 +8,7 @@ interface IMongo {
   port: number | undefined;
   username: string | undefined;
   password: string | undefined;
-  collection: string | undefined;
+  database: string | undefined;
 }
 
 interface ITokenSecret {
