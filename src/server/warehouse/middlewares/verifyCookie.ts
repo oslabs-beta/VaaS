@@ -59,7 +59,7 @@ export default async (
           };
           terminal(`Fail: ${error.message}`);
           res.locals.error = error;
-          //   return res.status(error.status).json(error);
+          return res.status(error.status).json(error);
         }
       }
       // IF TOKEN IS INVALID
@@ -71,7 +71,7 @@ export default async (
         };
         terminal(`Fail: ${error.message}`);
         res.locals.error = error;
-        // return res.status(error.status).json(error);
+        return res.status(error.status).json(error);
       }
     }
     // if no user exists, return invalid to the client
@@ -82,7 +82,7 @@ export default async (
         invalid: true,
       };
       res.locals.error = error;
-      res.status(500).json(error);
+      return res.status(error.status).json(error);
     }
   } catch (err) {
     const error: IError = {
@@ -91,5 +91,6 @@ export default async (
     };
     terminal(`Fail: ${error.message}`);
     res.locals.error = error;
+    return res.status(error.status).json(error);
   }
 };
