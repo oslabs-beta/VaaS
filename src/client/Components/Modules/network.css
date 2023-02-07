@@ -20,9 +20,9 @@
   margin: 10px auto;
   overflow-y: scroll;
 }
-.iframeDiv {
+/* .iframeDiv {
   background-color: #2604ff56;
-}
+} */
 .renderDashboard {
   margin-bottom: 50px;
   max-height: 600px;

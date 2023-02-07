@@ -6,7 +6,6 @@ import Home from './Home/Home';
 import Register from './Login/Register';
 import Module from './Cards/Module';
 import PrivateRoute from '../Components/Login/PrivateRoute';
-import { ProSidebarProvider } from 'react-pro-sidebar';
 
 const queryClient = new QueryClient();
 
