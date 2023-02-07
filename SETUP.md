@@ -30,7 +30,7 @@ Add the prometheus-community repo to Helm:
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 ```
-  
+
 Install kube-prometheus stack:
 
 ```
@@ -68,7 +68,7 @@ _Note: replace [CURRENT VERSION] in the above command with the latest version by
 
 <br/>
 
-### OpenFaaS (Optional)
+### OpenFaaS
 OpenFaaS is a serverless framework for Kubernetes. It allows you to deploy functions to Kubernetes without having to worry about the underlying infrastructure.
 
 Install Arkade, a CLI tool that allows us to install OpenFaaS with a single command:
@@ -88,8 +88,6 @@ arkade get faas-cli
 
 ## Access and Port-Forwarding
 Some components of ```kube-prometheus stack``` come with their own GUIs, which can be accessed via ```kubectl port-forward```.
-
-These steps need to be repeated each time you restart your device or close out of your terminal.
 
 <br/>
 
@@ -164,6 +162,14 @@ echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 
 <br/>
 
+# Grafana Configuration
+
+Additional Grafana configurations are required for the graphical interfaces to render properly through VaaS. In the ```monitoring``` namespace, find the Config Map ```kubepromstack-grafana``` and change the configuration as follows:
+
+<img src='public/Images/configmap_grafana.png'>
+
+<br/>
+
 # VaaS Setup
 
 Clone the VaaS repo from GitHub to your machine.
@@ -178,7 +184,7 @@ Install other dependencies. _At this time, you will need to use the specific com
 npm install --legacy-peer-deps
 ```
 
-Create an environment variable file in the root folder of VaaS. Within the environment variable file, the required fields are:
+A mongoDB database is required to sign into VaaS and utilize its functionalities. Create a .env file in the root folder of VaaS with the following fields:
 
 ```
 JWT_ACCESS_SECRET=hello
@@ -186,18 +192,21 @@ JWT_REFRESH_SECRET=hello
 JWT_EXP=400000000
 JWT_GRACE=4000000000
 
-MONGO_URL=@
+MONGO_URL=
 MONGO_PORT=
 MONGO_USERNAME=
 MONGO_PASSWORD=
 MONGO_COLLECTION=
-```
+MONGO_DATABASE=
+MONGO_DATABASE_TEST=
 
-You should now get your mongoDB set up. You can either use a cloud database or localhost; however, make sure to add the database URL to the 'URL' field in the .env file. Complete the remaining database fields with the appropriate information.
+EXPRESS_PORT=
+EXPRESS_CONSOLE_LOG=off
+```
 
 If you're using a cloud database, you can simply copy the connection string and paste it into the environment variable file. If you're using localhost, you will need to install MongoDB and create a database.
 
-You should now be able to run the project. Run the following command:
+Once the above steps are complete, run the following command:
 
 ```
 npm run dev:server
