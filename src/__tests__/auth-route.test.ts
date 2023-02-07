@@ -33,7 +33,7 @@ describe('/auth route', (): void => {
 
     describe('given incorrect input', (): void => {
       const incorrectUser = {
-        username: 'test',
+        username: 'badtestuser',
         firstName: 'test',
         lastName: 'test',
       };
@@ -86,13 +86,25 @@ describe('/auth route', (): void => {
           .get('/api/auth')
           .set('Cookie', cookieHeader);
         expect(response.status).toBe(201);
+        expect(response.body).toHaveProperty('invalid', false);
       });
     });
 
     describe('given an invalid cookie', (): void => {
       it('should respond with status 400', async () => {
+        const response = await request(app)
+          .get('/api/auth')
+          .set('Cookie', 'bad cookie');
+        expect(response.status).toBe(400);
+        expect(response.body).toHaveProperty('invalid', true);
+      });
+    });
+
+    describe('given no cookie', (): void => {
+      it('should respond with status 400', async () => {
         const response = await request(app).get('/api/auth');
         expect(response.status).toBe(400);
+        expect(response.body).toHaveProperty('invalid', true);
       });
     });
 

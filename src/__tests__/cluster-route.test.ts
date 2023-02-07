@@ -34,6 +34,20 @@ const testClusterTwo: AddClusterType = {
   cost_port: '9090',
 };
 
+const badCluster = {
+  k8_port: '9090',
+  faas_port: '9090',
+  faas_username: 'admin',
+  faas_password: 'password',
+  name: 'test cluster',
+  description: 'test cluster',
+  faas_url: 'test',
+  grafana_url: 'test',
+  kubeview_url: 'test',
+  cost_url: 'test',
+  cost_port: '9090',
+};
+
 const testUser = {
   username: 'clustertest',
   password: 'test',
@@ -74,7 +88,7 @@ describe('Cluster route testing', (): void => {
     });
 
     afterAll(async (): Promise<void> => {
-      await Cluster.deleteMany({ url: 'cluster.test' });
+      await Cluster.deleteOne({ testClusterOne });
     });
   });
 
@@ -94,18 +108,24 @@ describe('Cluster route testing', (): void => {
     });
   });
 
-  describe('given invalid cluster data and auth', (): void => {
+  describe('given invalid cluster data but correct auth', (): void => {
     let response: request.Response;
 
     beforeAll(async (): Promise<void> => {
-      response = await request(app).post('/api/cluster').send(testClusterOne);
+      response = await request(app)
+        .post('/api/cluster')
+        .set('Cookie', cookieHeader)
+        .send(badCluster);
     });
 
-    it('should respond with status 400', (): void => {
-      expect(response.status).toBe(400);
+    it('should respond with status 500', (): void => {
+      expect(response.status).toBe(500);
     });
 
-    it('should not add a new cluster to the database', async (): Promise<void> => {});
+    it('should not add a new cluster to the database', async (): Promise<void> => {
+      const cluster = await Cluster.findOne({ testClusterOne });
+      expect(cluster).toBeNull();
+    });
   });
 
   afterAll(async (): Promise<void> => {
