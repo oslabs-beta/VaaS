@@ -102,7 +102,7 @@ const Register = () => {
             alt="login icon"
             id="register-icon"
             className="login-icon"
-            src="../../../../public/Images/v4.svg"
+            src="Images/image1.png"
           />
 
           <Typography

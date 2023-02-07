@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser, checkAuth } from '../../Queries';
-import { FcGoogle } from 'react-icons/fc';
-import { BsGithub } from 'react-icons/bs';
+// import { FcGoogle } from 'react-icons/fc';
+// import { BsGithub } from 'react-icons/bs';
 // import { Box, Button, TextField, CssBaseline, Typography } from '@mui/material';
 import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
@@ -101,9 +101,9 @@ const Login = () => {
           <img
             alt="login icon"
             className="login-icon"
-            src="../../../../public/Images/image0.png"
+            src="Images/image1.png"
           />
-          {/* <Typography
+          <Typography
             // sx={{
             //   fontSize: '2.5rem',
             //   marginTop: '0',
@@ -116,7 +116,7 @@ const Login = () => {
             className="vaas-text"
           >
             VaaS
-          </Typography> */}
+          </Typography>
           {error ? (
             <div className="error">{error}</div>
           ) : (
@@ -226,13 +226,13 @@ const Login = () => {
                   //   border: '1px solid black',
                   // },
                   // ':enabled': {
-                  backgroundColor: '#28eea0',
-                  color: 'rgba(255, 255, 255, 0.8)',
+                  backgroundColor: '#19b780',
+                  color: '#F5F5F5',
                   border: '1px solid black',
                   // },
                   margin: '0.5rem 0rem 0.6rem 0rem',
                   // fontWeight: 'bold',
-                  fontFamily: 'Verdana, Arial, sans-serif',
+                  fontFamily: 'Rubik, Verdana, Arial, sans-serif',
                   fontSize: '1em',
                   width: '390px',
                   gap: '.6em',
@@ -259,7 +259,7 @@ const Login = () => {
                   color: 'rgba(255, 255, 255, 0.8)',
                   // padding: '.1em',
                   height: '2.3rem',
-                  fontFamily: 'Verdana, Arial, sans-serif',
+                  fontFamily: 'Rubik, Verdana, Arial, sans-serif',
                   fontSize: '1em',
                   backgroundColor: '#02a4f7',
                   border: '1px solid black',

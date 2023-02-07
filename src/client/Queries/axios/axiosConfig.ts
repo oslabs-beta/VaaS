@@ -4,7 +4,7 @@ const axiosInstance = axios.create({
   baseURL: 'http://localhost:3020/api',
   withCredentials: true,
   //this might be part of the fix?
-  timeout: 500,
+  timeout: 5000,
 });
 
 // intercept responses
