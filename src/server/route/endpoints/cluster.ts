@@ -61,7 +61,9 @@ router
       if (
         currentUser?.username === 'admin' ||
         currentUser?.username === 'testuser' ||
-        currentUser?.username === 'StevenTT'
+        currentUser?.username === 'StevenTT' ||
+        currentUser?.username === 'dankwolf' ||
+        currentUser?.username === 'hectorramirez1'
       ) {
         clusters = await Cluster.find({}).exec();
       } else {
@@ -259,7 +261,7 @@ router
         ).toString('base64');
         updateData.authorization = `Basic ${encodeAuth}`;
       }
-    
+
       switch (req.body.favorite) {
         case true: {
           await Cluster.updateOne({ _id: clusterId }, updateData);

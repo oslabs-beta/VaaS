@@ -62,7 +62,7 @@ router
       // Can't use "delete" operator on mongoose query results unless you make a clone with toObject() method
       const newObj = user[0].toObject();
       delete newObj.cookieId;
-      console.log(newObj, 'cookieIdcookieIdcookieIdcookieIdcookieIdcookieId');
+      // console.log(newObj, 'cookieIdcookieIdcookieIdcookieIdcookieIdcookieId');
       return res.status(200).json(newObj);
     } catch (err) {
       const error: IError = {
