@@ -6,10 +6,12 @@ import MonthContainer from './MonthContainer';
 import RowTotal from './RowTotal';
 import SideLabel from './SideLabel';
 import CostGraph from './CostGraph';
+import axiosInstance from '../../../Queries/axios';
 
 export const ACTIONS = {
   LOADDATA: 'load_data',
   CHANGEMULTI: 'change_multi',
+  MULTIMEMO: 'pull_multimemory',
 };
 
 function reducer(load: any, action: any) {
@@ -71,6 +73,23 @@ function reducer(load: any, action: any) {
       );
       return newLoad;
     }
+    case ACTIONS.MULTIMEMO: {
+      const newLoad = { ...load };
+      newLoad.multi = action.payload;
+      for (let i = 0; i <= 11; i++) {
+        newLoad.cpu[i] = Math.round(newLoad.cpu[i] * newLoad.multi[i]);
+        newLoad.gpu[i] = Math.round(newLoad.gpu[i] * newLoad.multi[i]);
+        newLoad.network[i] = Math.round(newLoad.network[i] * newLoad.multi[i]);
+        newLoad.lb[i] = Math.round(newLoad.lb[i] * newLoad.multi[i]);
+        newLoad.pv[i] = Math.round(newLoad.pv[i] * newLoad.multi[i]);
+        newLoad.ram[i] = Math.round(newLoad.ram[i] * newLoad.multi[i]);
+        newLoad.shared[i] = Math.round(newLoad.shared[i] * newLoad.multi[i]);
+        newLoad.external[i] = Math.round(
+          newLoad.external[i] * newLoad.multi[i]
+        );
+      }
+      return newLoad;
+    }
     case 'default':
       return load;
   }
@@ -79,7 +98,7 @@ function reducer(load: any, action: any) {
 export default function CostActual(props: any) {
   const [data, setData] = useState([]);
   const [load, dispatch] = useReducer(reducer, {
-    multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    multi: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
     tag: [],
     cpu: [],
     gpu: [],
@@ -104,8 +123,22 @@ export default function CostActual(props: any) {
     setData(parsed.data);
   };
 
+  const fetchMulti = async () => {
+    const response = await axiosInstance.get('/cost', {
+      params: { clusterId: state[0]['_id'] },
+    });
+    const data = response.data;
+    if (data.length !== 0) {
+      dispatch({
+        type: ACTIONS.MULTIMEMO,
+        payload: data,
+      });
+    }
+  };
+
   useEffect(() => {
     fetchData();
+    fetchMulti();
   }, []);
 
   const cpuCostArr: number[] = [];
@@ -239,17 +272,32 @@ export default function CostActual(props: any) {
       );
     }
   }
+
+  async function saveCost() {
+    await axiosInstance.put('/cost', {
+      clusterId: state[0]['_id'],
+      multi: load.multi,
+    });
+  }
+
   return (
     <div className="actualDisplay">
-      <h2 className="bold">Monthly Cost</h2>
+      <h2 className="bold">Monthly Cost Forecasts</h2>
       <div className="costGraph">
         <div className="subGraph">
           <CostGraph load={load} monthArr={props.monthArr} />
         </div>
       </div>
-      <MonthContainer month={props.month} />
+      <MonthContainer key={'actualMonth'} month={props.month} />
       <div className="xivContainers costBorder">{actualInfoArr}</div>
-      <button className="costButton">Save cost settings</button>
+      <button
+        className="costButton"
+        onClick={() => {
+          saveCost();
+        }}
+      >
+        Save cost settings
+      </button>
     </div>
   );
 }

@@ -125,7 +125,7 @@ export default function CostBudget(props: any) {
           <CostGraph budget={budget} monthArr={props.monthArr} />
         </div>
       </div>
-      <MonthContainer month={props.month} />
+      <MonthContainer key={'budgetMonth'} month={props.month} />
       <div className="xivContainers costBorder">{budgetInfoArr}</div>
       <button className="costButton">Save budget settings</button>
     </div>
