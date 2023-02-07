@@ -40,7 +40,10 @@ export default function NavBar(props: { refetch?: any; open: any }) {
           alt="home icon"
         /> */}
       <MenuIcon
-        sx={{ color: '#f5f5f5', '&:hover': { color: '#05aaf2' } }}
+        sx={{
+          color: '#f5f5f5',
+          '&:hover': { color: '#0f9595', cursor: 'pointer' },
+        }}
         fontSize="large"
         onClick={props.open}
       />
