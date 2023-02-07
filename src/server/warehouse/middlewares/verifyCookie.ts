@@ -82,6 +82,7 @@ export default async (
         invalid: true,
       };
       res.locals.error = error;
+      res.status(500).json(error);
     }
   } catch (err) {
     const error: IError = {
