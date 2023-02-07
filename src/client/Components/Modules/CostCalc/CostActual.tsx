@@ -128,10 +128,12 @@ export default function CostActual(props: any) {
       params: { clusterId: state[0]['_id'] },
     });
     const data = response.data;
-    dispatch({
-      type: ACTIONS.MULTIMEMO,
-      payload: data,
-    });
+    if (data.length !== 0) {
+      dispatch({
+        type: ACTIONS.MULTIMEMO,
+        payload: data,
+      });
+    }
   };
 
   useEffect(() => {
