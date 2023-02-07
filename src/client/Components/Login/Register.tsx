@@ -98,12 +98,7 @@ const Register = () => {
             justifyContent: 'center',
           }}
         >
-          <img
-            alt="login icon"
-            id="register-icon"
-            className="login-icon"
-            src="Images/image1.png"
-          />
+          <img alt="login icon" id="register-icon" src="Images/image1.png" />
 
           <Typography
             className="vaas-text"

@@ -109,12 +109,9 @@ body {
   /* transition: 500ms; */
 }
 
-.register-icon {
-  height: 250px;
-  margin-top: 0px;
-  /* object-fit: none;
-  object-position: 50% 20%; */
-  /* transition: 500ms; */
+#register-icon {
+  height: 200px;
+  margin-top: 20px;
 }
 
 .icon {
@@ -226,12 +223,10 @@ body {
     margin-top: 0em;
   }
   #register-icon {
-    width: 280px;
-    margin-top: -50px;
-    margin-bottom: 0;
+    /* width: 280px; */
+    /* margin-bottom: 0; */
   }
   #vaas-register-text {
-    margin-top: -120px;
   }
 }
 
@@ -266,7 +261,8 @@ body {
     height: 180px;
   }
   #register-icon {
-    height: 180px;
+    margin-top: 45px;
+    height: 120px;
     object-fit: scale-down;
   }
 }
