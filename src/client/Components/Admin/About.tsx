@@ -60,10 +60,10 @@ const About = (props: { openAboutPage: any }) => {
         <Box sx={{ textAlign: 'center' }}>
           <h2 id="developed">Developed by:</h2>
           <p>Brandon Muniz-Rosado</p>
-          <p>Christopher Tenario</p>
+          <p>Christopher Tenorio</p>
           <p>Johanna Merluza</p>
-          <p>Terrence Granger</p>
           <p>Steven Tong</p>
+          <p>Terrence Granger</p>
           <p>Young Kim</p>
           <p>Ahsan Ali </p>
           <p>Rabea Ahmad</p>
