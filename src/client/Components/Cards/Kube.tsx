@@ -91,14 +91,12 @@ const Kube = (props: ClusterTypes) => {
       className="Cluster-Kube-Box"
       sx={{
         display: 'flex',
-        backgroundColor: '#181A1D',
-        color: 'white',
-        // width: '50%',
+        // marginTop: '0px',
+        backgroundColor: '#0b171e',
+        color: '#F5F5F5',
         width: '500px',
-        minHeight: '325px',
-        height: '350px',
-        // maxHeight: '450px',
-        border: '2px solid #15161d',
+        height: '370px',
+        border: '2px solid #030a11',
         borderRadius: '10px',
         boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
       }}
@@ -112,7 +110,7 @@ const Kube = (props: ClusterTypes) => {
           margin: '0',
           padding: '0',
           minWidth: '167px',
-          borderRight: '2px solid #15161d',
+          borderRight: '2px solid #0b171e',
         }}
       >
         <Box
@@ -123,7 +121,7 @@ const Kube = (props: ClusterTypes) => {
             })
           }
           sx={{
-            borderBottom: '2px solid #15161d',
+            borderBottom: '2px solid #0b171e',
             minHeight: '60px',
             width: '100%',
             display: 'flex',
@@ -221,9 +219,9 @@ const Kube = (props: ClusterTypes) => {
           >
             Alerts
           </Button>
-        </Box>
-        <Divider sx={{ pt: '10px' }} />
-        <Box
+          {/* </Box> */}
+          {/* <Divider sx={{ pt: '10px' }} /> */}
+          {/* <Box
           className="Cluster-Kube-Box-Modules-Faas"
           sx={{
             height: '75px',
@@ -236,7 +234,7 @@ const Kube = (props: ClusterTypes) => {
             gap: '5px',
             paddingLeft: '10px',
           }}
-        >
+        > */}
           <Button
             className="Cluster-Buttons"
             id="OpenFaaS-Button"
@@ -305,7 +303,7 @@ const Kube = (props: ClusterTypes) => {
         <Box
           className="Cluster-Description-Box"
           sx={{
-            borderBottom: '2px solid #15161d',
+            borderBottom: '2px solid #0b171e',
             height: '60px',
             minHeight: '60px',
             maxHeight: '60px',
