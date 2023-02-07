@@ -49,9 +49,15 @@
   font-size: 0.8em;
 }
 
-#tenOptions {
+/* #tenOptions {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+} */
+
+#developed {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 0.5em;
 }
