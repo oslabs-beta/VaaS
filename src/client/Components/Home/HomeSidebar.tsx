@@ -184,6 +184,6 @@ const HomeSidebar = (props: {
       </Modal>
     </div>
   );
-};;
+};
 
 export default HomeSidebar;

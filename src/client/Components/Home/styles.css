@@ -3,21 +3,21 @@
 }
 
 #navbar-container {
-  /* position: fixed;
+  position: fixed;
   top: 0;
-  z-index: 99; */
+  z-index: 99;
   padding-right: 2em;
   padding-left: 2em;
   margin-right: 1.5em;
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 100px;
+  height: 80px;
   overflow: hidden;
   justify-content: space-between;
-  background-color: #181a1d;
+  background-color: #021c27a6;
   align-items: center;
-  border-bottom: #7986cb;
+  /* border-bottom: #7986cb; */
   border-top: 1px;
   border-left: 0px;
   border-right: 0px;
@@ -26,7 +26,7 @@
 
 .mainContent {
   display: flex;
-  background-color: ;
+  margin-top: 80px;
 }
 
 .contentWrapper {
@@ -51,16 +51,20 @@
   margin-top: 25px; */
 }
 
-#navbar-container .css-115fpqh-MuiButtonBase-root-MuiIconButton-root {
+#navbar-container #icon-button {
   align-self: center;
-  height: 75px;
-  width: 75px;
+  height: 60px;
+  width: 60px;
   margin-right: 1em;
-  background-color: lightslategray;
+  opacity: 0.75;
+  /* background-color: lightslategray; */
 }
 
-#navbar-container .css-115fpqh-MuiButtonBase-root-MuiIconButton-root:hover {
+#navbar-container #icon-button:hover {
   transform: scale(1.1);
+  transition: 300ms;
+  opacity: 0.95;
+  box-shadow: 0 0 4px 0 rgba(248, 245, 245, 0.5);
 }
 
 #navbar-container button {
@@ -69,14 +73,15 @@
 }
 
 #navbar-container .homeicon {
-  height: 85px;
-  width: 80px;
+  /* height: 85px; */
+  width: 60px;
   margin-left: 1em;
   padding-top: 0.5em;
 }
 
 #navbar-container .homeicon:hover {
-  transform: scale(1.15);
+  transform: scale(1.1);
+  transition: 300ms;
 }
 
 #cluster-title-modals {
@@ -89,11 +94,15 @@
 }
 
 #navbar-title {
-  /* color: white;
-  font-size: 40px;
-  font-weight: 100 !important; */
-  height: 100px;
-  width: 100px;
+  display: table-cell;
+  font: Mukta Mahee, Helvetica, Arial, sans-serif;
+  vertical-align: middle;
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-size: 50px;
+  height: 80px;
+  width: 80px;
 }
 
 .Kube-container {
@@ -123,9 +132,10 @@
 /* NEW SIDEBAR */
 .sidenav {
   color: white;
-  position: -webkit-sticky;
-  position: sticky;
+  position: -webkit-fixed;
+  position: fixed;
   top: 0px;
+  z-index: 99;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -136,21 +146,22 @@
   min-height: 100vh;
   background-color: #2a2e36;
   padding-top: 28px;
-  border-right: #7986cb;
-  border-style: solid;
+  /* border-right: #7986cb; */
+  /* border-style: solid; */
   border-top: 0px;
   border-bottom: 0px;
   border-left: 0px;
   border-width: 2px;
 }
 .sidenavClosed {
-  position: -webkit-sticky;
-  position: sticky;
+  position: -webkit-fixed;
+  position: fixed;
   top: 0px;
+  z-index: 99;
   transition: width 0.3s ease-in-out;
-  width: 70px;
+  width: 0px;
   padding-top: 28px;
-  border-right: #7986cb;
+  /* border-right: #7986cb; */
   border-style: solid;
   border-top: 0px;
   border-bottom: 0px;

@@ -98,7 +98,12 @@ const Register = () => {
             justifyContent: 'center',
           }}
         >
-          <img alt="login icon" id="register-icon" src="Images/image1.png" />
+          <img
+            alt="login icon"
+            id="register-icon"
+            height="200px"
+            src="Images/image1.png"
+          />
 
           <Typography
             className="vaas-text"
@@ -266,14 +271,14 @@ const Register = () => {
                 sx={{
                   ':disabled': { backgroundColor: 'gray', color: '#000' },
                   margin: '0.2rem',
-                  color: '#fff',
-                  backgroundColor: '#2604ffb1',
+                  color: '#F5F5F5',
+                  backgroundColor: '#02a4f7',
                   fontSize: '0.9em',
                   width: '100%',
                   gap: '.5em',
                   // padding: '.1em',
                   height: '3em',
-                  fontFamily: 'Verdana, Arial, sans-serif',
+                  fontFamily: 'Rubik, Verdana, Arial, sans-serif',
                 }}
               >
                 Sign Up
@@ -290,7 +295,7 @@ const Register = () => {
                   fontSize: '0.9em',
                   backgroundColor: '#3a4a5b',
                   borderColor: 'white',
-                  fontFamily: 'Verdana, Arial, sans-serif',
+                  fontFamily: 'Rubik, Verdana, Arial, sans-serif',
                 }}
               >
                 Go Back
