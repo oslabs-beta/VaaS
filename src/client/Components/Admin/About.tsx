@@ -48,7 +48,7 @@ const About = (props: { openAboutPage: any }) => {
         margin: '0.5rem 0rem 0.6rem 0rem',
         fontWeight: 'bold',
         fontFamily: 'Verdana, Arial, sans-serif',
-        boxShadow: '1px 1px 10px 5px #403e54',
+        boxShadow: '1px 1px 10px 5px rgba(248, 245, 245, 0.5)',
         fontSize: '1em',
         width: '600px',
         gap: '.6em',

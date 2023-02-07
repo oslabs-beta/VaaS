@@ -134,7 +134,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         color: 'white',
         maxHeight: '650px',
         backgroundColor: 'rgb(0,0,0)',
-        boxShadow: '1px 1px 10px .5px #403e54',
+        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
         borderRadius: '10px',
         marginBottom: '20px',
         overflow: 'scroll',

@@ -197,7 +197,7 @@ const ClusterSettings = (props: Modules) => {
         color: 'white',
         maxHeight: '650px',
         backgroundColor: 'rgb(0,0,0)',
-        boxShadow: '1px 1px 10px .5px #403e54',
+        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
         borderRadius: '10px',
         marginBottom: '20px',
         overflow: 'scroll',
@@ -246,10 +246,10 @@ const ClusterSettings = (props: Modules) => {
       >
         <Button
           sx={{
+            color: '#f5f5f5',
             ':hover': { backgroundColor: 'red' },
           }}
           variant="text"
-          id="basic-button"
           className="full-screen-button"
           onClick={handleDeleteCluster}
         >
@@ -258,9 +258,8 @@ const ClusterSettings = (props: Modules) => {
         <Button
           className="full-screen-button"
           variant="text"
-          id="basic-button"
           onClick={handleUpdateCluster}
-          sx={{ ':hover': { backgroundColor: 'green' } }}
+          sx={{ color: '#f5f5f5', ':hover': { backgroundColor: 'green' } }}
         >
           Update
         </Button>

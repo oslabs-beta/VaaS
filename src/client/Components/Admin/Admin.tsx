@@ -266,9 +266,10 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: 'rgb(0,0,0)',
-          boxShadow: '1px 1px 10px .5px #403e54',
+          boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
           borderRadius: '0px',
           marginBottom: '20px',
+          zIndex: 999,
         }}
       >
         <Box sx={{ width: '100%' }}>

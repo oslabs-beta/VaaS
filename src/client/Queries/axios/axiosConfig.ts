@@ -3,8 +3,7 @@ import axios from 'axios';
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3020/api',
   withCredentials: true,
-  //this might be part of the fix?
-  timeout: 5000,
+  timeout: 8000,
 });
 
 // intercept responses
