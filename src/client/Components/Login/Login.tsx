@@ -101,6 +101,7 @@ const Login = () => {
           <img
             alt="login icon"
             className="login-icon"
+            height="200px"
             src="Images/image1.png"
           />
           <Typography
@@ -256,7 +257,7 @@ const Login = () => {
                   // fontWeight: 'bold',
                   width: '390px',
                   gap: '.5em',
-                  color: 'rgba(255, 255, 255, 0.8)',
+                  color: '#F5F5F5',
                   // padding: '.1em',
                   height: '2.3rem',
                   fontFamily: 'Rubik, Verdana, Arial, sans-serif',

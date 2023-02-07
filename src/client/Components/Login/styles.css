@@ -109,12 +109,9 @@ body {
   /* transition: 500ms; */
 }
 
-.register-icon {
-  height: 250px;
-  margin-top: 0px;
-  /* object-fit: none;
-  object-position: 50% 20%; */
-  /* transition: 500ms; */
+#register-icon {
+  height: 200px;
+  margin-top: 40px;
 }
 
 .icon {
@@ -133,10 +130,6 @@ body {
   font-weight: 400;
   /* transition: 500ms; */
 }
-
-/* #vaas-register-text {
-  margin-bottom: 0;
-} */
 
 .btn:hover,
 .btn1:hover,
@@ -225,14 +218,6 @@ body {
     margin-bottom: 0em;
     margin-top: 0em;
   }
-  #register-icon {
-    width: 280px;
-    margin-top: -50px;
-    margin-bottom: 0;
-  }
-  #vaas-register-text {
-    margin-top: -120px;
-  }
 }
 
 @media screen and (max-width: 850px) {
@@ -266,7 +251,8 @@ body {
     height: 180px;
   }
   #register-icon {
-    height: 180px;
+    margin-top: 45px;
+    height: 120px;
     object-fit: scale-down;
   }
 }

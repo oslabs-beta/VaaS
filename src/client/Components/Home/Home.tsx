@@ -8,7 +8,7 @@ import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
 import HomeSidebar from './HomeSidebar';
-import AddClusters from '../Admin/AddCluster';
+// import AddClusters from '../Admin/AddCluster';
 import './styles.css';
 
 const Home = () => {
@@ -17,7 +17,8 @@ const Home = () => {
   const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState<ClusterTypes[]>([]);
-  const darkMode = uiReducer.clusterUIState.darkmode;
+  const [open, setOpen] = useState<boolean>(false);
+  // const darkMode = uiReducer.clusterUIState.darkmode;
   const { data, refetch } = useQuery({
     queryKey: ['cluster'],
     cacheTime: 0,
@@ -41,13 +42,13 @@ const Home = () => {
   }, [data, dispatch, navigate, refetch]);
 
   //* Added to load darkmode state when navigating to home, (was just at admin load) -mcm
-  useEffect(() => {
-    if (userData?.invalid) return navigate('/');
-    dispatch(setDarkMode(userData?.darkMode));
-    userData?.darkMode
-      ? (document.body.style.backgroundColor = '#34363b')
-      : (document.body.style.backgroundColor = '#3a4a5b');
-  }, [darkMode, dispatch, navigate, userData]);
+  // useEffect(() => {
+  //   if (userData?.invalid) return navigate('/');
+  //   // dispatch(setDarkMode(userData?.darkMode));
+  //   userData?.darkMode
+  //     ? (document.body.style.backgroundColor = '#34363b')
+  //     : (document.body.style.backgroundColor = '#3a4a5b');
+  // }, [darkMode, dispatch, navigate, userData]);
 
   const resetClusterArray = () => {
     dispatch(storeClusterDbData(data));
@@ -69,7 +70,12 @@ const Home = () => {
   return (
     <div id="home-div">
       <header>
-        <NavBar refetch={refetch} />
+        <NavBar
+          refetch={refetch}
+          open={() => {
+            setOpen(true);
+          }}
+        />
       </header>
       <section className="mainContent">
         <aside>
@@ -77,16 +83,27 @@ const Home = () => {
             handleFindCluster={handleFindCluster}
             resetClusterArray={resetClusterArray}
             refetch={refetch}
+            open={open}
+            toggleOpen={() => {
+              setOpen(false);
+            }}
           />
         </aside>
         <section className="contentWrapper">
           <div id="cluster-title-modals">
             <div id="Home-Bar-Title">CLUSTERS</div>
-            <div className="Kube-container" id="Kube-container">
+            <div
+              className={
+                !Array.isArray(clustersArray) || clustersArray[1] !== undefined
+                  ? 'Kube-container'
+                  : 'Kube-container-single'
+              }
+              id="Kube-container"
+            >
               {clustersArray?.length
                 ? clustersArray?.map((cluster, index) => (
                     <Kube
-                      isDark={darkMode} //*adding for darkmode
+                      // isDark={darkMode} //*adding for darkmode
                       key={`clusterarray${index}`}
                       _id={cluster._id}
                       favorite={cluster.favorite}

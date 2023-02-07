@@ -31,7 +31,7 @@
   z-index: 1;
   display: block;
   margin: 0 auto;
-  background-color: #2704ff;
+  background-color: #0f9595;
   color: white;
   border-radius: 7px;
   border: none;
@@ -80,7 +80,7 @@
   height: 150px;
   width: 230px;
   border: 3px solid #15161d;
-  box-shadow: 1px 1px 10px 0.5px #403e54;
+  box-shadow: 1px 1px 10px 0.5px #rgba(248, 245, 245, 0.5);
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -93,7 +93,7 @@
 .category:hover {
   transform: scale(1.15);
   transition: 0.1s;
-  box-shadow: 4px 4px 15px 0.5px #2705ff;
+  box-shadow: 4px 4px 15px 0.5px rgba(248, 245, 245, 0.5);
 }
 .categoryList {
   display: flex;
@@ -116,7 +116,7 @@
   height: 150px;
   width: 300px;
   border: '2px solid #15161d';
-  box-shadow: '1px 1px 10px .5px #403e54';
+  box-shadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)';
   display: flex;
   justify-content: center;
   align-items: center;
@@ -129,7 +129,7 @@
 .chartBox:hover {
   transform: scale(1.03);
   transition: 0.2s;
-  box-shadow: 1px 1px 10px 0.5px #837fb3;
+  box-shadow: 1px 1px 10px 0.5px rgba(248, 245, 245, 0.5);
 }
 
 #cost-container {
