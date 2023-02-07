@@ -146,14 +146,15 @@ const HomeSidebar = (props: {
             handleAddClusters(true);
           }}
           sx={{
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             backgroundColor: '#061320',
             marginTop: '40px',
+            fontSize: '1rem',
             color: '#f5f5f5',
             '&:hover': { color: '#0f9595' },
           }}
         >
-          <AddIcon sx={{ marginRight: '5px' }} />
+          <AddIcon sx={{ marginRight: '10px' }} />
           Add Cluster
         </Button>
         <Button
@@ -161,14 +162,15 @@ const HomeSidebar = (props: {
             openAboutPage(true);
           }}
           sx={{
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             backgroundColor: '#061320',
+            fontSize: '1rem',
             marginTop: '20px',
             color: '#f5f5f5',
             '&:hover': { color: '#0f9595' },
           }}
         >
-          <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
+          <InfoOutlinedIcon sx={{ marginRight: '10px' }} />
           About
         </Button>
       </div>

@@ -73,7 +73,7 @@ const Home = () => {
         <NavBar
           refetch={refetch}
           open={() => {
-            setOpen('sidenav');
+            setOpen(true);
           }}
         />
       </header>
@@ -92,7 +92,14 @@ const Home = () => {
         <section className="contentWrapper">
           <div id="cluster-title-modals">
             <div id="Home-Bar-Title">CLUSTERS</div>
-            <div className="Kube-container" id="Kube-container">
+            <div
+              className={
+                !Array.isArray(clustersArray) || clustersArray[1] !== undefined
+                  ? 'Kube-container'
+                  : 'Kube-container-single'
+              }
+              id="Kube-container"
+            >
               {clustersArray?.length
                 ? clustersArray?.map((cluster, index) => (
                     <Kube

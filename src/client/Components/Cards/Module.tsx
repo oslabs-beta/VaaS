@@ -13,8 +13,9 @@ import QueryStats from '@mui/icons-material/QueryStats';
 import Functions from '@mui/icons-material/Functions';
 import AttachMoney from '@mui/icons-material/AttachMoney';
 import CostMain from '../Modules/CostCalc/CostMain';
-import Close from '@mui/icons-material/Close';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+// import Close from '@mui/icons-material/Close';
+import HomeIcon from '@mui/icons-material/Home';
+// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 
 import { Visualizer, Custom } from '../Modules';
@@ -29,7 +30,7 @@ const Module = (props: Modules) => {
   const [id] = useState(props.id || state[0]._id);
   // Hooks used to indicate which module should be rendered in
   const [currentModule, setCurrentModule] = useState('module');
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const [btnText, setBtnText] = useState('Collapse');
   const [faas, setFaaS] = useState(true);
   const [openModal, setOpenModal] = useState(false);
@@ -71,17 +72,17 @@ const Module = (props: Modules) => {
           overflow: 'auto',
         }
   );
-  const [buttonStyle, setButtonStyle] = useState(
-    props.isDark
-      ? {
-          color: '#c0c0c0',
-          width: '1px',
-        }
-      : {
-          color: 'white',
-          width: '1px',
-        }
-  );
+  // const [buttonStyle, setButtonStyle] = useState(
+  //   props.isDark
+  //     ? {
+  //         color: '#c0c0c0',
+  //         width: '1px',
+  //       }
+  //     : {
+  //         color: 'white',
+  //         width: '1px',
+  //       }
+  // );
 
   useEffect(() => {
     if (!props.nested) {
@@ -94,10 +95,10 @@ const Module = (props: Modules) => {
         backgroundImage: '',
         overflow: 'auto',
       });
-      setButtonStyle({
-        ...buttonStyle,
-        color: '#3a4a5b',
-      });
+      // setButtonStyle({
+      //   ...buttonStyle,
+      //   color: '#3a4a5b',
+      // });
       if (state) {
         switch (state[1]) {
           case 'faas':
@@ -202,24 +203,38 @@ const Module = (props: Modules) => {
     maxHeight: '100%',
     display: 'inline',
   };
+
+  const buttonStyle = {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    backgroundColor: '#061320',
+    marginTop: '8px',
+    marginBottom: '8px',
+    fontSize: '0.9rem',
+    color: '#f5f5f5',
+    // width: '100%',
+    '&:hover': { color: '#0f9595' },
+  };
+
+  const iconStyle = {
+    marginRight: '10px',
+  };
+
   return (
     <div>
       <header>
-        <NavBar />
+        <NavBar
+          open={() => {
+            setOpen(true);
+          }}
+        />
       </header>
       <section className="mainWrapper">
         <div className={open ? 'ModuleSidenav' : 'ModuleSidenavClosed'}>
           <div className="sidebarMenu">
             <div className="menuCollapse">
-              <button
-                className={open ? 'closeBtn' : 'openBtn'}
-                onClick={toggleOpen}
-              >
-                {open ? (
-                  <KeyboardDoubleArrowLeftIcon />
-                ) : (
-                  <KeyboardDoubleArrowRightIcon />
-                )}
+              <button className="closeBtn" onClick={toggleOpen}>
+                {open && <KeyboardDoubleArrowLeftIcon fontSize="large" />}
               </button>
             </div>
             <div className={open ? 'menuButtons' : 'menuButtonsClosed'}>
@@ -227,103 +242,94 @@ const Module = (props: Modules) => {
                 sx={{
                   display: 'flex',
                   justifyContent: 'flex-start',
+                  backgroundColor: '#061320',
+                  marginTop: '15px',
+                  marginBottom: '8px',
+                  fontSize: '0.9rem',
+                  color: '#f5f5f5',
+                  '&:hover': { color: '#0f9595' },
                 }}
                 variant="text"
-                id="basic-button"
+                className="module-button"
+                onClick={() => navigate('/home')}
+              >
+                <HomeIcon sx={iconStyle} />
+                Home
+              </Button>
+
+              <Button
+                sx={buttonStyle}
+                variant="text"
                 className="module-button"
                 onClick={handleChartsButton}
               >
-                <Insights />
+                <Insights sx={iconStyle} />
                 Dashboards
               </Button>
 
               <Button
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                }}
+                sx={buttonStyle}
                 variant="text"
-                id="basic-button"
                 className="module-button"
                 onClick={() => {
                   setCurrModal('visualizer');
                   setOpenModal(true);
                 }}
               >
-                <ViewInAr />
+                <ViewInAr sx={iconStyle} />
                 Cluster Map
               </Button>
 
               <Button
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                }}
+                sx={buttonStyle}
                 variant="text"
-                id="basic-button"
                 className="module-button"
                 onClick={() => {
                   setCurrModal('custom');
                   setOpenModal(true);
                 }}
               >
-                <QueryStats />
+                <QueryStats sx={iconStyle} />
                 Queries
               </Button>
 
               <Button
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                }}
+                sx={buttonStyle}
                 variant="text"
-                id="basic-button"
                 className="module-button"
                 onClick={handleAlertButton}
               >
-                <AddAlert />
+                <AddAlert sx={iconStyle} />
                 Alerts
               </Button>
 
               <Button
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                }}
+                sx={buttonStyle}
                 variant="text"
-                id="basic-button"
                 className="module-button"
                 onClick={handleFaaSButton}
               >
-                <Functions />
+                <Functions sx={iconStyle} />
                 OpenFaas
               </Button>
 
               <Button
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                }}
+                sx={buttonStyle}
                 variant="text"
-                id="basic-button"
                 className="module-button"
                 onClick={handleFunctionCostButton}
               >
-                <AttachMoney />
+                <AttachMoney sx={iconStyle} />
                 OpenFaas Cost
               </Button>
 
               <Button
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                }}
+                sx={buttonStyle}
                 variant="text"
-                id="basic-button"
                 className="module-button"
                 onClick={handleKubacusButton}
               >
-                <AttachMoney />
+                <AttachMoney sx={iconStyle} />
                 Kubacus
               </Button>
 

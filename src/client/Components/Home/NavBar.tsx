@@ -84,13 +84,14 @@ export default function NavBar(props: { refetch?: any; open: any }) {
         PaperProps={{
           elevation: 0,
           sx: {
-            backgroundColor: '#181A1D',
-            width: '17vw',
+            backgroundColor: '#0b171e',
+            borderRadius: '7px',
+            width: '220px',
             display: 'flex',
             justifyContent: 'center',
             overflow: 'visible',
             // filter: 'drop-shadow(0 0 25px 0 rgba(248, 245, 245, 0.5))',
-            // boxShadow: '0 0 5px 0 rgba(248, 245, 245, 0.5)',
+            boxShadow: '0 0 6px 0 rgba(248, 245, 245, 0.5)',
             mt: 1.5,
             '& .MuiAvatar-root': {
               width: 32,
@@ -122,12 +123,12 @@ export default function NavBar(props: { refetch?: any; open: any }) {
           onMouseEnter={(e) => (e.target.style.color = '#0f9595')}
           onMouseLeave={(e) => (e.target.style.color = '#f5f5f5')}
           className="logoutMenuButton"
-          sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '2vw' }}
+          sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '20px' }}
         >
           &#9784; SETTINGS
         </MenuItem>
         <MenuItem
-          sx={{ fontFamily: 'Montserrat, sans-serif' }}
+          sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '20px' }}
           onClick={handleLogOut}
           onMouseEnter={(e) => (e.target.style.color = '#0f9595')}
           onMouseLeave={(e) => (e.target.style.color = '#f5f5f5')}
