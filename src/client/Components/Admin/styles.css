@@ -1,5 +1,5 @@
 #add-cluster-title {
-  color: whitesmoke;
+  color: #f5f5f5;
   align-self: center;
   justify-self: center;
   /* width: 100%; */
@@ -43,7 +43,7 @@
 
 #add-cluster-msg {
   height: 15px;
-  color: whitesmoke;
+  color: #f5f5f5f5;
   text-align: center;
   margin-bottom: 20px;
   font-size: 0.8em;

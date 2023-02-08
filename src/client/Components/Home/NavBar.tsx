@@ -32,27 +32,20 @@ export default function NavBar(props: { refetch?: any; open: any }) {
   };
   return (
     <div id="navbar-container">
-      {/* <a onClick={() => navigate('/home')}> */}
-      {/* <img
-          className="homeicon"
-          src="Images/image1.png"
-          width="60px"
-          alt="home icon"
-        /> */}
-      <MenuIcon
-        sx={{
-          color: '#f5f5f5',
-          '&:hover': { color: '#0f9595', cursor: 'pointer' },
-        }}
-        fontSize="large"
-        data-cy="hamburger"
-        onClick={props.open}
-      />
-      {/* </a> */}
-      {/* <img alt="logo" id="navbar-title" src="Images/logoText.png" /> */}
-      <button id="navbar-title" onClick={() => navigate('/home')}>
+      <div id="hamburger">
+        <MenuIcon
+          sx={{
+            color: '#f5f5f5',
+            '&:hover': { color: '#0f9595', cursor: 'pointer' },
+          }}
+          fontSize="large"
+          data-cy="hamburger"
+          onClick={props.open}
+        />
+      </div>
+      <div id="navbar-title" onClick={() => navigate('/home')}>
         VaaS
-      </button>
+      </div>
 
       <Tooltip title="Account settings">
         <IconButton
@@ -69,11 +62,7 @@ export default function NavBar(props: { refetch?: any; open: any }) {
               if (!anchorEl) setLight(false);
             }}
             src={light ? 'Images/image1.png' : 'Images/lightoff.png'}
-            // sx={{ opacity: '0.9' }}
           ></Avatar>
-          {/* <AccountCircleIcon
-            sx={{ color: '#021C27', height: '60px', width: '60px' }}
-          /> */}
         </IconButton>
       </Tooltip>
       <Menu
@@ -91,7 +80,6 @@ export default function NavBar(props: { refetch?: any; open: any }) {
             display: 'flex',
             justifyContent: 'center',
             overflow: 'visible',
-            // filter: 'drop-shadow(0 0 25px 0 rgba(248, 245, 245, 0.5))',
             boxShadow: '0 0 6px 0 rgba(248, 245, 245, 0.5)',
             mt: 1.5,
             '& .MuiAvatar-root': {
@@ -124,12 +112,22 @@ export default function NavBar(props: { refetch?: any; open: any }) {
           onMouseEnter={(e) => (e.target.style.color = '#0f9595')}
           onMouseLeave={(e) => (e.target.style.color = '#f5f5f5')}
           className="logoutMenuButton"
-          sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '20px' }}
+          sx={{
+            fontFamily: 'Montserrat, sans-serif',
+            fontSize: '20px',
+            color: '#f5f5f5',
+            padding: '5px 10px',
+          }}
         >
           &#9784; ACCOUNT
         </MenuItem>
         <MenuItem
-          sx={{ fontFamily: 'Montserrat, sans-serif', fontSize: '20px' }}
+          sx={{
+            fontFamily: 'Montserrat, sans-serif',
+            fontSize: '20px',
+            color: '#f5f5f5',
+            padding: '5px 10px',
+          }}
           onClick={handleLogOut}
           onMouseEnter={(e) => (e.target.style.color = '#0f9595')}
           onMouseLeave={(e) => (e.target.style.color = '#f5f5f5')}

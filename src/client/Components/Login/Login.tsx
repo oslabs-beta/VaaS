@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser, checkAuth } from '../../Queries';
 // import { FcGoogle } from 'react-icons/fc';
 // import { BsGithub } from 'react-icons/bs';
-// import { Box, Button, TextField, CssBaseline, Typography } from '@mui/material';
 import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -75,9 +74,7 @@ const Login = () => {
   const handleEnterKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>
   ): void => {
-    // setError('');
     if (e.key === 'Enter') {
-      // if (disabled) return;
       handleLogin();
     }
   };
@@ -89,8 +86,6 @@ const Login = () => {
         <Box
           id="login-logo-container"
           sx={{
-            // height: '30vh',
-            // marginTop: '8vh',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -105,15 +100,17 @@ const Login = () => {
             src="Images/image1.png"
           />
           <Typography
-            // sx={{
-            //   fontSize: '2.5rem',
-            //   marginTop: '0',
-            //   marginBottom: '2vh',
-            //   paddingTop: '0',
-            //   letterSpacing: '0.3rem',
-            //   color: '#fff',
-            //   cursor: 'default',
-            // }}
+            sx={{
+              fontSize: '5rem',
+              marginTop: '5px',
+              marginBottom: '5px',
+              color: '#f5f5f5',
+              fontFamily: 'Mukta Mahee, Helvetica, Arial, sans-serif',
+              fontWeight: '400',
+              '@media (max-width: 750px)': {
+                fontSize: '2.8rem',
+              },
+            }}
             className="vaas-text"
           >
             VaaS
@@ -132,8 +129,6 @@ const Login = () => {
             direction: 'column',
             textAlign: 'center',
             alignItems: 'center',
-            // backgroundSize: 'cover',
-            // backgroundRepeat: 'no-repeat',
           }}
           className="backdrop"
         >
@@ -158,18 +153,8 @@ const Login = () => {
               size="small"
               onKeyDown={handleEnterKeyDown}
               onChange={handleChange}
-              // margin="dense"
               name="username"
               value={fields.username}
-              // sx={{
-              //   input: { color: '#fff' },
-              //   label: { color: '#fff' },
-              //   borderBottom: '1px solid #fff',
-              //   backgroundColor: 'transparent',
-              //   borderRadius: '10px',
-              //   padding: '10px 20px',
-              //   width: '50%',
-              // }}
             />
             <TextField
               id="login-password-input"
@@ -183,31 +168,16 @@ const Login = () => {
               margin="dense"
               name="password"
               value={fields.password}
-              // sx={{
-              //   input: { color: '#fff' },
-              //   label: { color: '#fff' },
-              //   borderBottom: '1px solid #fff',
-              //   backgroundColor: 'transparent',
-              //   borderRadius: '10px',
-              //   padding: '10px 20px',
-              //   width: '50%',
-              // }}
             />
             <Box
               id="buttonContainer"
               sx={{
                 width: '100%',
-                // minWidth: '250px',
-                // maxWidth: '600px',
-                // direction: 'column',
-                // textAlign: 'center',
                 alignItems: 'center',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'center',
                 paddingBottom: '0.5rem',
-                // padding: '1.5rem',
-                // border: '0px solid #eaeaea',
                 '@media screen and (max-height: 800px)': {
                   marginBottom: '2em',
                 },
@@ -218,29 +188,17 @@ const Login = () => {
                 type="button"
                 onClick={handleLogin}
                 variant="contained"
-                // disabled={disabled}
                 loading={loading}
                 sx={{
-                  // ':disabled': {
-                  //   backgroundColor: 'gray',
-                  //   color: 'rgb(37, 37, 37)',
-                  //   border: '1px solid black',
-                  // },
-                  // ':enabled': {
-                  backgroundColor: '#19b780',
+                  backgroundColor: '#12BABA',
                   color: '#F5F5F5',
-                  border: '1px solid black',
-                  // },
+                  border: '1px solid #030a11',
                   margin: '0.5rem 0rem 0.6rem 0rem',
-                  // fontWeight: 'bold',
                   fontFamily: 'Rubik, Verdana, Arial, sans-serif',
                   fontSize: '1em',
                   width: '390px',
                   gap: '.6em',
-                  // padding: '.1em',
                   height: '2.3rem',
-                  // maxWidth: '60%',
-
                   '@media screen and (max-width: 650px)': {
                     maxWidth: '60vw',
                   },
@@ -254,17 +212,15 @@ const Login = () => {
                 onClick={() => navigate('/register')}
                 variant="contained"
                 sx={{
-                  // fontWeight: 'bold',
                   width: '390px',
                   gap: '.5em',
                   color: '#F5F5F5',
-                  // padding: '.1em',
                   height: '2.3rem',
                   fontFamily: 'Rubik, Verdana, Arial, sans-serif',
                   fontSize: '1em',
-                  backgroundColor: '#02a4f7',
+                  backgroundColor: '#023850',
                   border: '1px solid black',
-                  // maxWidth: '60%',
+                  '&hover': { backgroundColor: '#0f9595' },
                   '@media screen and (max-width: 650px)': {
                     maxWidth: '60vw',
                   },
@@ -300,7 +256,7 @@ const Login = () => {
                 height: '2.5em',
                 margin: '8px',
                 textAlign: 'center',
-                border: '1px solid black',
+                border: '1px solid #030a11',
                 fontFamily: 'Arial, Tahoma, Sans-serif',
                 '@media screen and (max-width: 650px)': {
                   width: '60vw',
@@ -325,7 +281,7 @@ const Login = () => {
                 height: '2.5em',
                 margin: '8px',
                 textAlign: 'center',
-                border: '1px solid black',
+                border: '1px solid #030a11',
                 '@media screen and (max-width: 650px)': {
                   width: '60vw',
                   marginBottom: '1px',

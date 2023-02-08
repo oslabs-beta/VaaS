@@ -108,14 +108,20 @@ const Register = () => {
           <Typography
             className="vaas-text"
             id="vaas-register-text"
-            // sx={{
-            //   fontSize: '2.5rem',
-            //   marginTop: '0',
-            //   marginBottom: '2vh',
-            //   paddingTop: '0',
-            //   letterSpacing: '0.3rem',
-            //   color: '#fff',
-            // }}
+            sx={{
+              fontSize: '5rem',
+              marginTop: '5px',
+              marginBottom: '5px',
+              color: '#f5f5f5',
+              fontFamily: 'Mukta Mahee, Helvetica, Arial, sans-serif',
+              fontWeight: '400',
+              '@media (max-width: 750px)': {
+                fontSize: '2.8rem',
+              },
+              '@media (max-height: 800px)': {
+                fontSize: '3rem',
+              },
+            }}
           >
             VaaS
           </Typography>

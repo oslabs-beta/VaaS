@@ -87,7 +87,7 @@ const Module = (props: Modules) => {
   useEffect(() => {
     if (!props.nested) {
       setStyle({
-        color: 'black',
+        color: '#0b171e',
         minHeight: '92vh',
         minWidth: '100%',
         display: 'flex',

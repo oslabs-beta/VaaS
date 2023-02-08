@@ -28,25 +28,6 @@
   justify-content: center;
   align-items: center;
   width: 80%;
-  /* margin-top: 20px; */
-}
-
-/* .Module-top-row {
-  width: 170px;
-  height: 110%;
-  margin-top: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-} */
-
-/* .Module-top-row button {
-  width: auto;
-} */
-
-.Cluster-Kube-Box {
-  margin-top: 20px;
 }
 
 .clusterTitle {
@@ -153,7 +134,7 @@
   display: block;
   margin: 0 auto;
   background-color: #0f9595;
-  color: white;
+  color: #f5f5f5;
   border-radius: 7px;
   border: none;
   cursor: pointer;
@@ -183,7 +164,7 @@ dt::after {
 dd {
   margin: 0 0 0 80px;
   padding: 0 0 0.5em 0;
-  color: black;
+  color: #0b171e;
 }
 
 #Kube {
@@ -191,7 +172,7 @@ dd {
   flex-direction: column;
   margin-top: 10px;
   height: 600px;
-  box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(248, 245, 245, 0.5);
+  box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(198, 195, 195, 0.5);
 }
 
 .cluster-title {
@@ -247,18 +228,18 @@ dd {
   padding: 0;
 }
 .module-title {
-  color: white;
+  color: #f5f5f5;
 }
 
 .cluster-id {
-  color: #ffffff;
+  color: #f5f5f5;
   font-size: 10px;
   text-align: right;
   margin-top: -15px;
 }
 
 .Cluster-Buttons {
-  color: white;
+  color: #f5f5f5;
   font-weight: 400;
 }
 

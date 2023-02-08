@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import './styles.css';
 
 const settingsField = {
-  background: 'white',
+  background: '#f5f5f5',
   borderRadius: '5px',
   marginBlock: '7px',
   width: '300px',
@@ -134,7 +134,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
         color: 'white',
         maxHeight: '650px',
         backgroundColor: '#0b171e',
-        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+        boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',
         borderRadius: '10px',
         marginBottom: '20px',
         overflow: 'scroll',

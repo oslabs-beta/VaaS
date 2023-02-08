@@ -194,16 +194,16 @@ const ClusterSettings = (props: Modules) => {
     <Container
       className="module-container"
       sx={{
-        color: 'white',
+        color: '#f5f5f5',
         maxHeight: '650px',
-        backgroundColor: 'rgb(0,0,0)',
-        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+        backgroundColor: '#0b171e',
+        boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',
         borderRadius: '10px',
         marginBottom: '20px',
         overflow: 'scroll',
       }}
     >
-      <div className="Module-top-row" style={{ marginBottom: '20px' }}>
+      <div className="Module-top-row">
         <div className="module-title noselect">
           Cluster Settings: {props.name}
         </div>
@@ -247,7 +247,7 @@ const ClusterSettings = (props: Modules) => {
         <Button
           sx={{
             color: '#f5f5f5',
-            ':hover': { backgroundColor: 'red' },
+            ':hover': { backgroundColor: 'rgb(227, 78, 78)' },
           }}
           variant="text"
           className="full-screen-button"
@@ -259,7 +259,7 @@ const ClusterSettings = (props: Modules) => {
           className="full-screen-button"
           variant="text"
           onClick={handleUpdateCluster}
-          sx={{ color: '#f5f5f5', ':hover': { backgroundColor: 'green' } }}
+          sx={{ color: '#f5f5f5', ':hover': { backgroundColor: '#0f9595' } }}
         >
           Update
         </Button>

@@ -144,21 +144,22 @@ const Charts = (props: Modules) => {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: '#181A1D',
-    border: '2px solid #15161d',
-    boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+    bgcolor: '#0b171e',
+    border: '2px solid #030a11',
+    boxShadow: '0px 5px 10px 5px rgba(198, 195, 195, 0.2)',
     p: 7,
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
     color: 'white',
+    borderRadius: '10px',
   };
   const style2 = {
     position: 'absolute' as const,
     top: '20%',
     left: '50%',
     transform: 'translate(-50%, -20%)',
-    bgcolor: '#181A1D', //#2704FF
+    bgcolor: '#0b171e',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
@@ -236,8 +237,6 @@ const Charts = (props: Modules) => {
               }
               height={`${iframeHeight}px`}
               width={`${iframeWidth}px`}
-
-              // frameBorder="0"
             ></iframe>
           </div>
         </Box>

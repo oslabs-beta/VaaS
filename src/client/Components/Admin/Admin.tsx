@@ -218,7 +218,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
       <Container
         className={'Admin-Modal-Container'}
         sx={{
-          color: 'white',
+          color: '#f5f5f5',
           height: '430px',
           width: '350px',
           display: 'flex',
