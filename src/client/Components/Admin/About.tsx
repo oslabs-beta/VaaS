@@ -20,7 +20,6 @@ const buttonStyle = {
   marginBottom: '20px',
   width: '100%',
   fontSize: '15px',
-  fontWeight: 'bold',
   '&:hover': { background: '#0f9595' },
 };
 

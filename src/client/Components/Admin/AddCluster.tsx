@@ -19,7 +19,7 @@ const settingsField = {
 const buttonStyle = {
   background: '#3a4a5b',
   borderRadius: '5px',
-  marginBottom: '10px',
+  marginBottom: '3px',
   width: '80%',
   fontSize: '12px',
   alignSelf: 'center',
