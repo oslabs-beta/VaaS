@@ -75,6 +75,7 @@ function reducer(load: any, action: any) {
     }
     case ACTIONS.MULTIMEMO: {
       const newLoad = { ...load };
+
       newLoad.multi = action.payload;
       for (let i = 0; i <= 11; i++) {
         newLoad.cpu[i] = Math.round(newLoad.cpu[i] * newLoad.multi[i]);
@@ -87,6 +88,7 @@ function reducer(load: any, action: any) {
         newLoad.external[i] = Math.round(
           newLoad.external[i] * newLoad.multi[i]
         );
+        newLoad.total[i] = Math.round(newLoad.total[i] * newLoad.multi[i]);
       }
       return newLoad;
     }
