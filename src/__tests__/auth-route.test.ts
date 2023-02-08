@@ -85,7 +85,7 @@ describe('/auth route', (): void => {
     });
 
     describe('given a valid cookie', (): void => {
-      it('should respond with status 200', async () => {
+      it('should respond with status 201', async () => {
         const response = await request(app)
           .get('/api/auth')
           .set('Cookie', cookieHeader);
