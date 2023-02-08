@@ -52,13 +52,6 @@ const HomeSidebar = (props: {
   const [searchCluster, setSearchCluster] = useState('');
   const searchText: any = useRef();
 
-  //for sidebar menu expand and contract
-  // const toggleOpen = () => {
-  //   setOpen(!open);
-  //   if (btnText === 'Collapse') {
-  //     setBtnText('Expand');
-  //   } else setBtnText('Collapse');
-  // };
 
   //reassiging props from Home
   const handleFindCluster = props.handleFindCluster;

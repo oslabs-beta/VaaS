@@ -98,7 +98,7 @@ const Kube = (props: ClusterTypes) => {
         height: '370px',
         border: '2px solid #030a11',
         borderRadius: '10px',
-        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+        boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',
       }}
     >
       <CssBaseline />
