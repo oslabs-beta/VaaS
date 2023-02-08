@@ -19,7 +19,7 @@ const buttonStyle = {
   '&:hover': { background: '#0f9595' },
 };
 
-const About = (/*props: { openAboutPage: any }*/) => {
+const About = (props: { openAboutPage: any }) => {
   return (
     <Box
       id="tenOptions"

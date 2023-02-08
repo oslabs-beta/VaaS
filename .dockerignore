@@ -1,0 +1,8 @@
+.env
+cypress.env.json
+node_modules
+.gitignore
+.gitattributes
+.prettierrc.json
+.prettierignore
+.prettierrc.js

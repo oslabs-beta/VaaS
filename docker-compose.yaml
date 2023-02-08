@@ -1,0 +1,10 @@
+services:
+  vaas:
+    image: vaas4.0:development
+    container_name: vaas
+    ports:
+      - 3020:3020
+    env_file:
+      - .env
+    volumes:
+      - ./src:/usr/src/app/src

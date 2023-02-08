@@ -32,7 +32,7 @@ type Admin = {
 // Create the Admin component
 // * VaaS 4.0 - there are a lot of unused features that were partially developed by previous groups
 // * we did not delete them all in case future groups want to implement these features
-const Admin = (/*props: { refetch: any; handleAdminModal: any }*/) => {
+const Admin = (props: { refetch: any; handleAdminModal: any }) => {
   // Dispatch hook to dispatch actions to the store
   const dispatch = useAppDispatch();
   // Select the uiReducer from the store
@@ -42,7 +42,7 @@ const Admin = (/*props: { refetch: any; handleAdminModal: any }*/) => {
   const [updateUserErr, setUpdateUserErr] = useState('');
   const [deletePasswordErr, setDeletePasswordErr] = useState('');
   // const [addClusterMessage, setAddClusterMessage] = useState('');
-  const [currUser, setCurrUser] = useState({});
+  const [currUser, setCurrUser] = useState<any>({});
   // const darkMode = uiReducer.clusterUIState.darkmode;
   // const [updateRefreshRateMessage, setUpdateRefreshRateMessage] = useState('');
   // const [refreshRate, setRefreshRate] = useState(0);
