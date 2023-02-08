@@ -21,11 +21,12 @@ describe('/auth route', (): void => {
       });
 
       it('should add a user to the database with correct info', async (): Promise<void> => {
-        const user = await User.findOne({ testUser });
+        const user = await User.findOne({ username: testUser.username });
         expect(user).toBeDefined();
         expect(user).not.toBeNull();
       });
 
+      // After all tests, delete test user from database
       afterAll(async (): Promise<void> => {
         await User.deleteOne({ username: testUser.username });
       });
@@ -33,7 +34,7 @@ describe('/auth route', (): void => {
 
     describe('given incorrect input', (): void => {
       const incorrectUser = {
-        username: 'test',
+        username: 'badtestuser',
         firstName: 'test',
         lastName: 'test',
       };
@@ -52,6 +53,7 @@ describe('/auth route', (): void => {
     });
 
     describe('given duplicate username', (): void => {
+      // Before all tests, create test user
       beforeAll(async () => {
         await request(app).post('/api/auth').send(testUser);
       });
@@ -66,6 +68,7 @@ describe('/auth route', (): void => {
         expect(user).toHaveLength(1);
       });
 
+      // After all tests, delete test user from database
       afterAll(async (): Promise<void> => {
         await User.deleteOne({ username: testUser.username });
       });
@@ -75,33 +78,48 @@ describe('/auth route', (): void => {
   describe('GET /api/auth', (): void => {
     let cookieHeader: string[] = [];
 
+    // Before all tests, create test user and save cookie
     beforeAll(async (): Promise<void> => {
       const response = await request(app).post('/api/auth').send(testUser);
       cookieHeader = response.headers['set-cookie'];
     });
 
     describe('given a valid cookie', (): void => {
-      it('should respond with status 200', async () => {
+      it('should respond with status 201', async () => {
         const response = await request(app)
           .get('/api/auth')
           .set('Cookie', cookieHeader);
         expect(response.status).toBe(201);
+        expect(response.body).toHaveProperty('invalid', false);
       });
     });
 
     describe('given an invalid cookie', (): void => {
       it('should respond with status 400', async () => {
-        const response = await request(app).get('/api/auth');
+        const response = await request(app)
+          .get('/api/auth')
+          .set('Cookie', 'bad cookie');
         expect(response.status).toBe(400);
+        expect(response.body).toHaveProperty('invalid', true);
       });
     });
 
+    describe('given no cookie', (): void => {
+      it('should respond with status 400', async () => {
+        const response = await request(app).get('/api/auth');
+        expect(response.status).toBe(400);
+        expect(response.body).toHaveProperty('invalid', true);
+      });
+    });
+
+    // After all tests, delete test user from database
     afterAll(async (): Promise<void> => {
       await User.deleteOne({ username: testUser.username });
     });
   });
 
   describe('PUT /api/auth', (): void => {
+    // Before all tests, create test user
     beforeAll(async () => {
       await request(app).post('/api/auth').send(testUser);
     });
@@ -109,6 +127,7 @@ describe('/auth route', (): void => {
     describe('given correct login credentials', (): void => {
       let response: request.Response;
 
+      // Berfore all tests, login and save response
       beforeAll(async (): Promise<void> => {
         response = await request(app)
           .put('/api/auth')
@@ -123,10 +142,6 @@ describe('/auth route', (): void => {
         expect(response.headers['set-cookie']).toBeDefined();
       });
 
-      it('should respond with a JSON object', (): void => {
-        expect(response.headers['content-type']).toMatch(/json/);
-      });
-
       it('should respond with a userId', (): void => {
         expect(response.body).toHaveProperty('userId');
       });
@@ -139,6 +154,7 @@ describe('/auth route', (): void => {
     describe('given incorrect login credentials', (): void => {
       let response: request.Response;
 
+      // Berfore all tests, attempt to login with bad credentials and save response
       beforeAll(async (): Promise<void> => {
         response = await request(app)
           .put('/api/auth')
@@ -169,6 +185,7 @@ describe('/auth route', (): void => {
     describe('given no login credentials', (): void => {
       let response: request.Response;
 
+      // Berfore all tests, attempt to login with no credentials and save response
       beforeAll(async (): Promise<void> => {
         response = await request(app).put('/api/auth');
       });
@@ -194,6 +211,38 @@ describe('/auth route', (): void => {
       });
     });
 
+    // After all tests, delete test user from database
+    afterAll(async (): Promise<void> => {
+      await User.deleteOne({ username: testUser.username });
+    });
+  });
+
+  describe('DELETE /api/auth', (): void => {
+    let cookieHeader: string[] = [];
+
+    // Before all tests, create test user and save cookie
+    beforeAll(async (): Promise<void> => {
+      const response = await request(app).post('/api/auth').send(testUser);
+      cookieHeader = response.headers['set-cookie'];
+    });
+
+    describe('given a valid cookie', (): void => {
+      it('should respond with status 200', async () => {
+        const response = await request(app)
+          .delete('/api/auth')
+          .set('Cookie', cookieHeader);
+        expect(response.status).toBe(200);
+      });
+    });
+
+    describe('given an invalid cookie', (): void => {
+      it('should respond with status 400', async () => {
+        const response = await request(app).delete('/api/auth');
+        expect(response.status).toBe(400);
+      });
+    });
+
+    // After all tests delete test user from database
     afterAll(async (): Promise<void> => {
       await User.deleteOne({ username: testUser.username });
     });
