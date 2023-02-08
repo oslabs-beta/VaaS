@@ -23,6 +23,12 @@
   border-style: solid;
 }
 
+#cluster-error {
+  align-self: center;
+  color: #f5f5f5;
+  margin-top: 20px;
+}
+
 #hamburger {
   display: flex;
   justify-content: center;

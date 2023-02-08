@@ -8,7 +8,6 @@ import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
 import HomeSidebar from './HomeSidebar';
-// import AddClusters from '../Admin/AddCluster';
 import './styles.css';
 
 const Home = () => {
@@ -32,9 +31,7 @@ const Home = () => {
   useEffect(() => {
     if (data?.invalid) return navigate('/');
     if (data?.message) {
-      setNoClusterError(
-        'Please add cluster information in administrator portal'
-      );
+      setNoClusterError('Please add a cluster');
       return;
     }
     dispatch(storeClusterDbData(data));
@@ -92,6 +89,7 @@ const Home = () => {
         <section className="contentWrapper">
           <div id="cluster-title-modals">
             <div id="Home-Bar-Title">CLUSTERS</div>
+            <div id="cluster-error">{noClusterError}</div>
             <div
               className={
                 !Array.isArray(clustersArray) || clustersArray[1] !== undefined
@@ -113,7 +111,6 @@ const Home = () => {
                   ))
                 : null}
             </div>
-            {noClusterError}
           </div>
         </section>
       </section>
