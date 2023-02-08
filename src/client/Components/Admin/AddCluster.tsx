@@ -19,9 +19,9 @@ const settingsField = {
 const buttonStyle = {
   background: '#3a4a5b',
   borderRadius: '5px',
-  marginBottom: '0px',
+  marginBottom: '10px',
   width: '80%',
-  fontSize: '10px',
+  fontSize: '12px',
   alignSelf: 'center',
 };
 
