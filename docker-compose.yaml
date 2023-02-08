@@ -1,6 +1,6 @@
 services:
   vaas:
-    image: vaas4.0:development
+    image: vaas4.0:dev
     container_name: vaas
     ports:
       - 3020:3020
