@@ -58,13 +58,7 @@ router
         cookieId,
       }).exec();
       let clusters: ICluster[];
-      if (
-        currentUser?.username === 'admin' ||
-        currentUser?.username === 'testuser' ||
-        currentUser?.username === 'StevenTT' ||
-        currentUser?.username === 'dankwolf' ||
-        currentUser?.username === 'hectorramirez1'
-      ) {
+      if (currentUser?.username === 'admin') {
         clusters = await Cluster.find({}).exec();
       } else {
         clusters = await Cluster.find({
