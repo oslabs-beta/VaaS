@@ -28,7 +28,9 @@ class Database {
           `${protocol}${username}:${password}${url}/${database}?retryWrites=true&w=majority`
         : `${protocol}${url}:${port}/${database}`;
     // INITIATE CONNECTION TO MONGODB
-    this._mongo.connect(uri);
+    if (process.env.CONTAINER === 'true')
+      this._mongo.connect(`mongodb://mongo:27017/${database}`);
+    else this._mongo.connect(uri);
     // ASSIGN MONGOOSE CONNECTION TO db
     const db: Connection = this._mongo.connection;
     db.on('error', console.error.bind(console, 'Connection error:'));
