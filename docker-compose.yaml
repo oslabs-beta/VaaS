@@ -12,11 +12,12 @@ services:
     # Uncomment the following two lines if you want to use your own source code
     # volumes:
     #   - ./src:/usr/src/app/src
+    depends_on:
+      - mongo
   mongo:
     image: mongo
     container_name: mongo
-    ports:
-      - 27017:27017
+    restart: always
     volumes:
       - data:/data/db
 volumes:
