@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useAppSelector, useAppDispatch } from '../../Store/hooks';
-import { storeClusterDbData, setDarkMode } from '../../Store/actions';
-import { ClusterTypes, IReducers } from '../../Interfaces';
+import { /*useAppSelector, */ useAppDispatch } from '../../Store/hooks';
+import { storeClusterDbData /*, setDarkMode */ } from '../../Store/actions';
+import { ClusterTypes /*, IReducers */ } from '../../Interfaces';
 import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
@@ -14,7 +14,7 @@ import './styles.css';
 const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
+  // const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState<ClusterTypes[]>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -117,7 +117,6 @@ const Home = () => {
           </div>
         </section>
       </section>
-      {/* <AddClusters refetch={'cash'}  handleAddClusters={AddClusters}/> */}
     </div>
   );
 };

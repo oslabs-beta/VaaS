@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import './styles.css';
 // import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+// import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 // import { Modules } from 'src/client/Interfaces';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+// import Menu from '@mui/material/Menu';
+// import MenuItem from '@mui/material/MenuItem';
+// import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -52,7 +52,6 @@ const HomeSidebar = (props: {
   const [searchCluster, setSearchCluster] = useState('');
   const searchText: any = useRef();
 
-
   //reassiging props from Home
   const handleFindCluster = props.handleFindCluster;
   // const resetClusterArray = props.resetClusterArray;
@@ -67,7 +66,6 @@ const HomeSidebar = (props: {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     handleFindCluster(searchCluster);
-    console.log(searchText.value);
     setSearchCluster(e.target.value);
   };
 

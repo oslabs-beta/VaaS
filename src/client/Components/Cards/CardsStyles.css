@@ -3,7 +3,6 @@
   flex-direction: row;
   height: 100%;
   margin: 80px auto 0 auto;
-  /* justify-content: center; */
 }
 
 .rightContent {
@@ -70,7 +69,6 @@
   justify-content: flex-start;
   width: 230px;
   transition: width 0.3s ease-in-out;
-  /* height: 100%; */
   height: 100vh;
   background-color: #061320;
   padding-top: 28px;
@@ -110,9 +108,6 @@
 
 .menuCollapse {
   display: flex;
-  /* margin-right: 0px !important; */
-  /* width: 60%; */
-  /* color: black; */
 }
 
 .menuExpand {
@@ -184,6 +179,7 @@ dd {
 
 .set-favorite {
   cursor: pointer;
+  -webkit-user-select: none;
   user-select: none;
 }
 #overview {
@@ -264,10 +260,6 @@ dd {
 .basic-descriptor-title::first-letter {
   font-size: 1.3em;
 }
-
-/* #basic-button {
-  color: #f5f5f5;
-} */
 
 .Cluster-Memory-Gauge {
   display: flex;

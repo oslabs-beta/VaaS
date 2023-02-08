@@ -17,7 +17,6 @@ export default async (
   if (res.locals.newAcctInfo) {
     password = res.locals.newAcctInfo.password;
   }
-  // console.log('PASSWORD: ', password);
   const saltRounds = 10;
   // IF USER's hashedPassword does not exist, this means this is a new user; set and store new userId and hash password
   if (!res.locals.hashedPassword) {

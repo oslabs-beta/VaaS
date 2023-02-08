@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { AddClusterType, IReducers } from '../../Interfaces';
-import { useAppDispatch, useAppSelector } from '../../Store/hooks';
-import { addCluster, fetchUser } from '../../Queries';
+import React, { useState /*, useEffect */ } from 'react';
+import { useMutation /*, useQuery */ } from '@tanstack/react-query';
+import { AddClusterType /*, IReducers */ } from '../../Interfaces';
+// import { useAppDispatch, useAppSelector } from '../../Store/hooks';
+import { addCluster /*, fetchUser */ } from '../../Queries';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
@@ -48,9 +48,9 @@ const textFields: {
 
 const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
   // Dispatch hook to dispatch actions to the store
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   // Select the uiReducer from the store
-  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
+  // const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
   // React hooks to maintain local state
   const [addClusterMessage, setAddClusterMessage] = useState('');
 
@@ -71,7 +71,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
 
   const [formData, setFormData] = useState<any>(initialFormData);
   const [formErrors, setFormErrors] = useState<boolean[]>(
-    textFields.map((ele) => false)
+    textFields.map(() => false)
   );
 
   // React query mutations used for requests other than get requests, used to get more efficient requests

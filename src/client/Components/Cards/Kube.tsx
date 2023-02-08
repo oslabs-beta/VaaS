@@ -16,7 +16,6 @@ import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-// import Divider from '@mui/material/Divider';
 
 import Insights from '@mui/icons-material/Insights';
 import AddAlert from '@mui/icons-material/AddAlert';
@@ -219,22 +218,6 @@ const Kube = (props: ClusterTypes) => {
           >
             Alerts
           </Button>
-          {/* </Box> */}
-          {/* <Divider sx={{ pt: '10px' }} /> */}
-          {/* <Box
-          className="Cluster-Kube-Box-Modules-Faas"
-          sx={{
-            height: '75px',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '0px',
-            gap: '5px',
-            paddingLeft: '10px',
-          }}
-        > */}
           <Button
             className="Cluster-Buttons"
             id="OpenFaaS-Button"
