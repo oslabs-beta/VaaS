@@ -271,7 +271,7 @@ const Kube = (props: ClusterTypes) => {
           </Button>
           <Button
             className="Cluster-Buttons"
-            id="FaaSCost-Button"
+            id="Kubacus-Button"
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',

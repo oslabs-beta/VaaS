@@ -45,6 +45,7 @@ export default function NavBar(props: { refetch?: any; open: any }) {
           '&:hover': { color: '#0f9595', cursor: 'pointer' },
         }}
         fontSize="large"
+        data-cy="hamburger"
         onClick={props.open}
       />
       {/* </a> */}
