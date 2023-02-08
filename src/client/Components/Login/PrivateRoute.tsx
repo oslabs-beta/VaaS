@@ -8,7 +8,6 @@ export default function PrivateRoute() {
   let authorized: { invalid: boolean } = { invalid: false };
   async function authorize() {
     authorized = await Promise.resolve(checkAuth());
-    console.log('authorized: ', authorized);
   }
   authorize();
   // if auth is not invalid, redirect to home page, otherwise render respective route element

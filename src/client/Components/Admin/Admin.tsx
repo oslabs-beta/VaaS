@@ -32,11 +32,11 @@ type Admin = {
 // Create the Admin component
 // * VaaS 4.0 - there are a lot of unused features that were partially developed by previous groups
 // * we did not delete them all in case future groups want to implement these features
-const Admin = (props: { refetch: any; handleAdminModal: any }) => {
+const Admin = (/*props: { refetch: any; handleAdminModal: any }*/) => {
   // Dispatch hook to dispatch actions to the store
   const dispatch = useAppDispatch();
   // Select the uiReducer from the store
-  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
+  // const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
 
   // React hooks to maintain local state
   const [updateUserErr, setUpdateUserErr] = useState('');
@@ -158,7 +158,6 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
           document.getElementById('delete-password-input') as HTMLInputElement
         ).value,
       };
-      console.log(userBody, 'userBody');
       userDeleteMutation.mutate(userBody);
     } catch (err) {
       console.log('Delete request to server failed', err);

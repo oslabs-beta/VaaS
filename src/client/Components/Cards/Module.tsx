@@ -4,7 +4,7 @@ import { OpenFaaS, Alert, Charts, FunctionCost } from '../Modules/index';
 import NavBar from '../Home/NavBar';
 import { Modules } from '../../Interfaces/ICluster';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+// import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
 import Insights from '@mui/icons-material/Insights';
 import AddAlert from '@mui/icons-material/AddAlert';
@@ -13,9 +13,7 @@ import QueryStats from '@mui/icons-material/QueryStats';
 import Functions from '@mui/icons-material/Functions';
 import AttachMoney from '@mui/icons-material/AttachMoney';
 import CostMain from '../Modules/CostCalc/CostMain';
-// import Close from '@mui/icons-material/Close';
 import HomeIcon from '@mui/icons-material/Home';
-// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 
 import { Visualizer, Custom } from '../Modules';
@@ -72,6 +70,7 @@ const Module = (props: Modules) => {
           overflow: 'auto',
         }
   );
+  // * VaaS 4.0 - unfinished feature by previous groups, leaving code here in case future groups want to use it
   // const [buttonStyle, setButtonStyle] = useState(
   //   props.isDark
   //     ? {
@@ -340,8 +339,6 @@ const Module = (props: Modules) => {
                 <AttachMoney sx={iconStyle} />
                 Kubacus
               </Button>
-
-              {/* {!props.nested && ( )} */}
             </div>
           </div>
         </div>

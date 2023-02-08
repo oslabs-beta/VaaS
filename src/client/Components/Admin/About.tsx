@@ -2,10 +2,6 @@ import React from 'react';
 import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import TextField from '@mui/material/TextField';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import Typography from '@mui/material/Typography';
 
 import './styles.css';
 // Styles
@@ -23,7 +19,7 @@ const buttonStyle = {
   '&:hover': { background: '#0f9595' },
 };
 
-const About = (props: { openAboutPage: any }) => {
+const About = (/*props: { openAboutPage: any }*/) => {
   return (
     <Box
       id="tenOptions"

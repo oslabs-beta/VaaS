@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { useAppSelector, useAppDispatch } from '../../Store/hooks';
-import { storeClusterDbData, setDarkMode } from '../../Store/actions';
-import { ClusterTypes, IReducers } from '../../Interfaces';
+import { /*useAppSelector, */ useAppDispatch } from '../../Store/hooks';
+import { storeClusterDbData /*, setDarkMode */ } from '../../Store/actions';
+import { ClusterTypes /*, IReducers */ } from '../../Interfaces';
 import { fetchClusters, fetchUser } from '../../Queries';
 import NavBar from './NavBar';
 import Kube from '../Cards/Kube';
 import HomeSidebar from './HomeSidebar';
-// import AddClusters from '../Admin/AddCluster';
 import './styles.css';
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
+  // const uiReducer = useAppSelector((state: IReducers) => state.uiReducer);
   const [noClusterError, setNoClusterError] = useState('');
   const [clustersArray, setClustersArray] = useState<ClusterTypes[]>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -32,9 +31,7 @@ const Home = () => {
   useEffect(() => {
     if (data?.invalid) return navigate('/');
     if (data?.message) {
-      setNoClusterError(
-        'Please add cluster information in administrator portal'
-      );
+      setNoClusterError('Please add a cluster');
       return;
     }
     dispatch(storeClusterDbData(data));
@@ -92,6 +89,7 @@ const Home = () => {
         <section className="contentWrapper">
           <div id="cluster-title-modals">
             <div id="Home-Bar-Title">CLUSTERS</div>
+            <div id="cluster-error">{noClusterError}</div>
             <div
               className={
                 !Array.isArray(clustersArray) || clustersArray[1] !== undefined
@@ -113,11 +111,9 @@ const Home = () => {
                   ))
                 : null}
             </div>
-            {noClusterError}
           </div>
         </section>
       </section>
-      {/* <AddClusters refetch={'cash'}  handleAddClusters={AddClusters}/> */}
     </div>
   );
 };
