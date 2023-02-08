@@ -107,8 +107,8 @@ export default function NavBar(props: { refetch?: any; open: any }) {
           onClick={() => {
             handleAdminModal(true);
           }}
-          onMouseEnter={(e) => (e.target.style.color = '#0f9595')}
-          onMouseLeave={(e) => (e.target.style.color = '#f5f5f5')}
+          onMouseEnter={(e) => (e.currentTarget.style.color = '#0f9595')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = '#f5f5f5')}
           className="logoutMenuButton"
           sx={{
             fontFamily: 'Montserrat, sans-serif',
@@ -127,8 +127,8 @@ export default function NavBar(props: { refetch?: any; open: any }) {
             padding: '5px 10px',
           }}
           onClick={handleLogOut}
-          onMouseEnter={(e) => (e.target.style.color = '#0f9595')}
-          onMouseLeave={(e) => (e.target.style.color = '#f5f5f5')}
+          onMouseEnter={(e) => (e.currentTarget.style.color = '#0f9595')}
+          onMouseLeave={(e) => (e.currentTarget.style.color = '#f5f5f5')}
           className="logoutMenuButton"
         >
           &#10148; LOGOUT
