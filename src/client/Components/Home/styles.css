@@ -8,7 +8,7 @@
   z-index: 98;
   padding-right: 2em;
   padding-left: 2em;
-  margin-right: 1.5em;
+  /* margin-right: 1.5em; */
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -23,6 +23,14 @@
   border-left: 0px;
   border-right: 0px;
   border-style: solid;
+}
+
+#hamburger {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 55px;
+  width: 55px;
 }
 
 .mainContent {
@@ -45,20 +53,16 @@
   border: 10px solid red;
 }
 #Home-Bar-Title {
-  font-size: 20px;
-  color: white;
+  font-size: 25px;
+  color: #f5f5f5;
   align-self: center;
-  /* margin-left: 192px;
-  margin-top: 25px; */
 }
 
 #navbar-container #icon-button {
   align-self: center;
   height: 60px;
   width: 60px;
-  /* margin-right: 1em; */
   opacity: 0.75;
-  /* background-color: lightslategray; */
 }
 
 #navbar-container #icon-button:hover {
@@ -95,15 +99,12 @@
 }
 
 #navbar-title {
-  display: table-cell;
   font: Mukta Mahee, Helvetica, Arial, sans-serif;
   vertical-align: middle;
   color: #f5f5f5;
   background-color: transparent;
   border: none;
-  font-size: 50px;
-  height: 80px;
-  width: 80px;
+  font-size: 40px;
   font-weight: 500;
 }
 
@@ -114,11 +115,11 @@
 
 .Kube-container {
   margin-bottom: 20px;
-  /* margin: 0; */
   padding: 50px;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fill, 520px);
+  row-gap: 15px;
   justify-content: center;
   align-content: center;
   justify-items: center;
@@ -139,10 +140,6 @@
   width: 100%;
   color: #f5f5f5;
   font-size: 20px;
-}
-.logoutMenuButton {
-  color: #f5f5f5;
-  padding: 5px 10px;
 }
 
 /* NEW SIDEBAR */

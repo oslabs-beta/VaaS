@@ -2,6 +2,7 @@ import React from 'react';
 import CostActual from './CostActual';
 import CostBudget from './CostBudget';
 import './costStyle.css';
+import { useLocation } from 'react-router-dom';
 
 export default function CostMain() {
   const month = [
@@ -19,6 +20,7 @@ export default function CostMain() {
     'DEC',
   ];
 
+  const { state } = useLocation();
   const currentMonth: number = new Date().getMonth();
 
   const monthArr = [];
@@ -43,6 +45,7 @@ export default function CostMain() {
 
   return (
     <div className="costContainer">
+      <div id="kubacus-title">KUBACUS: {state[0].name}</div>
       <CostActual month={displayArr} monthArr={monthArr} />
       <CostBudget month={displayArr} monthArr={monthArr} />
     </div>

@@ -218,7 +218,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
       <Container
         className={'Admin-Modal-Container'}
         sx={{
-          color: 'white',
+          color: '#f5f5f5',
           height: '430px',
           width: '350px',
           display: 'flex',
@@ -231,7 +231,7 @@ const Admin = (props: { refetch: any; handleAdminModal: any }) => {
           left: '50%',
           flexDirection: 'column',
           backgroundColor: '#0b171e',
-          boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+          boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',
           borderRadius: '10px',
           marginBottom: '20px',
           transform: 'translate(-50%, -50%)',

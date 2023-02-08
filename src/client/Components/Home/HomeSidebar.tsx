@@ -24,13 +24,13 @@ const textFieldStyle = {
   borderTopLeftRadius: '5px',
   borderBottomLeftRadius: '5px',
   fontSize: '10px',
-  color: 'white',
+  color: '#f5f5f5',
   margin: '0px',
   width: '160px',
   height: '48px',
   // alignSelf: 'center',
   links: {
-    color: 'white',
+    color: '#f5f5f5',
     '&:hover': {
       textDecorationColor: 'green',
       cursor: 'pointer',
@@ -52,13 +52,6 @@ const HomeSidebar = (props: {
   const [searchCluster, setSearchCluster] = useState('');
   const searchText: any = useRef();
 
-  //for sidebar menu expand and contract
-  // const toggleOpen = () => {
-  //   setOpen(!open);
-  //   if (btnText === 'Collapse') {
-  //     setBtnText('Expand');
-  //   } else setBtnText('Collapse');
-  // };
 
   //reassiging props from Home
   const handleFindCluster = props.handleFindCluster;
@@ -88,16 +81,8 @@ const HomeSidebar = (props: {
   return (
     <div className={props.open ? 'sidenav' : 'sidenavClosed'}>
       <div className="menuCollapse">
-        <button
-          // className={props.open ? 'closeBtn' : 'openBtn'}
-          className="closeBtn"
-          onClick={props.toggleOpen}
-        >
-          {/* {open ? ( */}
+        <button className="closeBtn" onClick={props.toggleOpen}>
           {props.open && <KeyboardDoubleArrowLeftIcon fontSize="large" />}
-          {/* // ) : ( */}
-          {/* <KeyboardDoubleArrowRightIcon /> */}
-          {/* // )} */}
         </button>
       </div>
       <div className={props.open ? 'menuButtons' : 'menuButtonsClosed'}>

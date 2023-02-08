@@ -16,7 +16,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Modal from '@mui/material/Modal';
 import { Box } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
+// import Divider from '@mui/material/Divider';
 
 import Insights from '@mui/icons-material/Insights';
 import AddAlert from '@mui/icons-material/AddAlert';
@@ -98,7 +98,7 @@ const Kube = (props: ClusterTypes) => {
         height: '370px',
         border: '2px solid #030a11',
         borderRadius: '10px',
-        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+        boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',
       }}
     >
       <CssBaseline />
@@ -155,7 +155,7 @@ const Kube = (props: ClusterTypes) => {
               display: 'flex',
               justifyContent: 'flex-start',
               pr: '0px',
-              color: 'white',
+              color: '#f5f5f5',
             }}
             startIcon={<Insights />}
             onClick={() =>
@@ -173,7 +173,7 @@ const Kube = (props: ClusterTypes) => {
               display: 'flex',
               justifyContent: 'flex-start',
               pr: '0px',
-              color: 'white',
+              color: '#f5f5f5',
             }}
             fullWidth={true}
             startIcon={<ViewInAr />}
@@ -191,7 +191,7 @@ const Kube = (props: ClusterTypes) => {
               display: 'flex',
               justifyContent: 'flex-start',
               pr: '0px',
-              color: 'white',
+              color: '#f5f5f5',
             }}
             fullWidth={true}
             startIcon={<QueryStats />}
@@ -209,7 +209,7 @@ const Kube = (props: ClusterTypes) => {
               display: 'flex',
               justifyContent: 'flex-start',
               pr: '0px',
-              color: 'white',
+              color: '#f5f5f5',
             }}
             fullWidth={true}
             startIcon={<AddAlert />}
@@ -242,7 +242,7 @@ const Kube = (props: ClusterTypes) => {
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',
-              color: 'white',
+              color: '#f5f5f5',
             }}
             startIcon={<Functions />}
             onClick={() =>
@@ -257,7 +257,7 @@ const Kube = (props: ClusterTypes) => {
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',
-              color: 'white',
+              color: '#f5f5f5',
             }}
             fullWidth={true}
             startIcon={<AttachMoney />}
@@ -275,7 +275,7 @@ const Kube = (props: ClusterTypes) => {
             sx={{
               display: 'flex',
               justifyContent: 'flex-start',
-              color: 'white',
+              color: '#f5f5f5',
             }}
             fullWidth={true}
             startIcon={<AttachMoney />}

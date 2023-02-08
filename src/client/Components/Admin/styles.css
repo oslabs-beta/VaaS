@@ -1,10 +1,10 @@
 #add-cluster-title {
-  color: whitesmoke;
+  color: #f5f5f5;
   align-self: center;
   justify-self: center;
   /* width: 100%; */
-  margin: 10px auto 0px;
-  font-weight: bold;
+  margin: 15px auto 0px;
+  font-size: 20px;
 }
 
 #update-user-err {
@@ -43,21 +43,13 @@
 
 #add-cluster-msg {
   height: 15px;
-  color: whitesmoke;
+  color: #f5f5f5f5;
   text-align: center;
   margin-bottom: 20px;
   font-size: 0.8em;
 }
 
-/* #tenOptions {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-} */
-
 #developed {
-  font-weight: bold;
-  font-size: 1.1em;
+  font-size: 1.2em;
   margin-bottom: 0.5em;
 }

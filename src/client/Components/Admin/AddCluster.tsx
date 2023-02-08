@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import './styles.css';
 
 const settingsField = {
-  background: 'white',
+  background: '#f5f5f5',
   borderRadius: '5px',
   marginBlock: '7px',
   width: '300px',
@@ -19,9 +19,9 @@ const settingsField = {
 const buttonStyle = {
   background: '#3a4a5b',
   borderRadius: '5px',
-  marginBottom: '0px',
+  marginBottom: '3px',
   width: '80%',
-  fontSize: '10px',
+  fontSize: '12px',
   alignSelf: 'center',
 };
 
@@ -131,10 +131,10 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
     <Container
       id="addCluster"
       sx={{
-        color: 'white',
+        color: '#f5f5f5',
         maxHeight: '650px',
         backgroundColor: '#0b171e',
-        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+        boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',
         borderRadius: '10px',
         marginBottom: '20px',
         overflow: 'scroll',

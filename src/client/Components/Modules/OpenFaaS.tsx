@@ -65,7 +65,7 @@ const OpenFaaS = (props: Modules) => {
 
   //styling for mui components below
   const dropdownStyle = {
-    background: 'white',
+    background: '#f5f5f5',
     borderRadius: '5px',
     padding: '0.5rem',
     marginBottom: '0px',

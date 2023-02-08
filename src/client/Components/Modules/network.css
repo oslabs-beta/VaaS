@@ -32,7 +32,7 @@
   display: block;
   margin: 0 auto;
   background-color: #0f9595;
-  color: white;
+  color: #f5f5f5;
   border-radius: 7px;
   border: none;
   cursor: pointer;
@@ -47,7 +47,7 @@
   width: 400px;
   margin: 20px;
   cursor: pointer;
-  color: white;
+  color: #f5f5f5;
   background-image: linear-gradient(to right, #2074ff, #2074ff 50%, #fff 0%);
   background-size: 200% 100%;
   background-position: -100%;
@@ -79,21 +79,21 @@
 .category {
   height: 150px;
   width: 230px;
-  border: 3px solid #15161d;
-  box-shadow: 1px 1px 10px 0.5px #rgba(248, 245, 245, 0.5);
+  border: 3px solid #030a11;
+  box-shadow: 1px 1px 10px 0.5px rgba(198, 195, 195, 0.5);
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.5em;
-  color: white;
-  background-color: #181a1d;
+  color: #f5f5f5;
+  background-color: #0b171e;
   cursor: pointer;
 }
 .category:hover {
   transform: scale(1.15);
   transition: 0.1s;
-  box-shadow: 4px 4px 15px 0.5px rgba(248, 245, 245, 0.5);
+  box-shadow: 0px 0px 10px 0.5px #0f9595;
 }
 .categoryList {
   display: flex;
@@ -112,35 +112,46 @@
   width: 100vw;
 }
 
+.Module-top-row {
+  margin-bottom: 20px;
+}
+.module-title {
+  font-size: 1.2em;
+  margin-top: 10px;
+  color: #f5f5f5;
+  text-align: center;
+  /* margin: 20px; */
+}
+
 .chartBox {
   height: 150px;
   width: 300px;
   border: '2px solid #15161d';
-  box-shadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)';
+  box-shadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)';
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  color: white;
-  background-color: '#181A1D';
+  color: #f5f5f5;
+  background-color: '#0b171e';
   cursor: pointer;
 }
 
 .chartBox:hover {
   transform: scale(1.03);
   transition: 0.2s;
-  box-shadow: 1px 1px 10px 0.5px rgba(248, 245, 245, 0.5);
+  box-shadow: 1px 1px 10px 0.5px rgba(198, 195, 195, 0.5);
 }
 
 #cost-container {
-  background-color: whitesmoke;
-  color: black;
+  background-color: #f5f5f5;
+  color: #0b171e;
 }
 
 #cost-estimate {
-  color: black;
+  color: #0b171e;
 }
 
 .costCal {
-  color: white;
+  color: #f5f5f5;
 }

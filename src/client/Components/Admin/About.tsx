@@ -20,7 +20,7 @@ const buttonStyle = {
   marginBottom: '20px',
   width: '100%',
   fontSize: '15px',
-  fontWeight: 'bold',
+  '&:hover': { background: '#0f9595' },
 };
 
 const About = (props: { openAboutPage: any }) => {
@@ -31,7 +31,7 @@ const About = (props: { openAboutPage: any }) => {
         color: '#f5f5f5',
         height: '600px',
         backgroundColor: '#0b171e',
-        boxShadow: '1px 1px 10px .5px rgba(248, 245, 245, 0.5)',
+        boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',
         borderRadius: '10px',
         marginBottom: '20px',
         overflow: 'scroll',
