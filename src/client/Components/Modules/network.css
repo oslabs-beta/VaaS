@@ -32,7 +32,7 @@
   display: block;
   margin: 0 auto;
   background-color: #0f9595;
-  color: white;
+  color: #f5f5f5;
   border-radius: 7px;
   border: none;
   cursor: pointer;
@@ -47,7 +47,7 @@
   width: 400px;
   margin: 20px;
   cursor: pointer;
-  color: white;
+  color: #f5f5f5;
   background-image: linear-gradient(to right, #2074ff, #2074ff 50%, #fff 0%);
   background-size: 200% 100%;
   background-position: -100%;

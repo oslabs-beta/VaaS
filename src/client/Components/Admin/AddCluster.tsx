@@ -131,7 +131,7 @@ const AddClusters = (props: { refetch: any; handleAddClusters: any }) => {
     <Container
       id="addCluster"
       sx={{
-        color: 'white',
+        color: '#f5f5f5',
         maxHeight: '650px',
         backgroundColor: '#0b171e',
         boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',

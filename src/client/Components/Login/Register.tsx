@@ -297,10 +297,10 @@ const Register = () => {
                   margin: '0.2rem',
                   width: '100%',
                   height: '3em',
-                  color: 'white',
+                  color: '#f5f5f5',
                   fontSize: '0.9em',
                   backgroundColor: '#3a4a5b',
-                  borderColor: 'white',
+                  borderColor: '#f5f5f5',
                   fontFamily: 'Rubik, Verdana, Arial, sans-serif',
                 }}
               >

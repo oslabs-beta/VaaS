@@ -15,7 +15,7 @@ const ReactJson = loadable(() => import('react-json-view'));
 const Alert = (props: Modules) => {
   const [data, setData] = useState<any[]>();
   const [responseStyle, setResponseStyle] = useState({
-    color: 'white',
+    color: '#f5f5f5',
     height: '280px',
   });
 
@@ -23,7 +23,7 @@ const Alert = (props: Modules) => {
     if (!props.nested) {
       setResponseStyle({
         ...responseStyle,
-        color: '#F0F0F0',
+        color: '##f5f5f5',
         height: '65vh',
       });
     }
@@ -79,7 +79,7 @@ const Alert = (props: Modules) => {
           size="small"
           margin="dense"
           sx={{
-            background: 'white',
+            background: '#f5f5f5',
             borderRadius: '5px',
             marginRight: '3px',
             marginBottom: '0px',
@@ -96,7 +96,7 @@ const Alert = (props: Modules) => {
           size="small"
           margin="dense"
           sx={{
-            background: 'white',
+            background: '#f5f5f5',
             borderRadius: '5px',
             marginRight: '3px',
             marginBottom: '0px',
@@ -113,7 +113,7 @@ const Alert = (props: Modules) => {
           size="small"
           margin="dense"
           sx={{
-            background: 'white',
+            background: '#f5f5f5',
             borderRadius: '5px',
             marginRight: '3px',
             marginBottom: '0px',

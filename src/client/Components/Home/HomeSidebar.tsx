@@ -24,13 +24,13 @@ const textFieldStyle = {
   borderTopLeftRadius: '5px',
   borderBottomLeftRadius: '5px',
   fontSize: '10px',
-  color: 'white',
+  color: '#f5f5f5',
   margin: '0px',
   width: '160px',
   height: '48px',
   // alignSelf: 'center',
   links: {
-    color: 'white',
+    color: '#f5f5f5',
     '&:hover': {
       textDecorationColor: 'green',
       cursor: 'pointer',
@@ -88,16 +88,8 @@ const HomeSidebar = (props: {
   return (
     <div className={props.open ? 'sidenav' : 'sidenavClosed'}>
       <div className="menuCollapse">
-        <button
-          // className={props.open ? 'closeBtn' : 'openBtn'}
-          className="closeBtn"
-          onClick={props.toggleOpen}
-        >
-          {/* {open ? ( */}
+        <button className="closeBtn" onClick={props.toggleOpen}>
           {props.open && <KeyboardDoubleArrowLeftIcon fontSize="large" />}
-          {/* // ) : ( */}
-          {/* <KeyboardDoubleArrowRightIcon /> */}
-          {/* // )} */}
         </button>
       </div>
       <div className={props.open ? 'menuButtons' : 'menuButtonsClosed'}>

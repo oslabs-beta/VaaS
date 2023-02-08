@@ -63,7 +63,7 @@ const Module = (props: Modules) => {
           overflow: 'auto',
         }
       : {
-          color: 'white',
+          color: '#f5f5f5',
           minHeight: '100%',
           minWidth: '100%',
           display: 'flex',
@@ -79,7 +79,7 @@ const Module = (props: Modules) => {
   //         width: '1px',
   //       }
   //     : {
-  //         color: 'white',
+  //         color: '#f5f5f5',
   //         width: '1px',
   //       }
   // );

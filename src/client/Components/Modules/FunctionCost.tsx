@@ -41,7 +41,7 @@ const FunctionCost = (props: Modules) => {
   };
 
   const [responseStyle, setResponseStyle] = useState({
-    color: 'white',
+    color: '#f5f5f5',
     height: '280px',
   });
 
@@ -57,7 +57,7 @@ const FunctionCost = (props: Modules) => {
     if (!props.nested) {
       setResponseStyle({
         ...responseStyle,
-        color: '#F0F0F0',
+        color: '##f5f5f5',
         height: '65vh',
       });
     }
@@ -332,7 +332,7 @@ const FunctionCost = (props: Modules) => {
           <FormControl
             fullWidth
             sx={{
-              background: 'white',
+              background: '#f5f5f5',
               borderRadius: '5px',
               padding: '0.5rem',
               marginBottom: '0px',
@@ -366,7 +366,7 @@ const FunctionCost = (props: Modules) => {
             sx={
               props.isDark
                 ? {
-                    color: 'black',
+                    color: '#0b171e',
                     background: '#c0c0c0',
                     borderRadius: '5px',
                     marginBottom: '20px',
@@ -376,7 +376,7 @@ const FunctionCost = (props: Modules) => {
                     marginLeft: '0.5rem',
                   }
                 : {
-                    color: 'white',
+                    color: '#f5f5f5',
                     background: '#3a4a5b',
                     borderRadius: '5px',
                     marginBottom: '20px',
@@ -401,7 +401,7 @@ const FunctionCost = (props: Modules) => {
             marginLeft: '-1rem',
             marginTop: '8px',
             justifyContent: 'center',
-            backgroundColor: 'whitesmoke',
+            backgroundColor: '#f5f5f5',
             color: '#5B5B5B',
             borderRadius: '5px',
             marginRight: '3px',
@@ -430,7 +430,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="numInvocation"
                 onChange={(e) => handleChange(e)}
-                sx={{ color: 'white', backgroundColor: 'white' }}
+                sx={{ color: '#f5f5f5', backgroundColor: '#f5f5f5' }}
               ></TextField>
               <TextField
                 size="small"
@@ -439,7 +439,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="estExecTime"
                 onChange={(e) => handleChange(e)}
-                sx={{ color: 'white', backgroundColor: 'white' }}
+                sx={{ color: '#f5f5f5', backgroundColor: '#f5f5f5' }}
               ></TextField>
 
               <TextField
@@ -449,7 +449,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="memoryMbs"
                 onChange={(e) => handleChange(e)}
-                sx={{ color: 'white', backgroundColor: 'white' }}
+                sx={{ color: '#f5f5f5', backgroundColor: '#f5f5f5' }}
               ></TextField>
             </form>
             <br />

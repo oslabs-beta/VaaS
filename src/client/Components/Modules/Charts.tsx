@@ -151,7 +151,7 @@ const Charts = (props: Modules) => {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    color: 'white',
+    color: '#f5f5f5',
     borderRadius: '10px',
   };
   const style2 = {

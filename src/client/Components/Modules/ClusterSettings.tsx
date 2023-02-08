@@ -119,7 +119,7 @@ const ClusterSettings = (props: Modules) => {
     },
   });
   const settingsField = {
-    background: 'white',
+    background: '#f5f5f5',
     borderRadius: '5px',
     marginBlock: '7px',
     width: '300px',

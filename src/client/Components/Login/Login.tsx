@@ -247,9 +247,9 @@ const Login = () => {
               variant="contained"
               className="oauth-btn"
               sx={{
-                color: 'white',
+                color: '#f5f5f5',
                 backgroundColor: '#2704ffb1',
-                borderColor: 'white',
+                borderColor: '#f5f5f5',
                 marginTop: '8px',
                 paddingRight: '30px',
                 width: '185px',
@@ -272,9 +272,9 @@ const Login = () => {
               variant="contained"
               className="oauth-btn"
               sx={{
-                color: 'white',
+                color: '#f5f5f5',
                 backgroundColor: '#0f9595',
-                borderColor: 'white',
+                borderColor: '#f5f5f5',
                 marginTop: '8px',
                 paddingRight: '30px',
                 width: '185px',
