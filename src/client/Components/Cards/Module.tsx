@@ -252,6 +252,7 @@ const Module = (props: Modules) => {
                 variant="text"
                 className="module-button"
                 onClick={() => navigate('/home')}
+                data-cy="home"
               >
                 <HomeIcon sx={iconStyle} />
                 Home
@@ -262,6 +263,7 @@ const Module = (props: Modules) => {
                 variant="text"
                 className="module-button"
                 onClick={handleChartsButton}
+                data-cy="dashboard"
               >
                 <Insights sx={iconStyle} />
                 Dashboards
@@ -275,6 +277,7 @@ const Module = (props: Modules) => {
                   setCurrModal('visualizer');
                   setOpenModal(true);
                 }}
+                data-cy="cluster"
               >
                 <ViewInAr sx={iconStyle} />
                 Cluster Map
@@ -288,6 +291,7 @@ const Module = (props: Modules) => {
                   setCurrModal('custom');
                   setOpenModal(true);
                 }}
+                data-cy="queries"
               >
                 <QueryStats sx={iconStyle} />
                 Queries
@@ -298,6 +302,7 @@ const Module = (props: Modules) => {
                 variant="text"
                 className="module-button"
                 onClick={handleAlertButton}
+                data-cy="alerts"
               >
                 <AddAlert sx={iconStyle} />
                 Alerts
@@ -308,6 +313,7 @@ const Module = (props: Modules) => {
                 variant="text"
                 className="module-button"
                 onClick={handleFaaSButton}
+                data-cy="openFaas"
               >
                 <Functions sx={iconStyle} />
                 OpenFaas
@@ -318,6 +324,7 @@ const Module = (props: Modules) => {
                 variant="text"
                 className="module-button"
                 onClick={handleFunctionCostButton}
+                data-cy="faasCost"
               >
                 <AttachMoney sx={iconStyle} />
                 OpenFaas Cost
@@ -328,6 +335,7 @@ const Module = (props: Modules) => {
                 variant="text"
                 className="module-button"
                 onClick={handleKubacusButton}
+                data-cy="kubacus"
               >
                 <AttachMoney sx={iconStyle} />
                 Kubacus
