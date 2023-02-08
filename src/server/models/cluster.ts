@@ -17,6 +17,9 @@ const clusterSchema: Schema<ICluster> = new Schema<ICluster>({
   favorite: [Schema.Types.ObjectId],
   grafana_url: String,
   kubeview_url: String,
+  cost_port: String,
+  cost_url: String,
+  multi: [Number],
 });
 
 // THIRD PARAMETER DEFINES DEFAULT COLLECTION NAME

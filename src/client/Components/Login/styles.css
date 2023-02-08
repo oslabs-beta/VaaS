@@ -1,48 +1,114 @@
-
 body {
   margin: 0px;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: Mukta Mahee, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.00938em;
+  height: 100%;
 }
+
+#outer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
 .container {
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  transform: translate(-50%, -20%);
-  width: 800px;
-  height: 80vh;
-  max-height: 1100px;
-  background: rgba(19, 19, 19, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  width: 600px;
+  height: 800px;
+  min-height: 600px;
+  background: #0b171ed2;
   box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(248, 245, 245, 0.5);
+  box-shadow: 0 0 25px 0 rgba(198, 195, 195, 0.5);
   border-radius: 10px;
+  overflow: hidden;
 }
 
+.error {
+  color: rgb(227, 78, 78);
+  font-weight: bold;
+  /* margin-bottom: 5px; */
+  display: flex;
+  align-items: flex-end;
+  /* margin-top: -10px; */
+}
 
+.error,
+.nonError {
+  height: 15px;
+  margin-bottom: 10px;
+  padding-left: 30px;
+  padding-right: 30px;
+  text-align: center;
+  word-wrap: break-word;
+}
 .login-container {
   z-index: 3;
-  color: white;
+  color: #f5f5f5;
+}
+.loginPage {
+  height: 100%;
+  width: 100%;
+  /* color: rgb(42 46 53); */
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  margin: 0;
+}
+
+.outer-register-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  width: 100%;
+  height: 100%;
 }
 
 #root {
-  background-image: url('./svg/trippy2.svg');
-  background-color: blue;
+  background-image: url('./svg/beachbackground.png');
+  background-color: #0b171e;
   width: 100%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   min-height: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  -webkit-font-smoothing: antialiased !important;
 }
 
 .input-error-text {
-  color: red;
+  color: rgb(227, 78, 78);
 }
 
+#login-container-container .MuiInputBase-root {
+  background-color: rgba(255, 255, 255, 0.836);
+  width: 390px;
+  margin-bottom: 10px;
+  color: #3a4a5b;
+}
 
-#login-icon {
-  height: 150%;
-  width: 150%;
-  margin: -130px;
+.login-icon {
+  height: 200px;
+  margin-top: 20px;
+}
+
+#register-icon {
+  height: 200px;
+  margin-top: 40px;
 }
 
 .icon {
@@ -52,5 +118,123 @@ body {
   height: 75%;
 }
 
-#login-container {
+.btn:hover,
+.btn1:hover,
+.oauth-btn:hover {
+  background-color: #0f9595;
+}
+
+.oauth-text {
+  font-family: Arial;
+  font-size: 13px;
+}
+
+#registration {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+  margin-top: 0.3em;
+}
+
+@media screen and (max-height: 750px) {
+  .login-icon {
+    margin-top: 30px;
+    /* height: 420px; */
+    height: 180px;
+    object-fit: scale-down;
+  }
+  /* .vaas-text { */
+  /* margin-top: -120px; */
+  /* font-size: 2.8rem; */
+  /* transition: 500ms; */
+  /* } */
+  .oauth-text {
+    display: none;
+  }
+  .oauth-btn {
+    height: 45px;
+    width: 70px;
+    margin-top: 0px;
+    padding-right: 0px;
+    padding-left: 6px;
+    text-align: center;
+  }
+  #oauth-buttons-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+  }
+  #registration {
+    margin-top: -10px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .login-icon {
+    height: 140px;
+    margin-top: 60px;
+  }
+  .oauth-text {
+    display: none;
+  }
+  .oauth-btn {
+    height: 45px;
+    width: 70px;
+    margin-top: 0px;
+    padding-right: 0px;
+    padding-left: 6px;
+    text-align: center;
+  }
+  #oauth-buttons-container {
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+  }
+  #login-container-container .MuiInputBase-root {
+    margin-bottom: 2px;
+  }
+  .error,
+  .nonError {
+    height: 30px;
+    margin: 5px auto 10px auto;
+    width: 80%;
+    font-size: 0.8em;
+    text-align: center;
+  }
+  #registration {
+    font-size: 1.3em;
+    margin-bottom: 0em;
+    margin-top: 0em;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .container {
+    width: 80%;
+    min-width: 270px;
+    /* transition: 500ms; */
+    height: 90%;
+    max-height: 800px;
+    /* min-height: 600px; */
+  }
+  #login-container-container .MuiInputBase-root {
+    max-width: 60vw;
+  }
+}
+
+@media screen and (max-height: 800px) {
+  .container {
+    min-width: 270px;
+    height: 90%;
+    min-height: 580px;
+    max-height: 750px;
+  }
+  .login-icon {
+    height: 150px;
+    margin-top: 70px;
+  }
+  #register-icon {
+    margin-top: 80px;
+    height: 100px;
+    object-fit: scale-down;
+  }
 }

@@ -23,9 +23,9 @@ export const addCluster = async (payload: AddClusterType) => {
 
 export const deleteCluster = async (
   payload:
-    | AxiosRequestConfig<{
+    | {
         clusterId: string | undefined;
-      }>
+      }
     | undefined
 ) => {
   const data = await axiosInstance.delete('/cluster', { data: payload });
@@ -150,7 +150,7 @@ export const clusterMetric = {
 // custom hook to be used by each Kube (Kube.tsx) created from the clusters in Home.tsx to fetch metrics of the cluster
 export const useFetchMetrics = ({ clusterId, k8Str }: useFetchMetricsProps) => {
   const dispatch = useAppDispatch();
-  const [allNodes, setAllNodes] = useState(null);
+  const [allNodes, setAllNodes] = useState<any>(null);
   const [cpuLoad, setCpuLoad] = useState<string>('');
   const [memoryLoad, setMemoryLoad] = useState<number>();
   const [totalDeployments, setTotalDeployments] = useState(null);

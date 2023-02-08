@@ -1,0 +1,333 @@
+.mainWrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  margin: 80px auto 0 auto;
+}
+
+.rightContent {
+  margin: 30px auto 0 auto;
+  width: 70%;
+  display: flex;
+  margin-left: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 900px) {
+  .rightContent {
+    width: 100%;
+  }
+}
+
+.module-boxes {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+}
+
+.clusterTitle {
+  margin-bottom: 15px;
+}
+
+.Header-Bar-Title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  width: auto !important;
+}
+#module-content {
+  margin-top: 10px;
+  width: 100%;
+}
+.chartsBackground {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.categoryList {
+  display: inline-flex;
+  width: 100%;
+}
+
+.ModuleSidenav {
+  color: #f5f5f5;
+  position: -webkit-fixed;
+  position: fixed;
+  top: 0px;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+  width: 230px;
+  transition: width 0.3s ease-in-out;
+  height: 100vh;
+  background-color: #061320;
+  padding-top: 28px;
+  border-right: #030a11;
+  border-style: solid;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-left: 0px;
+  border-width: 5px;
+}
+
+.ModuleSidenavClosed {
+  position: -webkit-fixed;
+  position: fixed;
+  top: 0px;
+  z-index: 99;
+  transition: width 0.3s ease-in-out;
+  width: 0px;
+  padding-top: 28px;
+  border-right: #030a11;
+  background-color: #061320;
+  border-style: solid;
+  border-top: 0px;
+  border-bottom: 0px;
+  border-width: 0px;
+  /* height: 100%; */
+  height: 100vh;
+}
+
+.sidebarMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  /* width: 200px; */
+}
+
+.menuCollapse {
+  display: flex;
+}
+
+.menuExpand {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.menuButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.closeButton {
+  z-index: 3;
+  display: block;
+  margin: 0 auto;
+  background-color: #0f9595;
+  color: #f5f5f5;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  padding: 10px 25px;
+  margin-top: 20px;
+}
+#settingButton {
+  font-size: 40px;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+h3 {
+  text-align: center;
+}
+
+dt {
+  float: left;
+  clear: left;
+  width: 110px;
+  font-weight: bold;
+  color: rgb(58, 79, 118);
+}
+dt::after {
+  content: ':';
+}
+dd {
+  margin: 0 0 0 80px;
+  padding: 0 0 0.5em 0;
+  color: #0b171e;
+}
+
+#Kube {
+  text-align: left;
+  flex-direction: column;
+  margin-top: 10px;
+  height: 600px;
+  box-shadow: 0.1em 0.1em 0.1em 0.1em rgba(198, 195, 195, 0.5);
+}
+
+.cluster-title {
+  font-size: 20px;
+  margin-right: auto;
+  margin-left: 0;
+  margin-top: 5px;
+}
+
+.set-favorite {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#overview {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-y: hidden;
+  overflow-x: auto;
+  margin-bottom: 8px;
+  padding-left: 4px;
+}
+
+#overview::-webkit-scrollbar {
+  width: 100%;
+  display: none;
+}
+
+.ov-title {
+  margin-top: -0.35rem;
+}
+
+.ov-nodes {
+  font-size: 1rem;
+  min-height: 40%;
+  width: 80px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.ov-content {
+  font-size: 2.2rem;
+  min-height: 40%;
+}
+
+.ov-metric {
+  margin: 0;
+  padding: 0;
+}
+.module-title {
+  color: #f5f5f5;
+}
+
+.cluster-id {
+  color: #f5f5f5;
+  font-size: 10px;
+  text-align: right;
+  margin-top: -15px;
+}
+
+.Cluster-Buttons {
+  color: #f5f5f5;
+  font-weight: 400;
+}
+
+.Basic-Descriptors {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1.2em;
+  font-size: 1.5em;
+}
+
+.Gauges-Descriptors {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2em;
+  font-size: 1.5em;
+}
+
+.basic-descriptor-title {
+  font-size: 0.7em;
+}
+
+.basic-descriptor-title::first-letter {
+  font-size: 1.3em;
+}
+
+.Cluster-Memory-Gauge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.Cluster-CPU-Gauge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gauge-text {
+  margin-top: 5em;
+  font-size: 0.7em;
+}
+
+.Cluster-Kube-Box:hover {
+  transform: scale(1.03);
+  transition: 0.2s;
+  box-shadow: 0 0 25px 0 #0f9595;
+}
+
+.Cluster-Information {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-inline: 12px;
+}
+.closeBtn {
+  color: black;
+  display: flex;
+  background-color: #a1a9b5;
+  cursor: pointer;
+  border: 0px;
+  width: 100%;
+}
+.openBtn {
+  display: flex;
+  background-color: #a1a9b5;
+  border: 0px;
+}
+
+.menuButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 10px;
+  width: 250px;
+}
+
+.menuButtonsClosed {
+  display: none;
+  width: 100px;
+}
+
+/* Settings Modal styling */
+
+.Settings-Modal-Container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cluster-description {
+  width: 100%;
+}

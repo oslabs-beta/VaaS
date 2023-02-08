@@ -30,7 +30,6 @@ export default async (
       if (authorized.type === 'valid') {
         // CHECK TOKEN EXPIRATION STATUS
         const tokenStatus = checkExpStatus(authorized.session);
-        // console.log(tokenStatus, 'tokenStatus');
         if (tokenStatus === 'grace' && baseUrl === '/api' && url === '/auth') {
           // RENEW TOKEN SO SESSION TIME CAN START ALL OVER
           const token = await editSession(user, process.env.JWT_ACCESS_SECRET);
@@ -60,7 +59,7 @@ export default async (
           };
           terminal(`Fail: ${error.message}`);
           res.locals.error = error;
-          //   return res.status(error.status).json(error);
+          return res.status(error.status).json(error);
         }
       }
       // IF TOKEN IS INVALID
@@ -72,7 +71,7 @@ export default async (
         };
         terminal(`Fail: ${error.message}`);
         res.locals.error = error;
-        // return res.status(error.status).json(error);
+        return res.status(error.status).json(error);
       }
     }
     // if no user exists, return invalid to the client
@@ -83,6 +82,7 @@ export default async (
         invalid: true,
       };
       res.locals.error = error;
+      return res.status(error.status).json(error);
     }
   } catch (err) {
     const error: IError = {
@@ -91,5 +91,6 @@ export default async (
     };
     terminal(`Fail: ${error.message}`);
     res.locals.error = error;
+    return res.status(error.status).json(error);
   }
 };

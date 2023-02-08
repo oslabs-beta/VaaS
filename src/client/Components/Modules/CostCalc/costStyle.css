@@ -1,0 +1,160 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.chartArea {
+  height: 1%;
+}
+
+.costContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 1080px;
+  justify-content: center;
+  align-items: start;
+}
+
+.actualDisplay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #0b171e;
+  margin-bottom: 31px;
+  border-radius: 10px;
+  padding: 20px;
+  color: #f5f5f5;
+}
+
+.costGraph {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.subGraph {
+  width: 88%;
+  margin-right: 2.3%;
+}
+
+.xivContainers {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  min-width: 1080px;
+  justify-content: space-between;
+  color: #f5f5f5;
+}
+
+.monthBorder {
+  border-top: #f5f5f5 1px solid;
+  border-bottom: #f5f5f5 1px solid;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.costBorder {
+  border-bottom: #f5f5f5 1px solid;
+}
+
+.topBorder {
+  border-top: #f5f5f5 1px solid;
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+  padding: 3px;
+}
+
+.topBorderBlack {
+  border-top: #030a11 1px solid;
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+  padding: 3px;
+}
+
+#kubacus-title {
+  font-size: 20px;
+  color: #f5f5f5;
+  margin: 0 auto 30px auto;
+}
+.topBorderLeft {
+  border-top: #f5f5f5 1px solid;
+  width: 100%;
+  margin-top: 8px;
+  padding: 3px;
+}
+
+.center {
+  justify-self: center;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.verticalLeft {
+  display: flex;
+  flex-direction: column;
+  color: #f5f5f5;
+  padding: 8px 0px 0px 0px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.verticalLeft span {
+  font-size: 0.8rem;
+  font-weight: 800;
+  overflow: hidden;
+}
+
+.verticalCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #f5f5f5;
+  padding: 8px 0px 0px 0px;
+}
+
+.verticalCenter span {
+  font-size: 0.8rem;
+}
+
+.totalColumn {
+  background-color: #7986cb;
+  color: black;
+  border-radius: 5px;
+}
+
+.totalColumn span {
+  font-weight: 800;
+}
+
+.inputField {
+  width: 80%;
+  height: 10%;
+  text-align: center;
+  font-size: 0.8rem;
+  border-radius: 5px;
+}
+
+.bold {
+  font-weight: 800;
+}
+
+.costButton {
+  background-color: #a1a9b5;
+  border-radius: 5px;
+  width: 15%;
+  margin-top: 20px;
+  font-size: 0.73rem;
+  font-weight: 800;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

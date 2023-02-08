@@ -11,23 +11,20 @@ import { useAppDispatch, useAppSelector } from '../../Store/hooks';
 import { setUI } from '../../Store/actions';
 import { useFetchMetrics } from '../../Queries';
 import { Custom, Visualizer } from '../Modules';
-import {
-  Button,
-  Tooltip,
-  Modal,
-  Box,
-  CssBaseline,
-  Divider,
-} from '@mui/material';
-import {
-  Insights,
-  AddAlert,
-  ViewInAr,
-  QueryStats,
-  Functions,
-  AttachMoney,
-} from '@mui/icons-material';
-import './styles.css';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import Modal from '@mui/material/Modal';
+import { Box } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+
+import Insights from '@mui/icons-material/Insights';
+import AddAlert from '@mui/icons-material/AddAlert';
+import ViewInAr from '@mui/icons-material/ViewInAr';
+import QueryStats from '@mui/icons-material/QueryStats';
+import Functions from '@mui/icons-material/Functions';
+import AttachMoney from '@mui/icons-material/AttachMoney';
+
+import './CardsStyles.css';
 
 // Dashboard for each cluster which is rendered onto the home page
 const Kube = (props: ClusterTypes) => {
@@ -93,16 +90,14 @@ const Kube = (props: ClusterTypes) => {
       className="Cluster-Kube-Box"
       sx={{
         display: 'flex',
-        backgroundColor: '#181A1D',
-        color: 'white',
-        width: '60%',
-        minWidth: '500px',
-        maxWidth: '1500px',
-        minHeight: '350px',
-        height: '30vh',
-        maxHeight: '450px',
-        border: '2px solid #15161d',
-        boxShadow: '1px 1px 10px .5px #403e54',
+        // marginTop: '0px',
+        backgroundColor: '#0b171e',
+        color: '#F5F5F5',
+        width: '500px',
+        height: '370px',
+        border: '2px solid #030a11',
+        borderRadius: '10px',
+        boxShadow: '1px 1px 10px .5px rgba(198, 195, 195, 0.5)',
       }}
     >
       <CssBaseline />
@@ -113,19 +108,26 @@ const Kube = (props: ClusterTypes) => {
           flexDirection: 'column',
           margin: '0',
           padding: '0',
-          minWidth: '150px',
-          borderRight: '2px solid #15161d',
+          minWidth: '167px',
+          borderRight: '2px solid #0b171e',
         }}
       >
         <Box
           className="Cluster-Kube-Box-Title"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
           sx={{
-            borderBottom: '2px solid #15161d',
+            borderBottom: '2px solid #0b171e',
             minHeight: '60px',
             width: '100%',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            paddingLeft: '15px',
+            paddingRight: '10px',
           }}
         >
           {dbData?.name}
@@ -136,16 +138,24 @@ const Kube = (props: ClusterTypes) => {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '10px',
+            justifyContent: 'flex-start',
+            alignContent: 'flex-end',
+            gap: '5px',
+            padding: '0px',
+            paddingLeft: '10px',
             paddingTop: '10px',
-            paddingBottom: '10px',
           }}
         >
           <Button
             className="Cluster-Buttons"
             id="Graphs-Button"
             fullWidth={true}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              pr: '0px',
+              color: '#f5f5f5',
+            }}
             startIcon={<Insights />}
             onClick={() =>
               navigate('/module', {
@@ -158,6 +168,12 @@ const Kube = (props: ClusterTypes) => {
           <Button
             className="Cluster-Buttons"
             id="Cluster-Map-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              pr: '0px',
+              color: '#f5f5f5',
+            }}
             fullWidth={true}
             startIcon={<ViewInAr />}
             onClick={() => {
@@ -170,6 +186,12 @@ const Kube = (props: ClusterTypes) => {
           <Button
             className="Cluster-Buttons"
             id="Queries-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              pr: '0px',
+              color: '#f5f5f5',
+            }}
             fullWidth={true}
             startIcon={<QueryStats />}
             onClick={() => {
@@ -182,6 +204,12 @@ const Kube = (props: ClusterTypes) => {
           <Button
             className="Cluster-Buttons"
             id="Alerts-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              pr: '0px',
+              color: '#f5f5f5',
+            }}
             fullWidth={true}
             startIcon={<AddAlert />}
             onClick={() =>
@@ -190,24 +218,15 @@ const Kube = (props: ClusterTypes) => {
           >
             Alerts
           </Button>
-        </Box>
-        <Divider />
-        <Box
-          className="Cluster-Kube-Box-Modules-Faas"
-          sx={{
-            height: '200px',
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '10px',
-          }}
-        >
           <Button
             className="Cluster-Buttons"
             id="OpenFaaS-Button"
             fullWidth={true}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              color: '#f5f5f5',
+            }}
             startIcon={<Functions />}
             onClick={() =>
               navigate('/module', { state: [dbData, 'faas', true] })
@@ -218,6 +237,11 @@ const Kube = (props: ClusterTypes) => {
           <Button
             className="Cluster-Buttons"
             id="FaaSCost-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              color: '#f5f5f5',
+            }}
             fullWidth={true}
             startIcon={<AttachMoney />}
             onClick={() =>
@@ -228,13 +252,31 @@ const Kube = (props: ClusterTypes) => {
           >
             FaaS Cost
           </Button>
+          <Button
+            className="Cluster-Buttons"
+            id="Kubacus-Button"
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              color: '#f5f5f5',
+            }}
+            fullWidth={true}
+            startIcon={<AttachMoney />}
+            onClick={() =>
+              navigate('/module', {
+                state: [dbData, 'kubacus', true],
+              })
+            }
+          >
+            Kubacus
+          </Button>
         </Box>
       </Box>
       <Box
         className="Cluster-Kube-Box-Right"
         sx={{
           width: '100%',
-          height: '100%',
+          height: '200px',
           display: 'flex',
           flexDirection: 'column',
           padding: '0',
@@ -244,16 +286,26 @@ const Kube = (props: ClusterTypes) => {
         <Box
           className="Cluster-Description-Box"
           sx={{
-            borderBottom: '2px solid #15161d',
+            borderBottom: '2px solid #0b171e',
             height: '60px',
             minHeight: '60px',
             maxHeight: '60px',
             display: 'flex',
             alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <div className="Cluster-Information">
-            {dbData?.description}
+            <div
+              className="cluster-description"
+              onClick={() =>
+                navigate('/module', {
+                  state: [dbData, 'charts', true],
+                })
+              }
+            >
+              {dbData?.description}
+            </div>
             <Tooltip title="Cluster Settings">
               <div
                 id="settingButton"
@@ -267,7 +319,14 @@ const Kube = (props: ClusterTypes) => {
             </Tooltip>
           </div>
         </Box>
-        <Box className="Basic-Descriptors">
+        <Box
+          className="Basic-Descriptors"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
+        >
           <Box
             className="Cluster-Nodes-Box"
             sx={{
@@ -308,7 +367,14 @@ const Kube = (props: ClusterTypes) => {
             <div>{totalPods || 0}</div>
           </Box>
         </Box>
-        <Box className="Gauges-Descriptors">
+        <Box
+          className="Gauges-Descriptors"
+          onClick={() =>
+            navigate('/module', {
+              state: [dbData, 'charts', true],
+            })
+          }
+        >
           <Box
             className="Cluster-CPU-Box"
             sx={{
@@ -324,7 +390,7 @@ const Kube = (props: ClusterTypes) => {
                 nrOfLevels={30}
                 colors={['green', '#FF5F6D']}
                 arcWidth={0.1}
-                percent={(cpuLoad || 0) / 100}
+                percent={(Number(cpuLoad) || 0) / 100}
                 style={{
                   width: '90px',
                   height: '2px',
@@ -377,14 +443,6 @@ const Kube = (props: ClusterTypes) => {
             name={dbData?.name}
             handleModal={handleSettingsModal}
           />
-          <Button
-            id="closeButton"
-            onClick={() => {
-              handleSettingsModal(false);
-            }}
-          >
-            {'Close Settings'}
-          </Button>
         </Box>
       </Modal>
       <Modal

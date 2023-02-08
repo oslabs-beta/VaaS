@@ -12,4 +12,7 @@ export interface ICluster extends Document {
   favorite: string[];
   grafana_url: string;
   kubeview_url?: string;
+  cost_url?: string;
+  cost_port?: string;
+  multi?: [number];
 }

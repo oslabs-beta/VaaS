@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+// import { Box } from '@mui/material';
 import { Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
@@ -9,7 +10,28 @@ export default function Visualizer(props: {
 }) {
   const { state } = useLocation();
   const urlOrigin = props.dbData || state[0];
-  console.log(props.dbData, 'props.dataDATTAAAAA');
+  const [iframeHeight, setIframeHeight] = useState<number>(600);
+  const [iframeWidth, setIframeWidth] = useState<number>(600);
+  useEffect(() => {
+    window.innerHeight < 700
+      ? setIframeHeight(window.innerHeight)
+      : setIframeHeight(window.innerHeight * 0.75);
+    window.innerWidth < 600
+      ? setIframeWidth(window.innerWidth)
+      : setIframeWidth(window.innerWidth * 0.8);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      window.innerHeight < 700
+        ? setIframeHeight(window.innerHeight)
+        : setIframeHeight(window.innerHeight * 0.75);
+      window.innerWidth < 600
+        ? setIframeWidth(window.innerWidth)
+        : setIframeWidth(window.innerWidth * 0.8);
+    });
+  });
+
   return (
     <Box className="customBox" sx={props.customBox}>
       <div className="renderCustom">
@@ -17,9 +39,10 @@ export default function Visualizer(props: {
           {'Close Visualizer'}
         </button>
         <iframe
+          title="kubeview"
           src={`${urlOrigin.kubeview_url}`}
-          height="800px"
-          width="70%"
+          height={iframeHeight}
+          width={iframeWidth}
           frameBorder="0"
           className="custom-graf"
         ></iframe>
