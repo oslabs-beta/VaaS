@@ -87,6 +87,7 @@ function reducer(load: any, action: any) {
         newLoad.external[i] = Math.round(
           newLoad.external[i] * newLoad.multi[i]
         );
+        newLoad.total[i] = Math.round(newLoad.total[i] * newLoad.multi[i]);
       }
       return newLoad;
     }
