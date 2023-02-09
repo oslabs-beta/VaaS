@@ -285,4 +285,8 @@ Backend testing does not require a running test server. Run the following comman
 npm run test
 ```
 
+# Docker Image
+
+With VaaS 4.0, you can now develop and run the application through a Docker container which has a mongoDB database preconfigured with it. See the ```Docker Compose``` file for details.
+
 <br/>
