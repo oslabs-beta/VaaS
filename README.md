@@ -21,6 +21,8 @@ Visualization as a Service ("VaaS") is an open-source tool that allows users to 
 
 VaaS is actively being developed with the support of OSLabs and we are always looking for contributors and feedback.
 
+[Website](https://www.vaas.dev/) | [GitHub](https://github.com/oslabs-beta/VaaS) | [DockerHub](https://hub.docker.com/r/vaasofficial/vaas_official_image)
+
 <br/>
 
 ## Features
