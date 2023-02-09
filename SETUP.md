@@ -237,7 +237,9 @@ EXPRESS_CONSOLE_LOG=off
 
 If you're using a cloud database, you can simply copy the connection string and paste it into the environment variable file. If you're using localhost, you will need to install MongoDB and create a database.
 
-Once the above steps are complete, run the following command:
+<br/>
+
+# Run Commands
 
 ```
 npm run dev:server
@@ -249,10 +251,38 @@ npm run dev:server
 yarn dev:server
 ```
 
-_Run the following command if you use a Windows OS:_
+or the following command if you use Windows:
 
 ```
 npm run dev:windows
+```
+
+<br/>
+
+# Test Commands
+
+To perform end-to-end testing, start a test server through the following command:
+
+```
+npm run test:server
+```
+
+   or the following command if you use Windows:
+
+```
+npm run test:server/windows
+```
+
+Once a test server is running, run the following command:
+
+```
+npx cypress run
+```
+
+Backend testing does not require a running test server. Run the following command to perform testing:
+
+```
+npm run test
 ```
 
 <br/>
