@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modules } from '../../Interfaces/ICluster';
-import { Box, Modal } from '@mui/material';
+// import { Box, Modal } from '@mui/material';
+import { Box } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import axiosInstance from '../../Queries/axios';
 
 const Charts = (props: Modules) => {
   const { state }: any = useLocation();
@@ -11,21 +14,52 @@ const Charts = (props: Modules) => {
   const [category, setCategory] = useState('');
   const [dashboardObj, setDashboardObj] = useState({});
   const [dashboard, setDashboard] = useState('');
+  const [dashboardIds, setDashboardIds] = useState<Record<string, string>>({});
+  const [isGrafana, setIsGrafana] = useState<boolean>(true);
+  const [iframeHeight, setIframeHeight] = useState<number>(600);
+  const [iframeWidth, setIframeWidth] = useState<number>(600);
   const handleClose = () => setOpen(false);
   const handleCloseSecond = () => setOpenSecond(false);
 
-  //grafana dashboard IDs are hard coded for now, but should be configured to be dynamically fetched via an API call to grafana...
-  const computingDashboard = {
-    Cluster: import.meta.env.VITE_COMPUTING_CLUSTER,
-    Nodes: import.meta.env.VITE_COMPUTING_NODES,
-    Workloads: import.meta.env.VITE_COMPUTING_WORKLOADS,
-    Pods: import.meta.env.VITE_COMPUTING_PODS,
+  const getDashboards = async () => {
+    const { data } = await axiosInstance.post('/graphs', {
+      grafanaUrl: state[0].grafana_url,
+    });
+    setDashboardIds(data);
+  };
+
+  useEffect(() => {
+    getDashboards();
+    window.innerHeight < 700
+      ? setIframeHeight(window.innerHeight)
+      : setIframeHeight(window.innerHeight * 0.75);
+    window.innerWidth < 600
+      ? setIframeWidth(window.innerWidth)
+      : setIframeWidth(window.innerWidth * 0.8);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('resize', () => {
+      window.innerHeight < 700
+        ? setIframeHeight(window.innerHeight)
+        : setIframeHeight(window.innerHeight * 0.75);
+      window.innerWidth < 600
+        ? setIframeWidth(window.innerWidth)
+        : setIframeWidth(window.innerWidth * 0.8);
+    });
+  });
+
+  const computingDashboard: Record<string, string> = {
+    Cluster: dashboardIds.ComputeCluster,
+    Nodes: dashboardIds.ComputeNodePods,
+    Workloads: dashboardIds.ComputeNamespaceWorkloads,
+    Pods: dashboardIds.ComputePod,
   };
   const networkingDashboard = {
-    Cluster: import.meta.env.VITE_NETWORKING_CLUSTER,
-    Namespaces: import.meta.env.VITE_NETWORKING_NAMESPACES,
-    Workloads: import.meta.env.VITE_NETWORKING_WORKLOADS,
-    Pods: import.meta.env.VITE_NETWORKING_PODS,
+    Cluster: dashboardIds.NetworkingCluster,
+    Namespaces: dashboardIds.NetworkingNamespacePods,
+    Workloads: dashboardIds.NetworkingWorkload,
+    Pods: dashboardIds.NetworkingPod,
   };
   const isolatedDashboard = {
     Cluster: import.meta.env.VITE_ISOLATED_CLUSTER,
@@ -34,39 +68,65 @@ const Charts = (props: Modules) => {
     Pods: import.meta.env.VITE_ISOLATED_PODS,
   };
   const overviewDashboard = {
-    Kubelet: import.meta.env.VITE_OVERVIEW_KUBELET,
-    'USE/NODE': import.meta.env.VITE_OVERVIEW_USENODE,
-    'USE/CLUSTER': import.meta.env.VITE_OVERVIEW_USECLUSTER,
-    'Node Exporter': import.meta.env.VITE_OVERVIEW_NODEEXPORTER,
+    Kubelet: dashboardIds.Kubelet,
+    'USE/Node': dashboardIds.NodeExporterUSEMethodNode,
+    'USE/Cluster': dashboardIds.NodeExporterUSEMethodCluster,
+    'Node Exporter': dashboardIds.NodeExporterNodes,
   };
   const coreDashboard = {
-    'API Server': import.meta.env.VITE_CORE_APISERVER,
-    etcd: import.meta.env.VITE_CORE_ETCD,
-    Scheduler: import.meta.env.VITE_CORE_SCHEDULER,
-    'Controller Manager': import.meta.env.VITE_CORE_CONTROLMANAGER,
+    'API Server': dashboardIds.APIserver,
+    etcd: dashboardIds.etcd,
+    Scheduler: dashboardIds.Scheduler,
+    'Controller Manager': dashboardIds.ControllerManager,
   };
+  const costDashboard = {
+    Kubecost: state[0].cost_url + ':' + state[0].cost_port,
+  };
+
+  const emptyDashboard = {};
+
   //upon opening up a modal, this function indicates the category and selects which dashboard object we are targeting
   const handleOpen = (e: any) => {
     setCategory(e.target.getAttribute('data-value'));
     switch (e.target.getAttribute('data-value')) {
       case 'computing': {
+        setIsGrafana(true);
         setDashboardObj(computingDashboard);
         break;
       }
       case 'networking': {
+        setIsGrafana(true);
         setDashboardObj(networkingDashboard);
         break;
       }
       case 'isolated': {
+        setIsGrafana(true);
         setDashboardObj(isolatedDashboard);
         break;
       }
       case 'overview': {
+        setIsGrafana(true);
         setDashboardObj(overviewDashboard);
         break;
       }
       case 'core': {
+        setIsGrafana(true);
         setDashboardObj(coreDashboard);
+        break;
+      }
+      case 'custom': {
+        setIsGrafana(true);
+        setDashboardObj(emptyDashboard);
+        break;
+      }
+      case 'kubecost': {
+        setIsGrafana(false);
+        setDashboardObj(costDashboard);
+        break;
+      }
+      case 'openfaas': {
+        setIsGrafana(true);
+        setDashboardObj(emptyDashboard);
         break;
       }
     }
@@ -84,24 +144,27 @@ const Charts = (props: Modules) => {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: '#181A1D',
-    border: '2px solid #15161d',
-    boxShadow: '1px 1px 10px .5px #403e54',
+    bgcolor: '#0b171e',
+    border: '2px solid #030a11',
+    boxShadow: '0px 5px 10px 5px rgba(198, 195, 195, 0.2)',
     p: 7,
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
+    color: '#f5f5f5',
+    borderRadius: '10px',
   };
   const style2 = {
     position: 'absolute' as const,
     top: '20%',
     left: '50%',
     transform: 'translate(-50%, -20%)',
-    bgcolor: '#181A1D', //#2704FF
+    bgcolor: '#0b171e',
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
   };
+
   return (
     <div className="chartsBackground">
       <div className="categoryList">
@@ -126,6 +189,9 @@ const Charts = (props: Modules) => {
         <div className="category" data-value="openfaas" onClick={handleOpen}>
           OpenFaaS
         </div>
+        <div className="category" data-value="kubecost" onClick={handleOpen}>
+          KubeCost
+        </div>
       </div>
       <Modal
         open={open}
@@ -134,34 +200,20 @@ const Charts = (props: Modules) => {
         aria-describedby="modal-modal-description"
       >
         <Box className="modal-" sx={style}>
-          <div
-            data-value={Object.values(dashboardObj)[0]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[0]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[1]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[1]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[2]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[2]}
-          </div>
-          <div
-            data-value={Object.values(dashboardObj)[3]}
-            onClick={handleDashboard}
-            className="dashboard"
-          >
-            {Object.keys(dashboardObj)[3]}
-          </div>
+          {Object.values(dashboardObj).length
+            ? Object.values(dashboardObj).map((ele, index) => {
+                return (
+                  <div
+                    data-value={ele}
+                    onClick={handleDashboard}
+                    className="dashboard"
+                    key={`Dashboard${index}`}
+                  >
+                    {Object.keys(dashboardObj)[index]}
+                  </div>
+                );
+              })
+            : 'No dashboards to display.'}
         </Box>
       </Modal>
       <Modal
@@ -177,10 +229,14 @@ const Charts = (props: Modules) => {
               {'Close Graph'}
             </button>
             <iframe
-              src={`${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`}
-              height="900px"
-              width="1500px"
-              frameBorder="0"
+              title="grafana graph"
+              src={
+                isGrafana
+                  ? `${state[0].grafana_url}/d/${dashboard}/?&kiosk=tv`
+                  : dashboard
+              }
+              height={`${iframeHeight}px`}
+              width={`${iframeWidth}px`}
             ></iframe>
           </div>
         </Box>

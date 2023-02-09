@@ -15,19 +15,20 @@ class Database {
   connect(): Mongoose {
     console.log('Attempting to connect to MongoDB cluster!');
     const {
-      mongodb: { url, port, collection, password, username },
+      mongodb: { url, port, database, password, username },
     } = this._config;
     let protocol: string;
     // IF ADMIN INPUTS LOCALHOST, CHANGE PROTOCOL DEFINITION
     url === 'localhost' || url === '127.0.0.1'
       ? (protocol = 'mongodb://')
       : (protocol = 'mongodb+srv://');
-    const uri =
+    let uri =
       username && password
         ? // MODIFY URI SYNTAX BASED ON ADMIN INPUT
-          `${protocol}${username}:${password}${url}`
-        : `${protocol}${url}:${port}/${collection}`;
+          `${protocol}${username}:${password}${url}/${database}?retryWrites=true&w=majority`
+        : `${protocol}${url}:${port}/${database}`;
     // INITIATE CONNECTION TO MONGODB
+    if (process.env.CONTAINER) uri = `mongodb://mongo:27017`;
     this._mongo.connect(uri);
     // ASSIGN MONGOOSE CONNECTION TO db
     const db: Connection = this._mongo.connection;

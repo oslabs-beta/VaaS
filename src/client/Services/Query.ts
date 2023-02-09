@@ -7,7 +7,7 @@ export async function GateWayQuery(
   type: string
 ): Promise<any> {
   return await Get(
-    apiRoute.getRoute(`/gateway?id=${clusterId}&q=${query}&type=${type}`)
+    apiRoute.getRoute(`gateway?id=${clusterId}&q=${query}&type=${type}`)
   );
 }
 

@@ -11,14 +11,12 @@ export default async (
   next: NextFunction
 ): Promise<void | Response> => {
   terminal(`Received ${req.method} request at 'bcrypt' middleware`);
-  console.log(res.locals.newAcctInfo);
 
   let { password } = req.body;
   /* IF newAcctInfo (from previous github middleware) exists on locals, set password to be newAcctInfo.password */
   if (res.locals.newAcctInfo) {
     password = res.locals.newAcctInfo.password;
   }
-  console.log('PASSWORD: ', password);
   const saltRounds = 10;
   // IF USER's hashedPassword does not exist, this means this is a new user; set and store new userId and hash password
   if (!res.locals.hashedPassword) {
@@ -26,7 +24,7 @@ export default async (
     res.locals.hashedPassword = await bcrypt.hash(password, saltRounds);
     terminal(`Success: Password hashed`);
   } else {
-    /* IF USER's hashedPassword (from previous github middleware) does exist, change username to be client input 
+    /* IF USER's hashedPassword (from previous github middleware) does exist, change username to be client input
       query database for user, compare inputed password and password in database and move on to the next middleware if password is correct,
       else throw 'Invalid credentials' error'
   */

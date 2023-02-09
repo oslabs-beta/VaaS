@@ -5,3 +5,4 @@ export * from './IError';
 export * from './IPath';
 export * from './IToken';
 export * from './IUser';
+export * from './IChart';

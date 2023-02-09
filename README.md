@@ -1,73 +1,56 @@
 # Visualization as a Service (VaaS) &middot; ![Github](https://img.shields.io/github/repo-size/oslabs-beta/VaaS) ![GitHub](https://img.shields.io/github/license/oslabs-beta/VaaS) ![GitHub](https://img.shields.io/github/last-commit/oslabs-beta/VaaS)
 
-&nbsp; &nbsp; ![VaaS](public/Images/VaaS.png)
-
+<img src='public/Images/image1.png' height='300'>
 
 <br />
 
 ## Table of Contents
 
-- [Visualization as a Service (VaaS) ·   ](#visualization-as-a-service-vaas----)
-  - [Table of Contents](#table-of-contents)
-  - [What is VaaS?](#what-is-vaas)
-  - [Current Features](#current-features)
-  - [Getting Started](#getting-started)
-  - [License](#license)
-  - [Team](#team)
-  - [Show Your Support](#show-your-support)
-
-<br/>
-
+- [What is VaaS?](#what-is-vaas)
+- [Features](#current-features)
+- [Getting Started](#getting-started)
+- [Team](#team)
+- [Show Your Support](#show-your-support)
+- [License](#license)
 
 <br/>
 
 ## What is VaaS?
-Visualization as a Service, or VaaS, is open source tooling that allows individuals or teams to visualize and monitor their Kubernetes clusters in real-time. VaaS takes monitoring and visualization one step further by offering users a tech-agnostic solution for incorporating serverless functions into their clusters via OpenFaaS functionality. It serves to eventually be a one-stop shop for all of your Kubernetes monitoring and visualization needs, while giving you the power to deploy functions to your cluster with ease.
 
-VaaS was developed with the support of OSLabs and the OpenFaaS community. It is actively in the process of being developed and is not quite yet ready for production use. However, we are always looking for contributors and feedback, so feel free to reach out to us with any questions or concerns.
+Visualization as a Service ("VaaS") is an open-source tool that allows users to monitor their Kubernetes clusters in real-time via powerful performance and cost metrics visualization dashboards. VaaS also offers users a platform-agnostic solution for deploying serverless functions into their clusters via OpenFaaS integration. It will eventually be a one-stop shop for all of your Kubernetes monitoring and maintenance needs.
+
+VaaS is actively being developed with the support of OSLabs and we are always looking for contributors and feedback.
+
+[Website](https://www.vaas.dev/) | [GitHub](https://github.com/oslabs-beta/VaaS) | [DockerHub](https://hub.docker.com/r/vaasofficial/vaas_official_image)
 
 <br/>
 
+## Features
 
-<br/>
-
-## Current Features
-- Monitoring of key metrics of multiple clusters from a centralized dashboard
-- Graphical visualization of your cluster, including all pods, services, and deployments, as well as their current status, powered by KubeView
+- Monitoring key metrics of multiple clusters from a centralized dashboard
+- Graphical visualization of your clusters including all pods, services, deployments, and their status, powered by KubeView
 - In-depth graphical visualization of key cluster metrics, powered by Grafana
-  - Several pre-built dashboards consisting of key metrics are available for ease of use
 - Execution of custom queries on your cluster via the Prometheus API
-- Deployment, invocation, and deletion of serverless function via OpenFaaS
-  - Assess the potential cost of your function via the OpenFaaS API
-- Management of cluster settings to account for any changes in your cluster
-
-<br/>
-
+- Monthly cost forcasting by common cost categories, powered by Kubecost
+- Deployment, invocation, deletion, and cost estimates of serverless functions via OpenFaaS
 
 <br/>
 
 ## Getting Started
-If you are interested in trying out VaaS, please check out our [SETUP](/SETUP.md) guide for instructions on how to get started with a small Minikube cluster. 
 
-These instructions should also be highly relevant to anyone attempting to deploy such a cluster to a cloud provider.
-
-<br/>
-
-
-<br/>
-
-## License
-By contributing, you agree that your contributions will be licensed under its [MIT License](/LICENSE).
-
-
-<br/>
-
+Check out our [setup](/SETUP.md) guide for instructions on how to get started with VaaS.
 
 <br/>
 
 ## Team
-Please feel free to reach out to us with any questions or concerns!
 
+Feel free to reach out to us with any questions or feedback!
+
+- **Brandon Muniz-Rosado** - [Github](https://github.com/BrandonMuniz1) - [LinkedIn](https://www.linkedin.com/in/brandon-muniz-389790263/)
+- **Christopher Tenorio** - [Github](https://github.com/DankWolf) - [LinkedIn](https://www.linkedin.com/in/christopher-tenorio/)
+- **Johanna Merluza** - [Github](https://github.com/johannamerluza) - [LinkedIn](https://www.linkedin.com/in/johannamerluza/)
+- **Steven Tong** - [Github](https://github.com/ykim770) - [LinkedIn](https://www.linkedin.com/in/steven-tong-b5578991/)
+- **Terrence Granger** - [Github](https://github.com/Terinss) - [LinkedIn](https://www.linkedin.com/in/terrence-granger/)
 - **Young Kim** - [Github](https://github.com/ykim770) - [LinkedIn](www.linkedin.com/in/young-j-kim)
 - **Ahsan Ali** - [Github](https://github.com/greyali) - [LinkedIn](https://www.linkedin.com/in/greyali/)
 - **Rabea Ahmad** - [Github](https://github.com/RabeaAhmad3) - [LinkedIn](https://www.linkedin.com/in/rabea-ahmad/)
@@ -85,10 +68,14 @@ Please feel free to reach out to us with any questions or concerns!
 
 <br/>
 
-
-<br/>
-
 ## Show Your Support
 
 If you like this project, please give it a ⭐️!
+
+<br/>
+
+## License
+
+By contributing, you agree that your contributions will be licensed under its [MIT License](/LICENSE).
+
 

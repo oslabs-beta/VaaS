@@ -1,0 +1,25 @@
+services:
+  vaas:
+    image: vaasofficial/vaas_official_image:dev
+    container_name: vaas
+    ports:
+      - 3020:3020
+    # Comment in the following two lines if you want to use your own .env file
+    # env_file:
+    #   - .env
+    # Comment out the following two lines and the mongo service if you want to connect to your own mongo instance
+    environment:
+      - CONTAINER=true
+    # Uncomment the following two lines if you want to use your own source code
+    # volumes:
+    #   - ./src:/usr/src/app/src
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    volumes:
+      - data:/data/db
+volumes:
+  data:

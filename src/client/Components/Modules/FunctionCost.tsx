@@ -4,16 +4,17 @@ import { IReducers } from '../../Interfaces/IReducers';
 import openFaasMetric from '../../Queries/OpenFaaS';
 import { useAppSelector } from '../../Store/hooks';
 import { functionCost } from '../../utils';
-import {
-  Container,
-  TextField,
-  Button,
-  Box,
-  FormControl,
-  NativeSelect,
-} from '@mui/material';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { Box } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import { useLocation } from 'react-router-dom';
+import './styles.css';
 
 const FunctionCost = (props: Modules) => {
+  const { state } = useLocation();
   const OFReducer = useAppSelector((state: IReducers) => state.OFReducer);
   const deployedFunctions = OFReducer.deployedFunctions || [];
   const [selectedDeployedFunction, setSelectedDeployedFunction] = useState('');
@@ -40,7 +41,7 @@ const FunctionCost = (props: Modules) => {
   };
 
   const [responseStyle, setResponseStyle] = useState({
-    color: 'white',
+    color: '#f5f5f5',
     height: '280px',
   });
 
@@ -56,7 +57,7 @@ const FunctionCost = (props: Modules) => {
     if (!props.nested) {
       setResponseStyle({
         ...responseStyle,
-        color: '#F0F0F0',
+        color: '##f5f5f5',
         height: '65vh',
       });
     }
@@ -73,7 +74,6 @@ const FunctionCost = (props: Modules) => {
   // fetch data from prom: time it takes for exection, invocation amount
   const handleFunctionData = async () => {
     try {
-      console.log('CLICKEDDDDD');
       const type = 'avg';
       const query = `gateway_functions_seconds_sum{function_name="${selectedDeployedFunction}.openfaas-fn"}/gateway_function_invocation_total{function_name="${selectedDeployedFunction}.openfaas-fn"}`;
       const data = await openFaasMetric.avgTimePerInvoke(
@@ -81,17 +81,14 @@ const FunctionCost = (props: Modules) => {
         type,
         query
       );
-
       if (!isNaN(Number(data.value))) {
         data.value = `The average time needed to invoke function is ${Number(
           data.value
         ).toFixed(4)} seconds`;
-        console.log(data.vlaue);
         setData(data);
         setRetrived(true);
       } else {
         data.value = 'Please invoke function first!';
-        console.log(data.vlaue);
         setData(data);
         setRetrived(true);
       }
@@ -118,30 +115,21 @@ const FunctionCost = (props: Modules) => {
             (invokeAmount - functionCost.lambdaFreeRequests) *
             (invokeTime / 1000);
           const computeInsec = Math.max(requestTimesTime, 0);
-          // console.log(computeInsec);
           const totalComputeGBSeconds = computeInsec * (memory / 1024);
-          // console.log('total seconds:', totalComputeGBSeconds);
           const billableCompute = Math.max(
             totalComputeGBSeconds - functionCost.lambdaFreeTier,
             0
           );
           const bill = billableCompute * functionCost.lambdaChargeGBSecond;
-          console.log('BILL WITH SECONDS IS', bill);
-          // console.log('functionCost', functionCost.lambdaRequestCharge)
           const requestCharge: number =
             (invokeAmount - functionCost.lambdaFreeRequests) *
             (functionCost.lambdaRequestCharge / 1000000);
-          // console.log(`invoked amount: ${invokeAmount},minus freetier amount: ${functionCost.lambdaFreeRequests}, times charge per request ${functionCost.lambdaRequestCharge / 1000000}`);
-          // console.log('REQ CHARGE TOT:' , requestCharge)
           const totalCost: string = (requestCharge + bill).toFixed(2);
           const result = {
             requestCharge: requestCharge,
             computeCost: bill,
             total: totalCost,
           };
-          console.log('THIS IS THE RESULT', result);
-          // console.log(totalCost);
-          // console.log('****************');
           switch (resultType) {
             case 'reqCharge': {
               return result.requestCharge.toFixed(2);
@@ -162,7 +150,7 @@ const FunctionCost = (props: Modules) => {
             (invokeAmount - functionCost.azureFreeRequests) *
             (invokeTime / 1000);
           const computeInsec = Math.max(requestTimesTime, 0);
-          console.log('Azure:', computeInsec);
+          // console.log('Azure:', computeInsec);
 
           const totalComputeGBSeconds = computeInsec * (memory / 1024);
           const billableCompute = Math.max(
@@ -205,11 +193,9 @@ const FunctionCost = (props: Modules) => {
             0
           );
           const googCPU: number = googleGBGHzMap[memory];
-          console.log(googCPU, 'IT IS');
           let bill = null;
           if (!googCPU) {
             bill = billableCompute * functionCost.googleChargeGBSecond;
-            console.log('HELLO');
           } else {
             const totalComputeGHzSeconds =
               totalComputeGBSeconds * (googCPU / 1000);
@@ -264,20 +250,11 @@ const FunctionCost = (props: Modules) => {
 
           const bill = billableCompute * functionCost.ibmChargeGBSecond;
 
-          console.log(
-            'invoke amount:',
-            invokeAmount,
-            'freeReqs',
-            functionCost.ibmFreeRequests,
-            'ibmReqCharge:',
-            functionCost.ibmRequestCharge
-          );
           const requestCharge: number =
             (invokeAmount - functionCost.ibmFreeRequests) *
             (functionCost.ibmRequestCharge / 1000000);
 
           const totalCost: string = (requestCharge + bill).toFixed(2);
-          console.log('ibm requestCharge:', requestCharge);
           const result = {
             requestCharge: requestCharge,
             computeCost: bill,
@@ -333,7 +310,7 @@ const FunctionCost = (props: Modules) => {
           <FormControl
             fullWidth
             sx={{
-              background: 'white',
+              background: '#f5f5f5',
               borderRadius: '5px',
               padding: '0.5rem',
               marginBottom: '0px',
@@ -367,7 +344,7 @@ const FunctionCost = (props: Modules) => {
             sx={
               props.isDark
                 ? {
-                    color: 'black',
+                    color: '#0b171e',
                     background: '#c0c0c0',
                     borderRadius: '5px',
                     marginBottom: '20px',
@@ -377,7 +354,7 @@ const FunctionCost = (props: Modules) => {
                     marginLeft: '0.5rem',
                   }
                 : {
-                    color: 'white',
+                    color: '#f5f5f5',
                     background: '#3a4a5b',
                     borderRadius: '5px',
                     marginBottom: '20px',
@@ -402,7 +379,7 @@ const FunctionCost = (props: Modules) => {
             marginLeft: '-1rem',
             marginTop: '8px',
             justifyContent: 'center',
-            backgroundColor: 'whitesmoke',
+            backgroundColor: '#f5f5f5',
             color: '#5B5B5B',
             borderRadius: '5px',
             marginRight: '3px',
@@ -431,7 +408,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="numInvocation"
                 onChange={(e) => handleChange(e)}
-                sx={{ color: 'white', backgroundColor: 'white' }}
+                sx={{ color: '#f5f5f5', backgroundColor: '#f5f5f5' }}
               ></TextField>
               <TextField
                 size="small"
@@ -440,7 +417,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="estExecTime"
                 onChange={(e) => handleChange(e)}
-                sx={{ color: 'white', backgroundColor: 'white' }}
+                sx={{ color: '#f5f5f5', backgroundColor: '#f5f5f5' }}
               ></TextField>
 
               <TextField
@@ -450,7 +427,7 @@ const FunctionCost = (props: Modules) => {
                 variant="filled"
                 name="memoryMbs"
                 onChange={(e) => handleChange(e)}
-                sx={{ color: 'white', backgroundColor: 'white' }}
+                sx={{ color: '#f5f5f5', backgroundColor: '#f5f5f5' }}
               ></TextField>
             </form>
             <br />
@@ -634,6 +611,12 @@ const FunctionCost = (props: Modules) => {
           </div>
         </Box>
       </Box>
+      {/* <iframe
+        src={`${state[0].cost_url}:${state[0].cost_port}/grafana/d-solo/at-cost-analysis-namespace2/namespace-utilization-metrics?var-namespace=openfaas-fn&orgId=1&refresh=10s&from=1675558728616&to=1675559628616&panelId=73`}
+        width="600"
+        height="300"
+        frameborder="0"
+      ></iframe> */}
     </Container>
   );
 };

@@ -28,6 +28,6 @@ export const deleteUser = async (body: {
   username: string;
   password: string;
 }) => {
-  const response = await axiosInstance.delete('/user', body);
+  const response = await axiosInstance.delete('/user', { data: body });
   return response.data;
 };

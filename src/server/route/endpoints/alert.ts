@@ -4,10 +4,10 @@ import { IError } from '../../interfaces/IError';
 import { verifyCookie } from '../../warehouse/middlewares';
 import { terminal } from '../../services/terminal';
 import { execSync } from 'child_process';
-
 import yaml from 'js-yaml';
-import fs from 'fs';
 import findup from 'findup-sync';
+
+const fs = require('fs');
 
 router
   .route('/alert')
@@ -19,9 +19,7 @@ router
     terminal(`URL IS ${req.url}`);
     const { id, ns, q, expr, dur } = req.query;
     try {
-      console.log('enters alert');
       const fileLoc = findup('alert-rules.yaml');
-      console.log('fileloc', fileLoc);
       const doc: any = yaml.load(fs.readFileSync(`${fileLoc}`, 'utf8'));
       doc['additionalPrometheusRulesMap']['custom-rules']['groups'][0][
         'rules'
@@ -33,7 +31,7 @@ router
         'rules'
       ][0]['for'] = dur;
 
-      fs.writeFile(`${fileLoc}`, yaml.dump(doc), (err) => {
+      fs.writeFile(`${fileLoc}`, yaml.dump(doc), (err: unknown) => {
         if (err) {
           console.log('error with overwriting the yaml file');
           console.log(err);

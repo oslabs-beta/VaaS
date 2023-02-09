@@ -7,6 +7,8 @@ import gateway from './endpoints/gateway';
 import alert from './endpoints/alert';
 import github from './endpoints/github';
 import gcheck from './endpoints/gcheck';
+import graphs from './endpoints/graphs';
+import cost from './endpoints/cost';
 
 export default {
   auth,
@@ -18,4 +20,6 @@ export default {
   alert,
   github,
   gcheck,
+  graphs,
+  cost,
 };
